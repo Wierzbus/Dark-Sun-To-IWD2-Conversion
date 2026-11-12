@@ -19,6 +19,15 @@ python tools\wyciagnij_rasy.py --game-dir "D:\Gry\Icewind Dale 2" --out iwd2_ras
 ```
 `--tlk` dołącza dialog.tlk (nazwy i opisy ras). Wynik zawiera pliki gry, więc nie trafia do Gita.
 
+## Rasy i podrasy Dark Sun w IWD2 (mod WeiDU `darksun_rasy`, eksperymentalny)
+Komponent 1 (TEST): mul jako podrasa półorka. Dopisuje wiersze do SRLIST, SR_HO, ABRACEAD, ABRACERQ, RACESPAB,
+RACERSMD, SAVERACE, SKILLRAC i SUBRACE.IDS oraz tworzy **kopie** EXE z łatką funkcji GetRaceRow (0x541940):
+`IWD2_DS.exe` (i `IWD2_1920x1080_DS.exe`, `IWD2_1920x1080_bezramki_DS.exe`, jeśli istnieją i mają w tym miejscu
+oryginalny kod). Oryginalne EXE nie są zmieniane. Grę do testu uruchamia się przez `*_DS.exe`.
+Instalacja: skopiuj `mod/darksun_rasy/darksun_rasy` i `setup-darksun_rasy.tp2` do katalogu IWD2, obok
+`setup-darksun_rasy.exe` (kopia WeiDU, np. `setup-candlekeep_geometry.exe` pod nową nazwą).
+Analiza EXE: [docs/iwd2_exe_rasy_klasy.md](docs/iwd2_exe_rasy_klasy.md).
+
 ## Nowe lokacje z obrazów (mod WeiDU `iwd2_nowe_lokacje`)
 
 Wydzielone z BGtoIWD2_mod, gdzie były komponentami 6 i 7 (gałąź `aktualizacja-reguly-cre-gui`, commit a64fa24).

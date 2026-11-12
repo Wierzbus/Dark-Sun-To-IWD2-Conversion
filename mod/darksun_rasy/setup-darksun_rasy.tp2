@@ -1,0 +1,113 @@
+// Dark Sun -> IWD2: rasy i podrasy (eksperymentalne). WeiDU uruchamia wlasciciel.
+// Folder darksun_rasy i ten plik musza lezec w katalogu IWD2 (obok setup-darksun_rasy.exe = kopia WeiDU).
+// Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
+BACKUP ~darksun_rasy/backup~
+LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
+AUTHOR ~Wierzbus~
+
+BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopiach EXE *_DS.exe)~ DESIGNATED 1
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+
+  // --- 1. Lata EXE: tylko na kopii, tylko gdy kod w miejscu latki jest identyczny z IWD2.exe GOG 2.01 ---
+  // Galaz polorka (rasa 7) w GetRaceRow: podrasa 0 -> "HALF_ORC", inna -> "HALF_ORC_MUL"
+  // (napis w luce wypelnienia 0x542551). Zrodlo: darksun_rasy/asm/halforc.asm, opis: docs/iwd2_exe_rasy_klasy.md.
+  OUTER_SET patched = 0
+  ACTION_FOR_EACH src IN ~IWD2~ ~IWD2_1920x1080~ ~IWD2_1920x1080_bezramki~ BEGIN
+    ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
+      OUTER_SET ok = 0
+      COPY - ~%src%.exe~ ~%src%.exe~
+        PATCH_IF (BUFFER_LENGTH > 0x142560) BEGIN
+          PATCH_IF NOT ((LONG_AT 0x141bc4 != 0x1424448a) OR
+          (LONG_AT 0x141bc8 != 0x1974c084) OR
+          (LONG_AT 0x141bcc != 0xc868006a) OR
+          (LONG_AT 0x141bd0 != 0x68008ae0) OR
+          (LONG_AT 0x141bd4 != 0x008ae0f4) OR
+          (LONG_AT 0x141bd8 != 0x00047668) OR
+          (LONG_AT 0x141bdc != 0xf01ee800) OR
+          (LONG_AT 0x141be0 != 0xc4830023) OR
+          (LONG_AT 0x141be4 != 0x24748b10) OR
+          (LONG_AT 0x141be8 != 0xe8c4680c) OR
+          (LONG_AT 0x141bec != 0xce8b008d) OR
+          (LONG_AT 0x141bf0 != 0x2bad9ae8) OR
+          (LONG_AT 0x141bf4 != 0x5ec68b00) OR
+          (LONG_AT 0x141bf8 != 0x000cc259) OR
+          (LONG_AT 0x142550 != 0x90909000) OR
+          (LONG_AT 0x142554 != 0x90909090) OR
+          (LONG_AT 0x142558 != 0x90909090) OR
+          (LONG_AT 0x14255c != 0x90909090)) BEGIN
+            SET ok = 1
+          END
+        END
+      ACTION_IF ok BEGIN
+        COPY ~%src%.exe~ ~%src%_DS.exe~
+      WRITE_LONG 0x141bc4 0x0c24748b
+      WRITE_LONG 0x141bc8 0x14247c80
+      WRITE_LONG 0x141bcc 0x68107500
+      WRITE_LONG 0x141bd0 0x008de8c4
+      WRITE_LONG 0x141bd4 0x8fb8f189
+      WRITE_LONG 0x141bd8 0xff007fc9
+      WRITE_LONG 0x141bdc 0x680eebd0
+      WRITE_LONG 0x141be0 0x00542551
+      WRITE_LONG 0x141be4 0x88b8f189
+      WRITE_LONG 0x141be8 0xff007fcc
+      WRITE_LONG 0x141bec 0x5ef089d0
+      WRITE_LONG 0x141bf0 0x000cc259
+      WRITE_LONG 0x141bf4 0x90909090
+      WRITE_LONG 0x141bf8 0x90909090
+      WRITE_LONG 0x142550 0x4c414800
+      WRITE_LONG 0x142554 0x524f5f46
+      WRITE_LONG 0x142558 0x554d5f43
+      WRITE_LONG 0x14255c 0x9090004c
+        OUTER_SET patched = patched + 1
+        PRINT ~Utworzono %src%_DS.exe z lata.~
+      END ELSE BEGIN
+        PRINT ~%src%.exe: kod w miejscu latki rozni sie od IWD2.exe GOG 2.01 - pomijam ten plik.~
+      END
+    END
+  END
+  ACTION_IF patched = 0 BEGIN
+    FAIL ~Zaden plik EXE nie pasuje do latki (wymagany IWD2.exe GOG 2.01).~
+  END
+
+  // --- 2. Tabele ---
+  // SRLIST: wiersz mula (numer = liczba wierszy); przy ponownej instalacji odczytaj istniejacy numer.
+  COPY_EXISTING ~SRLIST.2DA~ ~override~
+    COUNT_2DA_ROWS 8 n
+    SET srlist_row = 0 - 1
+    FOR (r = 0; r < n; r += 1) BEGIN
+      READ_2DA_ENTRY r 1 8 nm
+      PATCH_IF (~%nm%~ STRING_EQUAL_CASE ~HALF_ORC_MUL~) BEGIN
+        READ_2DA_ENTRY r 0 8 srlist_row
+      END
+    END
+    PATCH_IF (srlist_row < 0) BEGIN
+      SET lower = RESOLVE_STR_REF(@101)
+      SET mixed = RESOLVE_STR_REF(@102)
+      SET help = RESOLVE_STR_REF(@103)
+      SET srlist_row = n
+      INSERT_2DA_ROW n 8 ~%srlist_row% HALF_ORC_MUL %lower% %mixed% %help% 1 HAIRNORM SKINNORM~
+    END
+    BUT_ONLY
+
+  // SR_HO: lista podras polorka w kreatorze (wiersze SRLIST).
+  COPY_EXISTING ~SR_HO.2DA~ ~override~
+    COUNT_2DA_ROWS 2 n
+    SET found = 0
+    FOR (r = 0; r < n; r += 1) BEGIN
+      READ_2DA_ENTRY r 1 2 v
+      PATCH_IF (v = srlist_row) BEGIN SET found = 1 END
+    END
+    PATCH_IF (found = 0) BEGIN
+      SET k = n + 1
+      INSERT_2DA_ROW n 2 ~%k% %srlist_row%~
+    END
+    BUT_ONLY
+
+  // Propozycja cech mula (do decyzji wlasciciela): SIL +2, KON +2, INT -2, CHA -2.
+  APPEND ~ABRACEAD.2DA~ ~HALF_ORC_MUL            2       0       2       -2      0       -2~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~ABRACERQ.2DA~ ~HALF_ORC_MUL            3       18      3       18      3       18      3       18      3       18      3       18~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~RACESPAB.2DA~ ~HALF_ORC_MUL            *~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~RACERSMD.2DA~ ~HALF_ORC_MUL            0       0       0       0       0       0       0       0       0       0       0~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~SAVERACE.2DA~ ~HALF_ORC_MUL            0       0       0~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~SKILLRAC.2DA~ ~HALF_ORC_MUL            3       2       1       2       1       0       0       0~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
