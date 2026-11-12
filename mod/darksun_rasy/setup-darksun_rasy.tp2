@@ -92,14 +92,20 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
 
   // SR_HO: lista podras polorka w kreatorze (wiersze SRLIST).
   COPY_EXISTING ~SR_HO.2DA~ ~override~
+    // linia "2DA V1.0" tez ma 2 slowa - liczymy tylko wiersze z liczbowa etykieta
     COUNT_2DA_ROWS 2 n
     SET found = 0
+    SET maxlab = 0
     FOR (SET r = 0; r < n; SET r = r + 1) BEGIN
+      READ_2DA_ENTRY r 0 2 lab
       READ_2DA_ENTRY r 1 2 v
-      PATCH_IF (v = srlist_row) BEGIN SET found = 1 END
+      PATCH_IF (IS_AN_INT lab) BEGIN
+        PATCH_IF (lab > maxlab) BEGIN SET maxlab = lab END
+        PATCH_IF (~%v%~ STRING_EQUAL ~%srlist_row%~) BEGIN SET found = 1 END
+      END
     END
     PATCH_IF (found = 0) BEGIN
-      SET k = n + 1
+      SET k = maxlab + 1
       INSERT_2DA_ROW n 2 ~%k% %srlist_row%~
     END
     BUT_ONLY
