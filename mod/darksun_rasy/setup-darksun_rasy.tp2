@@ -2,8 +2,9 @@
 // Folder darksun_rasy i ten plik musza lezec w katalogu IWD2 (obok setup-darksun_rasy.exe = kopia WeiDU).
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
-LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 AUTHOR ~Wierzbus~
+
+LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
 BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopiach EXE *_DS.exe)~ DESIGNATED 1
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
@@ -74,7 +75,7 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   COPY_EXISTING ~SRLIST.2DA~ ~override~
     COUNT_2DA_ROWS 8 n
     SET srlist_row = 0 - 1
-    FOR (r = 0; r < n; r += 1) BEGIN
+    FOR (SET r = 0; r < n; SET r = r + 1) BEGIN
       READ_2DA_ENTRY r 1 8 nm
       PATCH_IF (~%nm%~ STRING_EQUAL_CASE ~HALF_ORC_MUL~) BEGIN
         READ_2DA_ENTRY r 0 8 srlist_row
@@ -93,7 +94,7 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   COPY_EXISTING ~SR_HO.2DA~ ~override~
     COUNT_2DA_ROWS 2 n
     SET found = 0
-    FOR (r = 0; r < n; r += 1) BEGIN
+    FOR (SET r = 0; r < n; SET r = r + 1) BEGIN
       READ_2DA_ENTRY r 1 2 v
       PATCH_IF (v = srlist_row) BEGIN SET found = 1 END
     END
