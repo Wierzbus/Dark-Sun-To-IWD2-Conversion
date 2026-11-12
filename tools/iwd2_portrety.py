@@ -1,7 +1,7 @@
 """Portrety IWD2 dla GUI 1920x1080.
 
-Male (_S): 64x64. Wymaga latki exe, ktora zmienia na sztywno zapisane
-prostokaty portretow z 42/44 px na 64 px (pelna ramka, bez marginesu). Zrodlem jest wersja z Override
+Male (_S): 60x60 w ramce 64 px (obraz od +2, jak w oryginale 42 w 44), wymaga
+latki exe z prostokatami portretow 64/60 px. Zrodlem jest wersja z Override
 (jesli jest, np. 59x59 z modu skalujacego), inaczej oryginal z BIF.
 Duze (_L): 210x330 -> 378x594 (1,8x), zrodlo: oryginal z BIF.
 
@@ -18,7 +18,7 @@ from PIL import Image
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from inventory.resource_reader import GameResources  # noqa: E402
 
-MALY = (64, 64)
+MALY = (60, 60)
 DUZY = (378, 594)
 
 
@@ -27,6 +27,7 @@ def main():
     ap.add_argument("--gra", required=True)
     ap.add_argument("--override")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--tylko-male", action="store_true")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     g = GameResources(a.gra, override_dirs=[])
@@ -38,6 +39,8 @@ def main():
     for n in portrety:
         oryg = Image.open(io.BytesIO(g.read(n, 1))).convert("RGB")
         maly = n.endswith("_S") or n == "NOPORTSM"
+        if a.tylko_male and not maly:
+            continue
         if maly and oryg.size != (42, 42) or not maly and oryg.size != (210, 330):
             continue  # nie portret postaci
         zrodlo = oryg
