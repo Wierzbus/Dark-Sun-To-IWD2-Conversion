@@ -1,7 +1,7 @@
 """Portrety IWD2 dla GUI 1920x1080.
 
-Male (_S): 60x60. Wymaga latki exe, ktora zmienia na sztywno zapisane
-prostokaty portretow z 42/44 px na 60 px (ramka 64). Zrodlem jest wersja z Override
+Male (_S): 64x64. Wymaga latki exe, ktora zmienia na sztywno zapisane
+prostokaty portretow z 42/44 px na 64 px (pelna ramka, bez marginesu). Zrodlem jest wersja z Override
 (jesli jest, np. 59x59 z modu skalujacego), inaczej oryginal z BIF.
 Duze (_L): 210x330 -> 378x594 (1,8x), zrodlo: oryginal z BIF.
 
@@ -18,7 +18,7 @@ from PIL import Image
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from inventory.resource_reader import GameResources  # noqa: E402
 
-MALY = (60, 60)
+MALY = (64, 64)
 DUZY = (378, 594)
 
 
