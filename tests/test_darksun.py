@@ -99,7 +99,7 @@ class BmpTest(unittest.TestCase):
     def test_codes(self):
         from darksun.codes import class_names, race_name
         self.assertEqual(race_name(1), "czlowiek")
-        self.assertEqual(class_names((11, 10, 0), (1, 3, 0)), "zachowawca (preserver) (prawdop.) 1 / gladiator 3")
+        self.assertEqual(class_names((11, 10, 0), (1, 3, 0)), "zachowawca (preserver) 1 / gladiator 3")
 
 
 class GplTextTest(unittest.TestCase):
