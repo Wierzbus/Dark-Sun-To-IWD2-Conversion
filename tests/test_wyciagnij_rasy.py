@@ -36,8 +36,8 @@ class WyciagnijRasy(unittest.TestCase):
     def test_zip(self):
         t = normalize_type
         files = [(0, t("2da"), b"SRLIST"), (1, t("ids"), b"SUBRACE"), (2, t("chu"), b"CHUI"),
-                 (3, t("2da"), b"SPCH_T"), (4, t("2da"), b"ITEMS")]
-        names = ["SRLIST", "SUBRACE", "GUICG", "SPCH_T", "ITEMS"]
+                 (3, t("2da"), b"SPCH_T"), (4, t("2da"), b"ITEMS"), (5, t("2da"), b"KITLIST"), (6, t("2da"), b"CLABPA01")]
+        names = ["SRLIST", "SUBRACE", "GUICG", "SPCH_T", "ITEMS", "KITLIST", "CLABPA01"]
         with tempfile.TemporaryDirectory() as g:
             os.makedirs(f"{g}/data")
             os.makedirs(f"{g}/override")
@@ -51,7 +51,7 @@ class WyciagnijRasy(unittest.TestCase):
             main(["--game-dir", g, "--out", out])
             z = zipfile.ZipFile(out)
             self.assertEqual(sorted(z.namelist()),
-                             ["ABRACEAD.2DA", "GUICG.CHU", "SPCH_T.2DA", "SPIS.txt", "SRLIST.2DA", "SUBRACE.IDS"])
+                             ["ABRACEAD.2DA", "CLABPA01.2DA", "GUICG.CHU", "KITLIST.2DA", "SPCH_T.2DA", "SPIS.txt", "SRLIST.2DA", "SUBRACE.IDS"])
             self.assertEqual(z.read("ABRACEAD.2DA"), b"OVR")
             self.assertIn("Nie znaleziono: ABRACERQ.2DA", z.read("SPIS.txt").decode())
 

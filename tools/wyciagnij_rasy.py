@@ -1,12 +1,12 @@
-"""Wyciaga z instalacji IWD2 pliki potrzebne do pracy nad nowa podrasa i pakuje je do zipa.
+"""Wyciaga z instalacji IWD2 pliki ras, podras, klas i kitow (podklas) i pakuje je do zipa.
 
 Uzycie (z katalogu repozytorium, np. w Anaconda Prompt):
     python tools\\wyciagnij_rasy.py --game-dir "D:\\Gry\\Icewind Dale 2"
     python tools\\wyciagnij_rasy.py --game-dir "D:\\Gry\\Icewind Dale 2" --out rasy.zip --tlk
 
 Bierze (najpierw override, potem BIF wg chitin.key):
-- pliki z listy WYMAGANE (podrasy, modyfikatory, czary wrodzone, kreator postaci),
-- kazdy plik 2DA/IDS, ktorego nazwa pasuje do WZORCE (rasy, podrasy, kreator),
+- pliki z listy WYMAGANE (podrasy, klasy, kity, czary wrodzone, kreator postaci),
+- kazdy plik 2DA/IDS, ktorego nazwa pasuje do WZORCE (rasy, podrasy, klasy, kity, kreator),
 - wszystkie ekrany GUI (CHU) zaczynajace sie od GUICG (kreator postaci),
 - opcjonalnie (--tlk) dialog.tlk, potrzebny do nazw i opisow ras.
 W zipie jest tez SPIS.txt: skad pochodzi kazdy plik i czego nie znaleziono.
@@ -27,8 +27,14 @@ from inventory.resource_reader import GameResources, normalize_type, type_label 
 WYMAGANE = [
     "SRLIST.2DA", "ABRACEAD.2DA", "ABRACERQ.2DA", "SUBRACE.IDS", "RACE.IDS", "LISTINNT.2DA",
     "GUICG.CHU", "RACETEXT.2DA", "RACETHAC.2DA", "RACECOLR.2DA",
+    # klasy i kity (czesc nazw to przypuszczenia; brakujace trafia do SPIS.txt)
+    "KITLIST.2DA", "KITTABLE.2DA", "KIT.IDS", "CLASS.IDS", "CLASSES.2DA", "CLASTEXT.2DA", "HELP02.2DA",
+    "LISTSPLL.2DA", "LISTDOMN.2DA", "LISTKNOW.2DA", "LISTSHAP.2DA", "FEATS.2DA", "SKILLS.2DA",
+    "XPLEVEL.2DA", "HPCLASS.2DA", "ALIGNMNT.2DA", "ALIGNS.2DA",
 ]
-WZORCE = ["*RACE*", "SR*", "SPCH*", "AB*", "CLAB*", "CHARGEN*", "*SUBR*", "PORTRAIT*", "*ANIM*"]
+WZORCE = ["*RACE*", "SR*", "SPCH*", "AB*", "CLAB*", "CHARGEN*", "*SUBR*", "PORTRAIT*", "*ANIM*",
+          "KIT*", "K_*", "CLAS*", "CLS*", "MXSP*", "SKILL*", "FEAT*", "LIST*", "HP*", "XP*", "BAAT*",
+          "SAVE*", "ALIGN*", "HELP*", "SPL*", "DOMAIN*", "DEIT*", "SCHOOL*", "*SPEC*"]
 TYPY_WZORCOW = ("2DA", "IDS")
 
 
