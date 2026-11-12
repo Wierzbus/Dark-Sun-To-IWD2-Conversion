@@ -65,8 +65,22 @@ użyciem każdy – funkcje ładujące w okolicy 0x53EF8B–0x5401A1.
    do tego zapewne inne porównania kodu klasy/rasy w wielu miejscach (etap 2: wyszukanie porównań
    z polami rasy/klasy obiektu postaci).
 
+## 3a. Przegląd wszystkich tabel 2DA (312 plików: BIF + Override) – odwołania do podras
+| Tabela | Postać odwołania | Używana przez EXE | Mul (komponent 1) |
+|---|---|---|---|
+| SRLIST | wiersze podras (nazwa, teksty, ID, palety) | tak | dopisany |
+| SR_D/E/G/H/HE/HF/HO | listy wierszy SRLIST dla rasy | tak (przez SRTABLE) | SR_HO dopisany |
+| ABRACEAD, ABRACERQ, RACESPAB, RACERSMD, SKILLRAC | wiersze po nazwie podrasy | tak | dopisane |
+| SAVERACE | wiersze po nazwie; półork jako „HALFORC” (błąd w grze – wiersz nigdy nie pasuje) | tak | dopisany |
+| STRTXP | startowe PD podras z ECL (wiersze po nazwie) | tak | dopisany (0) |
+| FEATS, SKILLS | **kolumny** ras/podras pod innymi nazwami (AASIMAR, DROW, GOLD_DWARF, STRONGHEART_HALFLLING…) z danymi (np. elfie broń, premie do umiejętności); nazw kolumn nie ma w EXE → wybór kolumny po numerze w kodzie | tak (pośrednio) | **brak – wymaga łatki etapu 2** |
+| KITTABLE, SRTABLE | kolumny/wiersze tylko ras (bez podras) | tak | nie trzeba |
+| RACEXPMD, SUBRACES | wiersze/kolumny podras, inne nazwy (ELF_WOOD, HALFLING_LIGHTFOOT) | **nie** (brak odwołań w EXE) | nie trzeba |
+| CHARSTR, CRELIGHT, REVERB, SPRKLCLR | dźwięki postaci / światło potworów / pogłos / kolory iskier – zbieżność słów | nie dotyczy | nie trzeba |
+Brakujący wiersz w tabeli „po nazwie” nie wywraca gry (przykład: SAVERACE/HALFORC), ale cecha wtedy nie działa.
+
 ## 4. Następne kroki
-- Etap 2: miejsca porównujące kod rasy/klasy i maski kitów poza dwiema funkcjami; kod kreatora
+- Etap 2: wybór kolumny rasy/podrasy w FEATS i SKILLS (mapowanie numeryczne w kodzie); miejsca porównujące kod rasy/klasy i maski kitów poza dwiema funkcjami; kod kreatora
   (budowanie listy podras z SR_*.2DA, warunek wyświetlenia okna kitów).
 - Test bez łatek: dopisanie podrasy półorka w SR_HO/SRLIST/ABRACEAD i sprawdzenie, czy pojawia się w kreatorze
   (oczekiwany wynik: pojawi się, ale cechy z tabel nie zadziałają do czasu łatki 0x541940).

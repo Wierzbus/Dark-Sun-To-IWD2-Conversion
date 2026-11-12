@@ -110,4 +110,7 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   APPEND ~RACERSMD.2DA~ ~HALF_ORC_MUL            0       0       0       0       0       0       0       0       0       0       0~ UNLESS ~HALF_ORC_MUL~
   APPEND ~SAVERACE.2DA~ ~HALF_ORC_MUL            0       0       0~ UNLESS ~HALF_ORC_MUL~
   APPEND ~SKILLRAC.2DA~ ~HALF_ORC_MUL            3       2       1       2       1       0       0       0~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~STRTXP.2DA~   ~HALF_ORC_MUL            0~ UNLESS ~HALF_ORC_MUL~
+  // FEATS.2DA i SKILLS.2DA maja kolumny ras/podras pod wlasnymi nazwami (np. GOLD_DWARF), ktorych EXE nie zawiera:
+  // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
