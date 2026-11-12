@@ -1,0 +1,19 @@
+# wyniki budowy (zasoby gry i build NIE trafiaja do Gita)
+build/
+mod/iwd2_nowe_lokacje/build/
+*.bif
+*.key
+*.tlk
+*.are
+*.wed
+*.tis
+*.mos
+*.bmp
+*.bam
+*.wav
+*.tra
+__pycache__/
+*.pyc
+# autorskie mapy nowych lokacji (nie zasoby gry)
+!areas_custom/**/*.BMP
+!areas_custom/**/*.bmp

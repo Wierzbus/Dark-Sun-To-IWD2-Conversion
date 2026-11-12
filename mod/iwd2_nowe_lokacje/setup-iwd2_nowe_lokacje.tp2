@@ -1,0 +1,14 @@
+// Nowe lokacje IWD2 z obrazow wlasnych (wydzielone z BGtoIWD2_mod, gdzie byly komponentami 6 i 7).
+// Najpierw: python -m geometry.image_area --dir areas_custom/ARxxxx --name ARxxxx (tools\cykl.cmd robi to sam).
+// Folder mod/iwd2_nowe_lokacje i setup-iwd2_nowe_lokacje.exe musza lezec w katalogu IWD2.
+// Obszary nie maja wyjsc ani wejsc z innych lokacji - do testu skok konsola.
+BACKUP ~iwd2_nowe_lokacje/backup~
+AUTHOR ~Wierzbus~
+
+BEGIN ~Nowa lokacja AR9020 (pustynny kanion z obrazu wlasnego): TIS, WED ze scianami, ARE, minimapa i mapy SR/HT/LM~ DESIGNATED 1
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  INCLUDE ~iwd2_nowe_lokacje/build/AR9020/install.tph~
+
+BEGIN ~Nowa lokacja AR9021 (labirynt w rzucie ukosnym, plan z obrazu obrocony o 45 stopni): TIS, WED ze scianami, ARE, minimapa i mapy SR/HT/LM~ DESIGNATED 2
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  INCLUDE ~iwd2_nowe_lokacje/build/AR9021/install.tph~
