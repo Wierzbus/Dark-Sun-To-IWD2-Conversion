@@ -112,5 +112,29 @@ class GplTextTest(unittest.TestCase):
         self.assertEqual([(t.text, t.buffer, t.parts) for t in m], [("Hello, world.", 0x73, 2), ("A\tB", 0x62, 1)])
 
 
+class GplDisasmTest(unittest.TestCase):
+    def test_trigger_and_reachable_texts(self):
+        from darksun.dialogs import join
+        from darksun.gpl import disassemble, literal, reachable
+        from darksun.gpltext import pack7
+        s = lambda t: b"\x92\x05" + pack7(t)
+        code = bytearray()
+        code += b"\x6e" + b"\x00\x0a" + b"\x00\x07" + b"\x91\x00\x57"   # talktotrigger(10, 7, -87)
+        code += b"\x31"                                                       # exit gpl (offset 8)
+        assert len(code) == 9
+        code += b"\x00"                                                       # zero (9) - nieosiagalne
+        assert len(code) == 10
+        code += b"\x4f\x00\x73" + s("Hello, ") + b"\x4f\x00\x73" + s("friend.")
+        code += b"\x48" + s("Pick") + s("  Yes") + b"\x00\x00" + b"\x8f\x01" + b"\x4a"  # menu
+        code += b"\x15"                                                       # local ret
+        ins, aligned = disassemble(bytes(code))
+        self.assertTrue(aligned)
+        trig = ins[0]
+        self.assertEqual([literal(p) for p in trig.params], [10, 7, -87])
+        from darksun.dialogs import _texts
+        txt = _texts(reachable(ins, 10))
+        self.assertEqual(join(txt), "Hello, friend.\nPick\n> Yes")
+
+
 if __name__ == "__main__":
     unittest.main()

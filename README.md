@@ -6,7 +6,9 @@ Przeniesienie Dark Sun: Shattered Lands do Icewind Dale 2 oraz nowe lokacje IWD2
 ```
 python -m darksun.extract --game "D:\Gry\Dark Sun\dsun1" --out build/darksun
 ```
-Wynik: `names.csv`, `item_types.csv` (IT1R), `items.csv` (wszystkie przedmioty z RDFF z właścicielem, danymi typu IT1R w kolumnach `it_` i ikoną), `creatures.csv` (walka + postać, z przybliżoną rasą i klasami), `texts.csv` (teksty skryptów: wypowiedzi, narracja, opcje gracza), `spells.csv` (opisy czarów), `darksun_data.json` i `icons/` (PNG). Wyniki zawierają teksty gry, więc zostają poza Gitem (`build/`).
+Wynik: `names.csv`, `item_types.csv` (IT1R), `items.csv` (wszystkie przedmioty z RDFF z właścicielem, danymi typu IT1R w kolumnach `it_` i ikoną), `creatures.csv` (walka + postać, z przybliżoną rasą i klasami), `texts.csv` (teksty skryptów: wypowiedzi, narracja, opcje gracza), `spells.csv` (opisy czarów), `dialogs.csv` (teksty przypisane do postaci i przedmiotów przez wyzwalacze GPL), `darksun_data.json` i `icons/` (PNG). Wyniki zawierają teksty gry, więc zostają poza Gitem (`build/`).
+
+Deasembler GPL (`darksun/gpl.py`) to port z [OpenDS](https://github.com/VirInvictus/opends) (MIT).
 
 Formaty i stan rozpoznania pól: [docs/darksun_formaty.md](docs/darksun_formaty.md). Test: `python -m unittest tests.test_darksun` (dane syntetyczne, bez plików gry).
 

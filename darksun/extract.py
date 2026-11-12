@@ -18,6 +18,7 @@ from collections import Counter
 
 from .bmp import decode_frames, frame_to_image, palette
 from .codes import ALIGNMENTS, GENDERS, class_names, race_name
+from .dialogs import join, triggers
 from .gpltext import merged
 from .gff import Gff
 from .records import (T_CHAR, T_COMBAT, T_ITEM, Character, Combat, Item, ItemType,
@@ -85,11 +86,36 @@ def load(game_dir: str) -> dict:
                         "opcja gracza?" if t.buffer is None and t.text.startswith("  ") else "inne")
                 texts.append({"skrypt": f"{tag}{sid}", "offset": t.offset, "bufor": t.buffer,
                               "rodzaj": kind, "kawalki": t.parts, "tekst": t.text})
+    names_by_obj = {c["rdff_id"]: ("postac", c["name"]) for c in creatures}
+    for it in items:
+        names_by_obj.setdefault(abs(it["id"]), ("przedmiot", it["name"]))
+    dialogs, seen = [], set()
+    for t in triggers(gpl):
+        for obj in t["obiekty"]:
+            key = (obj, t["wyzwalacz"], t["skrypt"], t["adres"])
+            if key in seen:
+                continue
+            seen.add(key)
+            kind, nm_ = names_by_obj.get(obj, ("inny", ""))
+            dialogs.append({"obiekt": obj, "nazwa": nm_, "typ_obiektu": kind, "wyzwalacz": t["wyzwalacz"],
+                            "zrodlo": t["zrodlo"], "skrypt": t["skrypt"], "adres": t["adres"],
+                            "tekst": join(t["teksty"])})
+    by_obj = {}
+    for dl in dialogs:
+        if dl["tekst"]:
+            by_obj.setdefault((dl["obiekt"], dl["wyzwalacz"]), dl["tekst"])
+    for it in items:
+        it["opis_ogledziny"] = by_obj.get((abs(it["id"]), "ogledziny"), "")
+        it["opis_uzycie"] = by_obj.get((abs(it["id"]), "uzycie"), "")
+    for c in creatures:
+        c["dialog"] = ", ".join(sorted({f'{dl["skrypt"]}@{dl["adres"]}' for dl in dialogs
+                                        if dl["obiekt"] == c["rdff_id"] and dl["wyzwalacz"] == "rozmowa"
+                                        and dl["tekst"]}))
     res = Gff.open(os.path.join(game_dir, "RESOURCE.GFF"))
     spells = [{"spin_id": sid, "tekst": b.split(b"\0")[0].decode("latin-1").strip()}
               for sid, b in res.items("SPIN")]
     return {"names": names, "item_types": type_rows, "creatures": creatures, "items": items,
-            "texts": texts, "spells": spells, "issues": dict(issues)}
+            "texts": texts, "spells": spells, "dialogs": dialogs, "issues": dict(issues)}
 
 
 def export_icons(game_dir: str, out_dir: str, bmp_ids) -> int:
@@ -126,7 +152,7 @@ def main(argv=None) -> None:
     o = ap.parse_args(argv)
     data = load(o.game)
     os.makedirs(o.out, exist_ok=True)
-    for key in ("names", "item_types", "creatures", "items", "texts", "spells"):
+    for key in ("names", "item_types", "creatures", "items", "texts", "spells", "dialogs"):
         write_csv(os.path.join(o.out, f"{key}.csv"), data[key])
     with open(os.path.join(o.out, "darksun_data.json"), "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)
