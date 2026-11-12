@@ -28,6 +28,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from inventory.resource_reader import GameResources  # noqa: E402
 
 MALA, AKCJA = 48, 53
+# BAM-y pola paska akcji (38x38 w oryginale): ikony akcji i tlo/stany przycisku
+POLA_AKCJI = {"GUIBTACT", "GUIBTBUT"}
+# nakladki pol sklepu 36x36 -> pole 65x65 (x1,8 jak okna GUI)
+SKALA_STALA = {"STORTINT": 1.8, "STORTIN2": 1.8, "STORTIN3": 1.8, "STORTIN4": 1.8}
 # ikony z modow w Override, ktore maja oryginalny rozmiar 32x32 i tez trzeba je powiekszyc
 Z_OVERRIDE = {"SPPR801B", "SPPR801C"}
 ZIELEN = (0, 255, 0)
@@ -125,18 +129,18 @@ def zapisz_bam(klatki, nc, cykle, lut):
     return nag + ramki_b + cykle + paleta.tobytes() + lut + dane_b
 
 
-def przeskaluj(dane, akcja=False):
+def przeskaluj(dane, akcja=False, skala=None):
     ramki, nc, cykle, lut = czytaj_bam(dane)
     if not ramki:
         return None
     pierwsza = ramki[0]
     h0, w0 = pierwsza[0].shape[:2]
-    if not akcja and not (24 <= w0 <= 40 and 24 <= h0 <= 40 and abs(pierwsza[1]) <= 8 and abs(pierwsza[2]) <= 8):
+    if not akcja and skala is None and not (24 <= w0 <= 40 and 24 <= h0 <= 40 and abs(pierwsza[1]) <= 8 and abs(pierwsza[2]) <= 8):
         return None  # nie ikona przedmiotu/czaru
     klatki = []
     for rgba, cx, cy in ramki:
         h, w = rgba.shape[:2]
-        k = AKCJA / 38 if akcja else skala_ramki(w, h, cx, cy)
+        k = skala or (AKCJA / 38 if akcja else skala_ramki(w, h, cx, cy))
         cel = (max(1, round(w * k)), max(1, round(h * k)))
         rgb, maska, _ = powieksz(rgba, *cel)
         klatki.append((rgb, maska, round(cx * k), round(cy * k)))
@@ -168,7 +172,7 @@ def main():
             pominiete += 1
             continue
         try:
-            nowy = przeskaluj(dane, akcja=(n == "GUIBTACT"))
+            nowy = przeskaluj(dane, akcja=(n in POLA_AKCJI), skala=SKALA_STALA.get(n))
         except ValueError:
             continue
         if nowy is None:
