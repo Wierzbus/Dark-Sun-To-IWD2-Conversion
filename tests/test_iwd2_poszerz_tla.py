@@ -67,3 +67,19 @@ def test_czcionka_bez_jasnej_obwodki():
     nowe, n = usun_obwodke(dane)
     assert n == 2
     assert czytaj_bam(nowe)[5][0].tolist() == [[0, 0, 2, 2, 0, 0]]
+
+
+def test_zielen_na_pozycji_zero_palety():
+    from tools.iwd2_poszerz_tla import ZIELEN, kafel_do_palety
+    for n in (10, 400):
+        rng = np.random.default_rng(n)
+        t = rng.integers(0, 120, (64, 64, 3), dtype=np.uint8)
+        if n == 10:
+            t //= 40
+        t[5:9, 5:9] = ZIELEN
+        pal, idx = kafel_do_palety(t)
+        assert tuple(pal[0, :3]) == (0, 255, 0)
+        odt = pal[idx][..., 2::-1]
+        assert ((odt == ZIELEN).all(2) == (t == ZIELEN).all(2)).all()
+        if n == 10:
+            assert (odt == t).all()

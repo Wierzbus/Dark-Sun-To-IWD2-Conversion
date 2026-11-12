@@ -63,6 +63,15 @@ def kafel_do_palety(t):
         idx[(t == ZIELEN).all(2)] = 255
     else:
         idx = inv.reshape(h, w).astype(np.uint8)
+    # silnik traktuje zielen jako przezroczysta tylko na pozycji 0 palety kafla
+    zielone = np.nonzero((kolory == ZIELEN).all(1))[0]
+    if len(zielone) and zielone[0] != 0:
+        j = zielone[0]
+        kolory = kolory.copy()
+        kolory[[0, j]] = kolory[[j, 0]]
+        perm = np.arange(256, dtype=np.uint8)
+        perm[0], perm[j] = j, 0
+        idx = perm[idx]
     paleta = np.zeros((256, 4), np.uint8)
     paleta[:len(kolory), 0] = kolory[:, 2]
     paleta[:len(kolory), 1] = kolory[:, 1]
