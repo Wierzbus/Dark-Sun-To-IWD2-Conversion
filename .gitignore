@@ -17,3 +17,6 @@ __pycache__/
 # autorskie mapy nowych lokacji (nie zasoby gry)
 !areas_custom/**/*.BMP
 !areas_custom/**/*.bmp
+
+# wyniki narzedzi (pliki gry)
+*.zip

@@ -12,6 +12,13 @@ Deasembler GPL (`darksun/gpl.py`) to port z [OpenDS](https://github.com/VirInvic
 
 Formaty i stan rozpoznania pól: [docs/darksun_formaty.md](docs/darksun_formaty.md). Test: `python -m unittest tests.test_darksun` (dane syntetyczne, bez plików gry).
 
+## IWD2: pliki ras i podras (`tools/wyciagnij_rasy.py`)
+Wyciąga z instalacji IWD2 (override, potem BIF wg chitin.key) tabele ras i podras, czary wrodzone ras, LISTINNT i ekrany kreatora postaci (GUICG*.CHU) do jednego zipa ze spisem źródeł. Tylko czyta instalację.
+```
+python tools\wyciagnij_rasy.py --game-dir "D:\Gry\Icewind Dale 2" --out iwd2_rasy.zip --tlk
+```
+`--tlk` dołącza dialog.tlk (nazwy i opisy ras). Wynik zawiera pliki gry, więc nie trafia do Gita.
+
 ## Nowe lokacje z obrazów (mod WeiDU `iwd2_nowe_lokacje`)
 
 Wydzielone z BGtoIWD2_mod, gdzie były komponentami 6 i 7 (gałąź `aktualizacja-reguly-cre-gui`, commit a64fa24).
