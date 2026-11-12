@@ -1,18 +1,21 @@
-"""Przyblizone tabele kodow ras i klas (blok postaci RDFF).
+"""Tabele kodow ras, klas, plci i charakteru (blok postaci RDFF).
 
-Ustalone na imionach postaci (np. "Psionicist", "Templar", "Wild Mul", "Elven Leader")
-oraz na kolejnosci ras z podrecznika Dark Sun. Pewnosc: "pewne" = potwierdzone imionami,
-"prawdop." = zgodne z kolejnoscia lub kilkoma imionami, "?" = zgadywanie.
+Zrodla: tabele tekstow karty postaci w DSUN.EXE (MALE, FEMALE; HUMAN..THRI-KREEN;
+CLERIC..THIEF; LAWFUL GOOD..CHAOTIC EVIL) oraz imiona postaci (np. "Psionicist", "Templar",
+"Wild Mul", "Elven Leader"). Pewnosc: "pewne" = EXE i imiona zgodne, "prawdop." = jedno zrodlo
+lub kilka imion, "?" = zgadywanie. Kody klas wewnetrznych nie odpowiadaja wprost kolejnosci
+z EXE (tam tylko 8 klas gracza); 9-12 zgadzaja sie z kolejnoscia Fighter, Gladiator,
+Preserver, Psionicist.
 """
 
 RACES = {
     0: ("brak/zywiolak", "?"),
     1: ("czlowiek", "pewne"),
-    2: ("krasnolud", "prawdop."),
+    2: ("krasnolud", "pewne"),
     3: ("elf", "pewne"),
-    4: ("polelf", "prawdop."),
-    5: ("pololbrzym", "prawdop."),
-    6: ("nizolek", "prawdop."),
+    4: ("polelf", "pewne"),
+    5: ("pololbrzym", "pewne"),
+    6: ("nizolek", "pewne"),
     7: ("mul", "pewne"),
     8: ("thri-kreen", "pewne"),
     9: ("nieumarly", "pewne"),
@@ -25,16 +28,16 @@ RACES = {
 
 CLASSES = {
     0: ("brak (potwor)", "pewne"),
-    1: ("kaplan powietrza", "prawdop."),
-    2: ("kaplan ziemi", "?"),
-    3: ("kaplan ognia", "?"),
-    4: ("kaplan wody", "prawdop."),
+    1: ("kaplan/druid powietrza", "prawdop."),
+    2: ("kaplan/druid ziemi", "?"),
+    3: ("kaplan/druid ognia", "?"),
+    4: ("kaplan/druid wody", "prawdop."),
     5: ("druid?", "?"),
     6: ("druid", "pewne"),
     7: ("druid?", "?"),
     9: ("wojownik", "pewne"),
     10: ("gladiator", "pewne"),
-    11: ("zachowawca (preserver)", "prawdop."),
+    11: ("zachowawca (preserver)", "pewne"),
     12: ("psionik", "pewne"),
     13: ("?", "?"),
     15: ("tropiciel", "pewne"),
@@ -43,7 +46,10 @@ CLASSES = {
     19: ("templariusz", "pewne"),
 }
 
-GENDERS = {0: "brak?", 1: "m?", 2: "k?"}  # "Chief Daughter" ma kod 1, wiec niepewne
+GENDERS = {0: "brak", 1: "m", 2: "k"}  # EXE: MALE, FEMALE; wyjatek w danych: "Chief Daughter" ma 1
+
+ALIGNMENTS = {0: "brak", 1: "LG", 2: "LN", 3: "LE", 4: "NG", 5: "TN", 6: "NE", 7: "CG", 8: "CN", 9: "CE"}
+# EXE: LAWFUL GOOD .. CHAOTIC EVIL; numeracja od 1 zgodna z danymi (nieumarli 9 = CE, zwierzeta 5 = TN)
 
 
 def race_name(code: int) -> str:

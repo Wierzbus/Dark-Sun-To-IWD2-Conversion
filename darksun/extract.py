@@ -17,7 +17,8 @@ import struct
 from collections import Counter
 
 from .bmp import decode_frames, frame_to_image, palette
-from .codes import GENDERS, class_names, race_name
+from .codes import ALIGNMENTS, GENDERS, class_names, race_name
+from .gpltext import merged
 from .gff import Gff
 from .records import (T_CHAR, T_COMBAT, T_ITEM, Character, Combat, Item, ItemType,
                       as_row, name_table, rdff_blocks)
@@ -51,6 +52,7 @@ def load(game_dir: str) -> dict:
             if chars:
                 h = Character.parse(chars[0].data)
                 row.update({"rasa": race_name(h.race), "plec": GENDERS.get(h.gender, h.gender),
+                            "charakter": ALIGNMENTS.get(h.alignment, h.alignment),
                             "klasy": class_names(h.real_class, h.level)})
             else:
                 issues["walka bez bloku postaci"] += 1
@@ -75,8 +77,19 @@ def load(game_dir: str) -> dict:
             else:
                 issues["item_index poza IT1R"] += 1
             items.append(row)
+    texts = []
+    for tag in ("GPL", "MAS"):
+        for sid, b in gpl.items(tag):
+            for t in merged(b):
+                kind = {0x73: "wypowiedz", 0x62: "narracja"}.get(t.buffer,
+                        "opcja gracza?" if t.buffer is None and t.text.startswith("  ") else "inne")
+                texts.append({"skrypt": f"{tag}{sid}", "offset": t.offset, "bufor": t.buffer,
+                              "rodzaj": kind, "kawalki": t.parts, "tekst": t.text})
+    res = Gff.open(os.path.join(game_dir, "RESOURCE.GFF"))
+    spells = [{"spin_id": sid, "tekst": b.split(b"\0")[0].decode("latin-1").strip()}
+              for sid, b in res.items("SPIN")]
     return {"names": names, "item_types": type_rows, "creatures": creatures, "items": items,
-            "issues": dict(issues)}
+            "texts": texts, "spells": spells, "issues": dict(issues)}
 
 
 def export_icons(game_dir: str, out_dir: str, bmp_ids) -> int:
@@ -113,7 +126,7 @@ def main(argv=None) -> None:
     o = ap.parse_args(argv)
     data = load(o.game)
     os.makedirs(o.out, exist_ok=True)
-    for key in ("names", "item_types", "creatures", "items"):
+    for key in ("names", "item_types", "creatures", "items", "texts", "spells"):
         write_csv(os.path.join(o.out, f"{key}.csv"), data[key])
     with open(os.path.join(o.out, "darksun_data.json"), "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)

@@ -102,5 +102,15 @@ class BmpTest(unittest.TestCase):
         self.assertEqual(class_names((11, 10, 0), (1, 3, 0)), "zachowawca (preserver) (prawdop.) 1 / gladiator 3")
 
 
+class GplTextTest(unittest.TestCase):
+    def test_roundtrip_and_merge(self):
+        from darksun.gpltext import merged, pack7, scan
+        b = (b"\x10\x4f\x00\x73\x92\x05" + pack7("Hello, ") + b"\x4f\x00\x73\x92\x05" + pack7("world.")
+             + b"\x22\x4f\x00\x62\x92\x05" + pack7("A\tB") + b"\x92\x05\x00\x00")
+        self.assertEqual([t.text for t in scan(b)], ["Hello, ", "world.", "A\tB"])
+        m = merged(b)
+        self.assertEqual([(t.text, t.buffer, t.parts) for t in m], [("Hello, world.", 0x73, 2), ("A\tB", 0x62, 1)])
+
+
 if __name__ == "__main__":
     unittest.main()
