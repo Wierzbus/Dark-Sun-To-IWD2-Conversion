@@ -59,6 +59,9 @@ def kafel_do_palety(t):
         kolory = np.zeros((256, 3), np.uint8)
         kolory[:len(pal)] = pal
         # czysta zielen to przezroczystosc - musi przetrwac kwantyzacje bez zmian
+        # kwantyzacja moze dac zielen takze na innej pozycji - wtedy czesc
+        # przezroczystych pikseli wskazywalaby kolor, ktorego silnik nie pomija
+        kolory[:255][(kolory[:255] == ZIELEN).all(1)] = (0, 254, 0)
         kolory[255] = ZIELEN
         idx[(t == ZIELEN).all(2)] = 255
     else:

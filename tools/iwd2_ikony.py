@@ -22,6 +22,7 @@ import zlib
 
 import numpy as np
 from PIL import Image
+from scipy import ndimage
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from inventory.resource_reader import GameResources  # noqa: E402
@@ -74,13 +75,16 @@ def skala_ramki(w, h, cx, cy):
 
 def powieksz(rgba, cel_w, cel_h):
     img = Image.fromarray(rgba, "RGBA")
-    # premultiplied, zeby przezroczyste tlo nie farbowalo krawedzi
-    a = rgba[..., 3:4].astype(np.float32) / 255
-    pm = np.concatenate([(rgba[..., :3] * a).astype(np.uint8), rgba[..., 3:4]], 2)
-    big = np.asarray(Image.fromarray(pm, "RGBA").resize((cel_w, cel_h), Image.LANCZOS)).astype(np.float32)
-    alfa = big[..., 3:4]
-    rgb = np.where(alfa > 0, np.clip(big[..., :3] * 255 / np.maximum(alfa, 1), 0, 255), 0).astype(np.uint8)
-    maska = big[..., 3] >= 128
+    maska0 = rgba[..., 3] >= 128
+    rgb0 = rgba[..., :3]
+    if maska0.any() and not maska0.all():
+        # kolor najblizszego nieprzezroczystego piksela rozlany na tlo: filtr nie
+        # miesza krawedzi z przezroczystoscia, wiec nie powstaja jasne obwodki
+        _, (iy, ix) = ndimage.distance_transform_edt(~maska0, return_indices=True)
+        rgb0 = rgb0[iy, ix]
+    rgb = np.asarray(Image.fromarray(np.ascontiguousarray(rgb0)).resize((cel_w, cel_h), Image.LANCZOS))
+    m = Image.fromarray((maska0 * 255).astype(np.uint8)).resize((cel_w, cel_h), Image.BILINEAR)
+    maska = np.asarray(m) >= 128
     return rgb, maska, img
 
 

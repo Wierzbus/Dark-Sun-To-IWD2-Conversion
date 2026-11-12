@@ -83,3 +83,16 @@ def test_zielen_na_pozycji_zero_palety():
         assert ((odt == ZIELEN).all(2) == (t == ZIELEN).all(2)).all()
         if n == 10:
             assert (odt == t).all()
+
+
+def test_kwantyzowany_kafel_ma_zielen_tylko_na_zerze():
+    import numpy as np
+    from tools.iwd2_poszerz_tla import kafel_do_palety, ZIELEN
+    rng = np.random.default_rng(1)
+    t = rng.integers(0, 256, (64, 64, 3), dtype=np.uint8)
+    t[:, :20] = ZIELEN
+    t[30:34, 30:34] = (0, 250, 5)  # kolor bliski zieleni kusi kwantyzacje
+    pal, idx = kafel_do_palety(t)
+    zielone = np.nonzero((pal[:, 0] == 0) & (pal[:, 1] == 255) & (pal[:, 2] == 0))[0]
+    assert list(zielone) == [0]
+    assert (idx[(t == ZIELEN).all(2)] == 0).all()
