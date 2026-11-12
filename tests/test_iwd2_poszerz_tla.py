@@ -39,3 +39,31 @@ def test_chu_poszerza_tylko_pelnoekranowe():
     octl = 20 + 56
     xs = [struct.unpack_from("<H", dane, struct.unpack_from("<I", dane, octl + 8 * i)[0] + 4)[0] for i in range(3)]
     assert xs == [250, 260, 5]
+
+
+def test_zielona_obwodka_i_zachowanie_zieleni():
+    from tools.iwd2_poszerz_tla import ZIELEN, usun_zielona_obwodke
+    rng = np.random.default_rng(2)
+    rgb = rng.integers(0, 120, (64, 64, 3), dtype=np.uint8)  # >256 kolorow, bez zielonego nadmiaru
+    rgb[..., 1] = rgb[..., [0, 2]].min(2)
+    rgb[:, :20] = ZIELEN
+    rgb[:, 20] = (60, 200, 60)  # rozmyta krawedz
+    out, n = usun_zielona_obwodke(rgb)
+    assert n == 64 and (out[:, :21] == ZIELEN).all() and (out[:, 22:] == rgb[:, 22:]).all()
+    wynik = czytaj_mos(zapisz_mos(out))
+    assert ((wynik == ZIELEN).all(2) == (out == ZIELEN).all(2)).all()
+
+
+def test_czcionka_bez_jasnej_obwodki():
+    from tools.iwd2_czcionka_obwodka import czytaj_bam, usun_obwodke
+    pal = np.zeros((256, 4), np.uint8)
+    pal[0] = (0, 255, 0, 0)
+    pal[1] = (250, 250, 250, 0)
+    pal[2] = (10, 10, 10, 0)
+    ramka = np.array([[0, 1, 2, 2, 1, 0]], np.uint8)
+    nag = struct.pack("<8sHBBIII", b"BAM V1  ", 1, 1, 0, 24, 40, 1064)
+    fr = struct.pack("<HHhhI", 6, 1, 0, 0, 1066 | 0x80000000) + struct.pack("<HH", 1, 0)
+    dane = nag + fr + pal.tobytes() + struct.pack("<H", 0) + ramka.tobytes()
+    nowe, n = usun_obwodke(dane)
+    assert n == 2
+    assert czytaj_bam(nowe)[5][0].tolist() == [[0, 0, 2, 2, 0, 0]]

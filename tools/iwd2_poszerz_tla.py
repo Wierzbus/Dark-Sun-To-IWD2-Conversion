@@ -19,6 +19,10 @@ from PIL import Image
 
 STARE_X, STARA_W, NOWA_W, H = 240, 1440, 1920, 1080
 PAD = (NOWA_W - STARA_W) // 2
+ZIELEN = np.array([0, 255, 0], np.uint8)
+# tla podokien z przezroczystoscia, ktorym skalowanie rozmylo zielone krawedzie
+TLA_Z_ZIELENIA = ("YGUIGDB YGUICRAC YGUISEX YGUIABB YGUIFEAT YGUIFEA1 YGUISPL2 "
+                  "YGUICLST YGUICEXP YGUIAPB YGUIHSB").split()
 
 
 def czytaj_mos(dane):
@@ -49,11 +53,14 @@ def kafel_do_palety(t):
     plaskie = t.reshape(-1, 3)
     kolory, inv = np.unique(plaskie, axis=0, return_inverse=True)
     if len(kolory) > 256:
-        img = Image.fromarray(t).quantize(256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
-        idx = np.asarray(img, np.uint8)
-        pal = np.array(img.getpalette()[:768], np.uint8).reshape(-1, 3)
+        img = Image.fromarray(t).quantize(255, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+        idx = np.asarray(img, np.uint8).copy()
+        pal = np.array(img.getpalette()[:765], np.uint8).reshape(-1, 3)
         kolory = np.zeros((256, 3), np.uint8)
         kolory[:len(pal)] = pal
+        # czysta zielen to przezroczystosc - musi przetrwac kwantyzacje bez zmian
+        kolory[255] = ZIELEN
+        idx[(t == ZIELEN).all(2)] = 255
     else:
         idx = inv.reshape(h, w).astype(np.uint8)
     paleta = np.zeros((256, 4), np.uint8)
@@ -83,6 +90,25 @@ def poszerz_rgb(rgb):
     out = np.zeros((rgb.shape[0], NOWA_W, 3), np.uint8)
     out[:, PAD:PAD + rgb.shape[1]] = rgb
     return out
+
+
+def usun_zielona_obwodke(rgb, promien=2, prog=30):
+    """Piksele z domieszka zieleni tuz przy przezroczystym (0,255,0) staja sie przezroczyste."""
+    czysta = (rgb == ZIELEN).all(2)
+    blisko = czysta.copy()
+    for _ in range(promien):
+        b = blisko
+        blisko = b.copy()
+        blisko[1:] |= b[:-1]
+        blisko[:-1] |= b[1:]
+        blisko[:, 1:] |= b[:, :-1]
+        blisko[:, :-1] |= b[:, 1:]
+    a = rgb.astype(int)
+    nadmiar = a[..., 1] - np.maximum(a[..., 0], a[..., 2])
+    maska = blisko & ~czysta & (nadmiar > prog)
+    out = rgb.copy()
+    out[maska] = ZIELEN
+    return out, int(maska.sum())
 
 
 def poszerz_chu(dane):
@@ -134,6 +160,13 @@ def main():
             continue
         open(os.path.join(a.out, t + ".MOS"), "wb").write(zapisz_mos(poszerz_rgb(rgb)))
         print(t + ".MOS", rgb.shape[1], "->", NOWA_W)
+    for t in TLA_Z_ZIELENIA:
+        f = pliki.get(t + ".MOS")
+        if not f:
+            continue
+        rgb, n = usun_zielona_obwodke(czytaj_mos(open(os.path.join(a.override, f), "rb").read()))
+        open(os.path.join(a.out, t + ".MOS"), "wb").write(zapisz_mos(rgb))
+        print(t + ".MOS", "oczyszczone piksele:", n)
 
 
 if __name__ == "__main__":
