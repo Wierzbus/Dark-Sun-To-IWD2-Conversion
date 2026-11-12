@@ -20,3 +20,5 @@ __pycache__/
 
 # wyniki narzedzi (pliki gry)
 *.zip
+# teksty wlasne moda (nie z gry)
+!mod/darksun_rasy/darksun_rasy/tra/*.tra
