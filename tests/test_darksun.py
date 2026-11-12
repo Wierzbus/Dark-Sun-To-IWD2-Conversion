@@ -83,5 +83,24 @@ class RecordsTest(unittest.TestCase):
         self.assertEqual(n, [{"index": 0, "name": "Miecz", "icon": 216, "u_24": 255}])
 
 
+class BmpTest(unittest.TestCase):
+    def test_literal_and_run(self):
+        from darksun.bmp import decode_frames, palette
+        # klatka 4x2: y0: x0 n2 dosłownie (c=2 -> 2 px), x3 n1 (ostatni); y1: x0 n4: run 3 x 7 + 1 px
+        frame = (struct.pack("<HH", 4, 2) + bytes([0, 0, 0, 2, 3, 2, 5, 6, 3, 0x80, 1, 2, 0, 9])
+                 + bytes([1, 0, 0x80, 4, 4, 5, 7, 0, 8]) + b"\xff")
+        b = struct.pack("<IHI", 10 + len(frame), 1, 10) + frame
+        fr = decode_frames(b)[0]
+        self.assertEqual((fr.width, fr.height), (4, 2))
+        self.assertEqual([fr.pixels.get((x, 0)) for x in range(4)], [5, 6, None, 9])
+        self.assertEqual([fr.pixels[(x, 1)] for x in range(4)], [7, 7, 7, 8])
+        self.assertEqual(palette(bytes([63, 0, 0]) * 256)[0], (255, 0, 0))
+
+    def test_codes(self):
+        from darksun.codes import class_names, race_name
+        self.assertEqual(race_name(1), "czlowiek")
+        self.assertEqual(class_names((11, 10, 0), (1, 3, 0)), "zachowawca (preserver) (prawdop.) 1 / gladiator 3")
+
+
 if __name__ == "__main__":
     unittest.main()
