@@ -33,3 +33,15 @@ co dziś (zieleń tylko na indeksie przezroczystym, rozlanie krawędzi przed fil
 ## Etap 3 – instalator
 WeiDU: komponent pyta o rozdzielczość (albo czyta `icewind2.ini`) i uruchamia Python (`AT_NOW`),
 z gotowymi zestawami dla 1920x1080 i 2560x1440 jako zapasem, gdy Pythona nie ma.
+
+## Stan 2026-11-13 (wieczór)
+- Paczka 1 dla 1920x1080 przetestowana w grze: GUI, portrety, ikony, czcionki Classica, suwaki, pasy boczne, Continue – OK.
+- Generator przeniesiony do `tools/iwd2_gui/` (z BGtoIWD2_mod): `python tools/iwd2_gui/hires_patch.py --iwd2-dir GRA
+  --width 1920 --height 1080 --gui-scale 1.4 --font Classica-Bold.ttf --out-dir WYNIK` (czyta tylko BIF, bez Override).
+  Wynik: exe identyczny z IWD2_1920x1080.exe (50 B łatek układu) i 390 plików GUI, z czego 363 to te same nazwy co w paczce.
+- Brakuje w generatorze (do dołożenia jako kolejne kroki tego samego narzędzia):
+  1. łatki test13 z parametru: ekran ładowania (×H/600), ikony (32→48·S/1,8), portrety 64 i ramka 62, kółka kolorów, przycisk akcji;
+  2. ekrany ładowania LOAD*/GTR*/GPROGBAR/SKULANIM (`iwd2_ekran_ladowania.py`), ikony (`iwd2_ikony.py`), portrety _S;
+  3. poprawki z testów: brakujące Y*/Z* (`iwd2_gui_brakujace.py`), suwaki YGUISLDR, pasy boczne HUD, czcionki z TTF
+     (`iwd2_czcionka_ttf.py`, ramka ≤ najniższe pole − 3 px), Continue i waga;
+  4. zapis BAM bez kompresji RLE (stara kompresja psuła czcionki).
