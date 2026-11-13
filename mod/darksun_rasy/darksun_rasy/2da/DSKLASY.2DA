@@ -4,3 +4,6 @@
 EVASION        0    0    0    0    0    1    0    0    2    0    0
 UNCANNY_DEX    2    0    0    0    0    0    0    0    3    0    0
 UNCANNY_FLANK  5    0    0    0    0    0    0    0    6    0    0
+SNEAK_ATTACK   0    0    0    0    0    0    0    0    1    0    0
+FAVORED_ENEMY  0    0    0    0    0    0    0    1    0    0    0
+AURA_COURAGE   0    0    0    0    0    0    2    0    0    0    0

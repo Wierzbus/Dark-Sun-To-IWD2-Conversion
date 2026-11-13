@@ -39,6 +39,16 @@ HAKI = [
     (0x585D64, "jmp", "sneak_kosci", 0),     # atak z zaskoczenia: kosci z DSSNEAK.2DA
     (0x585D80, "jmp", "sneak_scianki", 0),   # atak z zaskoczenia: rozmiar kosci z DSSNEAK.2DA
 ]
+# dodatki.asm (test19) w martwym kodzie dawnej piesci mnicha 0x723430..0x7237A1
+ORG2, KONIEC2 = 0x723430, 0x7237A1
+HAKI2 = [
+    (0x585D55, "jmp", "sneak_klasa", 2),     # atak z zaskoczenia: klasy z DSKLASY (SNEAK_ATTACK)
+    (0x73BC76, "jmp", "wrog_klasa", 22),     # preferowany wrog (atak): klasy z DSKLASY (FAVORED_ENEMY)
+    (0x73BCD0, "call", "wrog_atak", 0),      # preferowany wrog: premia do ataku z DSWROG.2DA
+    (0x73DD34, "jmp", "wrog_obr", 20),       # preferowany wrog: premia do obrazen z DSWROG.2DA
+    (0x4A48CF, "call", "aura", 0),           # aura paladyna (efekt 0x4A4xxx): klasy z DSKLASY (AURA_COURAGE)
+    (0x6F8EF4, "call", "aura", 0),           # aura paladyna (aktualizacja co runde)
+]
 # tablica skokow klikniecia klasy (0x61C1A8, indeks = klasa - 1): 0x61C0A5 = okno 52
 KLASY_OKNO52 = [1, 2, 4, 5, 8, 10]          # barbarzynca, bard, druid, wojownik, tropiciel, zaklinacz
 DANE = [
@@ -47,10 +57,11 @@ DANE = [
 ]
 
 
-def nasm(src, org_check=None):
+def nasm(src, org=ORG, defs=None):
     with tempfile.TemporaryDirectory() as t:
         b, l = os.path.join(t, "o.bin"), os.path.join(t, "o.lst")
-        subprocess.run(["nasm", "-f", "bin", "-l", l, "-o", b, src], check=True, cwd=os.path.dirname(src))
+        d = [f"-D{k}=0x{v:X}" for k, v in (defs or {}).items()]
+        subprocess.run(["nasm", "-f", "bin", *d, "-l", l, "-o", b, src], check=True, cwd=os.path.dirname(src))
         dane = open(b, "rb").read()
         lst = open(l).read().splitlines()
     etykiety = {}
@@ -60,7 +71,7 @@ def nasm(src, org_check=None):
             for k in lst[i + 1:i + 8]:
                 mm = re.match(r"\s*\d+\s+([0-9A-F]{8})\s", k)
                 if mm:
-                    etykiety[m.group(1)] = ORG + int(mm.group(1), 16)
+                    etykiety[m.group(1)] = org + int(mm.group(1), 16)
                     break
     return dane, etykiety
 
@@ -82,7 +93,17 @@ def main():
     if ORG + len(kod) > 0x847000:
         sys.exit("kod podklas wychodzi poza .text")
     d[ORG - BASE:ORG - BASE + len(kod)] = kod
-    for adr, rodzaj, lab, nop in HAKI:
+    oczek = {0x585D55: "8b068bceff5010", 0x73BCD0: "e88babe0ff", 0x4A48CF: "e8bc30faff", 0x6F8EF4: "e897ead4ff",
+             0x73BC76: "8a0dac7c8400", 0x73DD34: "33c0a0ac7c8400"}
+    for adr, h in oczek.items():
+        assert d[adr - BASE:adr - BASE + len(h) // 2].hex() == h, hex(adr)
+    kod2, et2 = nasm(os.path.join(ASM, "dodatki.asm"), ORG2,
+                     {k: et[k] for k in ("zdolnosc", "liczba", "tabela2da", "sneak_poziom")})
+    if ORG2 + len(kod2) > KONIEC2:
+        sys.exit("dodatki.asm wychodzi poza 0x7237A1")
+    d[ORG2 - BASE:ORG2 - BASE + len(kod2)] = kod2
+    et.update(et2)
+    for adr, rodzaj, lab, nop in HAKI + HAKI2:
         o = adr - BASE
         op = 0xE9 if rodzaj == "jmp" else 0xE8
         d[o:o + 5] = bytes([op]) + struct.pack("<i", et[lab] - (adr + 5))
@@ -118,12 +139,17 @@ def main():
     # druid >= 9: odpornosc na trucizne naturalna w obsludze trucizny - warunek "poziom < 9" zawsze prawdziwy
     assert d[0x4A795E - BASE:0x4A7960 - BASE] == b"\x7C\x0D", "0x4A795E: oczekiwano jl short"
     d[0x4A795E - BASE] = 0xEB
+    # barbarzynca: szybkosc x1.2 bez ciezkiej zbroi (0x72E2DC..0x72E31E) wylaczona - premia z CLAB (AP_DSBBNMV),
+    # a ciezkie zbroje nakladaja barbarzyncy kare DSBBNARM.EFF (opcode 177 w efektach zalozenia ITM)
+    assert d[0x72E2F6 - BASE:0x72E2F8 - BASE] == b"\x74\x26", "0x72E2F6: oczekiwano je short"
+    d[0x72E2F6 - BASE] = 0xEB
     s = sekcje(d)
     struct.pack_into("<I", d, s[".text"] + 8, max(0x446000, struct.unpack_from("<I", d, s[".text"] + 8)[0]))
     struct.pack_into("<I", d, s[".data"] + 8, max(0x176000, struct.unpack_from("<I", d, s[".data"] + 8)[0]))
     open(a.out, "wb").write(d)
     for k in ("klasa_wiersz", "clab", "szukaj_klase"):
         print(k, hex(et[k]))
+    print("koniec podklasy.asm", hex(ORG + len(kod)), "dodatki.asm", hex(ORG2 + len(kod2)))
     print("zapisano", a.out)
 
 

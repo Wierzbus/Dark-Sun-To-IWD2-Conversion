@@ -597,13 +597,15 @@ uncanny_flanka:
     jmp 0x73d995
 
 ;================================================================ atak z zaskoczenia z DSSNEAK.2DA
-; 0x585D64 (esi = postac, na stosie zachowany esi): liczba kosci = DICE z wiersza (poziom lotrzyka - 1)
+; 0x585D64 (esi = postac, na stosie zachowany esi; po test19 tylko gdy DSKLASY nie ma wiersza SNEAK_ATTACK): liczba kosci = DICE z wiersza (poziom lotrzyka - 1)
 ; zamiast (poziom - 1)/2 + 1. 0x585D80: rozmiar kosci = SIDES z wiersza 0 zamiast 6.
 sneak_kosci:
     push 9
     lea ecx, [esi+0x920]
     call 0x447990               ; poziom lotrzyka
     mov edx, eax
+; wejscie z dodatki.asm (sneak_klasa): edx = poziom klasy z atakiem z zaskoczenia
+sneak_poziom:
     call tab_sneak
     test eax, eax
     jz .wzor

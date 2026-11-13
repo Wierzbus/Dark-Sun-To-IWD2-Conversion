@@ -15,7 +15,7 @@ NONE = 0xFFFFFFFF
 
 def efekt(op, *, p1=0, p2=0, timing=9, res=b"", cel=1, czas=0):
     e = bytearray(0x30)
-    struct.pack_into("<HBBIIBBI", e, 0, op, cel, 0, p1, p2, timing, 0, czas)
+    struct.pack_into("<HBBiIBBI", e, 0, op, cel, 0, p1, p2, timing, 0, czas)
     e[0x12] = 100                                  # prawdopodobienstwo gorne
     e[0x14:0x1C] = res.ljust(8, b"\0")
     return bytes(e)
@@ -46,6 +46,25 @@ ZDOLNOSCI = {
     "DSPALEMF": [efekt(206, res=b"SPWI420")],
     # druid od 9. poziomu: odpornosc na trucizne (opcode 101 Immunity to effect, 25 Poison); w exe 0x4A795E
     "DSDRVEN": [efekt(101, p2=25)],
+    # barbarzynca od 1. poziomu: +2 do szybkosci ruchu (opcode 126, p2=0 = dodaj); w exe x1.2 w 0x72E2DC..0x72E31E
+    "DSBBNMV": [efekt(126, p1=2, p2=0)],
+}
+
+
+def eff(op, *, p1=0, p2=0, timing=2, res=b"", cel=1, czas=0) -> bytes:
+    """EFF V2.0 (0x110 B) - zasob dla opcode 177 (Use EFF file) itp."""
+    e = bytearray(0x110)
+    e[0:8] = e[8:16] = b"EFF V2.0"
+    struct.pack_into("<IIIiIII", e, 0x10, op, cel, 0, p1, p2, timing, czas)
+    struct.pack_into("<HH", e, 0x2C, 100, 0)       # prawdopodobienstwo
+    e[0x30:0x38] = res.ljust(8, b"\0")
+    return bytes(e)
+
+
+# Efekty (EFF) dla przedmiotow.
+EFEKTY = {
+    # barbarzynca w ciezkiej zbroi: -2 do szybkosci (znosi DSBBNMV); naklada go opcode 177 z ciezkich zbroi
+    "DSBBNARM": eff(126, p1=-2, p2=0, timing=2),
 }
 
 
@@ -57,6 +76,9 @@ def main():
     for n, ef in ZDOLNOSCI.items():
         open(os.path.join(a.out, n + ".SPL"), "wb").write(spl(ef))
         print(n, len(ef), "efekt(y)")
+    for n, b in EFEKTY.items():
+        open(os.path.join(a.out, n + ".EFF"), "wb").write(b)
+        print(n, "EFF")
 
 
 if __name__ == "__main__":
