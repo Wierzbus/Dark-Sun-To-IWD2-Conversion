@@ -122,8 +122,66 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
 
-BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe z lata podklas, np. IWD2_1920x1080_test14.exe)~ DESIGNATED 2
+BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe z lata podklas, np. IWD2_1920x1080_test15.exe)~ DESIGNATED 2
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+
+  // Dopisuje wiersz %wiersz% (kopia wiersza %wzor% albo zera), jesli go nie ma.
+  DEFINE_PATCH_FUNCTION ds_wiersz_kitu
+    STR_VAR wiersz = ~~ wzor = ~~
+  BEGIN
+    COUNT_2DA_COLS ds_ncol
+    READ_2DA_ENTRIES_NOW ds_t ds_ncol
+    SET ds_jest = 0
+    SET ds_wz = 0 - 1
+    FOR (ds_i = 0; ds_i < ds_t; ++ds_i) BEGIN
+      READ_2DA_ENTRY_FORMER ds_t ds_i 0 ds_n
+      PATCH_IF (~%ds_n%~ STRING_EQUAL_CASE ~%wiersz%~) BEGIN SET ds_jest = 1 END
+      PATCH_IF (~%ds_n%~ STRING_EQUAL_CASE ~%wzor%~) BEGIN SET ds_wz = ds_i END
+    END
+    PATCH_IF (ds_jest = 0) BEGIN
+      TEXT_SPRINT ds_linia ~%wiersz%~
+      FOR (ds_c = 1; ds_c < ds_ncol; ++ds_c) BEGIN
+        PATCH_IF (ds_wz >= 0) BEGIN
+          READ_2DA_ENTRY_FORMER ds_t ds_wz ds_c ds_v
+        END ELSE BEGIN
+          TEXT_SPRINT ds_v ~0~
+        END
+        TEXT_SPRINT ds_linia ~%ds_linia% %ds_v%~
+      END
+      PATCH_IF (BUFFER_LENGTH > 0) BEGIN
+        READ_BYTE (BUFFER_LENGTH - 1) ds_ost
+        PATCH_IF (ds_ost != 10) BEGIN TEXT_SPRINT ds_linia ~%WNL%%ds_linia%~ END
+      END
+      TEXT_SPRINT ds_linia ~%ds_linia%%WNL%~
+      SET ds_poz = BUFFER_LENGTH
+      INSERT_BYTES ds_poz (STRING_LENGTH ~%ds_linia%~)
+      WRITE_ASCIIE ds_poz ~%ds_linia%~
+    END
+  END
+
+  // Wpisuje %zdolnosc% na 1. poziom w pierwszym wolnym wierszu ABILITYn tablicy CLAB (albo dopisuje wiersz).
+  DEFINE_PATCH_FUNCTION ds_clab_poziom1
+    STR_VAR zdolnosc = ~~
+  BEGIN
+    COUNT_2DA_COLS ds_ncol
+    READ_2DA_ENTRIES_NOW ds_t ds_ncol
+    SET ds_r = 0 - 1
+    FOR (ds_i = 0; ds_i < ds_t; ++ds_i) BEGIN
+      READ_2DA_ENTRY_FORMER ds_t ds_i 1 ds_v
+      PATCH_IF ((ds_r < 0) AND (~%ds_v%~ STRING_EQUAL ~****~)) BEGIN SET ds_r = ds_i END
+    END
+    PATCH_IF (ds_r >= 0) BEGIN
+      SET_2DA_ENTRY ds_r 1 ds_ncol ~%zdolnosc%~
+    END ELSE BEGIN
+      SET ds_nr = ds_t + 1
+      TEXT_SPRINT ds_linia ~ABILITY%ds_nr% %zdolnosc%~
+      FOR (ds_c = 2; ds_c < ds_ncol; ++ds_c) BEGIN TEXT_SPRINT ds_linia ~%ds_linia% ****~ END
+      TEXT_SPRINT ds_linia ~%ds_linia%%WNL%~
+      SET ds_poz = BUFFER_LENGTH
+      INSERT_BYTES ds_poz (STRING_LENGTH ~%ds_linia%~)
+      WRITE_ASCIIE ds_poz ~%ds_linia%~
+    END
+  END
 
   // --- 1. Teksty -> numery w tabeli kitow w exe (0x846C00; zrodlo: darksun_rasy/asm/podklasy.asm) ---
   // Wpis po 32 B: bit kitu, strref etykiety, nazwa wiersza. Exe rozpoznajemy po nazwie PALADIN_DS pod 0x446C08.
@@ -154,7 +212,7 @@ BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe 
     END
   END
   ACTION_IF patched = 0 BEGIN
-    FAIL ~Nie znaleziono exe z lata podklas (np. IWD2_1920x1080_test14.exe).~
+    FAIL ~Nie znaleziono exe z lata podklas (np. IWD2_1920x1080_test15.exe).~
   END
 
   // --- 2. Tabele ---
@@ -177,6 +235,30 @@ BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe 
   APPEND ~KIT.IDS~ ~0x01000000 PALADIN_DS~ UNLESS ~PALADIN_DS~
   APPEND ~KIT.IDS~ ~0x02000000 BARBARIAN_DS~ UNLESS ~BARBARIAN_DS~
   APPEND ~KIT.IDS~ ~0x04000000 CLERIC_DS~ UNLESS ~CLERIC_DS~
+
+  // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
+  // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
+  // Kolumn kitow nie dodajemy: FEATS/SKILLS czytaja kolumny bostw po indeksie z exe (0x5472FF),
+  // a nowy bit daje indeks spoza tabeli, wiec gra bierze wartosc domyslna.
+  ACTION_FOR_EACH tab IN ~ABCLASRQ~ ~ABCLSMOD~ ~CHPTXT2~ ~CHPTXT3~ ~CHPTXT4~ ~CHPTXT5~ ~CHPTXT6~ ~CHPTXT7~
+                         ~CLASWEAP~ ~CLSSRSMD~ ~DUALCLAS~ ~ENCMOD~ ~KITTABLE~ ~LORE~ ~PROFS~ ~PROFSMAX~
+                         ~QSLOTS~ ~SKILLCLS~ ~STRTGOLD~ ~THAC0~ ~XPLEVEL~ BEGIN
+    ACTION_IF FILE_EXISTS_IN_GAME ~%tab%.2da~ BEGIN
+      COPY_EXISTING ~%tab%.2da~ ~override~
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~PALADIN_DS~   wzor = ~PALADIN~   END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_DS~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS~    wzor = ~CLERIC~    END
+    END
+  END
+
+  // --- 4. Tablice zdolnosci CLAB (exe od test15 wybiera je po kicie, nazwy w tabeli 0x846C18) ---
+  // Kopia tablicy klasy bazowej + testowa zdolnosc na 1. poziomie (wolny wiersz ABILITYn, kolumna 1).
+  COPY_EXISTING ~CLABPA01.2da~ ~override/CLABDS01.2da~   // zakon templariuszy: Modlitwa
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN209~ END
+  COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS02.2da~   // barbarzynca atasyjski: Wytrwalosc
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN267~ END
+  COPY_EXISTING ~CLABPR01.2da~ ~override/CLABDS03.2da~   // kaplan ziemi: Sila
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN264~ END
 
   // GUICG.CHU (przycisk 14 w oknie 12 dla nowego bostwa) dostarcza pakiet GUI 1920 (tools/iwd2_chu_kontrolka.py).
   // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie.

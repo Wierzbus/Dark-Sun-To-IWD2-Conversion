@@ -99,3 +99,17 @@ Tabela 0x846C00 (wpisy po 32 B: bit, strref etykiety, nazwa wiersza): PALADIN_DS
 | 0x61CEF4, 0x615CFE | maska bóstw 0xFF8000 → 0xFFFF8000 (zmiana bóstwa, przycisk Gotowe) |
 GUICG.CHU: okno 12 dostaje przycisk 14 (kopia przycisku 9, y+63) — `tools/iwd2_chu_kontrolka.py`.
 Znane braki: brak podświetlenia wybranej nowej podklasy w oknie 52; nowe bóstwo nie ma kolumny w FEATS/SKILLS (gra bierze wartość domyślną – brak premii bóstwa); podklasy nie mają jeszcze własnych zdolności.
+
+## 8. Tablice zdolności CLAB i pozostałe tabele klas (test15)
+
+**Wybór CLAB w exe.** Nazwy CLAB są wpisane na stałe: 20 obiektów C2DArray w obiekcie reguł (0x1468–0x1714, po 0x24 B), wczytywanych przy starcie przez `0x402B70` (Load(CResRef*)), konstruktor `0x5402E0`. Funkcja `GetClabTable(klasa, kit)` pod `0x546030` (thiscall, `ret 8`) wybiera obiekt po klasie (skok `0x546170`): 1 barbarzyńca → CLABFI05, 2 bard → CLABBA01, 3 kapłan → po bicie bóstwa (`kit & 0xFF8000`: CLABCL01–09, inaczej CLABPR01), 4 druid DR01, 5 wojownik FI01, 6 mnich MO01, 7 paladyn PA01, 8 tropiciel RN01, 9 łotrzyk TH01, 10 zaklinacz SR01, 11 czarodziej MA01. Jedyny wywołujący to `0x722D50` (nadawanie zdolności z CLAB przy awansie, także przy tworzeniu postaci). Kolumna ABILITIES w KITLIST nie jest czytana.
+
+Format CLAB: wiersze `ABILITYn`, kolumny 1–40 = poziom klasy; `GA_<SPL>` nadaje zdolność wrodzoną (np. `GA_SPIN236` = Barbarian Rage).
+
+**Łata (podklasy.asm, `clab` 0x846AB8):** `0x546030` → `jmp clab` + 4×nop. Dla kitu z bitem 0xFF000000 i zgodnej klasy (bajt +0x17 wpisu tabeli 0x846C00) zwraca własny obiekt C2DArray w końcówce .data (0xA1AF00 + 0x24·i, flagi 0xA1AF70; VirtualSize .data podniesiony do 0x176000). Obiekt jest konstruowany i wczytywany przy pierwszym użyciu z nazwy pod +0x18 wpisu (`CLABDS01/02/03`). W każdym innym przypadku działa oryginalny kod.
+
+Wpis tabeli kitów (32 B): +0 bit, +4 strref etykiety, +8 nazwa wiersza (do 15 znaków), +0x17 klasa, +0x18 CLAB (8 znaków).
+
+**WeiDU (komponent 2):** `CLABDS01` = CLABPA01 + `GA_SPIN209` (Prayer), `CLABDS02` = CLABFI05 + `GA_SPIN267` (Ilmater's Endurance), `CLABDS03` = CLABPR01 + `GA_SPIN264` (Tempus' Strength). Zdolność testowa trafia do 1. poziomu w pierwszym wolnym wierszu `ABILITYn`.
+
+**Pozostałe tabele.** `GetClassRow` z prawdziwym kitem wołają tylko: AbClasRq (0x5D96F3, 0x60BF13), Alignmnt, ClssRsMd (0x611EF0), KitList. XPLevel, EncMod i inne dostają kit 0. Komponent 2 dopisuje mimo to wiersze PALADIN_DS / BARBARIAN_DS / CLERIC_DS (kopia wiersza klasy bazowej, bez niego zera) do: ABCLASRQ, ABCLSMOD, CHPTXT2–7, CLASWEAP, CLSSRSMD, DUALCLAS, ENCMOD, KITTABLE, LORE, PROFS, PROFSMAX, QSLOTS, SKILLCLS, STRTGOLD, THAC0, XPLEVEL. Kolumn nie dodajemy: FEATCLAS / SKILCOST / SKILLPTS / TRAPSAVE mają kolumny klas, a FEATS / SKILLS czytają kolumny bóstw po indeksie z `0x5472FF`. Nieznany bit daje tam wartość domyślną.

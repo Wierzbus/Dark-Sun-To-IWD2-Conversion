@@ -1,11 +1,14 @@
-; Podklasy (kity) dla IWD2 GOG 2.01 – paladyn, barbarzynca (kaplan: osobny etap).
+; Podklasy (kity) dla IWD2 GOG 2.01 – paladyn, barbarzynca, kaplan; tablice CLAB nowych kitow.
 ; Kod w niewykorzystanym koncu sekcji .text (0x8468F1..0x847000).
 bits 32
 org 0x846900
 
-TAB        equ 0x846C00          ; wpisy po 32 B: +0 bit kitu, +4 strref etykiety, +8 nazwa wiersza (ASCIIZ)
+TAB        equ 0x846C00          ; wpisy po 32 B: +0 bit kitu, +4 strref etykiety, +8 nazwa wiersza (ASCIIZ, do 15 znakow),
+                                 ; +0x17 numer klasy, +0x18 nazwa tablicy CLAB (8 znakow, 0 = brak)
 BBN0_STR   equ 0x846C64          ; strref etykiety "barbarzynca bez podklasy"
 CLR_HELP   equ 0x846C68          ; strref opisu nowego bostwa (okno 12)
+OBJ        equ 0xA1AF00          ; 3 obiekty C2DArray po 0x24 B (koniec .data, VirtualSize podniesiony do 0x176000)
+FLG        equ 0xA1AF70          ; 3 bajty: tablica CLAB juz wczytana
 
 ; ---------------------------------------------------------------- GetClassRow 0x541DA0
 ; nowe bity (0xFF000000) -> nazwa wiersza z tabeli TAB
@@ -186,17 +189,69 @@ ukryj14:
     call 0x4d57c0               ; SetActive(0)
 .r: ret
 
+;================================================================ CLAB: tablica zdolnosci klasy (0x546030)
+; GetClabTable(klasa, kit) zwraca wskaznik do C2DArray. Dla nowego kitu i zgodnej klasy:
+; wlasny obiekt w OBJ, przy pierwszym uzyciu konstruowany (0x5402E0) i wczytywany (0x402B70).
+clab:
+    mov eax, [esp+8]
+    test eax, 0xff000000
+    jz .oryg
+    push ebx
+    mov edx, TAB
+.p: mov ebx, [edx]
+    test ebx, ebx
+    jz .nie
+    test eax, ebx
+    jnz .jest
+    add edx, 32
+    jmp .p
+.jest:
+    mov bl, [edx+0x17]
+    cmp bl, [esp+8]             ; klasa (arg 1)
+    jne .nie
+    cmp byte [edx+0x18], 0
+    je .nie
+    mov eax, edx
+    sub eax, TAB
+    shr eax, 5                  ; numer wpisu
+    lea ebx, [eax*8+eax]
+    lea ebx, [OBJ+ebx*4]        ; OBJ + 0x24*i
+    cmp byte [FLG+eax], 0
+    jne .jest_juz
+    mov byte [FLG+eax], 1
+    push ecx
+    push edx
+    mov ecx, ebx
+    call 0x5402e0               ; C2DArray()
+    pop edx
+    lea eax, [edx+0x18]
+    push eax                    ; CResRef (8 znakow)
+    mov ecx, ebx
+    call 0x402b70               ; Load
+    pop ecx
+.jest_juz:
+    mov eax, ebx
+    pop ebx
+    ret 8
+.nie:
+    pop ebx
+.oryg:
+    mov eax, [esp+4]
+    and eax, 0xff
+    jmp 0x546039
+
 times (TAB - 0x846900) - ($ - $$) db 0xcc
 dane:
-    dd 0x01000000, -1
-    db 'PALADIN_DS', 0
-    times (TAB + 32) - (0x846900 + ($ - $$)) db 0
-    dd 0x02000000, -1
-    db 'BARBARIAN_DS', 0
-    times (TAB + 64) - (0x846900 + ($ - $$)) db 0
-    dd 0x04000000, -1
-    db 'CLERIC_DS', 0
-    times (TAB + 96) - (0x846900 + ($ - $$)) db 0
+%macro kit 4                    ; bit, nazwa wiersza, klasa, CLAB
+    dd %1, -1
+    db %2, 0
+    times 0x17 - 8 - (%strlen(%2) + 1) db 0
+    db %3
+    db %4
+%endmacro
+    kit 0x01000000, 'PALADIN_DS',   7, 'CLABDS01'
+    kit 0x02000000, 'BARBARIAN_DS', 1, 'CLABDS02'
+    kit 0x04000000, 'CLERIC_DS',    3, 'CLABDS03'
     dd 0                        ; koniec tabeli
     dd -1                       ; BBN0_STR
     dd -1                       ; CLR_HELP
