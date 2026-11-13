@@ -1,10 +1,10 @@
-# IWD2.exe – rasy, podrasy, klasy i kity: mapa miejsc zaszytych w kodzie (etap 1)
+# IWD2.exe – rasy, podrasy, klasy i kity: mapa miejsc zaszytych w kodzie
 
 Plik: IWD2.exe z instalacji GOG, wersja 2.01 (v2.01.1016), 5 029 888 B,
 sha256 `18e01d21855f88702c062497aa25dfb42928671973d3b929e42206def2d9df2a`.
 Układ PE: ImageBase 0x400000, offset w pliku = adres − 0x400000 dla wszystkich sekcji
 (.text 0x401000, .rdata 0x847000, .data 0x8A5000). Narzędzie: `tools/iwd2_re.py` (objdump + Python).
-Stan: tylko analiza, bez łatek.
+Stan: podrasa mula zrobiona (łatki w `iwd2_exe_gui_1920.md`); podklasy paladyna, barbarzyńcy i kapłana – prototyp (sekcja 7).
 
 ## 1. Co jest w danych (2DA/IDS/CHU)
 
@@ -17,17 +17,16 @@ Stan: tylko analiza, bez łatek.
 - `SUBRACES.2DA` i `RACEXPMD.2DA` nie mają odwołań w EXE (prawdopodobnie nieużywane).
 - **Kity to flagi bitowe** (`KIT.IDS`): 24 zajęte bity 0x1–0x800000 (paladyni 0x1–0x4, mnisi 0x8–0x20,
   szkoły 0x40–0x4000, bóstwa kapłanów 0x8000–0x800000). Wolne bity: 0x01000000–0x80000000 (8 sztuk).
-- `KITTABLE` / `K_<klasa>_<rasa>.2DA`: listy kitów dla par klasa+rasa (np. K_C_H: 0, 19, 20, 21).
+- `KITTABLE` / `K_<klasa>_<rasa>.2DA`: **nieużywane w IWD2** (nazwa „KitTable” w EXE nigdy nie jest ładowana).
 
-### Ekrany kreatora (GUICG.CHU, oryginał z BIF)
+### Ekrany kreatora (GUICG.CHU)
 | Okno | Tytuł | Przyciski wyboru | Zajęte |
 |---|---|---|---|
 | 8 | Race | 2–8 (7) | 7 |
 | 54 | Subrace | 1–4 (4) | maks. 3 (czysta + 2) |
 | 2 | Class | 2–12 (11) | 11 |
-| 52 | (bóstwo / zakon) | 1–10 (10) | kapłan 9 |
-| 12 | Wizard (szkoła) | 8 | 8 |
-Wniosek: w oknie podras jest 1 wolne miejsce dla każdej rasy (3 dla półelfa i półorka); w oknie klas brak miejsca.
+| 12 | Szkoła czarodzieja / bóstwo kapłana | 13, 2–9 (9); id 10 = pasek przewijania, 11 = opis | 9 (+ id 14 po łatce) |
+| 52 | Zakon mnicha / paladyna (+ barbarzyńca po łatce) | 1–10 (10) | 3 |
 
 ## 2. Co jest zaszyte w kodzie
 
@@ -36,9 +35,7 @@ przypisanie 0x7FC98F) i każda jest użyta **dokładnie w jednej funkcji**:
 
 ### 0x541940 – nazwa wiersza rasy: `CString GetRaceRow(BYTE rasa, BYTE podrasa)`
 - Konwencja: ukryty wskaźnik wyniku + 2 argumenty, `ret 0xC`.
-- `rasa − 1` przez tablicę skoków 0x541BFC (7 wpisów: człowiek, elf, półelf, krasnolud, niziołek, gnom, półork);
-  w każdej gałęzi podrasa 0/1/2 → napis (np. 0x8DE958 „HUMAN_AASIMAR”).
-- Półelf: asercja, gdy podrasa ≠ 0. Inne przypadki: asercja (0x780C00) i pusty napis.
+- `rasa − 1` przez tablicę skoków 0x541BFC (7 wpisów); w każdej gałęzi podrasa 0/1/2 → napis.
 - Wywołania: 11, w funkcjach 0x542610, 0x543140, 0x5D8B50, 0x5D9610, 0x609B30, 0x60BE30, 0x60D950,
   0x611C36, 0x626DD0, 0x722820.
 
@@ -51,36 +48,54 @@ przypisanie 0x7FC98F) i każda jest użyta **dokładnie w jednej funkcji**:
 
 ### Ładowanie tabel
 Nazwy plików tabel (SRList, SRTable, KitList, AbRaceAd, SaveRace, …) to także globalne napisy z jednym
-użyciem każdy – funkcje ładujące w okolicy 0x53EF8B–0x5401A1.
+użyciem każdy – funkcje ładujące w okolicy 0x53EF8B–0x5401A1. KITLIST → CRuleTables+0x1324.
 
-## 3. Wnioski dla externalizacji
+## 3. Wnioski dla externalizacji (ras)
+1. **Podrasa**: zrobione dla mula (SR_HO/SRLIST/tabele cech + łatki 0x541BC4, 0x544FE6, 0x7229C9).
+2. **Rasa bazowa**: tablice skoków na 7 ras; okno ras pełne.
 
-1. **Podrasa (najmniejszy zakres)**: wpisy w `SR_<rasa>.2DA` + `SRLIST.2DA` + wiersze w tabelach cech
-   wystarczą kreatorowi (do sprawdzenia w grze), ale 0x541940 zwróci pusty napis dla nowego ID
-   → tabele cech nie znajdą wiersza. Łatka: zastąpić gałęzie 0x541940 odczytem nazwy wiersza z SRLIST
-   (rasa przez SR_<rasa>, podrasa przez kolumnę ID).
-2. **Kit**: nowy bit z wolnej puli + łatka 0x541DA0 (odczyt nazwy z KITLIST po bicie) + wpisy K_*_*.2DA.
-   Okno kitów ma 10 miejsc; dla klas bez kitów trzeba sprawdzić, czy kreator w ogóle pokazuje okno 52.
-3. **Rasa i klasa bazowa**: tablice skoków na 7 ras i 11 klas, a okna kreatora mają stałą liczbę przycisków;
-   do tego zapewne inne porównania kodu klasy/rasy w wielu miejscach (etap 2: wyszukanie porównań
-   z polami rasy/klasy obiektu postaci).
-
-## 3a. Przegląd wszystkich tabel 2DA (312 plików: BIF + Override) – odwołania do podras
-| Tabela | Postać odwołania | Używana przez EXE | Mul (komponent 1) |
+## 3a. Przegląd tabel 2DA – odwołania do podras
+| Tabela | Postać odwołania | Używana przez EXE | Mul |
 |---|---|---|---|
-| SRLIST | wiersze podras (nazwa, teksty, ID, palety) | tak | dopisany |
+| SRLIST | wiersze podras | tak | dopisany |
 | SR_D/E/G/H/HE/HF/HO | listy wierszy SRLIST dla rasy | tak (przez SRTABLE) | SR_HO dopisany |
 | ABRACEAD, ABRACERQ, RACESPAB, RACERSMD, SKILLRAC | wiersze po nazwie podrasy | tak | dopisane |
-| SAVERACE | wiersze po nazwie; półork jako „HALFORC” (błąd w grze – wiersz nigdy nie pasuje) | tak | dopisany |
-| STRTXP | startowe PD podras z ECL (wiersze po nazwie) | tak | dopisany (0) |
-| FEATS, SKILLS | **kolumny** ras/podras pod innymi nazwami (AASIMAR, DROW, GOLD_DWARF, STRONGHEART_HALFLLING…) z danymi (np. elfie broń, premie do umiejętności); nazw kolumn nie ma w EXE → wybór kolumny po numerze w kodzie | tak (pośrednio) | **brak – wymaga łatki etapu 2** |
-| KITTABLE, SRTABLE | kolumny/wiersze tylko ras (bez podras) | tak | nie trzeba |
-| RACEXPMD, SUBRACES | wiersze/kolumny podras, inne nazwy (ELF_WOOD, HALFLING_LIGHTFOOT) | **nie** (brak odwołań w EXE) | nie trzeba |
-| CHARSTR, CRELIGHT, REVERB, SPRKLCLR | dźwięki postaci / światło potworów / pogłos / kolory iskier – zbieżność słów | nie dotyczy | nie trzeba |
-Brakujący wiersz w tabeli „po nazwie” nie wywraca gry (przykład: SAVERACE/HALFORC), ale cecha wtedy nie działa.
+| SAVERACE | wiersze po nazwie; półork jako „HALFORC” (błąd w grze) | tak | dopisany |
+| STRTXP | startowe PD podras (wiersze po nazwie) | tak | dopisany (0) |
+| FEATS, SKILLS | **kolumny** ras/podras wybierane po numerze w kodzie | tak | **brak – łatka etapu 2** |
 
-## 4. Następne kroki
-- Etap 2: wybór kolumny rasy/podrasy w FEATS i SKILLS (mapowanie numeryczne w kodzie); miejsca porównujące kod rasy/klasy i maski kitów poza dwiema funkcjami; kod kreatora
-  (budowanie listy podras z SR_*.2DA, warunek wyświetlenia okna kitów).
-- Test bez łatek: dopisanie podrasy półorka w SR_HO/SRLIST/ABRACEAD i sprawdzenie, czy pojawia się w kreatorze
-  (oczekiwany wynik: pojawi się, ale cechy z tabel nie zadziałają do czasu łatki 0x541940).
+## 5. Klasy i kity (podklasy) – analiza
+
+### Nowa klasa bazowa – praktycznie niewykonalna
+- 11 klas w tablicach skoków (GetClassRow 0x5421C0, nazwa klasy 0x621CB0 i wiele innych), okno klas pełne (11/11).
+- CRE V2.2 trzyma **osobny poziom dla każdej z 11 klas w stałych polach** — nowa klasa wymagałaby zmiany formatu zapisu postaci i setek miejsc w kodzie.
+
+### Nowy kit (podklasa) – wykonalny łatkami
+- Nowy bit z wolnej puli 0x01000000–0x80000000 (`KIT.IDS`).
+- KITLIST: kod 0x621900 bierze HELP z KITLIST po nazwie wiersza z GetClassRow (sterowane danymi). Etykiety przycisków w kreatorze są zaszyte (strrefy w kodzie).
+- ALIGNMNT (dozwolone charaktery) i CLSSRSMD (odporności) — wiersze po nazwie kitu.
+- Okno 52: aktualizacja 0x60D280 (przyciski 1–10 w edi, ebp, ebx, [esp+0x68], [esp+0x10..0x24]); kliknięcie 0x621D88 (mnich: 0x8 << (id−1), paladyn: 0x1 << (id−1)); Gotowe = kit ≠ 0 (0x615C50).
+- Kliknięcie klasy w oknie 2: 0x61BF63, tablica skoków 0x61C1A8 (id−2) → okno 52 (mnich, paladyn), 12 (kapłan, czarodziej), reszta bez okna.
+- Okno 12: aktualizacja 0x60FEE0 (pętla czarodzieja 0x60FF47, kapłana 0x610041 po id 2–9 i 13, etykiety bóstw zaszyte 0x610090..), GetKit przycisku 0x61CCC0, kliknięcie 0x61CEC0 (maska 0xFF8000, opis po bicie 0x61CF09..).
+- Bóstwa mają kolumny w FEATS (od 14) i SKILLS (od 15); indeks liczony łańcuchami porównań (0x60CB40, 0x6120BA, …). Dla nieznanego bitu wychodzi indeks poza tabelą → wartość domyślna (brak premii bóstwa, bez wysypki).
+- Szkoła czarodzieja: powiązana z systemem szkół czarów (0x703170) — nie dotykać.
+
+## 7. Podklasy – prototyp (test14, komponent 2 moda darksun_rasy)
+Kod: `mod/darksun_rasy/darksun_rasy/asm/podklasy.asm`, wstawiony w niewykorzystany koniec .text 0x846900 (rozmiar wirtualny .text podniesiony do 0x446000).
+Tabela 0x846C00 (wpisy po 32 B: bit, strref etykiety, nazwa wiersza): PALADIN_DS 0x01000000, BARBARIAN_DS 0x02000000, CLERIC_DS 0x04000000; 0x846C64 strref „barbarzyńca bez podklasy”, 0x846C68 strref opisu bóstwa. Strrefy wpisuje WeiDU (domyślnie −1 = podklasa wyłączona).
+
+| Miejsce | Zmiana |
+|---|---|
+| 0x541DA0 GetClassRow | bity 0xFF000000 → nazwa wiersza z tabeli |
+| 0x61C1A8 (tablica skoków kliknięcia klasy) | barbarzyńca otwiera okno 52 jak mnich/paladyn |
+| 0x60D6C3 (okno 52, wybór gałęzi) | gałąź barbarzyńcy: przycisk 1 = bez podklasy, 2 = nowa |
+| 0x60D753 (okno 52, paladyn) | przycisk 4 = nowy zakon |
+| 0x621DBE (kliknięcie w oknie 52) | paladyn id 4 / barbarzyńca id 2 → bit z tabeli |
+| 0x615C50 (Gotowe w oknie 52) | barbarzyńca z kitem 0 dozwolony |
+| 0x61CD4A (GetKit okna 12) | kapłan id 14 → bit bóstwa |
+| 0x6100F0, 0x61012E (pętla okna 12 kapłana) | etykieta i obsługa przycisku 14 (ukryty, gdy brak tekstu) |
+| 0x61001B (pętla okna 12 czarodzieja) | przycisk 14 ukryty |
+| 0x61D031 (opis po kliknięciu w oknie 12) | nowy bit → strref 0x846C68 |
+| 0x61CEF4, 0x615CFE | maska bóstw 0xFF8000 → 0xFFFF8000 (zmiana bóstwa, przycisk Gotowe) |
+GUICG.CHU: okno 12 dostaje przycisk 14 (kopia przycisku 9, y+63) — `tools/iwd2_chu_kontrolka.py`.
+Znane braki: brak podświetlenia wybranej nowej podklasy w oknie 52; nowe bóstwo nie ma kolumny w FEATS/SKILLS (gra bierze wartość domyślną – brak premii bóstwa); podklasy nie mają jeszcze własnych zdolności.
