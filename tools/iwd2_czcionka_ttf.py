@@ -1,6 +1,6 @@
 """Czcionka BAM dla IWD2 z fontu TTF, w ukladzie sprawdzonym w grze (mod "IWD2 Better Fonts", Nexus 5):
 255 klatek po jednym cyklu (cykl i = znak cp1252 i+1), wszystkie klatki tej samej wysokosci H z linia bazowa
-na cy, cx = 0, szerokosc = krok znaku. Paleta: szara rampa (indeks 0 = przezroczysty, 255 = pelne pokrycie),
+na cy, cx = 0, szerokosc = krok znaku. Paleta: jasna rampa (indeks 0 = przezroczysty, 255 = pelne pokrycie = biel),
 piksel = pokrycie 0..255 (gra koloruje tekst wg indeksu). Zapis BAM V1 bez kompresji.
 
   python tools/iwd2_czcionka_ttf.py --ttf Klaudia.ttf --wys 18 --out ZNORMAL.BAM
@@ -41,10 +41,12 @@ def generuj(ttf, wys, wersalik=None, prog=8, odstep=1):
         a = np.asarray(img)[:, :w].copy()
         a[a < prog] = 0
         klatki.append((w, a))
+    # Paleta: indeks = pokrycie, jasna rampa (255 = biel). Czcionki kolorowane przez gre (NORMAL, TOOLFONT...)
+    # i tak dostaja palete z koloru tekstu; tam, gdzie gra rysuje paleta z pliku (tytuly, nazwy), tekst jest
+    # jasny zamiast czarnego.
     pal = np.zeros((256, 4), np.uint8)
     for i in range(256):
-        v = 255 - i
-        pal[i, :3] = v
+        pal[i, :3] = i
     nf = 255
     fo = 24
     co = fo + 12 * nf
