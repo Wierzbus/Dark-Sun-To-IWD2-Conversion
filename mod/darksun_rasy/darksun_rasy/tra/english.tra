@@ -12,3 +12,21 @@ Disadvantages:
 -2 Charisma
 
 (Experimental subrace: Dark Sun conversion test.)~
+
+// --- Podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
+@201 = ~templar order~
+@202 = ~Templar Order~
+@203 = ~TEMPLAR ORDER: Paladins of this order serve the sorcerer-kings of Athas as enforcers of law in the city-states. They hold to the letter of the law above mercy.
+
+(Experimental paladin order: Dark Sun conversion test. No special abilities yet.)~
+@211 = ~Barbarian~
+@212 = ~athasian barbarian~
+@213 = ~Athasian Barbarian~
+@214 = ~ATHASIAN BARBARIAN: Born in the wastes beyond the city-states, these warriors survive the burning sun and the silt storms of Athas through sheer endurance.
+
+(Experimental barbarian subclass: Dark Sun conversion test. No special abilities yet.)~
+@221 = ~earth cleric~
+@222 = ~Earth Cleric~
+@223 = ~EARTH CLERIC: On Athas the gods are silent, and clerics draw their power from the elemental planes. Clerics of Earth revere stone and soil, the foundations that endure even under the dying sun.
+
+(Experimental cleric patron: Dark Sun conversion test. No domain bonuses yet.)~

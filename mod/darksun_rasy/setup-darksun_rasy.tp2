@@ -121,3 +121,62 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   // FEATS.2DA i SKILLS.2DA maja kolumny ras/podras pod wlasnymi nazwami (np. GOLD_DWARF), ktorych EXE nie zawiera:
   // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
+
+BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe z lata podklas, np. IWD2_1920x1080_test14.exe)~ DESIGNATED 2
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+
+  // --- 1. Teksty -> numery w tabeli kitow w exe (0x846C00; zrodlo: darksun_rasy/asm/podklasy.asm) ---
+  // Wpis po 32 B: bit kitu, strref etykiety, nazwa wiersza. Exe rozpoznajemy po nazwie PALADIN_DS pod 0x446C08.
+  OUTER_SET pal_mixed = RESOLVE_STR_REF(@202)
+  OUTER_SET bbn_std   = RESOLVE_STR_REF(@211)
+  OUTER_SET bbn_mixed = RESOLVE_STR_REF(@213)
+  OUTER_SET clr_mixed = RESOLVE_STR_REF(@222)
+  OUTER_SET clr_help  = RESOLVE_STR_REF(@223)
+  OUTER_SET patched = 0
+  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test14~ ~IWD2_1920x1080_test15~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
+    ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
+      OUTER_SET ok = 0
+      COPY - ~%src%.exe~ ~%src%.exe~
+        PATCH_IF (BUFFER_LENGTH > 0x446C70) BEGIN
+          READ_ASCII 0x446C08 nm (10)
+          PATCH_IF (~%nm%~ STRING_EQUAL ~PALADIN_DS~) BEGIN SET ok = 1 END
+        END
+      ACTION_IF ok BEGIN
+        COPY ~%src%.exe~ ~%src%.exe~
+          WRITE_LONG 0x446C04 pal_mixed
+          WRITE_LONG 0x446C24 bbn_mixed
+          WRITE_LONG 0x446C44 clr_mixed
+          WRITE_LONG 0x446C64 bbn_std
+          WRITE_LONG 0x446C68 clr_help
+        OUTER_SET patched = patched + 1
+        PRINT ~%src%.exe: wpisano teksty podklas.~
+      END
+    END
+  END
+  ACTION_IF patched = 0 BEGIN
+    FAIL ~Nie znaleziono exe z lata podklas (np. IWD2_1920x1080_test14.exe).~
+  END
+
+  // --- 2. Tabele ---
+  // KITLIST: teksty kitu (HELP czyta gra po nazwie wiersza z GetClassRow).
+  OUTER_SET pal_lower = RESOLVE_STR_REF(@201)
+  OUTER_SET pal_help  = RESOLVE_STR_REF(@203)
+  OUTER_SET bbn_lower = RESOLVE_STR_REF(@212)
+  OUTER_SET bbn_help  = RESOLVE_STR_REF(@214)
+  OUTER_SET clr_lower = RESOLVE_STR_REF(@221)
+  APPEND ~KITLIST.2DA~ ~PALADIN_DS              %pal_lower% %pal_mixed% %pal_help%~ UNLESS ~PALADIN_DS~
+  APPEND ~KITLIST.2DA~ ~BARBARIAN_DS            %bbn_lower% %bbn_mixed% %bbn_help%~ UNLESS ~BARBARIAN_DS~
+  APPEND ~KITLIST.2DA~ ~CLERIC_DS               %clr_lower% %clr_mixed% %clr_help%~ UNLESS ~CLERIC_DS~
+
+  // ALIGNMNT: dozwolone charaktery (L_G L_N L_E N_G N_N N_E C_G C_N C_E) - propozycja do decyzji wlasciciela.
+  APPEND ~ALIGNMNT.2DA~ ~PALADIN_DS	1	0	0	0	0	0	0	0	0~ UNLESS ~PALADIN_DS~
+  APPEND ~ALIGNMNT.2DA~ ~BARBARIAN_DS	0	0	0	1	1	1	1	1	1~ UNLESS ~BARBARIAN_DS~
+  APPEND ~ALIGNMNT.2DA~ ~CLERIC_DS	1	1	1	1	1	1	1	1	1~ UNLESS ~CLERIC_DS~
+
+  // KIT.IDS: bity z wolnej puli (skrypty).
+  APPEND ~KIT.IDS~ ~0x01000000 PALADIN_DS~ UNLESS ~PALADIN_DS~
+  APPEND ~KIT.IDS~ ~0x02000000 BARBARIAN_DS~ UNLESS ~BARBARIAN_DS~
+  APPEND ~KIT.IDS~ ~0x04000000 CLERIC_DS~ UNLESS ~CLERIC_DS~
+
+  // GUICG.CHU (przycisk 14 w oknie 12 dla nowego bostwa) dostarcza pakiet GUI 1920 (tools/iwd2_chu_kontrolka.py).
+  // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie.
