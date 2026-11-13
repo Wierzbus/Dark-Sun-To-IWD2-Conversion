@@ -1,0 +1,26 @@
+PACZKA 1 - IWD2 w wybranej rozdzielczosci (upscale)
+
+Zawartosc paczki (rozpakuj do katalogu IWD2):
+  setup-iwd2_upscale.exe   - kopia WeiDU
+  setup-iwd2_upscale.tp2
+  iwd2_upscale\            - biblioteki instalatora, czcionka Classica (OFL),
+                             generator\iwd2_gui_buduj\ - przenosny program budujacy zestaw (Python niepotrzebny)
+
+Komponenty:
+  1-4  rozdzielczosc (wybierz jedna): 1920x1080, 2560x1440, 3840x2160 albo inna (podajesz W i H).
+       Program buduje z plikow gry zestaw w iwd2_upscale\zestaw (kilka minut), potem instalator tworzy
+       IWD2_<W>.exe (kopia IWD2.exe z latkami) i ustawia Resolution=<W> w icewind2.ini.
+       Oryginalny IWD2.exe zostaje bez zmian; instalator sprawdza, czy to GOG 2.01.
+       Ponowna instalacja tej samej rozdzielczosci uzywa gotowego zestawu (bez budowania).
+  10   GUI (ekrany, przyciski, czcionki Classica, ekrany ladowania, suwaki, pasy boczne)
+  11   portrety
+  12   ikony
+  20   widok swiata: DDrawCompat-IWD2_<W>.ini z trybem gry na liscie SupportedResolutions.
+       Gdy rozdzielczosc gry jest wieksza niz monitor (np. 2560x1440 na 1920x1080), DDrawCompat
+       zmniejsza obraz do pulpitu: GUI ma ten sam rozmiar, swiata widac wiecej.
+
+Przed instalacja tej wersji odinstaluj poprzednia paczke 1 (inne numery komponentow).
+Uruchamiaj IWD2_<W>.exe.
+
+Dla autora: program generator\ buduje sie raz w Anaconda Prompt z katalogu repo:
+  tools\iwd2_gui\zbuduj_program.bat KATALOG_PACZKI

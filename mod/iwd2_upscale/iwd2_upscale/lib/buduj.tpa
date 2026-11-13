@@ -1,0 +1,45 @@
+// Komponent 1 paczki 1: wejscie ds_szer, ds_wys. Buduje (albo bierze juz zbudowany) zestaw w iwd2_upscale/zestaw,
+// tworzy IWD2_<W>.exe makrami z zestaw/upscale_exe.tpa i ustawia Resolution=<W> w icewind2.ini.
+
+// szybka kontrola exe przed kilkuminutowa budowa (pelna kontrola bajtow po budowie)
+OUTER_SET ds_rozmiar = 0
+COPY - ~IWD2.exe~ ~IWD2.exe~
+  SET ds_rozmiar = BUFFER_LENGTH
+ACTION_IF (ds_rozmiar != 5029888) BEGIN
+  FAIL ~IWD2.exe nie jest oryginalnym exe GOG 2.01 (rozmiar %ds_rozmiar% zamiast 5029888).~
+END
+
+OUTER_SET ds_gotowy = 0
+ACTION_IF (FILE_EXISTS ~%ds_zestaw%/GOTOWE.txt~) AND (FILE_EXISTS ~%ds_zestaw%/rozdzielczosc.tpa~) BEGIN
+  INCLUDE ~%ds_zestaw%/rozdzielczosc.tpa~
+  ACTION_IF (ds_zestaw_szer = ds_szer) AND (ds_zestaw_wys = ds_wys) BEGIN
+    OUTER_SET ds_gotowy = 1
+    PRINT ~Zestaw %ds_szer%x%ds_wys% jest juz zbudowany - uzywam go.~
+  END
+END
+ACTION_IF NOT ds_gotowy BEGIN
+  ACTION_IF NOT FILE_EXISTS ~iwd2_upscale/generator/iwd2_gui_buduj/iwd2_gui_buduj.exe~ BEGIN
+    FAIL ~Brak programu iwd2_upscale\generator\iwd2_gui_buduj\iwd2_gui_buduj.exe.~
+  END
+  PRINT ~Buduje zestaw %ds_szer%x%ds_wys% z plikow gry (GUI, ikony, portrety) - to potrwa kilka minut...~
+  AT_NOW ~iwd2_upscale\generator\iwd2_gui_buduj\iwd2_gui_buduj.exe --gra . --szer %ds_szer% --wys %ds_wys% --out iwd2_upscale\zestaw --bez-exe --ttf iwd2_upscale\Classica-Bold.ttf~
+  ACTION_IF NOT FILE_EXISTS ~%ds_zestaw%/GOTOWE.txt~ BEGIN
+    FAIL ~Budowa zestawu %ds_szer%x%ds_wys% sie nie udala - komunikaty programu sa powyzej.~
+  END
+  INCLUDE ~%ds_zestaw%/rozdzielczosc.tpa~
+END
+
+INCLUDE ~%ds_zestaw%/upscale_exe.tpa~
+OUTER_SET ok = 0
+COPY - ~IWD2.exe~ ~IWD2.exe~
+  LPM ds_upscale_sprawdz
+  SET ok = ds_upscale_ok
+ACTION_IF NOT ok BEGIN
+  FAIL ~IWD2.exe nie jest oryginalnym exe GOG 2.01 (kod w miejscach lat sie rozni).~
+END
+COPY ~IWD2.exe~ ~IWD2_%ds_szer%.exe~
+  LPM ds_upscale_zapisz
+// rozdzielczosc (kopia zapasowa ini wraca przy odinstalowaniu)
+COPY ~icewind2.ini~ ~icewind2.ini~
+  REPLACE_TEXTUALLY ~^Resolution=[0-9]+~ ~Resolution=%ds_szer%~
+PRINT ~Gra w %ds_szer%x%ds_wys%: uruchamiaj IWD2_%ds_szer%.exe. Dalej zainstaluj GUI, portrety i ikony.~

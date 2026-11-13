@@ -7,15 +7,10 @@ Dla innych wysokosci wartosci rosna z r. Kazde miejsce jest najpierw sprawdzane 
 """
 from __future__ import annotations
 
-import os
 import struct
-import subprocess
-import tempfile
 from math import gcd
-from pathlib import Path
 
 BASE = 0x400000
-ASM = Path(__file__).resolve().parents[2] / "asm" / "iwd2_ekran_ladowania.asm"
 NOP = b"\x90"
 
 
@@ -27,20 +22,56 @@ def _imul32(modrm: int, k: int) -> bytes:          # imul r32, r/m32, imm32 (69 
     return bytes([0x69, modrm]) + _i32(k)
 
 
+TABELA_LAD = [0x8a7ba8, 0x8a7bac, 0x8a7bb0, 0x8a7bb4, 0x8a7bb8, 0x8a7bbc, 0x8d0b7c, 0x8d0770,
+              0x8a7bc4, 0x8a7bc0, 0x8a7bc8, 0x8a7bcc, 0x8d0b80, 0x8a7bd0, 0x8a7bd4, 0x8d0b8c,
+              0x8a7bd8, 0x8a7bdc, 0x8a7be0, 0x8d0b90, 0x8d0ba0, 0x8a7be4, 0x8a7be8, 0x8a7bec,
+              0x8a7bf0, 0x8a7bf4, 0x8a7bf8, 0x8a7bfc, 0x8a7c00, 0x8a7c04, 0x8d0ba4, 0x8a7c08,
+              0x8a7c0c, 0x8a7c10, 0x8a7c14, 0x8a7c18, 0x8a7c1c, 0x8a7c20, 0x8a7c24, 0x8a7c28,
+              0x8a7c2c, 0x8a7c30, 0x8a7c34, 0x8a7c38, 0x8a7c3c]
+
+
 def _ladowanie(w: int, h: int) -> tuple[bytes, int]:
-    """Kod z tools/asm/iwd2_ekran_ladowania.asm dla W x H; zwraca (kod, adres etykiety tlo)."""
+    """Kod tools/asm/iwd2_ekran_ladowania.asm zakodowany w Pythonie (bez nasm), stale jako imm32.
+    Zwraca (kod od 0x440400, adres etykiety tlo)."""
     g = gcd(h, 600)
     num, den = h // g, 600 // g
-    with tempfile.TemporaryDirectory() as td:
-        out = os.path.join(td, "k.bin")
-        subprocess.run(["nasm", "-f", "bin", f"-DSZER={w}", f"-DWYS={h}", f"-DLICZ={num}", f"-DMIAN={den}",
-                        "-o", out, str(ASM)], check=True)
-        kod = Path(out).read_bytes()
-    poz = kod.find(bytes.fromhex("c744240800000000"))            # tlo: mov dword [esp+8], 0
-    if poz < 0 or len(kod) > 663:
-        raise SystemExit("STOP: nieoczekiwany kod ekranu ladowania.")
-    tlo = 0x440400 + poz
-    return kod, tlo
+    org = 0x440400
+    u32 = lambda v: struct.pack("<I", v & 0xFFFFFFFF)
+    skaluj = bytearray()
+    skaluj += b"\x56\x53"                                  # push esi; push ebx
+    p_tab = len(skaluj) + 1
+    skaluj += b"\xbe" + u32(0)                              # mov esi, tabela
+    petla = len(skaluj)
+    skaluj += b"\x8b\x0e\x85\xc9"                          # mov ecx,[esi]; test ecx,ecx
+    p_jz = len(skaluj)
+    skaluj += b"\x74\x00"                                  # jz .koniec
+    skaluj += b"\x8b\x01"                                  # mov eax,[ecx]
+    skaluj += b"\x69\xc0" + u32(num)                        # imul eax,eax,LICZ
+    skaluj += b"\x05" + u32(den // 2)                       # add eax,MIAN/2
+    skaluj += b"\x99"                                      # cdq
+    skaluj += b"\xbb" + u32(den)                            # mov ebx,MIAN
+    skaluj += b"\xf7\xfb\x89\x01\x83\xc6\x04"              # idiv ebx; mov [ecx],eax; add esi,4
+    skaluj += b"\xeb" + bytes([(petla - (len(skaluj) + 2)) & 0xFF])   # jmp .petla
+    koniec = len(skaluj)
+    skaluj[p_jz + 1] = koniec - (p_jz + 2)
+    skaluj += b"\x5b\x5e\xc3"                              # pop ebx; pop esi; ret
+    tlo = len(skaluj)
+    kod = skaluj + b"\xc7\x44\x24\x08" + u32(0) + b"\xc7\x44\x24\x0c" + u32(0)
+    p_pr = len(kod)
+    kod += b"\xc7\x44\x24\x10" + u32(0) + b"\xc7\x44\x24\x14" + u32(0)
+    kod += b"\xe9" + u32(0x7B0C80 - (org + len(kod) + 5))    # jmp 0x7b0c80
+    while len(kod) % 4:
+        kod += b"\x90"
+    prost = len(kod)
+    kod += u32(0) + u32(0) + u32(w) + u32(h)
+    tab = len(kod)
+    kod += b"".join(u32(a) for a in TABELA_LAD) + u32(0)
+    kod[p_tab:p_tab + 4] = u32(org + tab)
+    kod[p_pr + 4:p_pr + 8] = u32(org + prost)
+    kod[p_pr + 12:p_pr + 16] = u32(org + prost)
+    if len(kod) > 663:
+        raise SystemExit("STOP: kod ekranu ladowania za dlugi.")
+    return bytes(kod), org + tlo
 
 
 def latki(w: int, h: int, pole: int) -> list[tuple[int, bytes, bytes, str]]:

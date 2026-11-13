@@ -134,9 +134,15 @@ def main() -> None:
     ap.add_argument("--gra", required=True)
     ap.add_argument("--szer", type=int, required=True)
     ap.add_argument("--wys", type=int, required=True)
-    ap.add_argument("--ttf", required=True)
+    ap.add_argument("--ttf", help="czcionka TTF (domyslnie Classica-Bold.ttf obok programu)")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--bez-exe", action="store_true", help="bez kopii IWD2_<W>.exe (instalator uzywa makr z upscale_exe.tpa)")
     a = ap.parse_args()
+    if not a.ttf:
+        kand = [Path(sys.executable).parent / "Classica-Bold.ttf", TU / "Classica-Bold.ttf", Path("Classica-Bold.ttf")]
+        a.ttf = str(next((k for k in kand if k.exists()), kand[0]))
+    if not Path(a.ttf).exists():
+        raise SystemExit(f"STOP: brak czcionki {a.ttf}")
     W, H = a.szer, a.wys
     if W < 1024 or H < 768 or W < H:
         raise SystemExit("Minimum 1024x768, ekran poziomy.")
@@ -144,6 +150,8 @@ def main() -> None:
     gra = Path(a.gra)
     out = Path(a.out)
     gui, ikony, portrety = out / "override" / "gui", out / "override" / "ikony", out / "override" / "portrety"
+    (out / "GOTOWE.txt").unlink(missing_ok=True)
+    (out / "rozdzielczosc.tpa").unlink(missing_ok=True)
     for p in (gui, ikony, portrety):
         if p.exists():
             shutil.rmtree(p)
@@ -154,8 +162,9 @@ def main() -> None:
     gen, nap = tmp / "gen", tmp / "nap"
     gen.mkdir()
 
+    sys.stdout.reconfigure(line_buffering=True)
     print(f"== {W}x{H}: ekrany x{S:.3f}, pasek gry x{Z:.3f}")
-    exe = out / f"IWD2_{W}.exe"
+    exe = (tmp if a.bez_exe else out) / f"IWD2_{W}.exe"
     patch_exe(gra / "IWD2.exe", exe, W, H, "stock", Z)
     build_hud(g, W, H, Z, a.ttf, gen)
     build_screens(g, W, H, S, a.ttf, gen)
@@ -262,6 +271,8 @@ def main() -> None:
     iwd2_portrety.buduj(g, str(portrety), (pole - 4, pole - 4), (round(210 * S), round(330 * S)))
 
     shutil.rmtree(tmp)
+    (out / "GOTOWE.txt").write_text(f"{W}x{H}\n")
+    (out / "rozdzielczosc.tpa").write_text(f"OUTER_SET ds_zestaw_szer = {W}\nOUTER_SET ds_zestaw_wys = {H}\n")
     print(f"\nGotowe: {exe.name}, upscale_exe.tpa, override: gui {len(list(gui.iterdir()))}, "
           f"ikony {len(list(ikony.iterdir()))}, portrety {len(list(portrety.iterdir()))}")
     print(f"W icewind2.ini: Resolution={W}")

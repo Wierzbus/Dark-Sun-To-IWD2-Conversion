@@ -25,3 +25,6 @@ __pycache__/
 
 # lata exe generowane z exe gry (tools/iwd2_paczki_exe.py)
 mod/darksun_rasy/darksun_rasy/exe/
+mod/iwd2_upscale/iwd2_upscale/generator/
+mod/iwd2_upscale/iwd2_upscale/zestaw/
+mod/iwd2_upscale/iwd2_upscale/backup/

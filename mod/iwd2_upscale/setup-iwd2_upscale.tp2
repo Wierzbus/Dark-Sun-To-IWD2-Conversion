@@ -1,0 +1,79 @@
+// Paczka 1: IWD2 (GOG 2.01) w wybranej rozdzielczosci. WeiDU uruchamia wlasciciel.
+// Folder iwd2_upscale i ten plik w katalogu IWD2, obok setup-iwd2_upscale.exe (kopia WeiDU).
+// Komponent 1 pyta o rozdzielczosc i uruchamia iwd2_upscale\generator\iwd2_gui_buduj\iwd2_gui_buduj.exe
+// (przenosny program, Python niepotrzebny), ktory z plikow gry buduje zestaw w iwd2_upscale\zestaw:
+// makra lat exe, GUI, portrety, ikony. Oryginalny IWD2.exe nie jest zmieniany: powstaje kopia IWD2_<W>.exe.
+// Odinstalowanie przywraca pliki z kopii zapasowej WeiDU.
+BACKUP ~iwd2_upscale/backup~
+AUTHOR ~Wierzbus~
+VERSION ~test-2026-11-14~
+
+ALWAYS
+  OUTER_TEXT_SPRINT ds_zestaw ~iwd2_upscale/zestaw~
+END
+
+// ---------------------------------------------------------------- 1: exe + budowa zestawu
+BEGIN ~Rozdzielczosc 1920x1080~ DESIGNATED 1 SUBCOMPONENT ~Exe i zestaw GUI dla wybranej rozdzielczosci~
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Tylko Icewind Dale 2.~
+  OUTER_SET ds_szer = 1920 OUTER_SET ds_wys = 1080
+  INCLUDE ~iwd2_upscale/lib/buduj.tpa~
+
+BEGIN ~Rozdzielczosc 2560x1440~ DESIGNATED 2 SUBCOMPONENT ~Exe i zestaw GUI dla wybranej rozdzielczosci~
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Tylko Icewind Dale 2.~
+  OUTER_SET ds_szer = 2560 OUTER_SET ds_wys = 1440
+  INCLUDE ~iwd2_upscale/lib/buduj.tpa~
+
+BEGIN ~Rozdzielczosc 3840x2160~ DESIGNATED 3 SUBCOMPONENT ~Exe i zestaw GUI dla wybranej rozdzielczosci~
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Tylko Icewind Dale 2.~
+  OUTER_SET ds_szer = 3840 OUTER_SET ds_wys = 2160
+  INCLUDE ~iwd2_upscale/lib/buduj.tpa~
+
+BEGIN ~Inna rozdzielczosc (podasz szerokosc i wysokosc)~ DESIGNATED 4 SUBCOMPONENT ~Exe i zestaw GUI dla wybranej rozdzielczosci~
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Tylko Icewind Dale 2.~
+  OUTER_SET ds_szer = 0 OUTER_SET ds_wys = 0
+  OUTER_WHILE ((ds_szer < 1024) OR (ds_wys < 768) OR (ds_szer < ds_wys) OR (ds_szer > 7680) OR (ds_wys > 4320)) BEGIN
+    PRINT ~Szerokosc ekranu gry w pikselach (np. 1920, minimum 1024):~
+    ACTION_READLN ds_szer_txt
+    PRINT ~Wysokosc ekranu gry w pikselach (np. 1080, minimum 768):~
+    ACTION_READLN ds_wys_txt
+    ACTION_IF (IS_AN_INT ds_szer_txt) AND (IS_AN_INT ds_wys_txt) BEGIN
+      OUTER_SET ds_szer = ds_szer_txt
+      OUTER_SET ds_wys = ds_wys_txt
+    END ELSE BEGIN
+      OUTER_SET ds_szer = 0
+    END
+    ACTION_IF ((ds_szer < 1024) OR (ds_wys < 768) OR (ds_szer < ds_wys) OR (ds_szer > 7680) OR (ds_wys > 4320)) BEGIN
+      PRINT ~Nieprawidlowa rozdzielczosc - ekran poziomy, od 1024x768 do 7680x4320.~
+    END
+  END
+  INCLUDE ~iwd2_upscale/lib/buduj.tpa~
+
+// ---------------------------------------------------------------- 2-4: zasoby z zestawu
+BEGIN ~GUI: ekrany (CHU, MOS), przyciski, czcionki Classica, ekrany ladowania, suwaki, pasy boczne~ DESIGNATED 10
+  ACTION_IF NOT FILE_EXISTS ~%ds_zestaw%/GOTOWE.txt~ BEGIN FAIL ~Najpierw zainstaluj komponent z rozdzielczoscia.~ END
+  INCLUDE ~%ds_zestaw%/rozdzielczosc.tpa~
+  COPY ~%ds_zestaw%/override/gui~ ~override~
+  // Jesli zainstalowano juz paczke 2 (podklasy Dark Sun), okno bostw potrzebuje przycisku 14.
+  INCLUDE ~iwd2_upscale/ds_chu_przycisk.tph~
+  ACTION_IF (FILE_EXISTS ~IWD2_DS.exe~) OR (FILE_EXISTS ~IWD2_%ds_zestaw_szer%_DS.exe~) BEGIN
+    COPY_EXISTING ~GUICG.CHU~ ~override~
+      LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 9 wzor_pop = 8 nowe_id = 14 RET dodano = dodano END
+  END
+
+BEGIN ~Portrety: duze (_L) i male (_S) w rozmiarze pola paska~ DESIGNATED 11
+  ACTION_IF NOT FILE_EXISTS ~%ds_zestaw%/GOTOWE.txt~ BEGIN FAIL ~Najpierw zainstaluj komponent z rozdzielczoscia.~ END
+  COPY ~%ds_zestaw%/override/portrety~ ~override~
+
+BEGIN ~Ikony przedmiotow, czarow i zdolnosci (48 px przy 1080, proporcjonalnie)~ DESIGNATED 12
+  ACTION_IF NOT FILE_EXISTS ~%ds_zestaw%/GOTOWE.txt~ BEGIN FAIL ~Najpierw zainstaluj komponent z rozdzielczoscia.~ END
+  COPY ~%ds_zestaw%/override/ikony~ ~override~
+
+// ---------------------------------------------------------------- 5: widok swiata
+BEGIN ~Widok swiata: tryb gry w DDrawCompat (gdy rozdzielczosc gry jest wieksza niz monitor)~ DESIGNATED 20
+  ACTION_IF NOT FILE_EXISTS ~%ds_zestaw%/GOTOWE.txt~ BEGIN FAIL ~Najpierw zainstaluj komponent z rozdzielczoscia.~ END
+  INCLUDE ~%ds_zestaw%/rozdzielczosc.tpa~
+  // DDrawCompat czyta DDrawCompat-<nazwa exe>.ini. DisplayResolution = desktop: tryb gry jest emulowany
+  // i zmniejszany do rozdzielczosci pulpitu filtrem DisplayFilter.
+  COPY ~iwd2_upscale/lib/ddrawcompat.ini~ ~DDrawCompat-IWD2_%ds_zestaw_szer%.ini~
+    REPLACE_TEXTUALLY ~TRYB_GRY~ ~%ds_zestaw_szer%x%ds_zestaw_wys%~
+  PRINT ~DDrawCompat-IWD2_%ds_zestaw_szer%.ini: tryb %ds_zestaw_szer%x%ds_zestaw_wys% zmniejszany do pulpitu.~

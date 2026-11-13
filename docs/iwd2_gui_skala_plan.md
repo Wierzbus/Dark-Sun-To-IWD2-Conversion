@@ -70,3 +70,10 @@ ikony identyczne; łatki exe o tych samych wartościach (zapis `imul` zamiast `l
 - 2026-11-14: paczka 2560x1440 z `buduj.py` (z komponentem 5 – DDrawCompat-IWD2_2560.ini) przetestowana w grze na monitorze
   1920x1080: wszystko działa (widok świata większy, GUI tej samej wielkości).
 - Dalej: instalator z wyborem rozdzielczości (Python przez AT_NOW + gotowe zestawy), paczka 2 (rasy) dla dowolnego IWD2_<W>.exe.
+- 2026-11-14: instalator `mod/iwd2_upscale` – komponent z rozdzielczością (1920x1080 / 2560x1440 / 3840x2160 / inna)
+  uruchamia przenośny program `iwd2_upscale/generator/iwd2_gui_buduj/iwd2_gui_buduj.exe` (PyInstaller,
+  `tools/iwd2_gui/zbuduj_program.bat`), który buduje zestaw w `iwd2_upscale/zestaw`; dalsze komponenty kopiują z niego
+  GUI, portrety, ikony i ustawiają DDrawCompat. Kod ekranu ładowania generowany w Pythonie (bez nasm).
+- NA SAMYM KOŃCU: powiększony podgląd postaci (ekwipunek, kreator). Ścieżka ×2 silnika odrzucona po teście
+  (wspólny przełącznik psuje pola barw, podwojone piksele czytane ze starym opisem klatki → paski). Kandydat: własne
+  skalowanie z wygładzaniem po narysowaniu (tło przed/po, różnica = postać, nałożenie w skali H/600).
