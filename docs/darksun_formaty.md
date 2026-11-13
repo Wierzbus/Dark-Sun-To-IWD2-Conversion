@@ -72,6 +72,9 @@ Brak osobnej tabeli opisów. Opisy to teksty wyzwalaczy oględzin i użycia (`it
 ## Tabele kart postaci w DSUN.EXE ✔
 Jawne napisy: MALE, FEMALE; HUMAN, DWARF, ELF, HALF-ELF, HALF-GIANT, HALFLING, MUL, THRI-KREEN; CLERIC, DRUID, FIGHTER, GLADIATOR, PRESERVER, PSIONICIST, RANGER, THIEF; LAWFUL GOOD … CHAOTIC EVIL. Potwierdzają kody ras 1–8, płci 1–2 i charakteru 1–9 (0 = brak). Kody klas wewnętrznych są szersze niż 8 klas gracza (do 19); 9–12 zgodne z kolejnością Fighter, Gladiator, Preserver, Psionicist.
 
+## Regiony RGNxx.GFF ✔ (`darksun/region.py`)
+TILE 1–254 (kafel 16×16 w formacie BMP), RMAP i GMAP po 128 × 98 B (numer kafla; znaczniki: 0x80 mur, 0x40 pole nieprzechodnie), ETAB rekordy 8 B (`u16 x, u16 y` lewego górnego rogu sprite'a, `u8 z`, `u8 flagi`, `i16 −id` OJFF/RDFF). Paleta regionu: GPLDATA PAL o id = numer regionu. Pierwszy obszar gry (cele niewolników w Draj) = RGN29; opis i konwersja: `docs/ds_obszar_rgn29.md`.
+
 ## Źródła zewnętrzne
 - OpenDS (MIT, Brandon LaRocque): https://github.com/VirInvictus/opends – deasembler GPL (port w `darksun/gpl.py`), tabele klas, charakteru, wyzwalaczy. Ich katalog opcodów i dekoder napisów pochodzą z dsoageofheroes/libgff i soloscuro-archive (MIT).
 
