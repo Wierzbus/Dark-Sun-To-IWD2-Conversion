@@ -14,6 +14,11 @@ import argparse
 BASE = 0x400000
 # lata mula (darksun_rasy komponent 1) obecne juz w test13 - przenoszone do paczki 2
 MUL = [(0x541BC4, 56), (0x542551, 13), (0x544FE6, 25), (0x61C644, 1), (0x7229C9, 1)]
+# podglad postaci x2 (test12) daje w ekwipunku poszarpany obraz - haki wycofane (podglad w skali 1)
+PODGLAD = [(0x61DE2D, 7), (0x61DF8F, 6), (0x62EBFF, 6), (0x62ED48, 6), (0x77F520, 6), (0x77F5F0, 6)]
+# ramka zaznaczenia portretu: bok 64 (= pole) wypadal poza pole z prawej i z dolu -> 62 (oryginal: 44 przy polu 46)
+# 0x704EBE: imul eax, ebp, 62; nop x5 / 0x704ED0: shl eax, 2 -> nop x3
+RAMKA = [(0x704EBE, bytes.fromhex("6BC53E9090909090")), (0x704ED0, b"\x90\x90\x90")]
 
 
 def przebiegi(a, b, przerwa=8):
@@ -79,11 +84,18 @@ def main():
     for adr, ln in MUL:
         o = adr - BASE
         up[o:o + ln] = orig[o:o + ln]
-    r1 = przebiegi(orig, up)
     zaj = set()
-    for o, ln in r1:
+    for o, ln in przebiegi(orig, up):          # miejsca paczki 1 (przed poprawkami) - poza paczka 2
         zaj.update(range(o, o + ln))
         assert rasy[o:o + ln] == up[o:o + ln], f"test19 rozni sie od paczki 1 w 0x{o + BASE:X}"
+    for adr, ln in PODGLAD:
+        o = adr - BASE
+        up[o:o + ln] = orig[o:o + ln]
+    for adr, b in RAMKA:
+        o = adr - BASE
+        assert up[o] in (0x89, 0xC1), hex(adr)
+        up[o:o + len(b)] = b
+    r1 = przebiegi(orig, up)
     r2 = []
     for o, ln in przebiegi(orig, rasy):
         bajty = [i for i in range(o, o + ln) if i not in zaj and orig[i] != rasy[i]]
