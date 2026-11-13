@@ -33,6 +33,7 @@ HAKI = [
     (0x61012E, "jmp", "k_petla", 4),
     (0x61001B, "jmp", "k_mag", 0),
     (0x546030, "jmp", "clab", 4),
+    (0x723417, "jmp", "mnich", 20),          # piesc mnicha z DSMFIST.2DA
 ]
 # tablica skokow klikniecia klasy (0x61C1A8, indeks = klasa - 1): 0x61C0A5 = okno 52
 KLASY_OKNO52 = [1, 2, 4, 5, 8, 10]          # barbarzynca, bard, druid, wojownik, tropiciel, zaklinacz
@@ -102,6 +103,9 @@ def main():
     assert d[0x4A3A84 - BASE:0x4A3A86 - BASE] == b"\x0F\x8C", "0x4A3A84: oczekiwano jl rel32"
     rel = struct.unpack_from("<i", d, 0x4A3A86 - BASE)[0]
     d[0x4A3A84 - BASE:0x4A3A8A - BASE] = b"\xE9" + struct.pack("<i", rel + 1) + b"\x90"
+    # druid >= 9: odpornosc na trucizne naturalna w obsludze trucizny - warunek "poziom < 9" zawsze prawdziwy
+    assert d[0x4A795E - BASE:0x4A7960 - BASE] == b"\x7C\x0D", "0x4A795E: oczekiwano jl short"
+    d[0x4A795E - BASE] = 0xEB
     s = sekcje(d)
     struct.pack_into("<I", d, s[".text"] + 8, max(0x446000, struct.unpack_from("<I", d, s[".text"] + 8)[0]))
     struct.pack_into("<I", d, s[".data"] + 8, max(0x176000, struct.unpack_from("<I", d, s[".data"] + 8)[0]))

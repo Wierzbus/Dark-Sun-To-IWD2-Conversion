@@ -129,12 +129,23 @@ Wszystkie 8 wolnych bitów kitów jest teraz zajętych.
 | paladyn ≥ 2 | 0x4A3A5A–0x4A3A84 (funkcja efektów 0x4A3310) | odporność na czar SPWI420 Emotion: Fear (efekt odrzucany, komunikat) – tylko gdy paladyn nie upadł | **zrobione**: warunek wyłączony, `DSPALEMF.SPL` (opcode 206, SPWI420) jako `AP_` na 2. poziomie CLABPA01–04 |
 | paladyn ≥ 2 | 0x4A48CF, 0x6F8EF4 | to samo dla sojuszników w promieniu 100 (aura) | do zrobienia: brak opcode'u aury – zostaje w exe |
 | kapłan + paladyn | 0x71B8D0 | poziom odpędzania nieumarłych = kapłan + (paladyn − 2) | wzór, nie zdolność – zostaje |
-| mnich 1–30 | 0x723412 | pięść mnicha: przedmiot 00MFIST1–9 zależnie od poziomu (tabela 0x723808) | do decyzji: tabela 2DA zamiast kodu (nie opcode) |
+| mnich 1–30 | 0x723412 | pięść mnicha: przedmiot 00MFIST1–9 zależnie od poziomu (tabela 0x723808, 11 przypadków) | **zrobione (test17)**: hak 0x723417 → `mnich`: wiersz (poziom − 1) tabeli `DSMFIST.2DA`; bez tabeli kod oryginalny |
 | mnich | 0x72E354 | +poziom/3 do licznika (prawdopodobnie użycia ataku ogłuszającego) | do rozpoznania |
 | mnich ≥ 8, ≥ 12 | 0x739FE4 | −1/−1 do wartości 0x5604 (zakres 0–10; prawdopodobnie szybkość broni) | do rozpoznania |
 | mnich | 0x73E194, 0x73E390 | ST = wartość + poziom/2 − 1 (ogłuszenie / drżąca dłoń) | wzór – zostaje |
-| druid ≥ 9 | 0x4A7956 | efekt trucizny z typem 0x20 odrzucany (odporność na jad naturalny) | do decyzji: opcode 101 (25) blokuje każdą truciznę, nie tylko naturalną |
+| druid ≥ 9 | 0x4A7956 | efekt trucizny z typem 0x20 odrzucany (odporność na jad naturalny) | **zrobione (test17)**: warunek wyłączony (0x4A795E `jl` → `jmp`), `DSDRVEN.SPL` (opcode 101, 25 Poison – każda trucizna, decyzja właściciela) jako `AP_` na 9. poziomie CLABDR01–04 |
+| barbarzyńca + mnich | 0x72E2EF, 0x72E330 | szybkość ruchu: barbarzyńca ×1,2 (stała 0x84EB58) bez ciężkiego pancerza (0x724690(3)); mnich + poziom/3 bez pancerza, +1 z atutem 0xC | warunek pancerza nie da się zapisać w SPL – zostaje w exe |
+| mnich ≥ 20 | 0x73A7B7, 0x73AA3F | atak bez flagi 0x40 (niemagiczny?) nie działa (Perfect Self) | do rozpoznania flagi |
+| łotrzyk | 0x585D50 | kości ataku z zaskoczenia = (poziom − 1)/2 + 1 | wzór – zostaje (brak opcode'u) |
+| łotrzyk | 0x71B910 | mnożnik ciosu w plecy z BACKSTAB.2DA | już w danych |
+| łotrzyk > 0 | 0x4A6744 | atut Slippery Mind (0x3A): ponowny rzut obronny na Wolę | atut – zostaje |
+| łotrzyk / mnich | 0x757A80 | akcja ukrycia (tryb 2) tylko dla łotrzyka i mnicha | akcja – zostaje |
+| tropiciel | 0x73BC88, 0x73DD3F | ulubiony wróg: premia z tabeli (0x546860) i +4 | wzór z danych – zostaje |
 | barbarzyńca < 20 | 0x4A5C79 | po szale zmęczenie (od 20. poziomu brak) | do rozpoznania |
 | barbarzyńca ≥ 15 | 0x5E5B22 | do rozpoznania | – |
 | paladyn + wojownik | 0x737BBE | upadły paladyn: poziomy paladyna przechodzą na wojownika | mechanika, nie zdolność – zostaje |
+Unik (Evasion), Uncanny Dodge i pozostałe zdolności z tekstów `FA_` w CLAB (np. CLABTH01: 39332, 39280, 39309…) nie mają w exe sprawdzeń poziomu klasy przez 0x447990 ani 0x40D7E0 (sprawdzanie przynależności do klasy, stałe klas w 0x847CA5–0x847CAF); komunikat „Uncanny Dodge prevented flank attack” (0x73752D) jest wyświetlany z kodu wyniku ataku – źródło do znalezienia.
+
+**Błąd test16 poprawiony w test17:** obiekty tablic CLAB kitów leżały w końcówce .data (0xA1AF00 + 0x24·i); przy 8 kitach wychodziły poza sekcję (0xA1B000, .rsrc). Teraz `tabela2da` tworzy obiekt przez operator new (0x7FC95B), w .data są tylko wskaźniki (0xA1AF00–0xA1AF1F, pięść mnicha 0xA1AF20).
+
 Silnik obsługuje w CLAB prefiksy `FA_` (tylko tekst na karcie), `GA_` (zdolność wrodzona), `RA_`, `AP_` (efekty czaru nałożone od razu) – napisy w 0x8F9340, 0x8F9430, 0x8F94E0, 0x8F94C8.

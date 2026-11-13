@@ -8,8 +8,8 @@ TAB        equ 0x846C00          ; wpisy po 32 B: +0 bit kitu, +4 strref etykiet
                                  ; +0x17 numer klasy, +0x18 nazwa tablicy CLAB (8 znakow, 0 = brak)
 CLR_HELP   equ 0x846D04          ; strref opisu nowego bostwa (okno 12)
 NOK        equ 0x846D08          ; 12 x strref etykiety "bez podklasy" wg numeru klasy (okno 52, przycisk 1)
-OBJ        equ 0xA1AF00          ; 3 obiekty C2DArray po 0x24 B (koniec .data, VirtualSize podniesiony do 0x176000)
-FLG        equ 0xA1AF70          ; 3 bajty: tablica CLAB juz wczytana
+KPTR       equ 0xA1AF00          ; 8 wskaznikow na obiekty C2DArray tablic CLAB kitow (koniec .data, VirtualSize 0x176000)
+KPTR_PIESC  equ 0xA1AF20          ; wskaznik na C2DArray tablicy DSMFIST (piesc mnicha)
 
 ; ---------------------------------------------------------------- GetClassRow 0x541DA0
 ; nowe bity (0xFF000000) -> nazwa wiersza z tabeli TAB
@@ -220,9 +220,35 @@ ukryj14:
     call 0x4d57c0               ; SetActive(0)
 .r: ret
 
+;================================================================ tabela2da: wczytanie 2DA przy pierwszym uzyciu
+; wejscie: esi = adres slotu (dword: wskaznik obiektu albo 0), edi = adres nazwy (CResRef, 8 znakow)
+; wyjscie: eax = obiekt C2DArray (operator new 0x7FC95B, konstruktor 0x5402E0, Load 0x402B70)
+tabela2da:
+    mov eax, [esi]
+    test eax, eax
+    jnz .r
+    push ecx
+    push edx
+    push 0x24
+    call 0x7fc95b               ; operator new
+    add esp, 4
+    test eax, eax
+    jz .x
+    push eax
+    mov ecx, eax
+    call 0x5402e0               ; C2DArray()
+    mov ecx, [esp]
+    push edi
+    call 0x402b70               ; Load(CResRef*)
+    pop eax
+    mov [esi], eax
+.x: pop edx
+    pop ecx
+.r: ret
+
 ;================================================================ CLAB: tablica zdolnosci klasy (0x546030)
 ; GetClabTable(klasa, kit) zwraca wskaznik do C2DArray. Dla nowego kitu i zgodnej klasy:
-; wlasny obiekt w OBJ, przy pierwszym uzyciu konstruowany (0x5402E0) i wczytywany (0x402B70).
+; wlasny obiekt (PTR[i]) wczytywany przy pierwszym uzyciu z nazwy pod +0x18 wpisu tabeli.
 clab:
     mov eax, [esp+8]
     test eax, 0xff000000
@@ -242,26 +268,18 @@ clab:
     jne .nie
     cmp byte [edx+0x18], 0
     je .nie
+    push esi
+    push edi
     mov eax, edx
     sub eax, TAB
     shr eax, 5                  ; numer wpisu
-    lea ebx, [eax*8+eax]
-    lea ebx, [OBJ+ebx*4]        ; OBJ + 0x24*i
-    cmp byte [FLG+eax], 0
-    jne .jest_juz
-    mov byte [FLG+eax], 1
-    push ecx
-    push edx
-    mov ecx, ebx
-    call 0x5402e0               ; C2DArray()
-    pop edx
-    lea eax, [edx+0x18]
-    push eax                    ; CResRef (8 znakow)
-    mov ecx, ebx
-    call 0x402b70               ; Load
-    pop ecx
-.jest_juz:
-    mov eax, ebx
+    lea esi, [KPTR+eax*4]
+    lea edi, [edx+0x18]
+    call tabela2da
+    pop edi
+    pop esi
+    test eax, eax
+    jz .nie
     pop ebx
     ret 8
 .nie:
@@ -291,3 +309,65 @@ dane:
     dd 0                        ; koniec tabeli (0x846D00)
     dd -1                       ; CLR_HELP
     times 12 dd -1              ; NOK[klasa]
+
+;================================================================ piesc mnicha z tabeli DSMFIST.2DA (0x723417)
+; W oryginale: poziom mnicha (eax) -> tablica 0x723808 -> jeden z 11 przypadkow tworzacych przedmiot
+; 00MFIST1..9 (operator new 0xEE, CResRef 0x78A990, CItem 0x4E7E90) -> [esi+0x4B00] w 0x7237A3.
+; Tu: wiersz (poziom - 1) tabeli DSMFIST, kolumna 0 = przedmiot. Brak tabeli -> kod oryginalny.
+piesc_nazwa: db 'DSMFIST', 0
+mnich:
+    push eax                    ; poziom
+    push esi
+    push edi
+    mov esi, KPTR_PIESC
+    mov edi, piesc_nazwa
+    call tabela2da
+    pop edi
+    pop esi
+    pop ecx                     ; ecx = poziom
+    test eax, eax
+    jz .oryg
+    movsx edx, word [eax+0x22]  ; wiersze
+    test edx, edx
+    jle .oryg
+    dec ecx
+    jns .a
+    xor ecx, ecx
+.a: cmp ecx, edx
+    jl .b
+    lea ecx, [edx-1]
+.b: movsx edx, word [eax+0x20]  ; kolumny
+    imul ecx, edx
+    mov edx, [eax+0x18]
+    mov edx, [edx+ecx*4]        ; CString -> tekst nazwy przedmiotu
+    push edx
+    push 0xee
+    call 0x7fc95b               ; operator new (CItem)
+    add esp, 4
+    pop edx
+    mov edi, eax
+    mov [esp+0xc], edi
+    mov dword [esp+0x18], 1
+    test edi, edi
+    je 0x7237a1
+    push 0
+    push 0
+    push 0
+    push 0
+    push 0
+    sub esp, 8
+    mov ecx, esp
+    mov [esp+0x24], esp
+    push edx
+    call 0x78a990               ; CResRef(const char*)
+    mov ecx, edi
+    call 0x4e7e90               ; CItem(CResRef, 0, 0, 0, 0, 0)
+    jmp 0x7237a3
+.oryg:
+    mov eax, ecx
+    dec eax
+    cmp eax, 0x1d
+    ja 0x72375c
+    xor ecx, ecx
+    mov cl, [eax+0x723808]
+    jmp [ecx*4+0x7237dc]

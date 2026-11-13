@@ -122,7 +122,7 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
 
-BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz (wymaga exe z lata podklas, np. IWD2_1920x1080_test16.exe)~ DESIGNATED 2
+BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz (wymaga exe z lata podklas, np. IWD2_1920x1080_test17.exe)~ DESIGNATED 2
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
 
   // Dopisuje wiersz %wiersz% (kopia wiersza %wzor% albo zera), jesli go nie ma.
@@ -229,7 +229,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   OUTER_SET clr_help = RESOLVE_STR_REF(@223)
   OUTER_SET he_mixed = RESOLVE_STR_REF(@112)
   OUTER_SET patched = 0
-  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test16~ ~IWD2_1920x1080_test17~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
+  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test16~ ~IWD2_1920x1080_test17~ ~IWD2_1920x1080_test18~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
@@ -257,7 +257,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     END
   END
   ACTION_IF patched = 0 BEGIN
-    FAIL ~Nie znaleziono exe z lata podklas w ukladzie test16 (np. IWD2_1920x1080_test16.exe).~
+    FAIL ~Nie znaleziono exe z lata podklas w ukladzie test16 (np. IWD2_1920x1080_test17.exe).~
   END
 
   // --- 2. Tabele ---
@@ -307,6 +307,18 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   // tu: DSPALEMF.SPL (opcode 206 Protection from Spell, SPWI420) na 2. poziomie wszystkich tablic paladyna.
   // Uwaga: postac, ktora juz ma 2+ poziom paladyna, nie dostanie zdolnosci wstecz (CLAB dziala przy awansie).
   COPY ~darksun_rasy/spl/DSPALEMF.SPL~ ~override~
+       ~darksun_rasy/spl/DSDRVEN.SPL~  ~override~
+  // Druid od 9. poziomu: odpornosc na trucizne. W exe wylaczona (0x4A795E, tylko trucizna "naturalna"),
+  // tu: DSDRVEN.SPL (opcode 101 Immunity to effect, 25 Poison) - decyzja wlasciciela: kazda trucizna.
+  ACTION_FOR_EACH t IN ~CLABDR01~ ~CLABDR02~ ~CLABDR03~ ~CLABDR04~ BEGIN
+    ACTION_IF FILE_EXISTS_IN_GAME ~%t%.2da~ BEGIN
+      COPY_EXISTING ~%t%.2da~ ~override~
+        LPF ds_clab_poziom INT_VAR poziom = 9 STR_VAR zdolnosc = ~AP_DSDRVEN~ END
+    END
+  END
+  // Piesc mnicha: przedmiot z tabeli DSMFIST.2DA (wiersz = poziom mnicha, od test17; w exe 0x723417).
+  // Wartosci jak w oryginale (00MFIST1..9); zmiana tabeli zmienia piesc bez latania exe.
+  COPY ~darksun_rasy/2da/DSMFIST.2DA~ ~override~
   ACTION_FOR_EACH t IN ~CLABPA01~ ~CLABPA02~ ~CLABPA03~ ~CLABPA04~ BEGIN
     ACTION_IF FILE_EXISTS_IN_GAME ~%t%.2da~ BEGIN
       COPY_EXISTING ~%t%.2da~ ~override~
@@ -336,13 +348,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   // GUICG.CHU (przycisk 14 w oknie 12 dla nowego bostwa) dostarcza pakiet GUI 1920 (tools/iwd2_chu_kontrolka.py).
   // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie.
 
-BEGIN ~TEST: polelf atasyjski jako podrasa polelfa (tabele; lata exe w IWD2_1920x1080_test16.exe)~ DESIGNATED 3
+BEGIN ~TEST: polelf atasyjski jako podrasa polelfa (tabele; lata exe w IWD2_1920x1080_test17.exe)~ DESIGNATED 3
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   // Lata exe (test16, tools/iwd2_podklasy_exe.py, asm/halfelf.asm): GetRaceRow polelfa (0x541A42) -> HALF_ELF_DS,
   // nazwa podrasy na karcie postaci (0x544EC6, strref wpisuje komponent 2), zdolnosci rasowe bez asercji (0x7228E2),
   // przycisk polelfa otwiera okno podras (0x61C640).
-  ACTION_IF NOT FILE_EXISTS ~IWD2_1920x1080_test16.exe~ BEGIN
-    PRINT ~Uwaga: brak IWD2_1920x1080_test16.exe - tabele zostana dodane, ale gra bez laty nie pokaze podrasy.~
+  ACTION_IF NOT FILE_EXISTS ~IWD2_1920x1080_test17.exe~ BEGIN
+    PRINT ~Uwaga: brak IWD2_1920x1080_test17.exe - tabele zostana dodane, ale gra bez laty nie pokaze podrasy.~
   END
 
   // SRLIST: wiersz polelfa atasyjskiego (numer = liczba wierszy); przy ponownej instalacji odczytaj istniejacy numer.

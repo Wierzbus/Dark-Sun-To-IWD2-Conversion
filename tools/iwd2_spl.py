@@ -44,6 +44,8 @@ def spl(efekty: list[bytes], typ=4) -> bytes:
 ZDOLNOSCI = {
     # paladyn od 2. poziomu: odpornosc na czar Emotion: Fear (SPWI420); w exe 0x4A3A5A..0x4A3A84
     "DSPALEMF": [efekt(206, res=b"SPWI420")],
+    # druid od 9. poziomu: odpornosc na trucizne (opcode 101 Immunity to effect, 25 Poison); w exe 0x4A795E
+    "DSDRVEN": [efekt(101, p2=25)],
 }
 
 
