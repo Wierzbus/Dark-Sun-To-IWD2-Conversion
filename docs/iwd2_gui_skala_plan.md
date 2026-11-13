@@ -19,6 +19,13 @@ Skala S = wys. / 600 (1080 → 1,8). Zmiana rozdzielczości = ponowna instalacja
 | ikony | `iwd2_ikony.py` (32 → 48) | 32·S/1,2 |
 | exe: panel, ramki, portrety, ikony, kółka kolorów, ekran ładowania | stałe w `tools/iwd2_paczki_exe.py` (z test13) | makra WeiDU liczone z S (READ/WRITE z wyrażeniami) |
 
+## Punkt wyjscia
+W repo BGtoIWD2_mod (galaz aktualizacja-reguly-cre-gui) jest wczesniejszy generator GUI z parametrem rozdzielczosci:
+`tools/hires_patch.py --width W --height H` i pakiet `tools/guiscale/` (bamio, bamscale, mosio, fontgen z TTF,
+hudscale = GUIW10 i prefiks Z, screens = pozostale ekrany i prefiks Y/X). To z niego pochodza pliki Y*/Z*.
+Plan: przeniesc go tutaj, poprawic (zapis BAM bez kompresji RLE, zielen tylko na indeksie przezroczystym,
+suwaki GUISLDR, czcionki z limitem rozmiaru w grze) i podpiac pod instalator.
+
 ## Etap 2 – narzędzie `tools/iwd2_gui_skaluj.py --szer W --wys H`
 Wejście: pliki gry. Wyjście: folder override + `upscale_exe.tpa`. Te same reguły przezroczystości
 co dziś (zieleń tylko na indeksie przezroczystym, rozlanie krawędzi przed filtrem).
