@@ -113,3 +113,28 @@ Wpis tabeli kitów (32 B): +0 bit, +4 strref etykiety, +8 nazwa wiersza (do 15 z
 **WeiDU (komponent 2):** `CLABDS01` = CLABPA01 + `GA_SPIN209` (Prayer), `CLABDS02` = CLABFI05 + `GA_SPIN267` (Ilmater's Endurance), `CLABDS03` = CLABPR01 + `GA_SPIN264` (Tempus' Strength). Zdolność testowa trafia do 1. poziomu w pierwszym wolnym wierszu `ABILITYn`.
 
 **Pozostałe tabele.** `GetClassRow` z prawdziwym kitem wołają tylko: AbClasRq (0x5D96F3, 0x60BF13), Alignmnt, ClssRsMd (0x611EF0), KitList. XPLevel, EncMod i inne dostają kit 0. Komponent 2 dopisuje mimo to wiersze PALADIN_DS / BARBARIAN_DS / CLERIC_DS (kopia wiersza klasy bazowej, bez niego zera) do: ABCLASRQ, ABCLSMOD, CHPTXT2–7, CLASWEAP, CLSSRSMD, DUALCLAS, ENCMOD, KITTABLE, LORE, PROFS, PROFSMAX, QSLOTS, SKILLCLS, STRTGOLD, THAC0, XPLEVEL. Kolumn nie dodajemy: FEATCLAS / SKILCOST / SKILLPTS / TRAPSAVE mają kolumny klas, a FEATS / SKILLS czytają kolumny bóstw po indeksie z `0x5472FF`. Nieznany bit daje tam wartość domyślną.
+
+## 9. Test16: półelf, kity pięciu kolejnych klas, pierwsza zdolność klasy wyjęta z exe
+
+Exe budowane skryptem `tools/iwd2_podklasy_exe.py` (nasm + listing → adresy etykiet → haki), baza: test15.
+
+**Półelf atasyjski** (`asm/halfelf.asm`, komponent 3): 0x541A42 GetRaceRow półelfa (podrasa ≠ 0 → `HALF_ELF_DS`, napis w miejscu asercji, 56 B); 0x544EC6 nazwa podrasy na karcie postaci (`mov eax, strref; jmp 0x545009`, strref wpisuje WeiDU pod 0x144EC7); 0x7228E2 zdolności rasowe bez asercji (`je` → `jmp`); 0x61C640 przycisk półelfa → okno podras 54. Tabele: SRLIST, SR_HE, ABRACEAD, ABRACERQ, RACESPAB, RACERSMD, SAVERACE, SKILLRAC, STRTXP, SUBRACE.IDS (0x00030001). Ten sam komponent 2 wpisuje też strref mula pod 0x144FE7 (wcześniej stałe 42801).
+
+**Kity wojownika, tropiciela, druida, barda i zaklinacza** – jak barbarzyńca: przycisk klasy otwiera okno 52 (tablica 0x61C1A8, indeks = klasa − 1 → 0x61C0A5), przycisk 1 = bez podklasy, 2 = podklasa. Kod uogólniony (`szukaj_klase`: wpis tabeli po klasie): okno 52, kliknięcie, Gotowe (kit 0 dozwolony dla każdej klasy z wpisem oprócz paladyna). Nowy układ danych: 8 wpisów po 32 B od 0x846C00 (bity 0x01–0x80 << 24, CLABDS01–08), 0x846D00 koniec, 0x846D04 CLR_HELP, 0x846D08 NOK[klasa] (etykieta „bez podklasy”). Komponent 2 rozpoznaje exe po `FIGHTER_DS` pod 0x446C68; test14/15 (stary układ) nie są zmieniane.
+Wszystkie 8 wolnych bitów kitów jest teraz zajętych.
+
+**Zdolności klas zaszyte w exe.** Poziom klasy czyta `0x447990(klasa)` na CDerivedStats (`[obiekt+0x46+klasa]`). Wywołania ze stałą klasą (poza tabelami i rzucaniem czarów 0x7632xx/0x7638xx):
+| Klasa | Miejsce | Co robi (stan rozpoznania) | Zamiennik |
+|---|---|---|---|
+| paladyn ≥ 2 | 0x4A3A5A–0x4A3A84 (funkcja efektów 0x4A3310) | odporność na czar SPWI420 Emotion: Fear (efekt odrzucany, komunikat) – tylko gdy paladyn nie upadł | **zrobione**: warunek wyłączony, `DSPALEMF.SPL` (opcode 206, SPWI420) jako `AP_` na 2. poziomie CLABPA01–04 |
+| paladyn ≥ 2 | 0x4A48CF, 0x6F8EF4 | to samo dla sojuszników w promieniu 100 (aura) | do zrobienia: brak opcode'u aury – zostaje w exe |
+| kapłan + paladyn | 0x71B8D0 | poziom odpędzania nieumarłych = kapłan + (paladyn − 2) | wzór, nie zdolność – zostaje |
+| mnich 1–30 | 0x723412 | pięść mnicha: przedmiot 00MFIST1–9 zależnie od poziomu (tabela 0x723808) | do decyzji: tabela 2DA zamiast kodu (nie opcode) |
+| mnich | 0x72E354 | +poziom/3 do licznika (prawdopodobnie użycia ataku ogłuszającego) | do rozpoznania |
+| mnich ≥ 8, ≥ 12 | 0x739FE4 | −1/−1 do wartości 0x5604 (zakres 0–10; prawdopodobnie szybkość broni) | do rozpoznania |
+| mnich | 0x73E194, 0x73E390 | ST = wartość + poziom/2 − 1 (ogłuszenie / drżąca dłoń) | wzór – zostaje |
+| druid ≥ 9 | 0x4A7956 | efekt trucizny z typem 0x20 odrzucany (odporność na jad naturalny) | do decyzji: opcode 101 (25) blokuje każdą truciznę, nie tylko naturalną |
+| barbarzyńca < 20 | 0x4A5C79 | po szale zmęczenie (od 20. poziomu brak) | do rozpoznania |
+| barbarzyńca ≥ 15 | 0x5E5B22 | do rozpoznania | – |
+| paladyn + wojownik | 0x737BBE | upadły paladyn: poziomy paladyna przechodzą na wojownika | mechanika, nie zdolność – zostaje |
+Silnik obsługuje w CLAB prefiksy `FA_` (tylko tekst na karcie), `GA_` (zdolność wrodzona), `RA_`, `AP_` (efekty czaru nałożone od razu) – napisy w 0x8F9340, 0x8F9430, 0x8F94E0, 0x8F94C8.

@@ -30,3 +30,50 @@ Disadvantages:
 @223 = ~EARTH CLERIC: On Athas the gods are silent, and clerics draw their power from the elemental planes. Clerics of Earth revere stone and soil, the foundations that endure even under the dying sun.
 
 (Experimental cleric patron: Dark Sun conversion test. No domain bonuses yet.)~
+
+// --- Polelf atasyjski (komponent 3). Nazwy i opisy robocze - do decyzji wlasciciela. ---
+@111 = ~athasian half-elf~
+@112 = ~Athasian Half-Elf~
+@113 = ~ATHASIAN HALF-ELF: On Athas half-elves belong to neither of their parents' peoples. Shunned by humans and elves alike, most learn to live alone in the wastes and rely on no one but themselves.
+
+Advantages:
++2 Dexterity
++2 Constitution
+
+Disadvantages:
+-2 Intelligence
+-2 Charisma
+
+(Experimental subrace: Dark Sun conversion test.)~
+
+// --- Nowe podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
+@230 = ~Fighter~
+@231 = ~gladiator~
+@232 = ~Gladiator~
+@233 = ~GLADIATOR: The arenas of the city-states are the heart of Athasian entertainment. Gladiators are slaves and free fighters trained to win crowds as much as fights.
+
+(Experimental fighter subclass: Dark Sun conversion test. Test ability at level 1: Maximized Attacks.)~
+@240 = ~Ranger~
+@241 = ~waste ranger~
+@242 = ~Waste Ranger~
+@243 = ~WASTE RANGER: Rangers of Athas hunt across the stony barrens and silt flats, where water is the price of every mistake.
+
+(Experimental ranger subclass: Dark Sun conversion test. Test ability at level 1: Called Shot.)~
+@250 = ~Druid~
+@251 = ~guardian druid~
+@252 = ~Guardian Druid~
+@253 = ~GUARDIAN DRUID: Each druid of Athas guards one stretch of land, an oasis, a ridge or a dry river, and draws strength from the spirit of that place.
+
+(Experimental druid subclass: Dark Sun conversion test. Test ability at level 1: Elemental Shape - Fire Elemental.)~
+@260 = ~Bard~
+@261 = ~athasian bard~
+@262 = ~Athasian Bard~
+@263 = ~ATHASIAN BARD: In the city-states bards are entertainers, informants and poisoners for hire, welcome at every noble's table and trusted at none.
+
+(Experimental bard subclass: Dark Sun conversion test. Test ability at level 1: Invisibility.)~
+@270 = ~Sorcerer~
+@271 = ~psionicist~
+@272 = ~Psionicist~
+@273 = ~PSIONICIST: On Athas the power of the mind is as common as magic is feared. Psionicists train the Way to bend matter and thought with will alone.
+
+(Experimental sorcerer subclass: Dark Sun conversion test. Test ability at level 1: Spell Shield.)~

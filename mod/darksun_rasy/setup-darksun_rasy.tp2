@@ -122,7 +122,7 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
 
-BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe z lata podklas, np. IWD2_1920x1080_test15.exe)~ DESIGNATED 2
+BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz (wymaga exe z lata podklas, np. IWD2_1920x1080_test16.exe)~ DESIGNATED 2
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
 
   // Dopisuje wiersz %wiersz% (kopia wiersza %wzor% albo zera), jesli go nie ma.
@@ -183,58 +183,104 @@ BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe 
     END
   END
 
+  // Wpisuje %zdolnosc% na poziom %poziom% w pierwszym wolnym wierszu ABILITYn tablicy CLAB; nic, jesli juz jest.
+  DEFINE_PATCH_FUNCTION ds_clab_poziom
+    INT_VAR poziom = 1
+    STR_VAR zdolnosc = ~~
+  BEGIN
+    COUNT_2DA_COLS ds_ncol
+    READ_2DA_ENTRIES_NOW ds_t ds_ncol
+    SET ds_r = 0 - 1
+    SET ds_jest = 0
+    FOR (ds_i = 0; ds_i < ds_t; ++ds_i) BEGIN
+      READ_2DA_ENTRY_FORMER ds_t ds_i poziom ds_v
+      PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%zdolnosc%~) BEGIN SET ds_jest = 1 END
+      PATCH_IF ((ds_r < 0) AND (~%ds_v%~ STRING_EQUAL ~****~)) BEGIN SET ds_r = ds_i END
+    END
+    PATCH_IF ((ds_jest = 0) AND (ds_r >= 0)) BEGIN
+      SET_2DA_ENTRY ds_r poziom ds_ncol ~%zdolnosc%~
+    END
+  END
+
   // --- 1. Teksty -> numery w tabeli kitow w exe (0x846C00; zrodlo: darksun_rasy/asm/podklasy.asm) ---
-  // Wpis po 32 B: bit kitu, strref etykiety, nazwa wiersza. Exe rozpoznajemy po nazwie PALADIN_DS pod 0x446C08.
-  OUTER_SET pal_mixed = RESOLVE_STR_REF(@202)
-  OUTER_SET bbn_std   = RESOLVE_STR_REF(@211)
-  OUTER_SET bbn_mixed = RESOLVE_STR_REF(@213)
-  OUTER_SET clr_mixed = RESOLVE_STR_REF(@222)
-  OUTER_SET clr_help  = RESOLVE_STR_REF(@223)
+  // Wpis po 32 B: bit kitu, strref etykiety, nazwa wiersza, klasa, CLAB. Za tabela: CLR_HELP (0x846D04)
+  // i NOK[klasa] (0x846D08, etykieta "bez podklasy"). Exe rozpoznajemy po nazwie FIGHTER_DS pod 0x446C68
+  // (uklad od test16; test14/test15 maja stary uklad i nie sa zmieniane).
+  // kity: (indeks wpisu, klasa, wiersz, bit) => tra lower (mixed = +1, help = +2)
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_kity BEGIN
+    0, 7,  PALADIN_DS,   0x01000000 => 201
+    1, 1,  BARBARIAN_DS, 0x02000000 => 212
+    2, 3,  CLERIC_DS,    0x04000000 => 221
+    3, 5,  FIGHTER_DS,   0x08000000 => 231
+    4, 8,  RANGER_DS,    0x10000000 => 241
+    5, 4,  DRUID_DS,     0x20000000 => 251
+    6, 2,  BARD_DS,      0x40000000 => 261
+    7, 10, SORCERER_DS,  0x80000000 => 271
+  END
+  // etykiety "bez podklasy" w oknie 52: klasa => tra
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
+    1 => 211
+    2 => 260
+    4 => 250
+    5 => 230
+    8 => 240
+    10 => 270
+  END
+  OUTER_SET clr_help = RESOLVE_STR_REF(@223)
+  OUTER_SET he_mixed = RESOLVE_STR_REF(@112)
   OUTER_SET patched = 0
-  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test14~ ~IWD2_1920x1080_test15~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
+  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test16~ ~IWD2_1920x1080_test17~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
-        PATCH_IF (BUFFER_LENGTH > 0x446C70) BEGIN
-          READ_ASCII 0x446C08 nm (10)
-          PATCH_IF (~%nm%~ STRING_EQUAL ~PALADIN_DS~) BEGIN SET ok = 1 END
+        PATCH_IF (BUFFER_LENGTH > 0x446D40) BEGIN
+          READ_ASCII 0x446C68 nm (10)
+          PATCH_IF (~%nm%~ STRING_EQUAL ~FIGHTER_DS~) BEGIN SET ok = 1 END
         END
       ACTION_IF ok BEGIN
         COPY ~%src%.exe~ ~%src%.exe~
-          WRITE_LONG 0x446C04 pal_mixed
-          WRITE_LONG 0x446C24 bbn_mixed
-          WRITE_LONG 0x446C44 clr_mixed
-          WRITE_LONG 0x446C64 bbn_std
-          WRITE_LONG 0x446C68 clr_help
+          PHP_EACH ds_kity AS k => tra BEGIN
+            SET mixed = RESOLVE_STR_REF((AT (tra + 1)))
+            WRITE_LONG (0x446C04 + 32 * k_0) mixed
+          END
+          WRITE_LONG 0x446D04 clr_help
+          PHP_EACH ds_nok AS kl => tra BEGIN
+            SET t = RESOLVE_STR_REF((AT tra))
+            WRITE_LONG (0x446D08 + 4 * kl) t
+          END
+          // polelf (komponent 3): nazwa podrasy na karcie postaci; mul: to samo pole wpisane z tekstu moda
+          PATCH_IF (BYTE_AT 0x144EC6 = 0xB8) BEGIN WRITE_LONG 0x144EC7 he_mixed END
+          PATCH_IF (BYTE_AT 0x144FE6 = 0xB8) BEGIN WRITE_LONG 0x144FE7 (RESOLVE_STR_REF(@102)) END
         OUTER_SET patched = patched + 1
         PRINT ~%src%.exe: wpisano teksty podklas.~
       END
     END
   END
   ACTION_IF patched = 0 BEGIN
-    FAIL ~Nie znaleziono exe z lata podklas (np. IWD2_1920x1080_test15.exe).~
+    FAIL ~Nie znaleziono exe z lata podklas w ukladzie test16 (np. IWD2_1920x1080_test16.exe).~
   END
 
   // --- 2. Tabele ---
-  // KITLIST: teksty kitu (HELP czyta gra po nazwie wiersza z GetClassRow).
-  OUTER_SET pal_lower = RESOLVE_STR_REF(@201)
-  OUTER_SET pal_help  = RESOLVE_STR_REF(@203)
-  OUTER_SET bbn_lower = RESOLVE_STR_REF(@212)
-  OUTER_SET bbn_help  = RESOLVE_STR_REF(@214)
-  OUTER_SET clr_lower = RESOLVE_STR_REF(@221)
-  APPEND ~KITLIST.2DA~ ~PALADIN_DS              %pal_lower% %pal_mixed% %pal_help%~ UNLESS ~PALADIN_DS~
-  APPEND ~KITLIST.2DA~ ~BARBARIAN_DS            %bbn_lower% %bbn_mixed% %bbn_help%~ UNLESS ~BARBARIAN_DS~
-  APPEND ~KITLIST.2DA~ ~CLERIC_DS               %clr_lower% %clr_mixed% %clr_help%~ UNLESS ~CLERIC_DS~
+  // KITLIST: teksty kitu (HELP czyta gra po nazwie wiersza z GetClassRow); KIT.IDS: bity z wolnej puli.
+  ACTION_PHP_EACH ds_kity AS k => tra BEGIN
+    OUTER_SET lower = RESOLVE_STR_REF((AT tra))
+    OUTER_SET mixed = RESOLVE_STR_REF((AT (tra + 1)))
+    OUTER_SET help  = RESOLVE_STR_REF((AT (tra + 2)))
+    APPEND ~KITLIST.2DA~ ~%k_2%              %lower% %mixed% %help%~ UNLESS ~%k_2%~
+    APPEND ~KIT.IDS~ ~%k_3% %k_2%~ UNLESS ~%k_2%~
+  END
 
-  // ALIGNMNT: dozwolone charaktery (L_G L_N L_E N_G N_N N_E C_G C_N C_E) - propozycja do decyzji wlasciciela.
+  // ALIGNMNT: dozwolone charaktery (L_G L_N L_E N_G N_N N_E C_G C_N C_E) - propozycja do decyzji wlasciciela;
+  // nowe kity wojownika, tropiciela, druida, barda i zaklinacza: jak klasa bazowa.
   APPEND ~ALIGNMNT.2DA~ ~PALADIN_DS	1	0	0	0	0	0	0	0	0~ UNLESS ~PALADIN_DS~
   APPEND ~ALIGNMNT.2DA~ ~BARBARIAN_DS	0	0	0	1	1	1	1	1	1~ UNLESS ~BARBARIAN_DS~
   APPEND ~ALIGNMNT.2DA~ ~CLERIC_DS	1	1	1	1	1	1	1	1	1~ UNLESS ~CLERIC_DS~
-
-  // KIT.IDS: bity z wolnej puli (skrypty).
-  APPEND ~KIT.IDS~ ~0x01000000 PALADIN_DS~ UNLESS ~PALADIN_DS~
-  APPEND ~KIT.IDS~ ~0x02000000 BARBARIAN_DS~ UNLESS ~BARBARIAN_DS~
-  APPEND ~KIT.IDS~ ~0x04000000 CLERIC_DS~ UNLESS ~CLERIC_DS~
+  COPY_EXISTING ~ALIGNMNT.2DA~ ~override~
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~FIGHTER_DS~  wzor = ~FIGHTER~  END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~RANGER_DS~   wzor = ~RANGER~   END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~DRUID_DS~    wzor = ~DRUID~    END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~BARD_DS~     wzor = ~BARD~     END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~SORCERER_DS~ wzor = ~SORCERER~ END
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -248,17 +294,102 @@ BEGIN ~TEST: podklasy - zakon paladyna, barbarzynca, bostwo kaplana (wymaga exe 
         LPF ds_wiersz_kitu STR_VAR wiersz = ~PALADIN_DS~   wzor = ~PALADIN~   END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_DS~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS~    wzor = ~CLERIC~    END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~FIGHTER_DS~   wzor = ~FIGHTER~   END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~RANGER_DS~    wzor = ~RANGER~    END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DRUID_DS~     wzor = ~DRUID~     END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~BARD_DS~      wzor = ~BARD~      END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SORCERER_DS~  wzor = ~SORCERER~  END
     END
   END
 
-  // --- 4. Tablice zdolnosci CLAB (exe od test15 wybiera je po kicie, nazwy w tabeli 0x846C18) ---
+  // --- 4a. Zdolnosci klas wyjete z exe (test16, tools/iwd2_podklasy_exe.py) -> SPL + AP_ w CLAB ---
+  // Paladyn od 2. poziomu: odpornosc na czar Emotion: Fear (SPWI420). W exe wylaczone (0x4A3A84),
+  // tu: DSPALEMF.SPL (opcode 206 Protection from Spell, SPWI420) na 2. poziomie wszystkich tablic paladyna.
+  // Uwaga: postac, ktora juz ma 2+ poziom paladyna, nie dostanie zdolnosci wstecz (CLAB dziala przy awansie).
+  COPY ~darksun_rasy/spl/DSPALEMF.SPL~ ~override~
+  ACTION_FOR_EACH t IN ~CLABPA01~ ~CLABPA02~ ~CLABPA03~ ~CLABPA04~ BEGIN
+    ACTION_IF FILE_EXISTS_IN_GAME ~%t%.2da~ BEGIN
+      COPY_EXISTING ~%t%.2da~ ~override~
+        LPF ds_clab_poziom INT_VAR poziom = 2 STR_VAR zdolnosc = ~AP_DSPALEMF~ END
+    END
+  END
+
+  // --- 4. Tablice zdolnosci CLAB (exe wybiera je po kicie i klasie, nazwy w tabeli 0x846C18 + 32*i) ---
   // Kopia tablicy klasy bazowej + testowa zdolnosc na 1. poziomie (wolny wiersz ABILITYn, kolumna 1).
-  COPY_EXISTING ~CLABPA01.2da~ ~override/CLABDS01.2da~   // zakon templariuszy: Modlitwa
+  COPY_EXISTING ~CLABPA01.2da~ ~override/CLABDS01.2da~   // zakon templariuszy: Prayer
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN209~ END
-  COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS02.2da~   // barbarzynca atasyjski: Wytrwalosc
+  COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS02.2da~   // barbarzynca atasyjski: Ilmater's Endurance
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN267~ END
-  COPY_EXISTING ~CLABPR01.2da~ ~override/CLABDS03.2da~   // kaplan ziemi: Sila
+  COPY_EXISTING ~CLABPR01.2da~ ~override/CLABDS03.2da~   // kaplan ziemi: Tempus' Strength
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN264~ END
+  COPY_EXISTING ~CLABFI01.2da~ ~override/CLABDS04.2da~   // gladiator: Maximized Attacks
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN197~ END
+  COPY_EXISTING ~CLABRN01.2da~ ~override/CLABDS05.2da~   // tropiciel pustkowi: Called Shot
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN204~ END
+  COPY_EXISTING ~CLABDR01.2da~ ~override/CLABDS06.2da~   // druid ziem strzezonych: Elemental Shape - Fire Elemental
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN141~ END
+  COPY_EXISTING ~CLABBA01.2da~ ~override/CLABDS07.2da~   // bard Athasu: Invisibility
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN191~ END
+  COPY_EXISTING ~CLABSR01.2da~ ~override/CLABDS08.2da~   // psionik: Spell Shield
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN243~ END
 
   // GUICG.CHU (przycisk 14 w oknie 12 dla nowego bostwa) dostarcza pakiet GUI 1920 (tools/iwd2_chu_kontrolka.py).
   // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie.
+
+BEGIN ~TEST: polelf atasyjski jako podrasa polelfa (tabele; lata exe w IWD2_1920x1080_test16.exe)~ DESIGNATED 3
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  // Lata exe (test16, tools/iwd2_podklasy_exe.py, asm/halfelf.asm): GetRaceRow polelfa (0x541A42) -> HALF_ELF_DS,
+  // nazwa podrasy na karcie postaci (0x544EC6, strref wpisuje komponent 2), zdolnosci rasowe bez asercji (0x7228E2),
+  // przycisk polelfa otwiera okno podras (0x61C640).
+  ACTION_IF NOT FILE_EXISTS ~IWD2_1920x1080_test16.exe~ BEGIN
+    PRINT ~Uwaga: brak IWD2_1920x1080_test16.exe - tabele zostana dodane, ale gra bez laty nie pokaze podrasy.~
+  END
+
+  // SRLIST: wiersz polelfa atasyjskiego (numer = liczba wierszy); przy ponownej instalacji odczytaj istniejacy numer.
+  COPY_EXISTING ~SRLIST.2DA~ ~override~
+    COUNT_2DA_ROWS 8 n
+    SET srlist_row = 0 - 1
+    FOR (SET r = 0; r < n; SET r = r + 1) BEGIN
+      READ_2DA_ENTRY r 1 8 nm
+      PATCH_IF (~%nm%~ STRING_EQUAL_CASE ~HALF_ELF_DS~) BEGIN
+        READ_2DA_ENTRY r 0 8 srlist_row
+      END
+    END
+    PATCH_IF (srlist_row < 0) BEGIN
+      SET lower = RESOLVE_STR_REF(@111)
+      SET mixed = RESOLVE_STR_REF(@112)
+      SET help = RESOLVE_STR_REF(@113)
+      SET srlist_row = n
+      INSERT_2DA_ROW n 8 ~%srlist_row% HALF_ELF_DS %lower% %mixed% %help% 1 HAIRNORM SKINNORM~
+    END
+    BUT_ONLY
+
+  // SR_HE: lista podras polelfa w kreatorze (wiersze SRLIST).
+  COPY_EXISTING ~SR_HE.2DA~ ~override~
+    COUNT_2DA_ROWS 2 n
+    SET found = 0
+    SET maxlab = 0
+    FOR (SET r = 0; r < n; SET r = r + 1) BEGIN
+      READ_2DA_ENTRY r 0 2 lab
+      READ_2DA_ENTRY r 1 2 v
+      PATCH_IF (IS_AN_INT lab) BEGIN
+        PATCH_IF (lab > maxlab) BEGIN SET maxlab = lab END
+        PATCH_IF (~%v%~ STRING_EQUAL ~%srlist_row%~) BEGIN SET found = 1 END
+      END
+    END
+    PATCH_IF (found = 0) BEGIN
+      SET k = maxlab + 1
+      INSERT_2DA_ROW n 2 ~%k% %srlist_row%~
+    END
+    BUT_ONLY
+
+  // Propozycja cech (do decyzji wlasciciela): ZRE +2, KON +2, INT -2, CHA -2 (polelf Athasu: wytrzymaly samotnik
+  // z pustkowi, odrzucany przez ludzi i elfy). Reszta jak HALF_ELF.
+  APPEND ~ABRACEAD.2DA~ ~HALF_ELF_DS             0       2       2       -2      0       -2~ UNLESS ~HALF_ELF_DS~
+  APPEND ~ABRACERQ.2DA~ ~HALF_ELF_DS             3       18      3       18      3       18      3       18      3       18      3       18~ UNLESS ~HALF_ELF_DS~
+  APPEND ~RACESPAB.2DA~ ~HALF_ELF_DS             *~ UNLESS ~HALF_ELF_DS~
+  APPEND ~RACERSMD.2DA~ ~HALF_ELF_DS             0       0       0       0       0       0       0       0       0       0       0~ UNLESS ~HALF_ELF_DS~
+  APPEND ~SAVERACE.2DA~ ~HALF_ELF_DS             0       0       0~ UNLESS ~HALF_ELF_DS~
+  APPEND ~SKILLRAC.2DA~ ~HALF_ELF_DS             5       2       1       2       2       0       0       0~ UNLESS ~HALF_ELF_DS~
+  APPEND ~STRTXP.2DA~   ~HALF_ELF_DS             0~ UNLESS ~HALF_ELF_DS~
+  APPEND ~SUBRACE.IDS~  ~0x00030001 HALF_ELF_DS~ UNLESS ~HALF_ELF_DS~

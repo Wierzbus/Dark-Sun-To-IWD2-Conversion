@@ -1,12 +1,13 @@
-; Podklasy (kity) dla IWD2 GOG 2.01 – paladyn, barbarzynca, kaplan; tablice CLAB nowych kitow.
+; Podklasy (kity) dla IWD2 GOG 2.01 – paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz;
+; tablice CLAB nowych kitow.
 ; Kod w niewykorzystanym koncu sekcji .text (0x8468F1..0x847000).
 bits 32
 org 0x846900
 
 TAB        equ 0x846C00          ; wpisy po 32 B: +0 bit kitu, +4 strref etykiety, +8 nazwa wiersza (ASCIIZ, do 15 znakow),
                                  ; +0x17 numer klasy, +0x18 nazwa tablicy CLAB (8 znakow, 0 = brak)
-BBN0_STR   equ 0x846C64          ; strref etykiety "barbarzynca bez podklasy"
-CLR_HELP   equ 0x846C68          ; strref opisu nowego bostwa (okno 12)
+CLR_HELP   equ 0x846D04          ; strref opisu nowego bostwa (okno 12)
+NOK        equ 0x846D08          ; 12 x strref etykiety "bez podklasy" wg numeru klasy (okno 52, przycisk 1)
 OBJ        equ 0xA1AF00          ; 3 obiekty C2DArray po 0x24 B (koniec .data, VirtualSize podniesiony do 0x176000)
 FLG        equ 0xA1AF70          ; 3 bajty: tablica CLAB juz wczytana
 
@@ -66,20 +67,37 @@ tekst:
     pop esi
     ret 8
 
+; ---------------------------------------------------------------- szukaj_klase: cl = klasa -> edx = wpis TAB albo 0
+szukaj_klase:
+    mov edx, TAB
+.p: cmp dword [edx], 0
+    je .brak
+    cmp cl, [edx+0x17]
+    je .r
+    add edx, 32
+    jmp .p
+.brak:
+    xor edx, edx
+.r: ret
+
 ; ---------------------------------------------------------------- okno 52: wybor galezi (0x60D6C3, eax = klasa-6)
+; mnich i paladyn jak w oryginale; klasa z wpisem w TAB: przycisk 1 = bez podklasy (NOK), 2 = podklasa
 okno52:
     test eax, eax
     je 0x60d758                 ; mnich
     cmp eax, 1
     je 0x60d6d0                 ; paladyn
-    cmp eax, -5
-    je .barbarzynca
-    jmp 0x60d7fb
-.barbarzynca:
-    push dword [BBN0_STR]
+    lea ecx, [eax+6]
+    call szukaj_klase
+    test edx, edx
+    jz .bez
+    push edx
+    and ecx, 0xff
+    push dword [NOK+4*ecx]
     push edi                    ; przycisk 1
     call tekst
-    mov eax, [TAB+32+4]
+    pop edx
+    mov eax, [edx+4]
     cmp eax, -1
     je .bez
     push eax
@@ -101,32 +119,45 @@ paladyn4:
 .k: jmp 0x60d7db
 
 ; ---------------------------------------------------------------- klikniecie w oknie 52 (zamiast mov [edx+0x80C],eax w 0x621DBE)
+; paladyn: przycisk 4 -> bit z TAB; inne klasy z wpisem: przycisk 2 -> bit, 1 -> 0 (bez podklasy)
 klik:
-    movzx ecx, byte [esp+0x18]  ; klasa ([esp+0x14] w funkcji)
-    cmp ecx, 7
-    jne .b
+    push edx
+    mov ecx, [esp+0x1c]         ; klasa ([esp+0x14] w funkcji)
+    call szukaj_klase
+    test edx, edx
+    jz .zapisz
+    cmp byte [esp+0x1c], 7
+    jne .inna
     cmp dword [esi+0xa], 4
     jne .zapisz
-    mov eax, [TAB]
+    mov eax, [edx]
     jmp .zapisz
-.b: cmp ecx, 1
-    jne .zapisz
+.inna:
     xor eax, eax
     cmp dword [esi+0xa], 2
     jne .zapisz
-    mov eax, [TAB+32]
+    mov eax, [edx]
 .zapisz:
+    pop edx
     mov [edx+0x80c], eax
     ret
 
 ; ---------------------------------------------------------------- przycisk Gotowe w oknie 52 (zamiast mov ebp,[ebp+0x80C] w 0x615C50)
-; barbarzynca moze nie miec podklasy (kit 0)
+; klasy z wpisem w TAB (poza paladynem) moga nie miec podklasy (kit 0)
 gotowe:
     mov ebp, [ebp+0x80c]
     test ebp, ebp
     jnz .r
-    cmp byte [esp+0x28], 1      ; klasa ([esp+0x24] w funkcji)
-    jne .r
+    cmp byte [esp+0x28], 7      ; klasa ([esp+0x24] w funkcji); paladyn musi miec zakon
+    je .r
+    push ecx
+    push edx
+    mov ecx, [esp+0x30]
+    call szukaj_klase
+    test edx, edx
+    pop edx
+    pop ecx
+    jz .r
     inc ebp
 .r: ret
 
@@ -252,6 +283,11 @@ dane:
     kit 0x01000000, 'PALADIN_DS',   7, 'CLABDS01'
     kit 0x02000000, 'BARBARIAN_DS', 1, 'CLABDS02'
     kit 0x04000000, 'CLERIC_DS',    3, 'CLABDS03'
-    dd 0                        ; koniec tabeli
-    dd -1                       ; BBN0_STR
+    kit 0x08000000, 'FIGHTER_DS',   5, 'CLABDS04'
+    kit 0x10000000, 'RANGER_DS',    8, 'CLABDS05'
+    kit 0x20000000, 'DRUID_DS',     4, 'CLABDS06'
+    kit 0x40000000, 'BARD_DS',      2, 'CLABDS07'
+    kit 0x80000000, 'SORCERER_DS', 10, 'CLABDS08'
+    dd 0                        ; koniec tabeli (0x846D00)
     dd -1                       ; CLR_HELP
+    times 12 dd -1              ; NOK[klasa]
