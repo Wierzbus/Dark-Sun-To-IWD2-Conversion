@@ -19,6 +19,19 @@ python tools\wyciagnij_rasy.py --game-dir "D:\Gry\Icewind Dale 2" --out iwd2_ras
 ```
 `--tlk` dołącza dialog.tlk (nazwy i opisy ras). Wynik zawiera pliki gry, więc nie trafia do Gita.
 
+## Paczki testowe (instalatory WeiDU)
+Trzy niezalezne paczki, kazda z wlasnym setup-*.exe (kopia WeiDU), rozpakowywane do katalogu IWD2:
+1. **iwd2_upscale** – 1920x1080: komponent 1 tworzy `IWD2_1920.exe` z oryginalnego IWD2.exe (makra z
+   `tools/iwd2_paczki_exe.py`), dalej GUI, portrety, ikony. Grafiki to przetworzone zasoby gry – tylko w paczce, nie w Gicie.
+2. **darksun_rasy** – komponent 0 tworzy `IWD2_DS.exe` i `IWD2_1920_DS.exe` (latki ras i klas na dowolnym z tych exe),
+   komponenty 1–3: mul, podklasy ze zdolnosciami z 2DA, polelf. Przycisk bostwa w GUICG.CHU dopisuje `ds_chu_przycisk.tph`.
+3. **iwd2_nowe_lokacje** – AR9020, AR9021, AR9022 (Dark Sun) i skok w dialogu Hedrona; lokacje zbudowane przed spakowaniem.
+
+Makra exe (`*_exe.tpa`) zawieraja fragmenty kodu gry do kontroli oryginalu, wiec sa generowane, nie commitowane:
+```
+python tools/iwd2_paczki_exe.py --orig IWD2.exe --upscale IWD2_1920x1080_test13.exe --rasy IWD2_1920x1080_test19.exe --out-upscale upscale_exe.tpa --out-rasy mod/darksun_rasy/darksun_rasy/exe/rasy_exe.tpa
+```
+
 ## Rasy i podrasy Dark Sun w IWD2 (mod WeiDU `darksun_rasy`, eksperymentalny)
 Komponent 1 (TEST): mul jako podrasa półorka. Dopisuje wiersze do SRLIST, SR_HO, ABRACEAD, ABRACERQ, RACESPAB,
 RACERSMD, SAVERACE, SKILLRAC i SUBRACE.IDS oraz tworzy **kopie** EXE z łatką funkcji GetRaceRow (0x541940):

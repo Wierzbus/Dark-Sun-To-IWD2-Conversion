@@ -22,3 +22,6 @@ __pycache__/
 *.zip
 # teksty wlasne moda (nie z gry)
 !mod/darksun_rasy/darksun_rasy/tra/*.tra
+
+# lata exe generowane z exe gry (tools/iwd2_paczki_exe.py)
+mod/darksun_rasy/darksun_rasy/exe/

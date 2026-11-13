@@ -1,73 +1,53 @@
-// Dark Sun -> IWD2: rasy i podrasy (eksperymentalne). WeiDU uruchamia wlasciciel.
+// Dark Sun -> IWD2: rasy, podrasy i podklasy (eksperymentalne). WeiDU uruchamia wlasciciel.
 // Folder darksun_rasy i ten plik musza lezec w katalogu IWD2 (obok setup-darksun_rasy.exe = kopia WeiDU).
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
+VERSION ~test-2026-11-13~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
-BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopiach EXE *_DS.exe)~ DESIGNATED 1
+BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_1920_DS.exe (z IWD2_1920.exe z paczki 1, jesli jest)~ DESIGNATED 0
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
-
-  // --- 1. Lata EXE: tylko na kopii, tylko gdy kod w miejscu latki jest identyczny z IWD2.exe GOG 2.01 ---
-  // Galaz polorka (rasa 7) w GetRaceRow: podrasa 0 -> "HALF_ORC", inna -> "HALF_ORC_MUL"
-  // (napis w luce wypelnienia 0x542551). Zrodlo: darksun_rasy/asm/halforc.asm, opis: docs/iwd2_exe_rasy_klasy.md.
+  // Lata z tools/iwd2_paczki_exe.py (darksun_rasy/exe/rasy_exe.tpa): mul i polelf (GetRaceRow, nazwa podrasy,
+  // zdolnosci rasowe, okno podras), 8 podklas (asm/podklasy.asm), zdolnosci klas z 2DA (asm/dodatki.asm),
+  // szybkosc barbarzyncy. Miejsca nie pokrywaja sie z latami paczki 1, wiec dziala na obu exe.
+  INCLUDE ~darksun_rasy/exe/rasy_exe.tpa~
   OUTER_SET patched = 0
-  ACTION_FOR_EACH src IN ~IWD2~ ~IWD2_1920x1080~ ~IWD2_1920x1080_bezramki~ BEGIN
+  ACTION_FOR_EACH src IN ~IWD2~ ~IWD2_1920~ BEGIN
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
-        PATCH_IF (BUFFER_LENGTH > 0x142560) BEGIN
-          PATCH_IF NOT ((LONG_AT 0x141bc4 != 0x1424448a) OR
-          (LONG_AT 0x141bc8 != 0x1974c084) OR
-          (LONG_AT 0x141bcc != 0xc868006a) OR
-          (LONG_AT 0x141bd0 != 0x68008ae0) OR
-          (LONG_AT 0x141bd4 != 0x008ae0f4) OR
-          (LONG_AT 0x141bd8 != 0x00047668) OR
-          (LONG_AT 0x141bdc != 0xf01ee800) OR
-          (LONG_AT 0x141be0 != 0xc4830023) OR
-          (LONG_AT 0x141be4 != 0x24748b10) OR
-          (LONG_AT 0x141be8 != 0xe8c4680c) OR
-          (LONG_AT 0x141bec != 0xce8b008d) OR
-          (LONG_AT 0x141bf0 != 0x2bad9ae8) OR
-          (LONG_AT 0x141bf4 != 0x5ec68b00) OR
-          (LONG_AT 0x141bf8 != 0x000cc259) OR
-          (LONG_AT 0x142550 != 0x90909000) OR
-          (LONG_AT 0x142554 != 0x90909090) OR
-          (LONG_AT 0x142558 != 0x90909090) OR
-          (LONG_AT 0x14255c != 0x90909090)) BEGIN
-            SET ok = 1
-          END
-        END
+        LPM ds_rasy_sprawdz
+        SET ok = ds_rasy_ok
       ACTION_IF ok BEGIN
         COPY ~%src%.exe~ ~%src%_DS.exe~
-      WRITE_LONG 0x141bc4 0x0c24748b
-      WRITE_LONG 0x141bc8 0x14247c80
-      WRITE_LONG 0x141bcc 0x68107500
-      WRITE_LONG 0x141bd0 0x008de8c4
-      WRITE_LONG 0x141bd4 0x8fb8f189
-      WRITE_LONG 0x141bd8 0xff007fc9
-      WRITE_LONG 0x141bdc 0x680eebd0
-      WRITE_LONG 0x141be0 0x00542551
-      WRITE_LONG 0x141be4 0x88b8f189
-      WRITE_LONG 0x141be8 0xff007fcc
-      WRITE_LONG 0x141bec 0x5ef089d0
-      WRITE_LONG 0x141bf0 0x000cc259
-      WRITE_LONG 0x141bf4 0x90909090
-      WRITE_LONG 0x141bf8 0x90909090
-      WRITE_LONG 0x142550 0x4c414800
-      WRITE_LONG 0x142554 0x524f5f46
-      WRITE_LONG 0x142558 0x554d5f43
-      WRITE_LONG 0x14255c 0x9090004c
+          LPM ds_rasy_zapisz
         OUTER_SET patched = patched + 1
-        PRINT ~Utworzono %src%_DS.exe z lata.~
+        PRINT ~Utworzono %src%_DS.exe.~
       END ELSE BEGIN
-        PRINT ~%src%.exe: kod w miejscu latki rozni sie od IWD2.exe GOG 2.01 - pomijam ten plik.~
+        PRINT ~%src%.exe: kod w miejscach lat rozni sie od IWD2.exe GOG 2.01 - pomijam.~
       END
     END
   END
   ACTION_IF patched = 0 BEGIN
-    FAIL ~Zaden plik EXE nie pasuje do latki (wymagany IWD2.exe GOG 2.01).~
+    FAIL ~Zaden plik EXE nie pasuje do lat (wymagany IWD2.exe GOG 2.01).~
+  END
+  ACTION_IF NOT FILE_EXISTS ~IWD2_1920.exe~ BEGIN
+    PRINT ~Brak IWD2_1920.exe (paczka 1). Po jej instalacji przeinstaluj ten komponent, zeby powstal IWD2_1920_DS.exe.~
+  END
+
+BEGIN ~TEST: mul jako podrasa polorka~ DESIGNATED 1
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
+
+  // --- 1. Nazwa podrasy na karcie postaci: strref z tekstu moda w kopiach *_DS.exe (0x544FE6: mov eax, strref) ---
+  OUTER_SET mul_mixed = RESOLVE_STR_REF(@102)
+  ACTION_FOR_EACH src IN ~IWD2_DS~ ~IWD2_1920_DS~ BEGIN
+    ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
+      COPY ~%src%.exe~ ~%src%.exe~
+        PATCH_IF (BYTE_AT 0x144FE6 = 0xB8) BEGIN WRITE_LONG 0x144FE7 mul_mixed END
+    END
   END
 
   // --- 2. Tabele ---
@@ -122,8 +102,9 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
 
-BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz (wymaga exe z lata podklas, np. IWD2_1920x1080_test19.exe)~ DESIGNATED 2
+BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz; zdolnosci klas z 2DA~ DESIGNATED 2
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
 
   // Dopisuje wiersz %wiersz% (kopia wiersza %wzor% albo zera), jesli go nie ma.
   DEFINE_PATCH_FUNCTION ds_wiersz_kitu
@@ -239,9 +220,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     10 => 270
   END
   OUTER_SET clr_help = RESOLVE_STR_REF(@223)
-  OUTER_SET he_mixed = RESOLVE_STR_REF(@112)
   OUTER_SET patched = 0
-  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test16~ ~IWD2_1920x1080_test17~ ~IWD2_1920x1080_test18~ ~IWD2_1920x1080_test19~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
+  ACTION_FOR_EACH src IN ~IWD2_DS~ ~IWD2_1920_DS~ BEGIN
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
@@ -260,16 +240,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
             SET t = RESOLVE_STR_REF((AT tra))
             WRITE_LONG (0x446D08 + 4 * kl) t
           END
-          // polelf (komponent 3): nazwa podrasy na karcie postaci; mul: to samo pole wpisane z tekstu moda
-          PATCH_IF (BYTE_AT 0x144EC6 = 0xB8) BEGIN WRITE_LONG 0x144EC7 he_mixed END
-          PATCH_IF (BYTE_AT 0x144FE6 = 0xB8) BEGIN WRITE_LONG 0x144FE7 (RESOLVE_STR_REF(@102)) END
         OUTER_SET patched = patched + 1
         PRINT ~%src%.exe: wpisano teksty podklas.~
       END
     END
   END
   ACTION_IF patched = 0 BEGIN
-    FAIL ~Nie znaleziono exe z lata podklas w ukladzie test16 (np. IWD2_1920x1080_test18.exe).~
+    FAIL ~Nie znaleziono IWD2_DS.exe ani IWD2_1920_DS.exe (komponent 0).~
   END
 
   // --- 2. Tabele ---
@@ -428,16 +405,24 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   COPY_EXISTING ~CLABSR01.2da~ ~override/CLABDS08.2da~   // psionik: Spell Shield
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN243~ END
 
-  // GUICG.CHU (przycisk 14 w oknie 12 dla nowego bostwa) dostarcza pakiet GUI 1920 (tools/iwd2_chu_kontrolka.py).
-  // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie.
+  // GUICG.CHU: przycisk 14 w oknie 12 (nowe bostwo kaplana) - kopia przycisku 9 o jeden odstep nizej.
+  // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie. Dziala na GUI 800x600 i 1920.
+  INCLUDE ~darksun_rasy/ds_chu_przycisk.tph~
+  COPY_EXISTING ~GUICG.CHU~ ~override~
+    LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 9 wzor_pop = 8 nowe_id = 14 RET dodano END
 
-BEGIN ~TEST: polelf atasyjski jako podrasa polelfa (tabele; lata exe w IWD2_1920x1080_test18.exe)~ DESIGNATED 3
+BEGIN ~TEST: polelf atasyjski jako podrasa polelfa~ DESIGNATED 3
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
-  // Lata exe (test16, tools/iwd2_podklasy_exe.py, asm/halfelf.asm): GetRaceRow polelfa (0x541A42) -> HALF_ELF_DS,
-  // nazwa podrasy na karcie postaci (0x544EC6, strref wpisuje komponent 2), zdolnosci rasowe bez asercji (0x7228E2),
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
+  // Lata exe (komponent 0, asm/halfelf.asm): GetRaceRow polelfa (0x541A42) -> HALF_ELF_DS, nazwa podrasy na karcie
+  // postaci (0x544EC6: mov eax, strref - wpisywany tutaj), zdolnosci rasowe bez asercji (0x7228E2),
   // przycisk polelfa otwiera okno podras (0x61C640).
-  ACTION_IF NOT FILE_EXISTS ~IWD2_1920x1080_test18.exe~ BEGIN
-    PRINT ~Uwaga: brak IWD2_1920x1080_test18.exe - tabele zostana dodane, ale gra bez laty nie pokaze podrasy.~
+  OUTER_SET he_mixed = RESOLVE_STR_REF(@112)
+  ACTION_FOR_EACH src IN ~IWD2_DS~ ~IWD2_1920_DS~ BEGIN
+    ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
+      COPY ~%src%.exe~ ~%src%.exe~
+        PATCH_IF (BYTE_AT 0x144EC6 = 0xB8) BEGIN WRITE_LONG 0x144EC7 he_mixed END
+    END
   END
 
   // SRLIST: wiersz polelfa atasyjskiego (numer = liczba wierszy); przy ponownej instalacji odczytaj istniejacy numer.
