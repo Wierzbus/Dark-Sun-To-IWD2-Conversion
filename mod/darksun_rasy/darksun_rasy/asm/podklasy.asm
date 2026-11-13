@@ -9,7 +9,8 @@ TAB        equ 0x846C00          ; wpisy po 32 B: +0 bit kitu, +4 strref etykiet
 CLR_HELP   equ 0x846D04          ; strref opisu nowego bostwa (okno 12)
 NOK        equ 0x846D08          ; 12 x strref etykiety "bez podklasy" wg numeru klasy (okno 52, przycisk 1)
 KPTR       equ 0xA1AF00          ; 8 wskaznikow na obiekty C2DArray tablic CLAB kitow (koniec .data, VirtualSize 0x176000)
-KPTR_PIESC  equ 0xA1AF20          ; wskaznik na C2DArray tablicy DSMFIST (piesc mnicha)
+KPTR_KLASY  equ 0xA1AF20          ; wskaznik na C2DArray tablicy DSKLASY (progi zdolnosci klas)
+KPTR_SNEAK  equ 0xA1AF24          ; wskaznik na C2DArray tablicy DSSNEAK (atak z zaskoczenia)
 
 ; ---------------------------------------------------------------- GetClassRow 0x541DA0
 ; nowe bity (0xFF000000) -> nazwa wiersza z tabeli TAB
@@ -289,6 +290,63 @@ clab:
     and eax, 0xff
     jmp 0x546039
 
+;================================================================ komorka(tabela eax, wiersz, kolumna) -> eax = char* albo 0 (stdcall)
+komorka:
+    test eax, eax
+    jz .zero
+    push ecx
+    push edx
+    movsx ecx, word [eax+0x22]  ; wiersze
+    mov edx, [esp+0xc]          ; wiersz
+    cmp edx, ecx
+    jae .poza
+    movsx ecx, word [eax+0x20]  ; kolumny
+    cmp [esp+0x10], ecx
+    jae .poza
+    imul edx, ecx
+    add edx, [esp+0x10]
+    mov eax, [eax+0x18]
+    mov eax, [eax+edx*4]
+    pop edx
+    pop ecx
+    ret 8
+.poza:
+    pop edx
+    pop ecx
+.zero:
+    xor eax, eax
+    ret 8
+
+; liczba(tabela eax, wiersz, kolumna) -> eax = wartosc liczbowa komorki albo -1 (brak tabeli/komorki), stdcall
+liczba:
+    push dword [esp+8]
+    push dword [esp+8]
+    call komorka
+    test eax, eax
+    jz .brak
+    push ecx
+    push edx
+    push eax
+    call 0x7e7b03               ; atoi (cdecl)
+    add esp, 4
+    pop edx
+    pop ecx
+    ret 8
+.brak:
+    or eax, -1
+    ret 8
+
+; tab_klasy / tab_sneak -> eax = C2DArray albo 0
+tab_klasy:
+    push esi
+    push edi
+    mov esi, KPTR_KLASY
+    mov edi, nazwa_klasy
+    call tabela2da
+    pop edi
+    pop esi
+    ret
+
 times (TAB - 0x846900) - ($ - $$) db 0xcc
 dane:
 %macro kit 4                    ; bit, nazwa wiersza, klasa, CLAB
@@ -310,36 +368,78 @@ dane:
     dd -1                       ; CLR_HELP
     times 12 dd -1              ; NOK[klasa]
 
-;================================================================ piesc mnicha z tabeli DSMFIST.2DA (0x723417)
-; W oryginale: poziom mnicha (eax) -> tablica 0x723808 -> jeden z 11 przypadkow tworzacych przedmiot
-; 00MFIST1..9 (operator new 0xEE, CResRef 0x78A990, CItem 0x4E7E90) -> [esi+0x4B00] w 0x7237A3.
-; Tu: wiersz (poziom - 1) tabeli DSMFIST, kolumna 0 = przedmiot. Brak tabeli -> kod oryginalny.
-piesc_nazwa: db 'DSMFIST', 0
-mnich:
-    push eax                    ; poziom
+tab_sneak:
     push esi
     push edi
-    mov esi, KPTR_PIESC
-    mov edi, piesc_nazwa
+    mov esi, KPTR_SNEAK
+    mov edi, nazwa_sneak
     call tabela2da
     pop edi
     pop esi
-    pop ecx                     ; ecx = poziom
+    ret
+nazwa_klasy: db 'DSKLASY', 0
+nazwa_sneak: db 'DSSNEAK', 0
+
+;================================================================ piesc mnicha z CLAB (0x723417)
+; W oryginale: poziom mnicha (eax) -> tablica 0x723808 -> jeden z 11 przypadkow tworzacych przedmiot
+; 00MFIST1..9 (operator new 0xEE, CResRef 0x78A990, CItem 0x4E7E90) -> [esi+0x4B00] w 0x7237A3.
+; Tu: tablica CLAB mnicha (GetClabTable 0x546030 dla klasy 6 i kitu postaci), wpis "FI_<przedmiot>"
+; w najwyzszej kolumnie <= poziomowi. Brak wpisu -> 00MFIST1. Kod 0x723808/0x7237DC nie jest juz uzywany.
+piesc_dom: db '00MFIST1', 0
+mnich:
+    push ebx
+    push edi
+    push ebp
+    mov ebp, eax                ; poziom = limit kolumn
+    mov ecx, esi
+    call 0x728570               ; GetKit
+    push eax
+    push 6
+    mov ecx, [0x8cf6dc]
+    mov ecx, [ecx+0x1c54]
+    call 0x546030               ; GetClabTable(6, kit)
+    mov edi, piesc_dom
     test eax, eax
-    jz .oryg
-    movsx edx, word [eax+0x22]  ; wiersze
-    test edx, edx
-    jle .oryg
-    dec ecx
-    jns .a
-    xor ecx, ecx
-.a: cmp ecx, edx
-    jl .b
-    lea ecx, [edx-1]
-.b: movsx edx, word [eax+0x20]  ; kolumny
-    imul ecx, edx
-    mov edx, [eax+0x18]
-    mov edx, [edx+ecx*4]        ; CString -> tekst nazwy przedmiotu
+    jz .mam
+    movsx ecx, word [eax+0x20]  ; kolumny (poziomy)
+    cmp ebp, ecx
+    jle .k
+    mov ebp, ecx
+.k: movsx ebx, word [eax+0x22]  ; wiersze
+    xor ecx, ecx                ; kolumna
+.kol:
+    cmp ecx, ebp
+    jge .mam
+    xor edx, edx                ; wiersz
+.wie:
+    cmp edx, ebx
+    jge .nast
+    push edx
+    push eax
+    movsx eax, word [eax+0x20]
+    imul edx, eax
+    add edx, ecx
+    mov eax, [esp]
+    mov eax, [eax+0x18]
+    mov eax, [eax+edx*4]        ; tekst komorki
+    cmp word [eax], 0x4946      ; "FI"
+    jne .nie
+    cmp byte [eax+2], '_'
+    jne .nie
+    lea edi, [eax+3]
+.nie:
+    pop eax
+    pop edx
+    inc edx
+    jmp .wie
+.nast:
+    inc ecx
+    jmp .kol
+.mam:
+    mov edx, edi
+    pop ebp
+    pop edi
+    pop ebx
     push edx
     push 0xee
     call 0x7fc95b               ; operator new (CItem)
@@ -363,11 +463,190 @@ mnich:
     mov ecx, edi
     call 0x4e7e90               ; CItem(CResRef, 0, 0, 0, 0, 0)
     jmp 0x7237a3
+
+;================================================================ progi zdolnosci z DSKLASY.2DA
+; wiersze: 0 EVASION, 1 UNCANNY_DEX, 2 UNCANNY_FLANK; kolumny: klasy 1..11 (BBN..WIZ); wartosc = minimalny poziom
+; (0 = klasa nie ma zdolnosci). prog(wiersz, klasa) -> eax (stdcall), -1 gdy brak tabeli.
+prog:
+    call tab_klasy
+    mov ecx, [esp+8]
+    dec ecx
+    push ecx
+    push dword [esp+8]
+    call liczba
+    ret 8
+
+; ---- unik (0x585DA0): esi = postac. Zamiast "lotrzyk >= 2 albo mnich": dowolna klasa >= progu z DSKLASY.
+unik:
+    push ebx
+    push edi
+    mov ebx, 1
+.p: push ebx
+    push 0
+    call prog
+    test eax, eax               ; 0 albo -1 (brak tabeli) = brak zdolnosci
+    jle .n
+    mov edi, eax
+    push ebx
+    mov ecx, esi
+    call 0x762760               ; poziom klasy
+    cmp eax, edi
+    jge .tak
+.n: inc ebx
+    cmp ebx, 11
+    jle .p
+    xor eax, eax
+    jmp .k
+.tak:
+    mov eax, 1
+.k: pop edi
+    pop ebx
+    test eax, eax
+    jz 0x585df4
+    jmp 0x585dc0
+
+; ---- poziom klasy z bajtow postaci [p+0x626+klasa] (jak w kodzie walki)
+; zdolnosc(wiersz, postac) -> eax = poziom klasy, ktora daje zdolnosc (najwyzszy), 0 gdy brak; -1 brak tabeli
+zdolnosc:
+    push ebx
+    push edi
+    push esi
+    xor esi, esi                ; wynik
+    mov ebx, 1
+.p: push ebx
+    push dword [esp+0x14]       ; wiersz
+    call prog
+    cmp eax, -1
+    je .brak
+    test eax, eax
+    jle .n
+    mov edi, [esp+0x14]         ; postac
+    movzx ecx, byte [edi+ebx+0x626]
+    cmp ecx, eax
+    jl .n
+    cmp ecx, esi
+    jle .n
+    mov esi, ecx
+.n: inc ebx
+    cmp ebx, 11
+    jle .p
+    mov eax, esi
+    jmp .k
+.brak:
+    or eax, -1
+.k: pop esi
+    pop edi
+    pop ebx
+    ret 8
+
+; ---- uncanny dodge (premia ZRE do KP) 0x73BA1D: ebx = cel; zamiast "barbarzynca >= 2 albo lotrzyk >= 3"
+uncanny_zre:
+    push ecx
+    push edx
+    push ebx
+    push 1
+    call zdolnosc
+    cmp eax, -1
+    jne .t
+    xor eax, eax                ; brak tabeli: oryginal
+    cmp byte [ebx+0x627], 2
+    jae .j
+    cmp byte [ebx+0x62f], 3
+    jb .t
+.j: mov eax, 1
+.t: pop edx
+    pop ecx
+    test eax, eax
+    ret
+
+; ---- uncanny dodge (flanka) 0x73D95B: edi = cel, ebp = atakujacy. Nie flankowany, gdy cel ma zdolnosc
+; z poziomu klasy L i lotrzyk atakujacego < L + 4.
+uncanny_flanka:
+    push edi
+    push 2
+    call zdolnosc
+    cmp eax, -1
+    je .oryg
+    test eax, eax
+    jle 0x73d9b5                ; brak zdolnosci -> atak z zaskoczenia
+    movzx edx, byte [ebp+0x62f]
+    sub edx, eax
+    cmp edx, 4
+    jl 0x73d995                 ; zablokowane
+    jmp 0x73d9b5
 .oryg:
-    mov eax, ecx
-    dec eax
-    cmp eax, 0x1d
-    ja 0x72375c
+    xor eax, eax
+    mov al, [edi+0x627]
     xor ecx, ecx
-    mov cl, [eax+0x723808]
-    jmp [ecx*4+0x7237dc]
+    mov cl, [edi+0x62f]
+    cmp eax, 5
+    mov esi, ecx
+    jl .r
+    xor edx, edx
+    mov dl, [ebp+0x62f]
+    sub edx, eax
+    cmp edx, 4
+    jl 0x73d995
+.r: cmp esi, 6
+    jl 0x73d9b5
+    xor eax, eax
+    mov al, [ebp+0x62f]
+    sub eax, esi
+    cmp eax, 4
+    jge 0x73d9b5
+    jmp 0x73d995
+
+;================================================================ atak z zaskoczenia z DSSNEAK.2DA
+; 0x585D64 (esi = postac, na stosie zachowany esi): liczba kosci = DICE z wiersza (poziom lotrzyka - 1)
+; zamiast (poziom - 1)/2 + 1. 0x585D80: rozmiar kosci = SIDES z wiersza 0 zamiast 6.
+sneak_kosci:
+    push 9
+    lea ecx, [esi+0x920]
+    call 0x447990               ; poziom lotrzyka
+    mov edx, eax
+    call tab_sneak
+    test eax, eax
+    jz .wzor
+    movsx ecx, word [eax+0x22]
+    test ecx, ecx
+    jle .wzor
+    dec edx
+    jns .a
+    xor edx, edx
+.a: cmp edx, ecx
+    jl .b
+    lea edx, [ecx-1]
+.b: push 0
+    push edx
+    call liczba
+    cmp eax, -1
+    je .wzor2
+    pop esi
+    ret
+.wzor2:
+    xor eax, eax
+    pop esi
+    ret
+.wzor:
+    mov eax, edx
+    dec eax
+    cdq
+    sub eax, edx
+    sar eax, 1
+    inc eax
+    pop esi
+    ret
+
+sneak_scianki:
+    push ecx
+    push edx
+    call tab_sneak
+    push 1
+    push 0
+    call liczba
+    pop edx
+    pop ecx
+    cmp eax, 1
+    jge .r
+    mov eax, 6
+.r: ret

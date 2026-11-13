@@ -129,23 +129,30 @@ Wszystkie 8 wolnych bitów kitów jest teraz zajętych.
 | paladyn ≥ 2 | 0x4A3A5A–0x4A3A84 (funkcja efektów 0x4A3310) | odporność na czar SPWI420 Emotion: Fear (efekt odrzucany, komunikat) – tylko gdy paladyn nie upadł | **zrobione**: warunek wyłączony, `DSPALEMF.SPL` (opcode 206, SPWI420) jako `AP_` na 2. poziomie CLABPA01–04 |
 | paladyn ≥ 2 | 0x4A48CF, 0x6F8EF4 | to samo dla sojuszników w promieniu 100 (aura) | do zrobienia: brak opcode'u aury – zostaje w exe |
 | kapłan + paladyn | 0x71B8D0 | poziom odpędzania nieumarłych = kapłan + (paladyn − 2) | wzór, nie zdolność – zostaje |
-| mnich 1–30 | 0x723412 | pięść mnicha: przedmiot 00MFIST1–9 zależnie od poziomu (tabela 0x723808, 11 przypadków) | **zrobione (test17)**: hak 0x723417 → `mnich`: wiersz (poziom − 1) tabeli `DSMFIST.2DA`; bez tabeli kod oryginalny |
+| mnich 1–30 | 0x723412 | pięść mnicha: przedmiot 00MFIST1–9 zależnie od poziomu (tabela 0x723808, 11 przypadków) | **zrobione (test18)**: hak 0x723417 → `mnich`: przedmiot = wpis `FI_<ITM>` w CLAB mnicha (GetClabTable(6, kit)) w najwyższej kolumnie ≤ poziomowi, domyślnie 00MFIST1; tabela 0x723808 nieużywana. Parser CLAB (0x723093) pomija nieznany prefiks bez asercji |
 | mnich | 0x72E354 | +poziom/3 do licznika (prawdopodobnie użycia ataku ogłuszającego) | do rozpoznania |
 | mnich ≥ 8, ≥ 12 | 0x739FE4 | −1/−1 do wartości 0x5604 (zakres 0–10; prawdopodobnie szybkość broni) | do rozpoznania |
 | mnich | 0x73E194, 0x73E390 | ST = wartość + poziom/2 − 1 (ogłuszenie / drżąca dłoń) | wzór – zostaje |
 | druid ≥ 9 | 0x4A7956 | efekt trucizny z typem 0x20 odrzucany (odporność na jad naturalny) | **zrobione (test17)**: warunek wyłączony (0x4A795E `jl` → `jmp`), `DSDRVEN.SPL` (opcode 101, 25 Poison – każda trucizna, decyzja właściciela) jako `AP_` na 9. poziomie CLABDR01–04 |
 | barbarzyńca + mnich | 0x72E2EF, 0x72E330 | szybkość ruchu: barbarzyńca ×1,2 (stała 0x84EB58) bez ciężkiego pancerza (0x724690(3)); mnich + poziom/3 bez pancerza, +1 z atutem 0xC | warunek pancerza nie da się zapisać w SPL – zostaje w exe |
 | mnich ≥ 20 | 0x73A7B7, 0x73AA3F | atak bez flagi 0x40 (niemagiczny?) nie działa (Perfect Self) | do rozpoznania flagi |
-| łotrzyk | 0x585D50 | kości ataku z zaskoczenia = (poziom − 1)/2 + 1 | wzór – zostaje (brak opcode'u) |
-| łotrzyk | 0x71B910 | mnożnik ciosu w plecy z BACKSTAB.2DA | już w danych |
+| łotrzyk | 0x585D50, 0x585D80 (wołane z walki 0x73D9B6) | kości ataku z zaskoczenia = (poziom − 1)/2 + 1, kość k6 – **tego używa walka** | **zrobione (test18)**: `DSSNEAK.2DA` (wiersz = poziom: DICE; SIDES z 1. wiersza); brak opcode'u na kości ataku z zaskoczenia w IWD2 |
+| łotrzyk | 0x71B910 → statystyka 0x9B2 | mnożnik ciosu w plecy z BACKSTAB.2DA (pozostałość BG) – liczony, ale walka go nie używa (czytany tylko w 0x46Cxxx) | zostaje |
+| łotrzyk ≥ 2, mnich | 0x585DA0 (z obrażeń 0x4AA0D9, flaga efektu 0x8 = rzut na Refleks) | Unik: udany rzut = brak obrażeń; nie gdy bezradny (stan 0x829) ani w średnim/ciężkim pancerzu (0x724690(2/3)); Improved Evasion to atut 31 (0x4AA343) | **zrobione (test18)**: progi z `DSKLASY.2DA` wiersz EVASION (kolumny = klasy) |
+| barbarzyńca ≥ 2, łotrzyk ≥ 3 | 0x73BA1D | Uncanny Dodge: brak utraty premii ZRĘ do KP wobec niewidzialnego atakującego (bez atutu Blind Fight 6) | **zrobione (test18)**: `DSKLASY.2DA` wiersz UNCANNY_DEX |
+| barbarzyńca ≥ 5, łotrzyk ≥ 6 | 0x73D95B (komunikat 82 „Uncanny Dodge prevented flank attack”) | Uncanny Dodge: brak ataku z zaskoczenia z flanki, chyba że łotrzyk atakującego ≥ poziom celu + 4 | **zrobione (test18)**: `DSKLASY.2DA` wiersz UNCANNY_FLANK (poziom z bajtów postaci +0x626+klasa) |
 | łotrzyk > 0 | 0x4A6744 | atut Slippery Mind (0x3A): ponowny rzut obronny na Wolę | atut – zostaje |
 | łotrzyk / mnich | 0x757A80 | akcja ukrycia (tryb 2) tylko dla łotrzyka i mnicha | akcja – zostaje |
 | tropiciel | 0x73BC88, 0x73DD3F | ulubiony wróg: premia z tabeli (0x546860) i +4 | wzór z danych – zostaje |
 | barbarzyńca < 20 | 0x4A5C79 | po szale zmęczenie (od 20. poziomu brak) | do rozpoznania |
 | barbarzyńca ≥ 15 | 0x5E5B22 | do rozpoznania | – |
 | paladyn + wojownik | 0x737BBE | upadły paladyn: poziomy paladyna przechodzą na wojownika | mechanika, nie zdolność – zostaje |
-Unik (Evasion), Uncanny Dodge i pozostałe zdolności z tekstów `FA_` w CLAB (np. CLABTH01: 39332, 39280, 39309…) nie mają w exe sprawdzeń poziomu klasy przez 0x447990 ani 0x40D7E0 (sprawdzanie przynależności do klasy, stałe klas w 0x847CA5–0x847CAF); komunikat „Uncanny Dodge prevented flank attack” (0x73752D) jest wyświetlany z kodu wyniku ataku – źródło do znalezienia.
+Inne dostępy do poziomu klasy: `0x762760(klasa)` i `0x762830(klasa)` na postaci, `0x40D7E0(klasa)` (przynależność do klasy; stałe klas w 0x847CA5–0x847CAF), bajty postaci `+0x626+klasa` (walka), statystyki 96–106 (CLASSLEVEL*) w GUI. Dalsze miejsca mnicha: 0x4A4A25 (≥ 3: +2 przeciw szkole 4 – Still Mind), 0x584CE7 (≥ 20: odporność na część stworzeń po animacji), 0x723F66 (pięść/broń mnicha).
+
+**Szybkość ruchu (propozycja, niewdrożone):** premię barbarzyńcy ×1,2 (0x72E2EF) można dać przez CLAB (`AP_`, efekt zmiany szybkości ruchu), a warunek pancerza przenieść na przedmioty: ciężkie pancerze dostają efekt przy założeniu „Use EFF file” z warunkiem klasy BARBARIAN, który znosi premię. Do sprawdzenia, czy IWD2 obsługuje te opcode'y tak jak IWD.
 
 **Błąd test16 poprawiony w test17:** obiekty tablic CLAB kitów leżały w końcówce .data (0xA1AF00 + 0x24·i); przy 8 kitach wychodziły poza sekcję (0xA1B000, .rsrc). Teraz `tabela2da` tworzy obiekt przez operator new (0x7FC95B), w .data są tylko wskaźniki (0xA1AF00–0xA1AF1F, pięść mnicha 0xA1AF20).
+
+Nowe tabele (komponent 2): `DSKLASY.2DA`, `DSSNEAK.2DA` – wczytywane przy pierwszym użyciu (`tabela2da`, wskaźniki 0xA1AF20/0xA1AF24). Kod podklas zajmuje teraz 0x846900–0x846FCA (koniec wnęki 0x847000).
 
 Silnik obsługuje w CLAB prefiksy `FA_` (tylko tekst na karcie), `GA_` (zdolność wrodzona), `RA_`, `AP_` (efekty czaru nałożone od razu) – napisy w 0x8F9340, 0x8F9430, 0x8F94E0, 0x8F94C8.

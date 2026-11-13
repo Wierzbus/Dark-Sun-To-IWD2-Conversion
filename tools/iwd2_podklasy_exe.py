@@ -33,7 +33,11 @@ HAKI = [
     (0x61012E, "jmp", "k_petla", 4),
     (0x61001B, "jmp", "k_mag", 0),
     (0x546030, "jmp", "clab", 4),
-    (0x723417, "jmp", "mnich", 20),          # piesc mnicha z DSMFIST.2DA
+    (0x723417, "jmp", "mnich", 20),          # piesc mnicha z CLAB (wpisy FI_)
+    (0x585DA5, "jmp", "unik", 22),           # Evasion: progi z DSKLASY.2DA
+    (0x73D95B, "jmp", "uncanny_flanka", 0),  # Uncanny Dodge (flanka): progi z DSKLASY.2DA
+    (0x585D64, "jmp", "sneak_kosci", 0),     # atak z zaskoczenia: kosci z DSSNEAK.2DA
+    (0x585D80, "jmp", "sneak_scianki", 0),   # atak z zaskoczenia: rozmiar kosci z DSSNEAK.2DA
 ]
 # tablica skokow klikniecia klasy (0x61C1A8, indeks = klasa - 1): 0x61C0A5 = okno 52
 KLASY_OKNO52 = [1, 2, 4, 5, 8, 10]          # barbarzynca, bard, druid, wojownik, tropiciel, zaklinacz
@@ -103,6 +107,14 @@ def main():
     assert d[0x4A3A84 - BASE:0x4A3A86 - BASE] == b"\x0F\x8C", "0x4A3A84: oczekiwano jl rel32"
     rel = struct.unpack_from("<i", d, 0x4A3A86 - BASE)[0]
     d[0x4A3A84 - BASE:0x4A3A8A - BASE] = b"\xE9" + struct.pack("<i", rel + 1) + b"\x90"
+    # Uncanny Dodge (ZRE do KP) 0x73BA1D: call uncanny_zre; jnz 0x73BA42; nop x7
+    o = 0x73BA1D - BASE
+    d[o:o + 5] = b"\xE8" + struct.pack("<i", et["uncanny_zre"] - 0x73BA22)
+    d[o + 5:o + 11] = b"\x0F\x85" + struct.pack("<i", 0x73BA42 - 0x73BA28)
+    d[o + 11:o + 18] = b"\x90" * 7
+    # CLAB: nieznany prefiks (np. FI_ piesci mnicha) bez asercji - 0x723093: jmp 0x7230AF
+    o = 0x723093 - BASE
+    d[o:o + 5] = b"\xE9" + struct.pack("<i", 0x7230AF - 0x723098)
     # druid >= 9: odpornosc na trucizne naturalna w obsludze trucizny - warunek "poziom < 9" zawsze prawdziwy
     assert d[0x4A795E - BASE:0x4A7960 - BASE] == b"\x7C\x0D", "0x4A795E: oczekiwano jl short"
     d[0x4A795E - BASE] = 0xEB

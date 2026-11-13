@@ -122,7 +122,7 @@ BEGIN ~TEST: mul jako podrasa polorka (tabele + lata GetRaceRow 0x541940 w kopia
   // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
 
-BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz (wymaga exe z lata podklas, np. IWD2_1920x1080_test17.exe)~ DESIGNATED 2
+BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz (wymaga exe z lata podklas, np. IWD2_1920x1080_test18.exe)~ DESIGNATED 2
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
 
   // Dopisuje wiersz %wiersz% (kopia wiersza %wzor% albo zera), jesli go nie ma.
@@ -200,6 +200,18 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     PATCH_IF ((ds_jest = 0) AND (ds_r >= 0)) BEGIN
       SET_2DA_ENTRY ds_r poziom ds_ncol ~%zdolnosc%~
     END
+    PATCH_IF ((ds_jest = 0) AND (ds_r < 0)) BEGIN    // brak wolnego wiersza: nowy wiersz ABILITYn
+      SET ds_nr = ds_t + 1
+      TEXT_SPRINT ds_linia ~ABILITY%ds_nr%~
+      FOR (ds_c = 1; ds_c < ds_ncol; ++ds_c) BEGIN
+        PATCH_IF (ds_c = poziom) BEGIN TEXT_SPRINT ds_linia ~%ds_linia% %zdolnosc%~ END
+        ELSE BEGIN TEXT_SPRINT ds_linia ~%ds_linia% ****~ END
+      END
+      TEXT_SPRINT ds_linia ~%ds_linia%%WNL%~
+      SET ds_poz = BUFFER_LENGTH
+      INSERT_BYTES ds_poz (STRING_LENGTH ~%ds_linia%~)
+      WRITE_ASCIIE ds_poz ~%ds_linia%~
+    END
   END
 
   // --- 1. Teksty -> numery w tabeli kitow w exe (0x846C00; zrodlo: darksun_rasy/asm/podklasy.asm) ---
@@ -229,7 +241,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   OUTER_SET clr_help = RESOLVE_STR_REF(@223)
   OUTER_SET he_mixed = RESOLVE_STR_REF(@112)
   OUTER_SET patched = 0
-  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test16~ ~IWD2_1920x1080_test17~ ~IWD2_1920x1080_test18~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
+  ACTION_FOR_EACH src IN ~IWD2_1920x1080_test16~ ~IWD2_1920x1080_test17~ ~IWD2_1920x1080_test18~ ~IWD2_1920x1080_test19~ ~IWD2_DS~ ~IWD2_1920x1080_DS~ BEGIN
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
@@ -257,7 +269,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     END
   END
   ACTION_IF patched = 0 BEGIN
-    FAIL ~Nie znaleziono exe z lata podklas w ukladzie test16 (np. IWD2_1920x1080_test17.exe).~
+    FAIL ~Nie znaleziono exe z lata podklas w ukladzie test16 (np. IWD2_1920x1080_test18.exe).~
   END
 
   // --- 2. Tabele ---
@@ -316,9 +328,26 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
         LPF ds_clab_poziom INT_VAR poziom = 9 STR_VAR zdolnosc = ~AP_DSDRVEN~ END
     END
   END
-  // Piesc mnicha: przedmiot z tabeli DSMFIST.2DA (wiersz = poziom mnicha, od test17; w exe 0x723417).
-  // Wartosci jak w oryginale (00MFIST1..9); zmiana tabeli zmienia piesc bez latania exe.
-  COPY ~darksun_rasy/2da/DSMFIST.2DA~ ~override~
+  // Piesc mnicha (od test18): exe nie ma juz tabeli poziomow (0x723808); przedmiot piesci to wpis FI_<przedmiot>
+  // w CLAB mnicha w najwyzszej kolumnie <= poziomowi. Wartosci jak w oryginale (00MFIST1..9).
+  ACTION_IF FILE_EXISTS_IN_GAME ~CLABMO01.2da~ BEGIN
+    COPY_EXISTING ~CLABMO01.2da~ ~override~
+      LPF ds_clab_poziom INT_VAR poziom = 1  STR_VAR zdolnosc = ~FI_00MFIST1~ END
+      LPF ds_clab_poziom INT_VAR poziom = 4  STR_VAR zdolnosc = ~FI_00MFIST2~ END
+      LPF ds_clab_poziom INT_VAR poziom = 8  STR_VAR zdolnosc = ~FI_00MFIST3~ END
+      LPF ds_clab_poziom INT_VAR poziom = 10 STR_VAR zdolnosc = ~FI_00MFIST4~ END
+      LPF ds_clab_poziom INT_VAR poziom = 12 STR_VAR zdolnosc = ~FI_00MFIST5~ END
+      LPF ds_clab_poziom INT_VAR poziom = 13 STR_VAR zdolnosc = ~FI_00MFIST6~ END
+      LPF ds_clab_poziom INT_VAR poziom = 16 STR_VAR zdolnosc = ~FI_00MFIST7~ END
+      LPF ds_clab_poziom INT_VAR poziom = 21 STR_VAR zdolnosc = ~FI_00MFIST8~ END
+      LPF ds_clab_poziom INT_VAR poziom = 26 STR_VAR zdolnosc = ~FI_00MFIST9~ END
+  END
+  // Progi zdolnosci klas (od test18): Unik (EVASION), Uncanny Dodge - premia ZRE do KP (UNCANNY_DEX)
+  // i ochrona przed flankowaniem (UNCANNY_FLANK); kolumny = klasy, wartosc = minimalny poziom (0 = brak).
+  // Atak z zaskoczenia: DSSNEAK.2DA, wiersz = poziom lotrzyka: DICE kosci, SIDES (z 1. wiersza) scianki.
+  // Wartosci jak w oryginalnym exe.
+  COPY ~darksun_rasy/2da/DSKLASY.2DA~ ~override~
+       ~darksun_rasy/2da/DSSNEAK.2DA~ ~override~
   ACTION_FOR_EACH t IN ~CLABPA01~ ~CLABPA02~ ~CLABPA03~ ~CLABPA04~ BEGIN
     ACTION_IF FILE_EXISTS_IN_GAME ~%t%.2da~ BEGIN
       COPY_EXISTING ~%t%.2da~ ~override~
@@ -348,13 +377,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   // GUICG.CHU (przycisk 14 w oknie 12 dla nowego bostwa) dostarcza pakiet GUI 1920 (tools/iwd2_chu_kontrolka.py).
   // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie.
 
-BEGIN ~TEST: polelf atasyjski jako podrasa polelfa (tabele; lata exe w IWD2_1920x1080_test17.exe)~ DESIGNATED 3
+BEGIN ~TEST: polelf atasyjski jako podrasa polelfa (tabele; lata exe w IWD2_1920x1080_test18.exe)~ DESIGNATED 3
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   // Lata exe (test16, tools/iwd2_podklasy_exe.py, asm/halfelf.asm): GetRaceRow polelfa (0x541A42) -> HALF_ELF_DS,
   // nazwa podrasy na karcie postaci (0x544EC6, strref wpisuje komponent 2), zdolnosci rasowe bez asercji (0x7228E2),
   // przycisk polelfa otwiera okno podras (0x61C640).
-  ACTION_IF NOT FILE_EXISTS ~IWD2_1920x1080_test17.exe~ BEGIN
-    PRINT ~Uwaga: brak IWD2_1920x1080_test17.exe - tabele zostana dodane, ale gra bez laty nie pokaze podrasy.~
+  ACTION_IF NOT FILE_EXISTS ~IWD2_1920x1080_test18.exe~ BEGIN
+    PRINT ~Uwaga: brak IWD2_1920x1080_test18.exe - tabele zostana dodane, ale gra bez laty nie pokaze podrasy.~
   END
 
   // SRLIST: wiersz polelfa atasyjskiego (numer = liczba wierszy); przy ponownej instalacji odczytaj istniejacy numer.
