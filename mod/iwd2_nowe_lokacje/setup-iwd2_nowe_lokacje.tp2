@@ -12,3 +12,8 @@ BEGIN ~Nowa lokacja AR9020 (pustynny kanion z obrazu wlasnego): TIS, WED ze scia
 BEGIN ~Nowa lokacja AR9021 (labirynt w rzucie ukosnym, plan z obrazu obrocony o 45 stopni): TIS, WED ze scianami, ARE, minimapa i mapy SR/HT/LM~ DESIGNATED 2
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   INCLUDE ~iwd2_nowe_lokacje/build/AR9021/install.tph~
+
+BEGIN ~TEST: AR9022 - pierwszy obszar Dark Sun (cele niewolnikow pod arena Draj, RGN29) w rzucie 45 stopni, z postaciami, dialogami i skryptami~ DESIGNATED 3
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  // Najpierw: python tools/ds_obszar.py --game KATALOG_DARK_SUN --ds build/darksun (buduje build/AR9022 z danymi gry).
+  INCLUDE ~iwd2_nowe_lokacje/build/AR9022/install.tph~
