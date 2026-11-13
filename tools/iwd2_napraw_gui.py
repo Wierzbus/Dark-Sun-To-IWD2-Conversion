@@ -1,4 +1,4 @@
-"""Naprawia przeskalowane GUI IWD2 (1920x1080) - przebieg od oryginalow.
+"""Naprawia przeskalowane GUI IWD2 (domyslnie 1920x1080, --szer) - przebieg od oryginalow.
 
 1. Okna CHU szerokosci 1440 w x=240 (oraz 1434 w x=243 w GUIW10) dostaja
    x=0, w=1920; kontrolki przesuwaja sie o lewy margines. Tla MOS sa
@@ -22,7 +22,11 @@ import numpy as np
 from iwd2_poszerz_tla import ZIELEN, czytaj_mos, usun_zielona_obwodke, zapisz_mos
 
 NOWA_W = 1920
-KANDYDACI = {(240, 1440), (243, 1434)}
+
+
+def kandydat(x, w, szer):
+    """Okno wysrodkowane w poziomie, szersze niz 60% ekranu i wezsze od niego (np. 240/1440, 243/1434 przy 1920)."""
+    return 0 < x and w < szer and abs(2 * x + w - szer) <= 1 and w >= 0.6 * szer
 
 
 def okna_chu(dane):
@@ -59,14 +63,10 @@ def nazwa_pola(stara, zajete, prefiks):
     return kand
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--oryginaly", required=True)
-    ap.add_argument("--out", required=True)
-    a = ap.parse_args()
-    os.makedirs(a.out, exist_ok=True)
-    pliki = {f.upper(): f for f in os.listdir(a.oryginaly)}
-    czytaj = lambda n: open(os.path.join(a.oryginaly, pliki[n]), "rb").read()
+def napraw(oryginaly, out, szer=NOWA_W, gadaj=False):
+    os.makedirs(out, exist_ok=True)
+    pliki = {f.upper(): f for f in os.listdir(oryginaly)}
+    czytaj = lambda n: open(os.path.join(oryginaly, pliki[n]), "rb").read()
 
     # --- MOS: wczytanie i czyszczenie zieleni
     mos = {}
@@ -84,12 +84,12 @@ def main():
     poszerz_tlo = {}  # nazwa MOS -> (lewy, prawy, szer_oryg)
     for n, d in chu.items():
         for okno in okna_chu(bytes(d)):
-            if (okno["x"], okno["w"]) not in KANDYDACI:
+            if not kandydat(okno["x"], okno["w"], szer):
                 continue
             lewy = okno["x"]
-            prawy = NOWA_W - okno["x"] - okno["w"]
+            prawy = szer - okno["x"] - okno["w"]
             struct.pack_into("<H", d, okno["o"] + 4, 0)
-            struct.pack_into("<H", d, okno["o"] + 8, NOWA_W)
+            struct.pack_into("<H", d, okno["o"] + 8, szer)
             for coff, _ in okno["kontrolki"]:
                 cx = struct.unpack_from("<H", d, coff + 4)[0]
                 struct.pack_into("<H", d, coff + 4, cx + lewy)
@@ -110,7 +110,7 @@ def main():
     # sprawdz, czy poszerzone tlo nie jest uzywane przez okno nieposzerzone
     for n, d in chu.items():
         for okno in okna_chu(bytes(d)):
-            if okno["bg"] in poszerz_tlo and okno["w"] != NOWA_W:
+            if okno["bg"] in poszerz_tlo and okno["w"] != szer:
                 print("UWAGA: tlo", okno["bg"], "uzywane tez w", n, okno["id"], "o szer.", okno["w"])
 
     # --- pola tekstowe
@@ -142,15 +142,25 @@ def main():
                 for j in range(3):
                     if stare[j]:
                         d[coff + 14 + 8 * j: coff + 22 + 8 * j] = nowa
-                print("pole", n, okno["id"], cid & 0xFFFF, (cw, ch), stare, "->", nowe_pola[klucz])
+                if gadaj:
+                    print("pole", n, okno["id"], cid & 0xFFFF, (cw, ch), stare, "->", nowe_pola[klucz])
 
     for n, d in chu.items():
         if bytes(d) != czytaj(n):
-            open(os.path.join(a.out, n), "wb").write(bytes(d))
+            open(os.path.join(out, n), "wb").write(bytes(d))
     for t in sorted(zmienione_mos):
-        open(os.path.join(a.out, t + ".MOS"), "wb").write(zapisz_mos(mos[t]))
-    print("zmienione CHU:", sum(1 for n, d in chu.items() if bytes(d) != czytaj(n)),
+        open(os.path.join(out, t + ".MOS"), "wb").write(zapisz_mos(mos[t]))
+    print("napraw_gui: zmienione CHU:", sum(1 for n, d in chu.items() if bytes(d) != czytaj(n)),
           "MOS:", len(zmienione_mos))
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--oryginaly", required=True)
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--szer", type=int, default=NOWA_W)
+    a = ap.parse_args()
+    napraw(a.oryginaly, a.out, a.szer, gadaj=True)
 
 
 if __name__ == "__main__":

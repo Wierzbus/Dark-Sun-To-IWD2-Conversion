@@ -69,12 +69,24 @@ def czytaj_bam(dane):
     return ramki, nc, cykle, lut
 
 
+SKALA_GUI = 1.8
+
+
+def ustaw(wys):
+    """Rozmiary dla wysokosci ekranu wys (1080 = wartosci sprawdzone w grze): ikona 48*wys/1080,
+    pole akcji 38*1,4*wys/1080, duze klatki i nakladki sklepu x wys/600."""
+    global MALA, AKCJA, SKALA_GUI, SKALA_STALA
+    r = wys / 1080.0
+    MALA, AKCJA, SKALA_GUI = round(48 * r), round(38 * 1.4 * r), wys / 600.0
+    SKALA_STALA = {n: SKALA_GUI for n in SKALA_STALA}
+
+
 def skala_ramki(w, h, cx, cy):
-    """Mnoznik skali klatki ikony: mala ikona 32x32 (srodek 0,0) -> 48 px,
-    pozostale klatki (duza ikona opisu) -> x1,8 jak okna GUI."""
+    """Mnoznik skali klatki ikony: mala ikona 32x32 (srodek 0,0) -> MALA px,
+    pozostale klatki (duza ikona opisu) -> jak okna GUI."""
     if w <= 40 and h <= 40:
         return MALA / 32
-    return 1.8
+    return SKALA_GUI
 
 
 def powieksz(rgba, cel_w, cel_h):
@@ -147,17 +159,14 @@ def przeskaluj(dane, akcja=False, skala=None):
     return zapisz_bam(klatki, nc, cykle, lut)
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--gra", required=True)
-    ap.add_argument("--override")
-    ap.add_argument("--out", required=True)
-    a = ap.parse_args()
-    os.makedirs(a.out, exist_ok=True)
-    g = GameResources(a.gra, override_dirs=[])
+def buduj(g, out, wys=1080, override=None, dodatkowe=()):
+    """dodatkowe: nazwy BAM skalowane jak GUI (x wys/600) niezaleznie od rozmiaru (np. COLGRAD)."""
+    ustaw(wys)
+    os.makedirs(out, exist_ok=True)
     ov = {}
-    if a.override:
-        ov = {f.upper(): os.path.join(a.override, f) for f in os.listdir(a.override)}
+    if override:
+        ov = {f.upper(): os.path.join(override, f) for f in os.listdir(override)}
+    stala = dict(SKALA_STALA, **{n: SKALA_GUI for n in dodatkowe})
     nazwy = sorted({n.upper() for (n, t) in g.key_index if t == 0x3E8}
                    | {f[:-4] for f in ov if f.endswith(".BAM")})
     ile, pominiete = 0, 0
@@ -172,14 +181,24 @@ def main():
             pominiete += 1
             continue
         try:
-            nowy = przeskaluj(dane, akcja=(n in POLA_AKCJI), skala=SKALA_STALA.get(n))
+            nowy = przeskaluj(dane, akcja=(n in POLA_AKCJI), skala=stala.get(n))
         except ValueError:
             continue
         if nowy is None:
             continue
-        open(os.path.join(a.out, n + ".BAM"), "wb").write(nowy)
+        open(os.path.join(out, n + ".BAM"), "wb").write(nowy)
         ile += 1
-    print("przeskalowane:", ile, "nieczytelne:", pominiete)
+    print("ikony: przeskalowane", ile, "nieczytelne", pominiete)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--gra", required=True)
+    ap.add_argument("--override")
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--wys", type=int, default=1080)
+    a = ap.parse_args()
+    buduj(GameResources(a.gra, override_dirs=[]), a.out, a.wys, a.override)
 
 
 if __name__ == "__main__":

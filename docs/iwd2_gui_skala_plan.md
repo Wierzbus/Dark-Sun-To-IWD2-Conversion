@@ -45,3 +45,25 @@ z gotowymi zestawami dla 1920x1080 i 2560x1440 jako zapasem, gdy Pythona nie ma.
   3. poprawki z testów: brakujące Y*/Z* (`iwd2_gui_brakujace.py`), suwaki YGUISLDR, pasy boczne HUD, czcionki z TTF
      (`iwd2_czcionka_ttf.py`, ramka ≤ najniższe pole − 3 px), Continue i waga;
   4. zapis BAM bez kompresji RLE (stara kompresja psuła czcionki).
+
+## Widok świata większy niż monitor (2026-11-13)
+- Gra pokazuje tyle świata, ile ma pikseli w swojej rozdzielczości. Zestaw zbudowany dla rozdzielczości większej
+  niż monitor (np. 2560x1440 na 1920x1080) pokazuje ok. 33% więcej świata w każdym kierunku; DDrawCompat
+  (`DisplayResolution = desktop`, domyślnie) emuluje tryb gry i zmniejsza obraz do pulpitu (`DisplayFilter`, domyślnie bilinear).
+- Skala GUI to zawsze H/600 rozdzielczości gry, więc po zmniejszeniu przez DDrawCompat GUI ma na ekranie ten sam rozmiar
+  co zestaw dla rozdzielczości monitora. Nie trzeba osobnego parametru – wystarczy zbudować zestaw dla większej rozdzielczości.
+- Tryb musi być na liście `SupportedResolutions` w `DDrawCompat-<nazwa exe>.ini` (np. `DDrawCompat-IWD2_2560.ini`).
+- Zastrzeżenia: obraz świata lekko zmiękczony, na małych mapach czarne marginesy.
+
+## Stan 2026-11-13 (noc) – `tools/iwd2_gui/buduj.py`
+Jedno polecenie buduje komplet paczki 1 dla dowolnego W x H (tylko z BIF, oryginalny exe nietknięty):
+`python tools/iwd2_gui/buduj.py --gra GRA --szer W --wys H --ttf Classica-Bold.ttf --out WYNIK`
+→ `IWD2_<W>.exe`, `upscale_exe.tpa` (makra WeiDU), `override/gui|ikony|portrety`.
+Kroki: generator (exe układu, GUIW10 ×1,4·H/1080, ekrany ×H/600) → łatki exe z `guiscale/exe_skala.py`
+(panel, ikony 48·r, przycisk akcji 74·r, kółka kolorów ×5/3·r, portrety P/P−2/P−4 z pola w GUIW10, ekran ładowania ×H/600)
+→ `iwd2_napraw_gui.napraw` (okna na całą szerokość) → pas portretów → suwaki Y* → Continue i waga → pasy boczne HUD
+→ brakujące Y*/Z* → czcionki Classica (×H/1080, ramka ≤ najniższa etykieta − 3) → ekran ładowania, ikony, portrety.
+Zapis BAM w generatorze: bez RLE i bez zlib.
+Sprawdzenie 1920x1080 względem przetestowanej paczki: te same nazwy plików (+STONFORM, YGUIHITP), 196 plików GUI
+identycznych, pozostałe z tą samą geometrią (różnice palety po kwantyzacji) poza 8 BAM różniącymi się o 1 px;
+ikony identyczne; łatki exe o tych samych wartościach (zapis `imul` zamiast `lea`).

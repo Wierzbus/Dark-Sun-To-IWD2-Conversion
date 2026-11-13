@@ -75,7 +75,8 @@ def _rle(pix: bytes, tr: int) -> bytes:
     return bytes(out)
 
 
-def write_bam(b: Bam, compress: bool = True) -> bytes:
+def write_bam(b: Bam, compress: bool = False, rle: bool = False) -> bytes:
+    """Domyslnie BAM V1 bez kompresji klatek i bez zlib (kompresja RLE psula czcionki w grze)."""
     fc, cc = len(b.frames), len(b.cycles)
     feo = 24
     po = feo + 12 * fc + 4 * cc
@@ -85,8 +86,8 @@ def write_bam(b: Bam, compress: bool = True) -> bytes:
     blob = bytearray()
     ents = bytearray()
     for f in b.frames:
-        enc = _rle(f.pix, b.transp)
-        ents += struct.pack("<HHhhI", f.w, f.h, f.cx, f.cy, data_off + len(blob))      # bit31=0 -> RLE
+        enc = _rle(f.pix, b.transp) if rle else f.pix
+        ents += struct.pack("<HHhhI", f.w, f.h, f.cx, f.cy, (data_off + len(blob)) | (0 if rle else 0x80000000))  # bit31=0 -> RLE
         blob += enc
     cyc = bytearray()
     pos = 0

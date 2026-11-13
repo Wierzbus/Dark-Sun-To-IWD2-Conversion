@@ -142,6 +142,20 @@ def make_chu(chu: bytes, w: int, h: int) -> bytes:
     return bytes(out)
 
 
+def _pole_portretu(chu: bytes) -> int:
+    """Bok pola portretu na pasku swiata: kontrolka o id 0 (przycisk portretu) w oknie 1 GUIW10."""
+    n, co, wo = struct.unpack_from("<III", chu, 8)
+    for i in range(n):
+        o = wo + 28 * i
+        if struct.unpack_from("<H", chu, o)[0] == 1:
+            nc, fc = struct.unpack_from("<H", chu, o + 14)[0], struct.unpack_from("<H", chu, o + 24)[0]
+            for k in range(fc, fc + nc):
+                c, _ = struct.unpack_from("<II", chu, co + 8 * k)
+                if struct.unpack_from("<I", chu, c)[0] & 0xFFFF == 0:
+                    return struct.unpack_from("<H", chu, c + 8)[0]
+    raise SystemExit("STOP: brak portretu (okno 1, kontrolka 0) w GUIW10.")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--iwd2-dir", required=True)
@@ -186,6 +200,13 @@ def main() -> None:
         from guiscale.portraits import build as build_por
         for line in build_por(game, a.gui_scale, ov):
             print(line)
+        from guiscale.exe_skala import zastosuj
+        g10 = (ov / "GUIW10.CHU").read_bytes()
+        pole = _pole_portretu(g10)
+        d = bytearray(exe_out.read_bytes())
+        for line in zastosuj(d, (iw / "IWD2.exe").read_bytes(), a.width, a.height, pole):
+            print(line)
+        exe_out.write_bytes(bytes(d))
         from guiscale.frame import build_frame
         for fn, data in build_frame(game, a.width, a.height).items():
             (ov / fn).write_bytes(data)

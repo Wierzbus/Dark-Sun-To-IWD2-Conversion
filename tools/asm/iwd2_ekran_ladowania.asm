@@ -1,6 +1,13 @@
 bits 32
 org 0x440400
-; skaluje wspolrzedne ekranu ladowania x1,8 (zamiast x2 w trybie podwojnym)
+; skaluje wspolrzedne ekranu ladowania x LICZ/MIAN = WYS/600 (zamiast x2 w trybie podwojnym)
+; nasm -DSZER=1920 -DWYS=1080 -DLICZ=9 -DMIAN=5 (domyslnie 1920x1080)
+%ifndef SZER
+%define SZER 1920
+%define WYS 1080
+%define LICZ 9
+%define MIAN 5
+%endif
 skaluj:
     push esi
     push ebx
@@ -10,10 +17,10 @@ skaluj:
     test ecx, ecx
     jz .koniec
     mov eax, [ecx]
-    lea eax, [eax+eax*8]
-    add eax, 2
+    imul eax, eax, LICZ
+    add eax, MIAN/2
     cdq
-    mov ebx, 5
+    mov ebx, MIAN
     idiv ebx
     mov [ecx], eax
     add esi, 4
@@ -23,7 +30,7 @@ skaluj:
     pop esi
     ret
 
-; tlo ekranu ladowania rysowane na calym ekranie 1920x1080 od (0,0)
+; tlo ekranu ladowania rysowane na calym ekranie SZER x WYS od (0,0)
 tlo:
     mov dword [esp+8], 0
     mov dword [esp+0xc], 0
@@ -32,7 +39,7 @@ tlo:
     jmp 0x7b0c80
 
 align 4
-prostokat: dd 0, 0, 1920, 1080
+prostokat: dd 0, 0, SZER, WYS
 tabela:
     dd 0x8a7ba8,0x8a7bac,0x8a7bb0,0x8a7bb4,0x8a7bb8,0x8a7bbc,0x8d0b7c,0x8d0770
     dd 0x8a7bc4,0x8a7bc0,0x8a7bc8,0x8a7bcc,0x8d0b80,0x8a7bd0,0x8a7bd4,0x8d0b8c
