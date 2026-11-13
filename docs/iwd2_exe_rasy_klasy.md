@@ -160,3 +160,23 @@ Inne dostępy do poziomu klasy: `0x762760(klasa)` i `0x762830(klasa)` na postaci
 Nowe tabele (komponent 2): `DSKLASY.2DA`, `DSSNEAK.2DA` – wczytywane przy pierwszym użyciu (`tabela2da`, wskaźniki 0xA1AF20/0xA1AF24). Kod podklas zajmuje teraz 0x846900–0x846FCA (koniec wnęki 0x847000); dodatki 0x723430–0x723585.
 
 Silnik obsługuje w CLAB prefiksy `FA_` (tylko tekst na karcie), `GA_` (zdolność wrodzona), `RA_`, `AP_` (efekty czaru nałożone od razu) – napisy w 0x8F9340, 0x8F9430, 0x8F94E0, 0x8F94C8.
+
+## 10. Zdolności ras zaszyte w exe – rozpoznanie (2026-11-14)
+Rasa i podrasa postaci: bajty `+0x26` i `+0x27` obiektu postaci (1 HUMAN, 2 ELF, 3 HALF_ELF, 4 DWARF, 5 HALFLING, 6 GNOME,
+7 HALFORC; podrasa 0 czysta, 1/2 jak w SRLIST). Wrogowie: RACE.IDS (111 HOBGOBLIN, 112 KOBOLD, 113 OGRE, 153 GIANT,
+155 GOBLIN, 160 ORC, 180 BUGBEAR).
+| Miejsce | Co robi | Do tabeli |
+|---|---|---|
+| 0x722820 (tablica skoków 0x722D30) | przy nadawaniu zdolności: flaga 0x20000 w `+0x5BC` (widzenie w ciemności) dla aasimara, tieflinga, drowa, krasnoludów, głębinowego gnoma, półorka; głębinowy gnom dodatkowo 0x200000 i `+0x5E2` = [0x84EBBC] + 4 | tak: kolumna DARKVISION (+ osobno cecha głębinowego gnoma) |
+| 0x73C8C0 (z ataku 0x73BBC9) | premia do trafienia: krasnolud +1 vs 111/155/160/180 (tablica 0x73C988), złoty krasnolud +1 vs aberracje (0x584AA0), gnom +1 vs 111/112/155/180 (0x73C9D8); olbrzym/ogr −4 (0x84EA98) przeciw krasnoludowi i gnomowi (bez głębinowego) | tak: wrogowie rasy + premia, KP przeciw olbrzymom |
+| 0x73BC10, 0x73CA66 | niziołek: premia przy broni miotanej/procy (typy przedmiotów 14–29, tablica 0x73CAB4) | tak |
+| 0x4A4963 | rzut obronny (typ efektu 0x18): +2 niziołek (strach?), +2 drow | tak |
+| 0x4B551B | drow −1 (0x85BCE4), duergar (0x85BCE8) – prawdopodobnie wrażliwość na światło | do potwierdzenia |
+| 0x6F6880, 0x6F8D51 | drow/duergar oraz głębinowy gnom – efekty zależne od obszaru (światło dzienne? niewykrywalność?) | do rozpoznania |
+| 0x71E9AD | drow i głębinowy gnom: `+0x5F5` += 1 przy awansie (odporność na magię rośnie z poziomem) | tak |
+| 0x584CC6, 0x5850AD | aasimar/tiefling wyłączeni z działania (niehumanoidy – np. czary na osoby) | tak |
+| 0x7637AE | człowiek: dodatek przy pierwszym poziomie (premia człowieka) | do rozpoznania |
+| 0x764020 | tiefling i głębinowy gnom: +2 do poziomu efektywnego | do rozpoznania |
+| 0x73C7E1 | duergar: zależne od przedmiotu (`+0x12`, flaga 0x1 w `+0x40`) | do rozpoznania |
+Propozycja: `DSRASY.2DA` – wiersze = nazwy wierszy ras z GetRaceRow (jak ABRACEAD: HUMAN_AASIMAR, …, HALF_ORC_MUL),
+kolumny = cechy; `DSRWROG.2DA` – wrogowie rasy (lista RACE.IDS + premia). Brak wiersza = zachowanie oryginalne.
