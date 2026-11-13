@@ -67,3 +67,6 @@ Zapis BAM w generatorze: bez RLE i bez zlib.
 Sprawdzenie 1920x1080 względem przetestowanej paczki: te same nazwy plików (+STONFORM, YGUIHITP), 196 plików GUI
 identycznych, pozostałe z tą samą geometrią (różnice palety po kwantyzacji) poza 8 BAM różniącymi się o 1 px;
 ikony identyczne; łatki exe o tych samych wartościach (zapis `imul` zamiast `lea`).
+- 2026-11-14: paczka 2560x1440 z `buduj.py` (z komponentem 5 – DDrawCompat-IWD2_2560.ini) przetestowana w grze na monitorze
+  1920x1080: wszystko działa (widok świata większy, GUI tej samej wielkości).
+- Dalej: instalator z wyborem rozdzielczości (Python przez AT_NOW + gotowe zestawy), paczka 2 (rasy) dla dowolnego IWD2_<W>.exe.
