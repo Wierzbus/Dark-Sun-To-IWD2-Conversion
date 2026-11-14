@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test25: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, tabela podklas)
+PACZKA 2 - rasy i klasy Dark Sun (test26: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -6,7 +6,7 @@ Po przeinstalowaniu samego komponentu 0 przeinstaluj tez 1, 2 i 3 - wpisuja teks
 
 Komponenty:
  0 - exe: IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe z kazdego IWD2_<W>.exe paczki 1 (np. IWD2_2560_DS.exe).
-     Exe jest teraz o 16 KB wieksze (nowa sekcja z kodem ras i podklas).
+     Exe jest teraz o 28 KB wieksze (nowa sekcja z kodem ras i podklas).
  1 - mul (podrasa polorka)
  2 - 8 podklas + zdolnosci klas z tabel 2DA (DSKLASY, DSSNEAK, DSWROG), piesc mnicha z CLAB, szybkosc barbarzyncy
  3 - polelf atasyjski (podrasa polelfa)
@@ -48,3 +48,14 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - barbarzynca, wojownik, tropiciel, druid, bard, zaklinacz, paladyn - jak dotad; wybrany przycisk podswietlony,
      - po wyjsciu z okna i powrocie wybrana podklasa nadal zaznaczona.
      Przy awansie gra nie pokazuje podklas DS (tylko szkoly / bostwa / zakony gry) - podklase DS wybiera sie w kreatorze.
+ test26: postac pamieta podklase DS kazdej klasy osobno (bajt naglowka CRE 0x30C + klasa - 1) - podklasy roznych klas
+     sie nie nakladaja; tabela do 255 podklas. Podklase DS mozna wybrac tez przy awansie, gdy postac dobiera nowa klase.
+     Reinstall: wszystkie komponenty (0 i potem 1, 2, 3, 4, 5). Postacie z test25 stworz od nowa.
+     Sprawdzic:
+     - kreator jak w test25 (wszystkie klasy, podswietlenie wybranej podklasy),
+     - awans z nowa klasa, np. wojownik dobiera lotrzyka: okno "podklasa" z przyciskami 2 = bez podklasy, 3 = Athasian
+       Rogue; opis po kliknieciu; Dalej dziala z wyborem i bez,
+     - dobieranie kaplana: 9 bostw i pod nimi 14 Earth Cleric, 15 Fire Cleric; czarodziej: szkoly i 14 Preserver,
+     - po dobraniu lotrzyka DS: zdolnosc Invisibility (CLABDS09) na 1. poziomie lotrzyka; gladiator z kreatora dalej ma swoje,
+     - anulowanie awansu przywraca postac bez nowej podklasy,
+     - zapis i wczytanie gry: podklasy zostaja (karta postaci, kolejny awans).

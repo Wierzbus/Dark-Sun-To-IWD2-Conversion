@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test25-2026-11-15~
+VERSION ~test26-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -197,29 +197,29 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     END
   END
 
-  // --- 1. Tabela podklas w exe (od test25: sekcja .dsras, adres 0xA23000 = plik 0x4CE000; kod asm/kity.asm) ---
-  // Wpis po 32 B: +0 bit, +4 strref etykiety przycisku, +8 nazwa wiersza (do 15 znakow), +0x17 klasa, +0x18 CLAB.
-  // Koniec tabeli: wpis z bitem 0. Opisy podklas okna 12 (kaplan, czarodziej): 0xA23600 (plik 0x4CE600) + 4*nr,
-  // etykiety "bez podklasy" okna 52: 0xA235C0 (plik 0x4CE5C0) + 4*klasa. Exe rozpoznajemy po znaczniku DSKITY01
-  // pod 0xA24000 (plik 0x4CF000).
-  // Bit moze sie powtarzac w roznych klasach (wpis szuka sie po parze bit + klasa). Postac wieloklasowa z obiema
-  // klasami pary ma wtedy obie podklasy (kazda dziala na poziomy swojej klasy) - pary dobierac z klas rzadko
-  // laczonych. W jednej klasie bity musza byc rozne. Kolejnosc wpisow jednej klasy = kolejnosc przyciskow.
-  // Okno 52: do 9 podklas klasy (paladyn i mnich: do 7, po zakonach gry); okno 12 (kaplan, czarodziej): przyciski
-  // 14, 15, ... dopisywane nizej do GUICG.CHU (tyle, ile podklas ma kaplan albo czarodziej).
-  // kity: (nr wpisu, klasa, wiersz, bit, CLAB, starszy bajt bitu) => tra lower (mixed = +1, help = +2)
+  // --- 1. Tabela podklas w exe (sekcja .dsras, adres 0xA23000 = plik 0x4CE000; kod asm/kity.asm) ---
+  // Wpis nr k po 32 B: +0 = 1, +4 strref etykiety przycisku, +8 nazwa wiersza (do 15 znakow), +0x17 klasa, +0x18 CLAB.
+  // Koniec tabeli: wpis z +0 = 0. Do 255 podklas. Opisy podklas (okno 12 kreatora, okno 6 awansu): 0xA25040
+  // (plik 0x4D0040) + 4*nr, etykiety "bez podklasy": 0xA25000 (plik 0x4D0000) + 4*klasa. Exe rozpoznajemy po znaczniku
+  // DSKITY02 pod 0xA26000 (plik 0x4D1000).
+  // Od test26 postac pamieta podklase DS kazdej klasy osobno (bajt naglowka CRE 0x30C + klasa - 1 = nr + 1), wiec
+  // podklasy roznych klas sie nie nakladaja. Kolejnosc wpisow jednej klasy = kolejnosc przyciskow.
+  // Kreator: okno 52 - do 9 podklas klasy (paladyn i mnich: do 7, po zakonach gry); okno 12 (kaplan, czarodziej):
+  // przyciski 14, 15, ... dopisane do GUICG.CHU. Awans (nowa klasa): okno 6 GUIREC.CHU - do 8 podklas (paladyn
+  // i mnich: do 6), kaplan i czarodziej: przyciski 14 i 15 (najwyzej 2 podklasy).
+  // kity: (nr wpisu, klasa, wiersz, CLAB, cyfry szesnastkowe nr + 1 dla KIT.IDS) => tra lower (mixed = +1, help = +2)
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_kity BEGIN
-    0, 7,  PALADIN_DS,   0x01000000, CLABDS01, 1   => 201
-    1, 1,  BARBARIAN_DS, 0x02000000, CLABDS02, 2   => 212
-    2, 3,  CLERIC_DS,    0x04000000, CLABDS03, 4   => 221
-    3, 5,  FIGHTER_DS,   0x08000000, CLABDS04, 8   => 231
-    4, 8,  RANGER_DS,    0x10000000, CLABDS05, 16  => 241
-    5, 4,  DRUID_DS,     0x20000000, CLABDS06, 32  => 251
-    6, 2,  BARD_DS,      0x40000000, CLABDS07, 64  => 261
-    7, 10, SORCERER_DS,  0x80000000, CLABDS08, 128 => 271
-    8, 9,  ROGUE_DS,     0x01000000, CLABDS09, 1   => 281
-    9, 11, WIZARD_DS,    0x02000000, CLABDS10, 2   => 291
-    10, 3, CLERIC_DS2,   0x80000000, CLABDS11, 128 => 301
+    0, 7,  PALADIN_DS,   CLABDS01, 01 => 201
+    1, 1,  BARBARIAN_DS, CLABDS02, 02 => 212
+    2, 3,  CLERIC_DS,    CLABDS03, 03 => 221
+    3, 5,  FIGHTER_DS,   CLABDS04, 04 => 231
+    4, 8,  RANGER_DS,    CLABDS05, 05 => 241
+    5, 4,  DRUID_DS,     CLABDS06, 06 => 251
+    6, 2,  BARD_DS,      CLABDS07, 07 => 261
+    7, 10, SORCERER_DS,  CLABDS08, 08 => 271
+    8, 9,  ROGUE_DS,     CLABDS09, 09 => 281
+    9, 11, WIZARD_DS,    CLABDS10, 0A => 291
+    10, 3, CLERIC_DS2,   CLABDS11, 0B => 301
   END
   OUTER_SET ds_n_kitow = 11
   // etykiety "bez podklasy" w oknie 52: klasa => tra
@@ -279,9 +279,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
-        PATCH_IF (BUFFER_LENGTH >= 0x4D0000) BEGIN
-          READ_ASCII 0x4CF000 nm (8)
-          PATCH_IF (~%nm%~ STRING_EQUAL ~DSKITY01~) BEGIN SET ok = 1 END
+        PATCH_IF (BUFFER_LENGTH >= 0x4D3000) BEGIN
+          READ_ASCII 0x4D1000 nm (8)
+          PATCH_IF (~%nm%~ STRING_EQUAL ~DSKITY02~) BEGIN SET ok = 1 END
         END
       ACTION_IF ok BEGIN
         COPY ~%src%.exe~ ~%src%.exe~
@@ -291,25 +291,23 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
             SET mixed = $ds_str(~%t1%~)
             SET help = $ds_str(~%t2%~)
             SET o = 0x4CE000 + 32 * k_0
-            WRITE_SHORT o 0
-            WRITE_BYTE (o + 2) 0
-            WRITE_BYTE (o + 3) k_5
+            WRITE_LONG o 1
             WRITE_LONG (o + 4) mixed
             FOR (z = 8; z < 0x20; ++z) BEGIN WRITE_BYTE (o + z) 0 END
             WRITE_ASCIIE (o + 8) ~%k_2%~
             WRITE_BYTE (o + 0x17) k_1
-            WRITE_ASCIIE (o + 0x18) ~%k_4%~
-            WRITE_LONG (0x4CE600 + 4 * k_0) help
+            WRITE_ASCIIE (o + 0x18) ~%k_3%~
+            WRITE_LONG (0x4D0040 + 4 * k_0) help
           END
           WRITE_LONG (0x4CE000 + 32 * ds_n_kitow) 0
           PHP_EACH ds_nok AS kl => tra BEGIN
             SET t = $ds_str(~%tra%~)
-            WRITE_LONG (0x4CE5C0 + 4 * kl) t
+            WRITE_LONG (0x4D0000 + 4 * kl) t
           END
         OUTER_SET patched = patched + 1
         PRINT ~%src%.exe: wpisano tabele podklas.~
       END ELSE BEGIN
-        PRINT ~%src%.exe: brak tabeli podklas (DSKITY01) - przeinstaluj komponent 0.~
+        PRINT ~%src%.exe: brak tabeli podklas (DSKITY02) - przeinstaluj komponent 0.~
       END
     END
   END
@@ -326,7 +324,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     OUTER_SET mixed = $ds_str(~%t1%~)
     OUTER_SET help  = $ds_str(~%t2%~)
     APPEND ~KITLIST.2DA~ ~%k_2%              %lower% %mixed% %help%~ UNLESS ~%k_2%~
-    APPEND ~KIT.IDS~ ~%k_3% %k_2%~ UNLESS ~%k_2%~   // ten sam bit w dwoch klasach = dwa wiersze z ta sama wartoscia
+    APPEND ~KIT.IDS~ ~0x%k_4%000000 %k_2%~ UNLESS ~%k_2%~   // wartosc = glowna podklasa DS w polu kitu (nr + 1) << 24
   END
 
   // ALIGNMNT: dozwolone charaktery (L_G L_N L_E N_G N_N N_E C_G C_N C_E) - propozycja do decyzji wlasciciela;
@@ -494,6 +492,11 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   COPY_EXISTING ~GUICG.CHU~ ~override~
     LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 9  wzor_pop = 8 nowe_id = 14 RET dodano = dodano END
     LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 14 wzor_pop = 9 nowe_id = 15 RET dodano = dodano END
+  // GUIREC.CHU (ekran awansu): przyciski 14 i 15 w oknie 6 (wybor podklasy przy nowej klasie) - kopie przycisku 10,
+  // y +30 i +60 (pod przyciskiem 10 jest miejsce tylko na dwa). Uzywa ich kaplan i czarodziej; inne klasy - ukryte.
+  COPY_EXISTING ~GUIREC.CHU~ ~override~
+    LPF ds_chu_przycisk INT_VAR okno = 6 wzor = 10 wzor_pop = 9  nowe_id = 14 RET dodano = dodano END
+    LPF ds_chu_przycisk INT_VAR okno = 6 wzor = 14 wzor_pop = 10 nowe_id = 15 RET dodano = dodano END
 
 BEGIN ~TEST: polelf atasyjski jako podrasa polelfa~ DESIGNATED 3
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~

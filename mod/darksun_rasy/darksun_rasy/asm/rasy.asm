@@ -1,5 +1,5 @@
 ; Zdolnosci ras z tabel (test20) i progresja klas z DSKLPROG.2DA (test21): tablice RLAB ras (jak CLAB klas) i cechy z DSRASY.2DA / DSRWROG.2DA.
-; Kod w nowej sekcji PE .dsras (adres 0xA21000, 16 KB: kod 0xA21000-0xA21FFF, dane 0xA22000-0xA22FFF, tabela podklas 0xA23000, kity.asm 0xA24000).
+; Kod w nowej sekcji PE .dsras (adres 0xA21000, 28 KB: kod 0xA21000-0xA21FFF, dane 0xA22000-0xA22FFF, tabela podklas 0xA23000-0xA24FFF, zmienne podklas 0xA25000, kity.asm 0xA26000).
 ; Etykiety z podklasy.asm (clab, komorka, tabela2da) podaje nasm -D.
 ;
 ; DSRASY.2DA: wiersze = nazwy wierszy ras z GetRaceRow (HUMAN, HUMAN_AASIMAR, ..., HALF_ORC_MUL, HALF_ELF_DS), kolumny:
@@ -183,7 +183,7 @@ cecha:
 ;================================================================ tablica zdolnosci rasy (GetClabTable 0x546030, klasa 12)
 clab_rasa:
     cmp dword [esp+4], KLASA_RASY
-    jne 0xa24012                ; GetClabTable podklas (kity.asm)
+    jne 0xa26012                ; GetClabTable podklas (kity.asm)
     push ebx
     push esi
     push edi
@@ -561,8 +561,10 @@ prog:
     pop ebp
     ret 8
 
-; kit_wiersz(tabela, klasa, kit) -> wiersz podklasy albo -1: kity.asm (stale wejscie 0xA2400D)
-kit_wiersz equ 0xA2400D
+; kit_wiersz(tabela, klasa, kit) -> wiersz podklasy albo -1: kity.asm (stale wejscie 0xA2600D)
+kit_wiersz equ 0xA2600D
+; kit_synt(postac, klasa, kit) -> kit ze starszym bajtem = podklasa DS tej klasy (bajt postaci): kity.asm 0xA26017
+kit_synt equ 0xA26017
 
 ; prog_k(kolumna, klasa, postac) -> eax = C2DArray albo 0 (oryginal). stdcall
 ; najpierw wiersz podklasy postaci (kit z postaci +0x80C, nalezacy do tej klasy), potem wiersz klasy (prog).
@@ -577,7 +579,11 @@ prog_k:
     mov esi, [ebp+0x10]
     test esi, esi
     jz .klasa
-    mov ebx, [esi+0x80c]
+    push dword [esi+0x80c]
+    push dword [ebp+0xc]
+    push esi
+    call kit_synt               ; kit z podklasa DS tej klasy (test26: bajty klas postaci)
+    mov ebx, eax
     test ebx, ebx
     jz .klasa
     mov eax, [ebp+0xc]

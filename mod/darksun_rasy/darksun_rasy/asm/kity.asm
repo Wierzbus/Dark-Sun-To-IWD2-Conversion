@@ -1,49 +1,112 @@
-; Podklasy (kity) Dark Sun - tabela (bit, klasa) i cala obsluga podklas (test25).
-; Kod w sekcji .dsras pod 0xA24000 (czwarta strona sekcji), tabela i zmienne na trzeciej stronie 0xA23000.
-; Ten sam bit (0x01000000 ... 0x80000000) moze oznaczac rozne podklasy w roznych klasach: wpis wyszukuje sie po parze
-; (bit, klasa). Tabele wypelnia WeiDU (komponent 2) - pusta tabela = zachowanie oryginalnej gry.
+; Podklasy (kity) Dark Sun - tabela podklas i cala obsluga podklas (test25, od test26 numery podklas w bajtach klas).
+; Kod w sekcji .dsras pod 0xA26000, tabela 0xA23000 (do 255 wpisow), zmienne 0xA25000.
+; Tabele wypelnia WeiDU (komponent 2) - pusta tabela = zachowanie oryginalnej gry.
 ; Etykiety z innych plikow (szukaj, wczytaj z rasy.asm; komorka, tabela2da z podklasy.asm) podaje nasm -D.
 ;
-; Wpis tabeli KITY (32 B): +0 bit, +4 strref etykiety przycisku, +8 nazwa wiersza (ASCIIZ, do 15 znakow),
-; +0x17 klasa (1..11), +0x18 nazwa tablicy CLAB (8 znakow, 0 = brak). Koniec tabeli: wpis z bitem 0.
+; Wpis tabeli KITY (32 B): +0 = 1 (wpis istnieje), +4 strref etykiety przycisku, +8 nazwa wiersza (ASCIIZ, do 15 znakow),
+; +0x17 klasa (1..11), +0x18 nazwa tablicy CLAB (8 znakow, 0 = brak). Koniec tabeli: wpis z +0 = 0.
 ; Kolejnosc wpisow jednej klasy = kolejnosc przyciskow w oknie 52 / 12.
 bits 32
-org 0xA24000
+org 0xA26000
 
-KITY      equ 0xA23000          ; do 31 wpisow + wpis konczacy
-N_KITY    equ 31
-NOK2      equ 0xA235C0          ; 12 x strref etykiety "bez podklasy" (okno 52, przycisk 1) wg klasy
-HELP2     equ 0xA23600          ; 32 x strref opisu podklasy (okno 12, po kliknieciu)
-DLPTR     equ 0xA23680          ; 32 x wskaznik listy domen (test23)
-SLPTR     equ 0xA23700          ; 32 x wskaznik listy czarow (test24)
-DFLG      equ 0xA23780          ; 32 B: 0 = nie budowano, 1 = brak konfiguracji, 2 = gotowa
-SFLG      equ 0xA237A0
-DPAR      equ 0xA237C0          ; 2 dword: kolumna poziomu, kolumna nazwy czaru
-SPAR      equ 0xA237C8
-KPTR_PROG equ 0xA22F14          ; C2DArray DSKLPROG (wspolny z rasy.asm)
-INV19     equ 0x286BCA1B        ; odwrotnosc 19 mod 2^32
+; test26: numer podklasy zamiast bitu. Wpis tabeli nr k (0..254) ma wartosc kitu (k+1) << 24.
+; Postac trzyma podklase DS kazdej klasy w bajcie naglowka CRE (plik 0x30C + klasa - 1 = postac +0x8A8 + klasa - 1):
+; 0 = brak, k+1 = wpis k. Starszy bajt pola kitu (+0x80C) = "glowna" podklasa DS (z kreatora; kaplan ma pierwszenstwo)
+; - dla kodu gry, ktory zna tylko pole kitu (GetClassRow, domeny, maski Gotowe).
+KITY      equ 0xA23000          ; 255 wpisow po 32 B + wpis konczacy (0xA24FE0)
+N_KITY    equ 255
+NOK2      equ 0xA25000          ; 12 x strref etykiety "bez podklasy" wg klasy
+HELP2     equ 0xA25040          ; 255 x strref opisu podklasy
+DLPTR     equ 0xA25440          ; 255 x wskaznik listy domen
+SLPTR     equ 0xA25840          ; 255 x wskaznik listy czarow
+DFLG      equ 0xA25C40          ; 255 B flag list domen
+SFLG      equ 0xA25D40          ; 255 B flag list czarow
+DPAR      equ 0xA25E40
+SPAR      equ 0xA25E48
+BAJTY     equ 0x8A8             ; bajt podklasy klasy 1 w postaci (plik CRE 0x30C)
+KPTR_PROG equ 0xA22F14
+INV19     equ 0x286BCA1B
 
 ;================================================================ wejscia o stalych adresach (dla rasy.asm i WeiDU)
-    db 'DSKITY01'               ; 0xA24000: znacznik ukladu (WeiDU rozpoznaje po nim exe)
-k_wpis_we:    jmp near kit_wpis     ; 0xA24008
-k_wiersz_we:  jmp near kit_wiersz   ; 0xA2400D
-k_clab_we:    jmp near clab2        ; 0xA24012
+    db 'DSKITY02'               ; 0xA26000: znacznik ukladu
+k_wpis_we:    jmp near kit_wpis     ; 0xA26008
+k_wiersz_we:  jmp near kit_wiersz   ; 0xA2600D
+k_clab_we:    jmp near clab2        ; 0xA26012
+k_synt_we:    jmp near kit_synt     ; 0xA26017
 
 ;================================================================ wyszukiwanie w tabeli
-; kit_wpis: eax = kit (dword postaci), cl = klasa -> edx = wpis albo 0
+; kit_wpis: eax = kit (starszy bajt = numer wpisu + 1), cl = klasa -> edx = wpis tej klasy albo 0
 kit_wpis:
-    mov edx, KITY
-.p: cmp dword [edx], 0
+    mov edx, eax
+    shr edx, 24
+    jz .r
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    cmp dword [edx], 0
     je .brak
-    test eax, [edx]
-    jz .n
     cmp cl, [edx+0x17]
     je .r
-.n: add edx, 32
-    jmp .p
 .brak:
     xor edx, edx
 .r: ret
+
+; wartosc: edx = wpis -> eax = wartosc kitu (nr + 1) << 24
+wartosc:
+    mov eax, edx
+    sub eax, KITY
+    shr eax, 5
+    inc eax
+    shl eax, 24
+    ret
+
+; kit_synt(postac, klasa, kit) -> eax = kit ze starszym bajtem = podklasa DS tej klasy (bajt postaci), stdcall
+kit_synt:
+    mov eax, [esp+0xc]
+    mov ecx, [esp+8]
+    dec ecx
+    cmp ecx, 10
+    ja .k
+    mov edx, [esp+4]
+    test edx, edx
+    jz .k
+    movzx edx, byte [edx+BAJTY+ecx]
+    test edx, edx
+    jz .k
+    and eax, 0x00ffffff
+    shl edx, 24
+    or eax, edx
+.k: ret 12
+
+; ustaw_bajty(postac): bajty klas = podklasa ze starszego bajtu kitu (kreator: jedna klasa). stdcall, zachowuje rejestry i flagi
+ustaw_bajty:
+    pushfd
+    push eax
+    push ecx
+    push edx
+    push edi
+    mov edi, [esp+0x18]
+    xor eax, eax
+    mov [edi+BAJTY], eax
+    mov [edi+BAJTY+4], eax
+    mov [edi+BAJTY+8], ax
+    mov [edi+BAJTY+10], al
+    mov eax, [edi+0x80c]
+    shr eax, 24
+    jz .k
+    lea edx, [eax-1]
+    shl edx, 5
+    movzx ecx, byte [KITY+edx+0x17]
+    dec ecx
+    cmp ecx, 10
+    ja .k
+    mov [edi+BAJTY+ecx], al
+.k: pop edi
+    pop edx
+    pop ecx
+    pop eax
+    popfd
+    ret 4
 
 ; kit_nty: cl = klasa, eax = n -> edx = n-ty wpis tej klasy (od 0) albo 0
 kit_nty:
@@ -387,7 +450,8 @@ klik52:
     call kit_nty
     test edx, edx
     jz .zapisz
-    mov ebx, [edx]
+    call wartosc
+    mov ebx, eax
     jmp .zapisz
 .pm:
     sub eax, 4
@@ -395,13 +459,16 @@ klik52:
     call kit_nty
     test edx, edx
     jz .zapisz
-    mov ebx, [edx]
+    call wartosc
+    mov ebx, eax
 .zapisz:
     mov eax, ebx
     pop ebx
     pop edx
     pop ecx
     mov [edx+0x80c], eax
+    push edx
+    call ustaw_bajty
     ret
 
 ; 0x615C50 przycisk Gotowe (call, zamiast mov ebp, [ebp+0x80C]; klasa [esp+0x28]):
@@ -450,7 +517,7 @@ getkit_wsp:
     call kit_nty
     test edx, edx
     jz .zero
-    mov eax, [edx]
+    call wartosc
     ret 4
 .zero:
     xor eax, eax
@@ -477,9 +544,11 @@ petla12:
     test edx, edx
     jz .ukryj
     push edx
-    mov eax, [esp+0x1c]
-    test eax, [edx]
-    setnz al
+    call wartosc
+    mov ecx, [esp+0x1c]
+    and ecx, 0xff000000
+    cmp eax, ecx
+    sete al
     movzx eax, al
     push eax
     mov ecx, edi
@@ -534,6 +603,321 @@ pomoc12:
 .a: push 0
     push 0x8a636c
     jmp 0x61d038
+
+;================================================================ zapis podklasy w kreatorze: bajty klas postaci
+; 0x61BF5D klikniecie klasy w oknie 2 (call, zamiast mov [eax+0x80C], edi): kit 0 i wyzerowane bajty
+klasa_zeruj:
+    mov [eax+0x80c], edi
+    push eax
+    call ustaw_bajty
+    ret
+; 0x61CF0E klikniecie w oknie 12 (call, zamiast mov [edx+0x80C], ecx; flagi z cmp przed zapisem musza zostac)
+zapisz12:
+    mov [edx+0x80c], ecx
+    push edx
+    call ustaw_bajty
+    ret
+; 0x722D9C procedura CLAB (call zamiast call 0x728570 = kit postaci, ecx = postac, klasa = [esp+0xAEC]):
+; kit ze starszym bajtem = podklasa DS tej klasy (bajt postaci)
+kit_722:
+    push ecx
+    call 0x728570
+    pop ecx
+    push eax
+    push dword [esp+0xaf0]
+    push ecx
+    call kit_synt
+    ret
+
+;================================================================ ekran awansu (obiekt gry +0x1C60, GUIREC.CHU), okno 6 = wybor podklasy
+; ukryj_id(id): SetActive(0) przycisku okna esi. stdcall, zachowuje rejestry poza eax
+ukryj_id:
+    push ecx
+    push edx
+    push dword [esp+0xc]
+    mov ecx, esi
+    call 0x4d2ca0
+    test eax, eax
+    jz .k
+    push 0
+    mov ecx, eax
+    call 0x4d57c0
+.k: pop edx
+    pop ecx
+    ret 4
+
+; wybor_awans: ebx = ekran awansu -> eax = numer wpisu + 1 wybranej podklasy DS tej klasy albo 0
+wybor_awans:
+    push ecx
+    push edx
+    mov eax, [ebx+0x846]
+    shr eax, 24
+    jz .k
+    lea edx, [eax-1]
+    shl edx, 5
+    mov cl, [ebx+0x106]
+    cmp cl, [KITY+edx+0x17]
+    je .k
+    xor eax, eax
+.k: pop edx
+    pop ecx
+    ret
+
+; 0x5E1020 (czy pokazac okno 6; esi = ekran): gra - tylko czarodziej, mnich, paladyn, kaplan na 1. poziomie klasy;
+; dodatkowo kazda inna klasa, ktora ma podklasy DS w tabeli (tez tylko nowa klasa)
+okno6_czy:
+    mov al, [esi+0x106]
+    cmp al, 0xb
+    je 0x5e103a
+    cmp al, 6
+    je 0x5e103a
+    cmp al, 7
+    je 0x5e103a
+    cmp al, 3
+    je 0x5e103a
+    movzx ecx, al
+    xor eax, eax
+    call kit_nty
+    test edx, edx
+    jz 0x5e189f
+    mov eax, ecx
+    jmp 0x5e103a
+
+; 0x5DA8EB (petla przyciskow okna 6, galaz poza czarodziejem i kaplanem): inne klasy niz paladyn i mnich -> przycisk ukryty
+inne6:
+    mov al, [ebx+0x106]
+    cmp al, 7
+    je .o
+    cmp al, 6
+    je .o
+    jmp 0x5da9cd
+.o: cmp edi, 4
+    jg 0x5da9cd
+    jmp 0x5da8f4
+
+; 0x5DA9FB (po petli okna 6; ebx = ekran, [esp+0x24] = okno): przyciski podklas DS
+; paladyn, mnich: od id 5; czarodziej, kaplan: id 14, 15 (dopisane do GUIREC.CHU); inne: 2 = bez podklasy, 3.. podklasy
+okno6_po:
+    push esi
+    push edi
+    push ebp
+    mov esi, [esp+0x30]         ; okno
+    movzx edi, byte [ebx+0x106] ; klasa
+    call wybor_awans
+    mov ebp, eax                ; wybrany wpis + 1 albo 0
+    cmp edi, 7
+    je .pm
+    cmp edi, 6
+    je .pm
+    cmp edi, 11
+    je .kw
+    cmp edi, 3
+    je .kw
+    cmp edi, 11
+    ja .k
+    push dword [NOK2+edi*4]
+    push 2
+    call napis_id
+    xor eax, eax
+    test ebp, ebp
+    sete al
+    push eax
+    push 2
+    call zaznacz_id
+    push 3
+    jmp .lista
+.pm:
+    push 5
+    jmp .lista
+.kw:
+    push 14
+.lista:                         ; [esp] = pierwszy id
+    xor ecx, ecx                ; n
+.p: push ecx
+    mov eax, ecx
+    mov ecx, edi
+    call kit_nty
+    pop ecx
+    test edx, edx
+    jz .reszta
+    mov eax, [esp]
+    add eax, ecx                ; id
+    cmp dword [esp], 14
+    je .ok
+    cmp eax, 10
+    ja .reszta
+.ok:
+    push eax
+    push dword [edx+4]
+    push eax
+    call napis_id
+    call wartosc                ; eax = (nr + 1) << 24
+    shr eax, 24
+    cmp eax, ebp
+    sete al
+    movzx eax, al
+    pop edx                     ; id
+    push eax
+    push edx
+    call zaznacz_id
+    inc ecx
+    jmp .p
+.reszta:                        ; ukryj nieuzyte przyciski 14, 15 (sa w oknie dla kazdej klasy)
+    mov eax, [esp]
+    cmp eax, 14
+    jne .uk
+    add eax, ecx
+    jmp .uk2
+.uk:
+    mov eax, 14
+.uk2:
+    cmp eax, 15
+    ja .po
+    push eax
+    push eax
+    call ukryj_id
+    pop eax
+    inc eax
+    jmp .uk2
+.po:
+    add esp, 4
+.k: pop ebp
+    pop edi
+    pop esi
+    mov ecx, [esp+0x24]
+    push 0
+    jmp 0x5daa01
+
+; 0x5ED5A0 GetKit przycisku okna 6 (ecx = przycisk, klasa z ekranu awansu), ret
+getkit6:
+    push ecx
+    push edx
+    mov eax, [0x8cf6dc]
+    mov edx, [eax+0x1c60]
+    movzx edx, byte [edx+0x106]
+    mov ecx, [ecx+0xa]          ; id
+    cmp edx, 7
+    je .pm
+    cmp edx, 6
+    je .pm
+    cmp edx, 11
+    je .kw
+    cmp edx, 3
+    je .kw
+    sub ecx, 3
+    jb .zero                    ; id 2 = bez podklasy
+    jmp .szukaj
+.pm:
+    sub ecx, 5
+    jb .oryg
+    jmp .szukaj
+.kw:
+    sub ecx, 14
+    jb .oryg
+.szukaj:
+    mov eax, ecx
+    mov ecx, edx
+    call kit_nty
+    test edx, edx
+    jz .zero
+    call wartosc
+    pop edx
+    pop ecx
+    ret
+.zero:
+    xor eax, eax
+    pop edx
+    pop ecx
+    ret
+.oryg:
+    pop edx
+    pop ecx
+    mov eax, [0x8cf6dc]
+    jmp 0x5ed5a5
+
+; 0x5ED913 opis po kliknieciu w oknie 6, nieznany kit (eax = kit albo -1 dla 0; edi = ekran awansu)
+pomoc6:
+    cmp eax, -1
+    je .brak
+    mov edx, eax
+    shr edx, 24
+    jz .a
+    dec edx
+    mov eax, [HELP2+edx*4]
+    jmp 0x5ed93d
+.brak:
+    movzx edx, byte [edi+0x106]
+    cmp edx, 11
+    ja .a
+    mov eax, [NOK2+edx*4]
+    jmp 0x5ed93d
+.a: push 0
+    push 0x8a636c
+    jmp 0x5ed91a
+
+; 0x5E2089 Gotowe okna 6 (esi = ekran -> esi = 1 gotowe): podklasa DS tej klasy wybrana albo klasa bez podklas gry
+gotowe6:
+    push ebx
+    mov ebx, esi
+    call wybor_awans
+    pop ebx
+    test eax, eax
+    jnz .tak
+    mov cl, [esi+0x106]
+    cmp cl, 0xb
+    je .o
+    cmp cl, 7
+    je .o
+    cmp cl, 6
+    je .o
+    cmp cl, 3
+    je .o
+.tak:
+    mov esi, 1
+    jmp 0x5e2177
+.o: xor eax, eax
+    jmp 0x5e2091
+
+; 0x5E2E39 zatwierdzenie okna 6 (ebp = ekran, [esp+0x10] = postac): kit = stary | nowy (bez starszego bajtu nowego);
+; wybrana podklasa DS nowej klasy -> bajt klasy postaci; starszy bajt kitu: stary, a gdy pusty albo podklasa kaplana - nowy
+kit_awans:
+    push ebx
+    push edx
+    push esi
+    push edi
+    mov ebx, ebp
+    call wybor_awans
+    mov esi, eax                ; nr + 1 albo 0
+    mov edi, [esp+0x20]         ; postac
+    movzx ecx, byte [ebp+0x106]
+    dec ecx
+    cmp ecx, 10
+    ja .kit
+    mov edx, esi
+    mov [edi+BAJTY+ecx], dl     ; bajt klasy (0 = bez podklasy DS)
+.kit:
+    mov eax, [ebp+0x846]
+    and eax, 0x00ffffff
+    or eax, [ebp+0x77c]
+    test esi, esi
+    jz .zapisz
+    mov edx, [ebp+0x77c]
+    shr edx, 24
+    jz .nowy
+    cmp byte [ebp+0x106], 3
+    jne .zapisz
+.nowy:
+    and eax, 0x00ffffff
+    mov edx, esi
+    shl edx, 24
+    or eax, edx
+.zapisz:
+    mov [edi+0x80c], eax
+    pop edi
+    pop esi
+    pop edx
+    pop ebx
+    jmp 0x5e2e51
 
 ;================================================================ listy czarow i domen podklas (test23, test24)
 ; lista_kitu(nr wpisu, opis) -> eax = obiekt listy czarow albo 0 (brak konfiguracji). stdcall.
@@ -720,7 +1104,12 @@ lista_klasy:
     jb .k
     cmp dword [esi], 0x85bdd4   ; CGameSprite
     jne .k
-    mov eax, [esi+0x80c]
+    mov ecx, [esp+0x10]
+    movzx ecx, byte [ecx]
+    push dword [esi+0x80c]
+    push ecx
+    push esi
+    call kit_synt               ; podklasa DS tej klasy z bajtu postaci
     test eax, 0xff000000
     jz .k
     mov ecx, [esp+0x10]

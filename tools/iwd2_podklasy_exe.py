@@ -50,10 +50,10 @@ HAKI2 = [
     (0x6F8EF4, "call", "aura", 0),           # aura paladyna (aktualizacja co runde)
 ]
 # rasy.asm (test20) w nowej sekcji PE .dsras (adres 0xA21000, 4 KB) na koncu pliku
-SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x4000
+SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x7000
 ORG3 = BASE + SEKCJA_RVA
 DANE3 = 0xA22000                             # zmienne kodu ras (druga strona sekcji)
-ORG4 = 0xA24000                              # kity.asm (test25): tabela podklas (bit, klasa) 0xA23000, kod 0xA24000
+ORG4 = 0xA26000                              # kity.asm: tabela podklas 0xA23000 (255 wpisow), zmienne 0xA25000, kod 0xA26000
 # haki podklas (kity.asm) - zastepuja haki podklasy.asm o tych samych adresach; (adres, oczekiwane bajty, rodzaj, etykieta, nop)
 HAKI4 = [
     (0x541DA0, "518b44240c", "jmp", "klasa_wiersz2", 0),         # GetClassRow: wiersz podklasy po (bit, klasa)
@@ -69,6 +69,18 @@ HAKI4 = [
     (0x61001B, "e932010000", "jmp", "petla_m", 0),               # okno 12 czarodzieja
     (0x61D031, "6a00686c638a00", "jmp", "pomoc12", 2),           # okno 12: opis podklasy
     (0x61C09E, "ff248da8c16100", "jmp", "okno_klasy", 2),        # klik klasy: okno 52, gdy klasa ma podklasy DS
+    # test26: numer podklasy w bajcie klasy postaci (+0x8A8 + klasa - 1 = plik CRE 0x30C + klasa - 1)
+    (0x61BF5D, "89b80c080000", "call", "klasa_zeruj", 1),        # kreator: klik klasy - kit 0, bajty zerowane
+    (0x61CF0E, "898a0c080000", "call", "zapisz12", 1),           # kreator: klik w oknie 12 - bajt klasy
+    (0x722D9C, "e8cf570000", "call", "kit_722", 0),              # procedura CLAB: kit z bajtu klasy
+    # test26: okno 6 ekranu awansu (GUIREC.CHU)
+    (0x5E1020, "8a8606010000", "jmp", "okno6_czy", 1),           # okno 6 tez dla klas z podklasami DS
+    (0x5DA8EB, "83ff040f8fd9000000", "jmp", "inne6", 4),         # przyciski gry tylko dla paladyna i mnicha
+    (0x5DA9FB, "8b4c24246a00", "jmp", "okno6_po", 1),            # przyciski podklas DS
+    (0x5ED5A0, "a1dcf68c00", "jmp", "getkit6", 0),               # GetKit okna 6
+    (0x5ED913, "6a00686c638a00", "jmp", "pomoc6", 2),            # opis podklasy po kliknieciu
+    (0x5E2089, "8a8e0601000033c0", "jmp", "gotowe6", 3),         # Gotowe okna 6
+    (0x5E2E39, "8b8d460800008b857c0700000bc18b4c241089810c080000", "jmp", "kit_awans", 19),  # zatwierdzenie podklasy
 ]
 # maski szkol czarodzieja 0x7FC0 -> 0xFF007FC0 (bit podklasy DS przy kliknieciu w oknie 12 i przy Gotowe)
 MASKI_MAG = [0x61CEE9, 0x615CED]
@@ -193,7 +205,7 @@ def main():
                       "tabela2da": et["tabela2da"]})
     if ORG4 + len(kod4) > ORG3 + SEKCJA_ROZM:
         sys.exit("kity.asm wychodzi poza sekcje")
-    assert et4["kit_wpis"] and kod4[:8] == b"DSKITY01"
+    assert kod4[:8] == b"DSKITY02" and et4["kit_synt"]
     d[raw3 + (ORG4 - ORG3):raw3 + (ORG4 - ORG3) + len(kod4)] = kod4
     for adr in MASKI_MAG:
         struct.pack_into("<I", d, adr - BASE, 0xFF007FC0)

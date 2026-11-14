@@ -356,3 +356,29 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   0x317–0x31B rezerwa (np. wersja układu).
 - Ryzyka: edytory (NearInfinity, DLTCEP) pokazują te bajty jako „Unknown” – przy ręcznej edycji postaci mogą je zmienić;
   potwierdzić w grze test zapisu i wczytania (wpisać wartość, zapisać grę, wczytać, sprawdzić).
+
+## 20. Test26: podklasa w bajcie klasy, tabela 255 podklas, podklasy DS przy awansie
+- **Układ `.dsras` 28 KB** (exe 5 058 560 B): 0xA23000 tabela (255 × 32 B + wpis końcowy), 0xA25000 NOK[klasa],
+  0xA25040 opisy, 0xA25440/0xA25840 wskaźniki list domen / czarów, 0xA25C40/0xA25D40 flagi, 0xA26000 `kity.asm`
+  (znacznik `DSKITY02`, wejścia 0xA26008 `kit_wpis`, 0xA2600D `kit_wiersz`, 0xA26012 GetClabTable, 0xA26017 `kit_synt`).
+- **Wartość podklasy** w polu kitu = (nr + 1) << 24; `kit_wpis(kit, klasa)` = wpis nr, gdy jego klasa się zgadza.
+  **Bajt klasy** postaci +0x8A8 + klasa − 1 (plik 0x30C + klasa − 1, sekcja 19) = nr + 1. `kit_synt(postać, klasa, kit)`
+  podstawia bajt klasy do starszego bajtu kitu – używają go `prog_k` (DSKLPROG), `lista_klasy` (LISTSPLL) i procedura
+  CLAB (0x722D9C: `call 0x728570` → `kit_722`).
+- Kreator: `ustaw_bajty(postać)` po każdym zapisie kitu – 0x61BF5D (`klasa_zeruj`, klik klasy), 0x621DBE (`klik52`),
+  0x61CF0E (`zapisz12`, z zachowaniem flag).
+- Ekran awansu (GUIREC.CHU, okno 6):
+
+  | Miejsce | Etykieta | Zmiana |
+  |---|---|---|
+  | 0x5E1020 | `okno6_czy` | okno 6 także dla klasy z podklasami DS (poziom klasy 0) |
+  | 0x5DA8EB | `inne6` | przyciski 2–4 gry tylko dla paladyna i mnicha (inne klasy: ukryte, bez asercji 0xDAC) |
+  | 0x5DA9FB | `okno6_po` | przyciski podklas DS (2 = bez podklasy dla klas bez podklas gry; paladyn/mnich od 5; kapłan/czarodziej 14, 15), zaznaczenie, ukrycie nieużytych 14/15 |
+  | 0x5ED5A0 | `getkit6` | GetKit przycisku: (nr + 1) << 24, 0 = bez podklasy |
+  | 0x5ED913 | `pomoc6` | opis podklasy (0xA25040) / „bez podklasy” zamiast asercji 0x3765 |
+  | 0x5E2089 | `gotowe6` | Gotowe: podklasa DS tej klasy wybrana albo klasa bez podklas gry (podklasa opcjonalna) |
+  | 0x5E2E39 | `kit_awans` | kit = stary \| nowy (bez starszego bajtu nowego), bajt klasy = wybór, starszy bajt: stary, a gdy pusty lub podklasa kapłana – nowy |
+
+  Anulowanie awansu przywraca nagłówek z kopii (0x5E4181), więc i bajty klas.
+- Znane ograniczenie: kod znający tylko pole kitu (GetClassRow: opisy KITLIST, ALIGNMNT, CLSSRSMD, ABCLASRQ; domeny
+  kapłana; `Kit()` w skryptach) widzi tylko „główną” podklasę DS postaci.
