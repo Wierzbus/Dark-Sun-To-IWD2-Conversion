@@ -263,6 +263,12 @@ def main():
     # a ciezkie zbroje nakladaja barbarzyncy kare DSBBNARM.EFF (opcode 177 w efektach zalozenia ITM)
     assert d[0x72E2F6 - BASE:0x72E2F8 - BASE] == b"\x74\x26", "0x72E2F6: oczekiwano je short"
     d[0x72E2F6 - BASE] = 0xEB
+    # okno 52 (0x608F50, inicjalizacja): tytul tylko dla paladyna (7) i mnicha (6), inna klasa -> asercja
+    # InfScreenCreateChar.cpp 1887 (barbarzynca, wojownik, tropiciel, druid, bard, zaklinacz od test16). Bez tytulu:
+    # 0x609075 jmp short 0x60908E.
+    o = 0x609075 - BASE
+    assert d[o:o + 2].hex() == "6a00" and struct.unpack_from("<I", d, o + 13)[0] == 0x75F, "0x609075"
+    d[o:o + 2] = bytes([0xEB, 0x60908E - 0x609077])
     s = sekcje(d)
     struct.pack_into("<I", d, s[".text"] + 8, max(0x446000, struct.unpack_from("<I", d, s[".text"] + 8)[0]))
     struct.pack_into("<I", d, s[".data"] + 8, max(0x176000, struct.unpack_from("<I", d, s[".data"] + 8)[0]))

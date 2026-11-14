@@ -283,3 +283,7 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Instalator (komponent 5): kolumna `SPELLS` w DSKLPROG (`CLR_DS` dla CLERIC_DS, reszta `*`), kolumna `CLR_DS` w LISTSPLL
   za `SPELL_RES_REF` (kopia `CLR`, do decyzji właściciela).
 - Kod `.dsras` 0xA21000–0xA21CB0 (3248 B).
+- **Poprawka (2026-11-14, po teście w grze):** okno 52 przy otwarciu (0x608F50) ustawia tytuł tylko dla paladyna (7) i mnicha (6),
+  inna klasa → asercja InfScreenCreateChar.cpp 1887 – kreator wysypywał się po kliknięciu barbarzyńcy (i każdej klasy
+  kierowanej do okna 52 od test16). 0x609075 `jmp short 0x60908E`: okno bez tytułu. Pozostałe asercje okna 52 (0x60D280,
+  0x621D88, 0x615C50) sprawdzają tylko wskaźniki.
