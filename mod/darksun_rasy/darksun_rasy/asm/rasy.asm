@@ -1,5 +1,5 @@
 ; Zdolnosci ras z tabel (test20) i progresja klas z DSKLPROG.2DA (test21): tablice RLAB ras (jak CLAB klas) i cechy z DSRASY.2DA / DSRWROG.2DA.
-; Kod w nowej sekcji PE .dsras (adres 0xA21000, 4 KB, tworzy ja tools/iwd2_podklasy_exe.py i instalator).
+; Kod w nowej sekcji PE .dsras (adres 0xA21000, 8 KB: kod 0xA21000-0xA21FFF, dane 0xA22000-0xA22FFF).
 ; Etykiety z podklasy.asm (clab, komorka, tabela2da) podaje nasm -D.
 ;
 ; DSRASY.2DA: wiersze = nazwy wierszy ras z GetRaceRow (HUMAN, HUMAN_AASIMAR, ..., HALF_ORC_MUL, HALF_ELF_DS), kolumny:
@@ -14,13 +14,17 @@
 bits 32
 org 0xA21000
 
-POST      equ 0xA21F00          ; postac, dla ktorej procedura CLAB czyta tablice rasy (klasa 12)
-KPTR_RASY equ 0xA21F04          ; C2DArray DSRASY
-KPTR_RWRG equ 0xA21F08          ; C2DArray DSRWROG
-BUF       equ 0xA21F0C          ; 8 B nazwa tablicy (RLAB / progresja klas)
-KPTR_PROG equ 0xA21F14          ; C2DArray DSKLPROG
-PCACHE    equ 0xA21B00          ; 3 x 11 dword: tablica progresji (kolumna, klasa); 0 = nie liczone, 1 = oryginal
-CACHE     equ 0xA21C00          ; 64 wpisy po 12 B: nazwa (8), C2DArray (4) - tablice wczytane po nazwie
+POST      equ 0xA22F00          ; postac, dla ktorej procedura CLAB czyta tablice rasy (klasa 12)
+KPTR_RASY equ 0xA22F04          ; C2DArray DSRASY
+KPTR_RWRG equ 0xA22F08          ; C2DArray DSRWROG
+BUF       equ 0xA22F0C          ; 8 B nazwa tablicy (RLAB / progresja klas)
+KPTR_PROG equ 0xA22F14          ; C2DArray DSKLPROG
+CTX       equ 0xA22F18          ; postac, dla ktorej gra liczy rzuty obronne / PW (ustawiaja haki w miejscach wywolan)
+KCACHE    equ 0xA22000          ; 64 wpisy po 12 B: klucz (kolumna<<8 | klasa), kit, tablica (1 = wiersz klasy)
+N_KCACHE  equ 64
+TAB_KITOW equ 0x846C00          ; tabela podklas DS w podklasy.asm (+0 bit, +8 nazwa wiersza, +0x17 klasa)
+PCACHE    equ 0xA22B00          ; 3 x 11 dword: tablica progresji (kolumna, klasa); 0 = nie liczone, 1 = oryginal
+CACHE     equ 0xA22C00          ; 64 wpisy po 12 B: nazwa (8), C2DArray (4) - tablice wczytane po nazwie
 N_CACHE   equ 64
 KLASA_RASY equ 12
 
@@ -558,12 +562,197 @@ prog:
     pop ebp
     ret 8
 
+; kit_wiersz(tabela, klasa, kit) -> eax = wiersz podklasy w tabeli albo -1. stdcall
+; podklasa DS (bity 0xFF000000): nazwa z TAB_KITOW, tylko gdy podklasa nalezy do tej klasy;
+; inne kity (zakony, bostwa, szkoly): nazwa z GetClassRow(klasa, kit).
+kit_wiersz:
+    push ebp
+    mov ebp, esp
+    push ecx
+    push edx
+    mov eax, [ebp+0x10]
+    test eax, 0xff000000
+    jz .wan
+    mov edx, TAB_KITOW
+.t: mov ecx, [edx]
+    test ecx, ecx
+    jz .nie
+    test eax, ecx
+    jnz .j
+    add edx, 32
+    jmp .t
+.j: movzx ecx, byte [edx+0x17]
+    cmp ecx, [ebp+0xc]
+    jne .nie
+    lea eax, [edx+8]
+    push 0
+    push eax
+    push dword [ebp+8]
+    call szukaj
+    jmp .k
+.wan:
+    sub esp, 4
+    push dword [ebp+0x10]
+    push dword [ebp+0xc]
+    lea eax, [esp+8]
+    push eax
+    mov ecx, [0x8cf6dc]
+    mov ecx, [ecx+0x1c54]
+    call 0x541da0               ; GetClassRow(&wynik, klasa, kit)
+    push 0
+    push dword [esp+4]
+    push dword [ebp+8]
+    call szukaj
+    push eax
+    lea ecx, [esp+4]
+    call 0x7fcc1a               ; ~CString
+    pop eax
+    add esp, 4
+    jmp .k
+.nie:
+    or eax, -1
+.k: pop edx
+    pop ecx
+    pop ebp
+    ret 12
+
+; prog_k(kolumna, klasa, postac) -> eax = C2DArray albo 0 (oryginal). stdcall
+; najpierw wiersz podklasy postaci (kit z postaci +0x80C, nalezacy do tej klasy), potem wiersz klasy (prog).
+prog_k:
+    push ebp
+    mov ebp, esp
+    push ecx
+    push edx
+    push ebx
+    push esi
+    push edi
+    mov esi, [ebp+0x10]
+    test esi, esi
+    jz .klasa
+    mov ebx, [esi+0x80c]
+    test ebx, ebx
+    jz .klasa
+    mov eax, [ebp+0xc]
+    dec eax
+    cmp eax, 10
+    ja .klasa
+    cmp dword [ebp+8], 2
+    ja .klasa
+    mov edx, [ebp+8]
+    shl edx, 8
+    or edx, [ebp+0xc]           ; klucz
+    mov edi, KCACHE
+    mov ecx, N_KCACHE
+.c: mov eax, [edi]
+    test eax, eax
+    jz .licz
+    cmp eax, edx
+    jne .cn
+    cmp [edi+4], ebx
+    jne .cn
+    mov eax, [edi+8]
+    cmp eax, 1
+    je .klasa
+    jmp .k
+.cn:
+    add edi, 12
+    loop .c
+    xor edi, edi                ; pamiec podreczna pelna - bez zapisu
+.licz:
+    push edx
+    push edi
+    mov esi, KPTR_PROG
+    mov edi, n_prog
+    call tabela2da
+    pop edi
+    pop edx
+    mov esi, 1                  ; wynik: 1 = wiersz klasy
+    test eax, eax
+    jz .zapisz
+    cmp word [eax+0x22], 0
+    jle .zapisz
+    push edx
+    push edi
+    mov edi, eax
+    push ebx
+    push dword [ebp+0xc]
+    push edi
+    call kit_wiersz
+    cmp eax, -1
+    je .pz
+    push eax
+    mov eax, [ebp+8]
+    push 1
+    push dword [nazwy_kol+eax*4]
+    push edi
+    call szukaj
+    pop ecx                     ; wiersz
+    cmp eax, -1
+    je .pz
+    push eax
+    push ecx
+    mov eax, edi
+    call komorka
+    test eax, eax
+    jz .pz
+    cmp byte [eax], '*'
+    je .pz
+    cmp byte [eax], 0
+    je .pz
+    push eax
+    call wczytaj
+    test eax, eax
+    jz .pz
+    cmp word [eax+0x22], 0
+    jle .pz
+    mov esi, eax
+.pz:
+    pop edi
+    pop edx
+.zapisz:
+    test edi, edi
+    jz .bez
+    mov [edi], edx
+    mov [edi+4], ebx
+    mov [edi+8], esi
+.bez:
+    cmp esi, 1
+    je .klasa
+    mov eax, esi
+    jmp .k
+.klasa:
+    push dword [ebp+0xc]
+    push dword [ebp+8]
+    call prog
+.k: pop edi
+    pop esi
+    pop ebx
+    pop edx
+    pop ecx
+    pop ebp
+    ret 12
+
+; ---- miejsca wywolan rzutow (0x5429B0) i PW (0x542FA0): zapamietaj postac, potem oryginalna funkcja
+ctx_sv_esi:
+    mov [CTX], esi
+    jmp 0x5429b0
+ctx_sv_ebp:
+    mov [CTX], ebp
+    jmp 0x5429b0
+ctx_hp_esi:
+    mov [CTX], esi
+    jmp 0x542fa0
+ctx_hp_ebp:
+    mov [CTX], ebp
+    jmp 0x542fa0
+
 ; ---- PW 0x542CB0 (esi = klasa, edi = obiekt regul): zamiast lea r, [edi+tabela]
 hp_tab:
     push ecx
+    push dword [CTX]
     push esi
     push 0
-    call prog
+    call prog_k
     test eax, eax
     jnz .k
     mov ecx, [dom_hp+esi*4-4]
@@ -622,9 +811,10 @@ sv_11:
 sv_wsp:                         ; [esp] = klasa, [esp+4] = powrot
     push eax
     push edx
-    push dword [esp+8]
+    push dword [CTX]
+    push dword [esp+0xc]
     push 2
-    call prog
+    call prog_k
     test eax, eax
     jnz .k
     mov ecx, [esp+8]
@@ -644,9 +834,10 @@ bab_tab:
     push ecx
     push edx
     push eax
+    push dword [ebp+0x20]       ; postac (1. argument funkcji 0x546B60)
     push dword [ebp+8]
     push 1
-    call prog
+    call prog_k
     test eax, eax
     jnz .t
     mov ecx, [ebp+8]
@@ -670,9 +861,10 @@ bab_tab:
 bab_mnich:
     push eax
     push edx
+    push dword [esp+0x20]       ; postac (1. argument funkcji 0x546B60)
     push 6
     push 1
-    call prog
+    call prog_k
     test eax, eax
     jnz .k
     lea eax, [esi+0x18c4]

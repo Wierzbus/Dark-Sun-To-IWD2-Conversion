@@ -1,4 +1,4 @@
-# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test21, 2026-11-14)
+# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test22, 2026-11-14)
 
 Dotyczy exe z paczki 2 (`setup-darksun_rasy`, komponent 0: `IWD2_DS.exe` / `IWD2_<W>_DS.exe`). Szczegóły łatek:
 `docs/iwd2_exe_rasy_klasy.md` (sekcje 7–11). Wszystkie tabele są w `override` (WeiDU), teksty przez `.tra` (`@numer`).
@@ -20,7 +20,7 @@ Tabele są czytane przy pierwszym użyciu – po zmianie w `override` uruchom gr
 | **Podklasa** (kit) | 8 miejsc w exe (bity `0x01000000`–`0x80000000`), **wszystkie zajęte** przez podklasy DS – zmiana podklasy = tabele + teksty (sekcja 4); zmiana nazwy wiersza albo klasy bazowej miejsca = przebudowa exe (`podklasy.asm`) |
 | Zdolności klasy / podklasy wg poziomu | **tylko tabele**: CLAB (sekcja 5) |
 | Progi zdolności klas (Unik, Uncanny Dodge, atak z zaskoczenia, ulubiony wróg, aura) | **tylko tabele**: DSKLASY, DSSNEAK, DSWROG (sekcja 6) |
-| Kość PW, premia do ataku, rzuty obronne **klasy bazowej** | **tylko tabele**: DSKLPROG (sekcja 7); podklasa korzysta z progresji swojej klasy bazowej |
+| Kość PW, premia do ataku, rzuty obronne **klasy i podklasy** | **tylko tabele**: DSKLPROG (sekcja 7) – wiersz podklasy, a bez niego wiersz klasy bazowej |
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -149,7 +149,7 @@ Komponent 2 kopiuje wiersz klasy bazowej (funkcja `ds_wiersz_kitu`), potem możn
 | `ABCLSMOD`, `CHPTXT2–7`, `CLASWEAP`, `DUALCLAS`, `ENCMOD`, `KITTABLE`, `LORE`, `PROFS`, `PROFSMAX`, `QSLOTS`, `SKILLCLS`, `STRTGOLD`, `THAC0`, `XPLEVEL` | jak klasa bazowa | **nie** (exe podaje kit 0) – wiersz dla porządku |
 | `CLABDSnn.2DA` | zdolności podklasy (sekcja 5) | tak |
 Nie obsługiwane: kolumny podklas w `FEATS`/`SKILLS` (bóstwa po indeksie) – nowy bit daje wartości domyślne.
-Progresja PW / BAB / rzutów: z klasy bazowej (DSKLPROG, sekcja 7).
+Progresja PW / BAB / rzutów: wiersz podklasy w DSKLPROG, a bez niego klasa bazowa (sekcja 7).
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -181,9 +181,14 @@ wartość = minimalny poziom tej klasy (0 = brak). Podklasa dziedziczy kolumnę 
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## 7. Progresja klasy – DSKLPROG.2DA (test21)
+## 7. Progresja klasy i podklasy – DSKLPROG.2DA (test21, podklasy od test22)
 
-Wiersze = klasy bazowe: `BARBARIAN BARD CLERIC DRUID FIGHTER MONK PALADIN RANGER ROGUE SORCERER WIZARD`.
+Wiersze = klasy bazowe `BARBARIAN BARD CLERIC DRUID FIGHTER MONK PALADIN RANGER ROGUE SORCERER WIZARD`
+**oraz dowolne podklasy** – nazwa wiersza jak w KITLIST: podklasy DS (`PALADIN_DS` … `SORCERER_DS`, wpisane z wartościami
+klasy bazowej) i kity gry (zakony mnicha i paladyna, bóstwa kapłana, szkoły czarodzieja). Kolejność wyboru:
+wiersz podklasy postaci (tylko gdy podklasa należy do tej klasy) → wiersz klasy bazowej → tablica oryginalna.
+Przykład – gladiator z kością k12 zamiast k10 wojownika: `FIGHTER_DS    HPBARB    BAATFGT   SAVEWAR`.
+Postać wieloklasowa: tablica podklasy działa tylko dla klasy, do której podklasa należy; pozostałe klasy – swoje wiersze.
 | Kolumna | Tablica | Format tablicy | Oryginał |
 |---|---|---|---|
 | `HP` | kość PW przy awansie | wiersz = poziom klasy 1–40: `SIDES ROLLS MODIFIER` (HPWAR, HPBARB, HPPRS, HPROG, HPMONK, HPWIZ) | barbarzyńca HPBARB (k12), wojownik/paladyn/tropiciel HPWAR (k10), kapłan/druid HPPRS (k8), mnich HPMONK (k8), bard/łotrzyk HPROG (k6), zaklinacz/czarodziej HPWIZ (k4) |
@@ -206,7 +211,7 @@ karcie postaci w `*_DS.exe` → nowa postać w grze.
 **Zmiana podklasy DS (jednego z 8 miejsc):** teksty (`ds_kity`, `.tra`) → KITLIST, ALIGNMNT, CLSSRSMD, ABCLASRQ →
 CLABDSnn → (opcjonalnie) progi w DSKLASY dotyczą klasy bazowej.
 
-**Inna progresja klasy:** DSKLPROG (kolumna HP / BAB / SAVE) → ewentualnie nowa tablica w `override`.
+**Inna progresja klasy albo podklasy:** DSKLPROG (wiersz klasy albo podklasy, kolumna HP / BAB / SAVE) → ewentualnie nowa tablica w `override`.
 
 **Po zmianie exe (asm):** `tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out testNN.exe` →
 `tools/iwd2_paczki_exe.py ... --rasy testNN.exe --out-rasy darksun_rasy/exe/rasy_exe.tpa` → przeinstalować komponent 0

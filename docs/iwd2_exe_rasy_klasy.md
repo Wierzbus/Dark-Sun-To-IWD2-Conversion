@@ -211,3 +211,13 @@ Barb 0x3A0, Monk 0x3C4; BAAT FGT 0x18A0, NFG 0x18C4, MAG 0x18E8, MKU 0x190C.
 | 0x542610 (suma rzutu obronnego po 11 klasach) | 11 × `lea ecx, [edi+SAVExxx]` (0x542677 … 0x54296F) → `call sv_N` (kolumna SAVE) |
 | 0x546B60 (premia do ataku, bloki klas inline) | 10 bloków odczytu → `push N; call bab_tab; jmp` (kolumna BAB); mnich z bronią 0x546F37 → `call bab_mnich`, bez broni BAATMKU |
 Przewodnik dodawania ras i klas: `docs/dodawanie_ras_i_klas.md`.
+
+## 13. Test22: progresja podklas (wiersze podklas w DSKLPROG)
+Podklasa = dword postaci +0x80C (getter 0x728570). `prog_k(kolumna, klasa, postać)`: wiersz podklasy (bity 0xFF000000 →
+nazwa z tabeli 0x846C00, tylko gdy +0x17 = klasa; inne kity → `GetClassRow(klasa, kit)`), potem `prog` (wiersz klasy).
+Pamięć podręczna 0xA22000 (64 wpisy: klucz, kit, tablica). Sekcja `.dsras` powiększona do 8 KB (kod 0xA21000–0xA21FFF,
+dane 0xA22000–0xA22FFF; exe paczki 2 = 5 038 080 B).
+Skąd postać: premia do ataku – 1. argument 0x546B60; rzuty (0x5429B0) i PW (0x542FA0) dostają tylko typ obiektu i
+statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc wywołania zapamiętuje postać w CTX
+(0xA22F18): `ctx_sv_ebp` 0x5D8F3A/5B/7C, 0x5D8FAB/D4/FD; `ctx_sv_esi` 0x612A1E/3F/60, 0x737A05/20/3B, 0x737DB8/D3/EE;
+`ctx_hp_ebp` 0x5D908F; `ctx_hp_esi` 0x6129EB.

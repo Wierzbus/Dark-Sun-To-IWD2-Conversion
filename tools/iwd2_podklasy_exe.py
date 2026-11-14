@@ -50,9 +50,9 @@ HAKI2 = [
     (0x6F8EF4, "call", "aura", 0),           # aura paladyna (aktualizacja co runde)
 ]
 # rasy.asm (test20) w nowej sekcji PE .dsras (adres 0xA21000, 4 KB) na koncu pliku
-SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x1000
+SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x2000
 ORG3 = BASE + SEKCJA_RVA
-DANE3 = 0xA21F00                             # zmienne kodu ras (koniec sekcji)
+DANE3 = 0xA22000                             # zmienne kodu ras (druga strona sekcji)
 # (adres, oryginalne bajty, rodzaj, etykieta, nop)
 HAKI3 = [
     (0x71E996, "33c08a8766090000", "jmp", "rasa_awans", 3),      # awans: tablica RLAB rasy + SR_LEVEL
@@ -71,6 +71,11 @@ SV_MIEJSCA = [0x542677, 0x5426C3, 0x54270F, 0x54275B, 0x5427A7, 0x5427F3, 0x5428
 BAB_BLOKI = [(1, 0x546BC6, 0x546BF7), (2, 0x546C17, 0x546C48), (3, 0x546C68, 0x546C99), (4, 0x546CB9, 0x546CEA),
              (5, 0x546D0A, 0x546D3B), (7, 0x546D5B, 0x546D8C), (8, 0x546DAC, 0x546DDD), (9, 0x546DFF, 0x546E30),
              (10, 0x546E52, 0x546E83), (11, 0x546EA5, 0x546ED6)]   # (klasa, poczatek odczytu, "push eax" po nim)
+# test22: postac dla rzutow (0x5429B0) i PW (0x542FA0) - podklasa z postaci (+0x80C); (adres call, cel, etykieta)
+CTX_WYWOLANIA = [(a, 0x5429B0, "ctx_sv_ebp") for a in (0x5D8F3A, 0x5D8F5B, 0x5D8F7C, 0x5D8FAB, 0x5D8FD4, 0x5D8FFD)] + \
+                [(a, 0x5429B0, "ctx_sv_esi") for a in (0x612A1E, 0x612A3F, 0x612A60, 0x737A05, 0x737A20, 0x737A3B,
+                                                       0x737DB8, 0x737DD3, 0x737DEE)] + \
+                [(0x5D908F, 0x542FA0, "ctx_hp_ebp"), (0x6129EB, 0x542FA0, "ctx_hp_esi")]
 # premia za bron miotana czytana z MIOT zamiast 0x84EAA8 (operand instrukcji mov)
 MIOT_OPERANDY = [0x73BC4E, 0x73CA9B]
 
@@ -150,7 +155,7 @@ def main():
         assert d[adr - BASE:adr - BASE + len(h) // 2].hex() == h, hex(adr)
     kod3, et3 = nasm(os.path.join(ASM, "rasy.asm"), ORG3, {k: et[k] for k in ("clab", "komorka", "tabela2da")})
     if ORG3 + len(kod3) > DANE3:
-        sys.exit("rasy.asm wchodzi na zmienne 0xA21F00")
+        sys.exit("rasy.asm wchodzi na zmienne 0xA22000")
     raw3 = dodaj_sekcje(d)
     d[raw3:raw3 + len(kod3)] = kod3
     kod2, et2 = nasm(os.path.join(ASM, "dodatki.asm"), ORG2,
@@ -183,6 +188,10 @@ def main():
         assert d[o:o + 3].hex() == "0fbf8e" and d[a1 - BASE - 2:a1 - BASE].hex() == "8b00", hex(a0)
         kod_b = bytes([0x6A, k]) + b"\xE8" + struct.pack("<i", et["bab_tab"] - (a0 + 7)) + bytes([0xEB, a1 - (a0 + 9)])
         d[o:a1 - BASE] = kod_b + b"\x90" * (a1 - a0 - len(kod_b))
+    for adr, cel, lab in CTX_WYWOLANIA:
+        o = adr - BASE
+        assert d[o] == 0xE8 and struct.unpack_from("<i", d, o + 1)[0] + adr + 5 == cel, hex(adr)
+        struct.pack_into("<i", d, o + 1, et[lab] - (adr + 5))
     o = 0x546F37 - BASE
     assert d[o:o + 6].hex() == "8d8ec4180000"
     d[o:o + 6] = b"\xE8" + struct.pack("<i", et["bab_mnich"] - 0x546F3C) + b"\x90"
