@@ -2,6 +2,7 @@ PACZKA 2 - rasy i klasy Dark Sun (test24: zdolnosci ras, progresja klas i podkla
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
+Po przeinstalowaniu samego komponentu 0 przeinstaluj tez 1, 2 i 3 - wpisuja teksty do exe (bez nich puste przyciski podklas).
 
 Komponenty:
  0 - exe: IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe z kazdego IWD2_<W>.exe paczki 1 (np. IWD2_2560_DS.exe).

@@ -36,6 +36,7 @@ BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe (z IWD2_
     FAIL ~Zaden plik EXE nie pasuje do lat (wymagany IWD2.exe GOG 2.01).~
   END
   PRINT ~Po (ponownej) instalacji paczki 1 przeinstaluj ten komponent, zeby powstal IWD2_<W>_DS.exe.~
+  PRINT ~UWAGA: komponenty 1, 2 i 3 wpisuja teksty (strrefy) do *_DS.exe. Po ponownej instalacji tego komponentu przeinstaluj tez 1, 2 i 3 - inaczej przyciski podklas sa puste.~
 
 BEGIN ~TEST: mul jako podrasa polorka~ DESIGNATED 1
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
