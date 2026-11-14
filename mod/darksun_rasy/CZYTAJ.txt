@@ -1,0 +1,30 @@
+PACZKA 2 - rasy i klasy Dark Sun (test22: zdolnosci ras, progresja klas i podklas z tabel)
+
+Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
+Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
+
+Komponenty:
+ 0 - exe: IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe z kazdego IWD2_<W>.exe paczki 1 (np. IWD2_2560_DS.exe).
+     Exe jest teraz o 8 KB wieksze (nowa sekcja z kodem ras).
+ 1 - mul (podrasa polorka)
+ 2 - 8 podklas + zdolnosci klas z tabel 2DA (DSKLASY, DSSNEAK, DSWROG), piesc mnicha z CLAB, szybkosc barbarzyncy
+ 3 - polelf atasyjski (podrasa polelfa)
+ 4 - NOWE: zdolnosci ras z tabel:
+     DSRASY.2DA  - kolumna RLAB = tablica zdolnosci rasy w formacie CLAB (ABILITYn x poziom postaci 1..30,
+                   GA_/AP_/FA_), oraz DARKVISION, GIANT_AC, THROWN, SR_LEVEL
+     DSRWROG.2DA - wrogowie rasy (premia do trafienia przeciw rasom z RACE.IDS, aberracje)
+     Wartosci = oryginalna gra. Test mechanizmu RLAB: mul dostaje na 1. poziomie zdolnosc GA_SPIN267.
+Gra: IWD2_<W>_DS.exe.
+
+Co sprawdzic:
+ - nowa postac mul: na liscie zdolnosci wrodzonych jest Ilmater's Endurance (z RLMUL),
+ - inne rasy jak dotad: krasnolud/gnom premia vs orki/gobliny, niziolek z proca, drow/gnom glebinowy - odpornosc
+   na magie rosnie przy awansie, widzenie w ciemnosci,
+ - kaplan: wybor bostwa i przycisk Gotowe (poprawiony blad latki maski bostw z test19).
+ 5 - NOWE (test21): progresja klas z DSKLPROG.2DA - dla kazdej klasy tablica kosci PW (HP), premii do ataku (BAB)
+     i rzutow obronnych (SAVE). Wartosci = oryginal; mozna wpisac wlasna tablice.
+     Sprawdzic: PW przy awansie (np. barbarzynca k12, czarodziej k4), premia do ataku i rzuty na karcie postaci.
+Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej rasie / podrasie / podklasie).
+ test22: DSKLPROG ma tez wiersze podklas (PALADIN_DS ... SORCERER_DS; mozna dopisac kity gry po nazwie z KITLIST).
+     Podklasa bez wiersza = progresja klasy bazowej. Test: w override\DSKLPROG.2DA zmien wiersz FIGHTER_DS na
+     "FIGHTER_DS    HPBARB    BAATFGT   SAVEWAR" i awansuj gladiatora - powinien dostawac k12 PW (zwykly wojownik k10).

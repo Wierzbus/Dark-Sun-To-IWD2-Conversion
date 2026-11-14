@@ -4,7 +4,9 @@ Plik: IWD2.exe z instalacji GOG, wersja 2.01 (v2.01.1016), 5 029 888 B,
 sha256 `18e01d21855f88702c062497aa25dfb42928671973d3b929e42206def2d9df2a`.
 Układ PE: ImageBase 0x400000, offset w pliku = adres − 0x400000 dla wszystkich sekcji
 (.text 0x401000, .rdata 0x847000, .data 0x8A5000). Narzędzie: `tools/iwd2_re.py` (objdump + Python).
-Stan: podrasa mula zrobiona (łatki w `iwd2_exe_gui_1920.md`); podklasy paladyna, barbarzyńcy i kapłana – prototyp (sekcja 7).
+Stan (test22, 2026-11-14): mul i półelf atasyjski (podrasy), 8 podklas DS, zdolności klas z 2DA (sekcje 8–9), zdolności
+ras z tabel (sekcja 11), progresja klas i podklas z DSKLPROG (sekcje 12–13). Przewodnik dla autora tabel:
+`docs/dodawanie_ras_i_klas.md`.
 
 ## 1. Co jest w danych (2DA/IDS/CHU)
 

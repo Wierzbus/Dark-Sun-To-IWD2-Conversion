@@ -20,26 +20,34 @@ python tools\wyciagnij_rasy.py --game-dir "D:\Gry\Icewind Dale 2" --out iwd2_ras
 `--tlk` dołącza dialog.tlk (nazwy i opisy ras). Wynik zawiera pliki gry, więc nie trafia do Gita.
 
 ## Paczki testowe (instalatory WeiDU)
-Trzy niezalezne paczki, kazda z wlasnym setup-*.exe (kopia WeiDU), rozpakowywane do katalogu IWD2:
-1. **iwd2_upscale** – 1920x1080: komponent 1 tworzy `IWD2_1920.exe` z oryginalnego IWD2.exe (makra z
-   `tools/iwd2_paczki_exe.py`), dalej GUI, portrety, ikony. Grafiki to przetworzone zasoby gry – tylko w paczce, nie w Gicie.
-2. **darksun_rasy** – komponent 0 tworzy `IWD2_DS.exe` i `IWD2_1920_DS.exe` (latki ras i klas na dowolnym z tych exe),
-   komponenty 1–3: mul, podklasy ze zdolnosciami z 2DA, polelf. Przycisk bostwa w GUICG.CHU dopisuje `ds_chu_przycisk.tph`.
+Trzy niezależne paczki, każda z własnym setup-*.exe (kopia WeiDU), rozpakowywane do katalogu IWD2:
+1. **iwd2_upscale** (`mod/iwd2_upscale`) – dowolna rozdzielczość. Komponenty 1–4 (wybór 1920x1080 / 2560x1440 /
+   3840x2160 / inna) uruchamiają przenośny program `iwd2_upscale/generator/iwd2_gui_buduj/iwd2_gui_buduj.exe`
+   (z `tools/iwd2_gui/buduj.py`, budowany raz skryptem `tools/iwd2_gui/zbuduj_program.bat`), który z plików gry buduje
+   zestaw w `iwd2_upscale/zestaw`; instalator tworzy `IWD2_<W>.exe`. Komponenty 10–12: GUI, portrety, ikony;
+   20: widok świata (tryb gry większy niż monitor przez DDrawCompat). Plan i stan: [docs/iwd2_gui_skala_plan.md](docs/iwd2_gui_skala_plan.md).
+2. **darksun_rasy** (`mod/darksun_rasy`) – komponent 0 tworzy `IWD2_DS.exe` i `IWD2_<W>_DS.exe` z każdego
+   `IWD2_<W>.exe` paczki 1 (łatki ras i klas; exe większe o 8 KB – nowa sekcja PE `.dsras`). Komponenty:
+   1 mul, 2 podklasy + zdolności klas z 2DA (DSKLASY, DSSNEAK, DSWROG), 3 półelf atasyjski,
+   4 zdolności ras z tabel (DSRASY, DSRWROG, tablice RLAB ras w formacie CLAB),
+   5 progresja klas i podklas (DSKLPROG: kość PW, premia do ataku, rzuty obronne).
 3. **iwd2_nowe_lokacje** – AR9020, AR9021, AR9022 (Dark Sun) i skok w dialogu Hedrona; lokacje zbudowane przed spakowaniem.
 
-Makra exe (`*_exe.tpa`) zawieraja fragmenty kodu gry do kontroli oryginalu, wiec sa generowane, nie commitowane:
+Makra exe (`*_exe.tpa`) zawierają fragmenty kodu gry do kontroli oryginału, więc są generowane, nie commitowane.
+Paczka 2 (stan test22):
 ```
-python tools/iwd2_paczki_exe.py --orig IWD2.exe --upscale IWD2_1920x1080_test13.exe --rasy IWD2_1920x1080_test19.exe --out-upscale upscale_exe.tpa --out-rasy mod/darksun_rasy/darksun_rasy/exe/rasy_exe.tpa
+python tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out IWD2_1920x1080_test22.exe
+python tools/iwd2_paczki_exe.py --orig IWD2.exe --upscale IWD2_1920x1080_test13.exe --rasy IWD2_1920x1080_test22.exe --out-upscale upscale_exe.tpa --out-rasy mod/darksun_rasy/darksun_rasy/exe/rasy_exe.tpa
 ```
+Paczka 1: makra powstają w instalatorze (program budujący zestaw).
 
-## Rasy i podrasy Dark Sun w IWD2 (mod WeiDU `darksun_rasy`, eksperymentalny)
-Komponent 1 (TEST): mul jako podrasa półorka. Dopisuje wiersze do SRLIST, SR_HO, ABRACEAD, ABRACERQ, RACESPAB,
-RACERSMD, SAVERACE, SKILLRAC i SUBRACE.IDS oraz tworzy **kopie** EXE z łatką funkcji GetRaceRow (0x541940):
-`IWD2_DS.exe` (i `IWD2_1920x1080_DS.exe`, `IWD2_1920x1080_bezramki_DS.exe`, jeśli istnieją i mają w tym miejscu
-oryginalny kod). Oryginalne EXE nie są zmieniane. Grę do testu uruchamia się przez `*_DS.exe`.
-Instalacja: skopiuj `mod/darksun_rasy/darksun_rasy` i `setup-darksun_rasy.tp2` do katalogu IWD2, obok
-`setup-darksun_rasy.exe` (kopia WeiDU, np. `setup-candlekeep_geometry.exe` pod nową nazwą).
-Analiza EXE: [docs/iwd2_exe_rasy_klasy.md](docs/iwd2_exe_rasy_klasy.md).
+## Rasy, podrasy, podklasy i zdolności Dark Sun w IWD2 (mod WeiDU `darksun_rasy`, eksperymentalny)
+- **Jak dodać rasę / podrasę / podklasę i co wpisać do której tabeli:** [docs/dodawanie_ras_i_klas.md](docs/dodawanie_ras_i_klas.md).
+- Mapa miejsc w exe i opis łatek (test14–test22): [docs/iwd2_exe_rasy_klasy.md](docs/iwd2_exe_rasy_klasy.md).
+- Kod łatek: `mod/darksun_rasy/darksun_rasy/asm/` (`podklasy.asm` – koniec .text, `dodatki.asm` – martwy kod pięści
+  mnicha, `rasy.asm` – sekcja `.dsras`, `halforc.asm`, `halfelf.asm`).
+Instalacja: `mod/darksun_rasy/darksun_rasy` i `setup-darksun_rasy.tp2` do katalogu IWD2, obok `setup-darksun_rasy.exe`
+(kopia WeiDU). Oryginalne exe nie są zmieniane; grę uruchamia się przez `*_DS.exe`.
 
 ## Nowe lokacje z obrazów (mod WeiDU `iwd2_nowe_lokacje`)
 
