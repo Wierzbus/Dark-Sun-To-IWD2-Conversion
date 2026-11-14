@@ -77,3 +77,21 @@ Disadvantages:
 @273 = ~PSIONICIST: On Athas the power of the mind is as common as magic is feared. Psionicists train the Way to bend matter and thought with will alone.
 
 (Experimental sorcerer subclass: Dark Sun conversion test. Test ability at level 1: Spell Shield.)~
+
+// --- Podklasy test25 (komponent 2): lotrzyk, czarodziej, drugi kaplan. Nazwy i opisy robocze - do decyzji wlasciciela. ---
+@280 = ~Rogue~
+@281 = ~athasian rogue~
+@282 = ~Athasian Rogue~
+@283 = ~ATHASIAN ROGUE: In the city-states of Athas thieves, smugglers and spies thrive in the shadow of the templars, trading in water, metal and secrets.
+
+(Experimental rogue subclass: Dark Sun conversion test. Test ability at level 1: Invisibility.)~
+@291 = ~preserver~
+@292 = ~Preserver~
+@293 = ~PRESERVER: Arcane magic on Athas draws life from the land itself. Preservers take only what the land can spare and are hunted by templars and defilers alike.
+
+(Experimental wizard subclass: Dark Sun conversion test. Test ability at level 1: Spell Shield.)~
+@301 = ~fire cleric~
+@302 = ~Fire Cleric~
+@303 = ~FIRE CLERIC: Clerics of Fire serve the elemental plane of flame, the most destructive of the four elements under the crimson sun of Athas.
+
+(Experimental cleric patron: Dark Sun conversion test. Test ability at level 1: Ilmater's Endurance.)~

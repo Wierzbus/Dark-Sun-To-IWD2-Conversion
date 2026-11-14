@@ -287,3 +287,32 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   inna klasa → asercja InfScreenCreateChar.cpp 1887 – kreator wysypywał się po kliknięciu barbarzyńcy (i każdej klasy
   kierowanej do okna 52 od test16). 0x609075 `jmp short 0x60908E`: okno bez tytułu. Pozostałe asercje okna 52 (0x60D280,
   0x621D88, 0x615C50) sprawdzają tylko wskaźniki.
+
+## 17. Test25: tabela podklas (bit, klasa) – łotrzyk, kilka podklas kapłana i czarodzieja
+- **Awans z nową klasą (rozpoznanie):** ekran awansu (obiekt +0x1C60) ma własne okna 12/52 i własny `GetKit` 0x5ED5A0
+  (czarodziej: szkoły 0x40–0x4000, paladyn 0x1–0x4, mnich 0x8–0x20, kapłan 0x8000–0x800000; inna klasa → 0). Okno klasy
+  awansu (6) wymaga podklasy tylko dla klas 11/7/6/3 (0x5E2089, maski 0x7FC0/0x7/0x38/0xFF8000). Kit po awansie =
+  stary kit | nowy (0x5E2E39: `[+0x846] | [+0x77C]`, `+0x77C` = pełny kit sprzed awansu), więc bity DS przetrwają.
+  Pozostałe klasy przy dobieraniu dostają klasę bez podklasy. Podklasy DS – tylko w kreatorze.
+- **Sekcja `.dsras` 16 KB** (SizeOfImage 0x625000, exe 5 046 272 B): 0xA23000 tabela podklas (31 × 32 B + wpis z bitem 0),
+  0xA235C0 NOK[klasa], 0xA23600 opisy okna 12, 0xA23680/0xA23700 wskaźniki list domen / czarów (obiekty 0x4C B z
+  operator new), 0xA23780/0xA237A0 flagi; 0xA24000 `kity.asm`: znacznik `DSKITY01`, stałe wejścia 0xA24008 `kit_wpis`,
+  0xA2400D `kit_wiersz` (dla `prog_k` w rasy.asm), 0xA24012 GetClabTable podklas (dla `clab_rasa`).
+- Wyszukiwanie: `kit_wpis(kit, klasa)` – pierwszy wpis z (kit & bit) i tą klasą; `kit_nty(klasa, n)`; `kit_nr(wpis)`.
+- **Haki** (zastępują haki `podklasy.asm` o tych adresach; stary kod i tabela 0x846C00 zostają nieużywane):
+
+  | Miejsce | Etykieta | Zmiana |
+  |---|---|---|
+  | 0x541DA0 GetClassRow | `klasa_wiersz2` | wiersz po (bit, klasa) |
+  | 0x546030 GetClabTable | `clab_rasa` → `clab2` | CLAB podklasy po (bit, klasa), wczytywana po nazwie (pamięć 64 tablic) |
+  | 0x61C09E klik klasy w oknie 2 | `okno_klasy` | okno 52, gdy klasa (poza 3/6/7/11) ma podklasy; tablica 0x61C1A8 znów oryginalna |
+  | 0x60D6C3, 0x60D753, 0x60D7D2 | `okno52`, `paladyn52`, `mnich52` | przyciski podklas (`dodaj_kity`), 1 = „bez podklasy” |
+  | 0x60D871 | `podswietl` | zaznaczenie wybranego przycisku (podklasa DS / brak podklasy) |
+  | 0x621DBE, 0x615C50 | `klik52`, `gotowe52` | bit z n-tego wpisu klasy; podklasa opcjonalna (poza paladynem i mnichem) |
+  | 0x61CD4A, 0x61CCCE GetKit okna 12 | `getkit_k`, `getkit_m` | id ≥ 14 → n-ty wpis kapłana / czarodzieja |
+  | 0x61012E, 0x61001B | `petla_k`, `petla_m` | przyciski 14, 15, … (etykieta, zaznaczenie, ukrycie nadmiarowych) |
+  | 0x61D031 | `pomoc12` | opis podklasy z 0xA23600 |
+  | 0x61CEE9, 0x615CED | – | maska szkół 0x7FC0 → 0xFF007FC0 (klik i Gotowe czarodzieja) |
+  | 0x5CA910, wywołania 0x5CA5D0 i 0x5CAC30 | `domena`, `lk_*`, `poziom_czaru` | jak test23/24, numer listy = numer wpisu |
+- Znane braki: w oknie 12 ekranu awansu (jeśli korzysta z tego samego GUICG.CHU) dodatkowe przyciski 14/15 mogą być
+  widoczne bez tekstu (kliknięcie nic nie robi) – do sprawdzenia w grze.

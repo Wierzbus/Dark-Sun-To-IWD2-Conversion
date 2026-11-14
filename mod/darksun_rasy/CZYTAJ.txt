@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test24: zdolnosci ras, progresja klas i podklas, domeny i listy czarow podklas DS)
+PACZKA 2 - rasy i klasy Dark Sun (test25: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, tabela podklas)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -6,7 +6,7 @@ Po przeinstalowaniu samego komponentu 0 przeinstaluj tez 1, 2 i 3 - wpisuja teks
 
 Komponenty:
  0 - exe: IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe z kazdego IWD2_<W>.exe paczki 1 (np. IWD2_2560_DS.exe).
-     Exe jest teraz o 8 KB wieksze (nowa sekcja z kodem ras).
+     Exe jest teraz o 16 KB wieksze (nowa sekcja z kodem ras i podklas).
  1 - mul (podrasa polorka)
  2 - 8 podklas + zdolnosci klas z tabel 2DA (DSKLASY, DSSNEAK, DSWROG), piesc mnicha z CLAB, szybkosc barbarzyncy
  3 - polelf atasyjski (podrasa polelfa)
@@ -38,3 +38,13 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      Test: w override\LISTSPLL.2DA w kolumnie CLR_DS wpisz 0 przy jednym czarze 1. poziomu kaplana (np. wiersz
      SPPR101) i 1 przy czarze spoza listy kaplana (np. SPWI112, Magic Missile). Nowy kaplan DS: pierwszego czaru nie
      powinno byc w ksiedze, drugi powinien byc do zapamietania i rzucenia. Zwykly kaplan bez zmian.
+ test25: tabela podklas (bit + klasa) wypelniana przez instalator - do 31 podklas, nowa podklasa bez przebudowy exe.
+     Nowe testowe podklasy: lotrzyk Athasu (ROGUE_DS), obronca (WIZARD_DS, czarodziej), kaplan ognia (CLERIC_DS2).
+     Reinstall: wszystkie komponenty (0 i potem 1, 2, 3, 4, 5).
+     Sprawdzic w kreatorze:
+     - lotrzyk: okno podklas (1 = bez podklasy, 2 = Athasian Rogue), zdolnosc Invisibility na 1. poziomie,
+     - czarodziej: w oknie szkol dodatkowy przycisk 14 Preserver (bez szkoly przeciwnej), Spell Shield na 1. poziomie,
+     - kaplan: przyciski 14 Earth Cleric i 15 Fire Cleric pod bostwami; opis po kliknieciu,
+     - barbarzynca, wojownik, tropiciel, druid, bard, zaklinacz, paladyn - jak dotad; wybrany przycisk podswietlony,
+     - po wyjsciu z okna i powrocie wybrana podklasa nadal zaznaczona.
+     Przy awansie gra nie pokazuje podklas DS (tylko szkoly / bostwa / zakony gry) - podklase DS wybiera sie w kreatorze.

@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test24-2026-11-14~
+VERSION ~test25-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -104,7 +104,7 @@ BEGIN ~TEST: mul jako podrasa polorka~ DESIGNATED 1
   // silnik wybiera kolumne po numerze w kodzie. Kolumne mula dodamy razem z lata tego miejsca (etap 2).
   APPEND ~SUBRACE.IDS~  ~0x00070001 HALF_ORC_MUL~ UNLESS ~HALF_ORC_MUL~
 
-BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid, bard, zaklinacz; zdolnosci klas z 2DA~ DESIGNATED 2
+BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, druid, bard, zaklinacz, lotrzyk, czarodziej; zdolnosci klas z 2DA~ DESIGNATED 2
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
 
@@ -197,21 +197,31 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     END
   END
 
-  // --- 1. Teksty -> numery w tabeli kitow w exe (0x846C00; zrodlo: darksun_rasy/asm/podklasy.asm) ---
-  // Wpis po 32 B: bit kitu, strref etykiety, nazwa wiersza, klasa, CLAB. Za tabela: CLR_HELP (0x846D04)
-  // i NOK[klasa] (0x846D08, etykieta "bez podklasy"). Exe rozpoznajemy po nazwie FIGHTER_DS pod 0x446C68
-  // (uklad od test16; test14/test15 maja stary uklad i nie sa zmieniane).
-  // kity: (indeks wpisu, klasa, wiersz, bit) => tra lower (mixed = +1, help = +2)
+  // --- 1. Tabela podklas w exe (od test25: sekcja .dsras, adres 0xA23000 = plik 0x4CE000; kod asm/kity.asm) ---
+  // Wpis po 32 B: +0 bit, +4 strref etykiety przycisku, +8 nazwa wiersza (do 15 znakow), +0x17 klasa, +0x18 CLAB.
+  // Koniec tabeli: wpis z bitem 0. Opisy podklas okna 12 (kaplan, czarodziej): 0xA23600 (plik 0x4CE600) + 4*nr,
+  // etykiety "bez podklasy" okna 52: 0xA235C0 (plik 0x4CE5C0) + 4*klasa. Exe rozpoznajemy po znaczniku DSKITY01
+  // pod 0xA24000 (plik 0x4CF000).
+  // Bit moze sie powtarzac w roznych klasach (wpis szuka sie po parze bit + klasa). Postac wieloklasowa z obiema
+  // klasami pary ma wtedy obie podklasy (kazda dziala na poziomy swojej klasy) - pary dobierac z klas rzadko
+  // laczonych. W jednej klasie bity musza byc rozne. Kolejnosc wpisow jednej klasy = kolejnosc przyciskow.
+  // Okno 52: do 9 podklas klasy (paladyn i mnich: do 7, po zakonach gry); okno 12 (kaplan, czarodziej): przyciski
+  // 14, 15, ... dopisywane nizej do GUICG.CHU (tyle, ile podklas ma kaplan albo czarodziej).
+  // kity: (nr wpisu, klasa, wiersz, bit, CLAB, starszy bajt bitu) => tra lower (mixed = +1, help = +2)
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_kity BEGIN
-    0, 7,  PALADIN_DS,   0x01000000 => 201
-    1, 1,  BARBARIAN_DS, 0x02000000 => 212
-    2, 3,  CLERIC_DS,    0x04000000 => 221
-    3, 5,  FIGHTER_DS,   0x08000000 => 231
-    4, 8,  RANGER_DS,    0x10000000 => 241
-    5, 4,  DRUID_DS,     0x20000000 => 251
-    6, 2,  BARD_DS,      0x40000000 => 261
-    7, 10, SORCERER_DS,  0x80000000 => 271
+    0, 7,  PALADIN_DS,   0x01000000, CLABDS01, 1   => 201
+    1, 1,  BARBARIAN_DS, 0x02000000, CLABDS02, 2   => 212
+    2, 3,  CLERIC_DS,    0x04000000, CLABDS03, 4   => 221
+    3, 5,  FIGHTER_DS,   0x08000000, CLABDS04, 8   => 231
+    4, 8,  RANGER_DS,    0x10000000, CLABDS05, 16  => 241
+    5, 4,  DRUID_DS,     0x20000000, CLABDS06, 32  => 251
+    6, 2,  BARD_DS,      0x40000000, CLABDS07, 64  => 261
+    7, 10, SORCERER_DS,  0x80000000, CLABDS08, 128 => 271
+    8, 9,  ROGUE_DS,     0x01000000, CLABDS09, 1   => 281
+    9, 11, WIZARD_DS,    0x02000000, CLABDS10, 2   => 291
+    10, 3, CLERIC_DS2,   0x80000000, CLABDS11, 128 => 301
   END
+  OUTER_SET ds_n_kitow = 11
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 211
@@ -219,6 +229,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     4 => 250
     5 => 230
     8 => 240
+    9 => 280
     10 => 270
   END
   // strrefy tekstow podklas w tablicy $ds_str (bez (AT ...) - starsze WeiDU go nie znaja)
@@ -252,31 +263,52 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   OUTER_SET $ds_str(~271~) = RESOLVE_STR_REF(@271)
   OUTER_SET $ds_str(~272~) = RESOLVE_STR_REF(@272)
   OUTER_SET $ds_str(~273~) = RESOLVE_STR_REF(@273)
-  OUTER_SET clr_help = RESOLVE_STR_REF(@223)
+  OUTER_SET $ds_str(~280~) = RESOLVE_STR_REF(@280)
+  OUTER_SET $ds_str(~281~) = RESOLVE_STR_REF(@281)
+  OUTER_SET $ds_str(~282~) = RESOLVE_STR_REF(@282)
+  OUTER_SET $ds_str(~283~) = RESOLVE_STR_REF(@283)
+  OUTER_SET $ds_str(~291~) = RESOLVE_STR_REF(@291)
+  OUTER_SET $ds_str(~292~) = RESOLVE_STR_REF(@292)
+  OUTER_SET $ds_str(~293~) = RESOLVE_STR_REF(@293)
+  OUTER_SET $ds_str(~301~) = RESOLVE_STR_REF(@301)
+  OUTER_SET $ds_str(~302~) = RESOLVE_STR_REF(@302)
+  OUTER_SET $ds_str(~303~) = RESOLVE_STR_REF(@303)
   OUTER_SET patched = 0
   ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?_DS\.exe$~ BEGIN
     OUTER_TEXT_SPRINT src ~%BASH_FOR_RES%~
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
-        PATCH_IF (BUFFER_LENGTH > 0x446D40) BEGIN
-          READ_ASCII 0x446C68 nm (10)
-          PATCH_IF (~%nm%~ STRING_EQUAL ~FIGHTER_DS~) BEGIN SET ok = 1 END
+        PATCH_IF (BUFFER_LENGTH >= 0x4D0000) BEGIN
+          READ_ASCII 0x4CF000 nm (8)
+          PATCH_IF (~%nm%~ STRING_EQUAL ~DSKITY01~) BEGIN SET ok = 1 END
         END
       ACTION_IF ok BEGIN
         COPY ~%src%.exe~ ~%src%.exe~
           PHP_EACH ds_kity AS k => tra BEGIN
             SET t1 = tra + 1
+            SET t2 = tra + 2
             SET mixed = $ds_str(~%t1%~)
-            WRITE_LONG (0x446C04 + 32 * k_0) mixed
+            SET help = $ds_str(~%t2%~)
+            SET o = 0x4CE000 + 32 * k_0
+            WRITE_SHORT o 0
+            WRITE_BYTE (o + 2) 0
+            WRITE_BYTE (o + 3) k_5
+            WRITE_LONG (o + 4) mixed
+            WRITE_ASCIIE (o + 8) ~%k_2%~ #15
+            WRITE_BYTE (o + 0x17) k_1
+            WRITE_ASCIIE (o + 0x18) ~%k_4%~ #8
+            WRITE_LONG (0x4CE600 + 4 * k_0) help
           END
-          WRITE_LONG 0x446D04 clr_help
+          WRITE_LONG (0x4CE000 + 32 * ds_n_kitow) 0
           PHP_EACH ds_nok AS kl => tra BEGIN
             SET t = $ds_str(~%tra%~)
-            WRITE_LONG (0x446D08 + 4 * kl) t
+            WRITE_LONG (0x4CE5C0 + 4 * kl) t
           END
         OUTER_SET patched = patched + 1
-        PRINT ~%src%.exe: wpisano teksty podklas.~
+        PRINT ~%src%.exe: wpisano tabele podklas.~
+      END ELSE BEGIN
+        PRINT ~%src%.exe: brak tabeli podklas (DSKITY01) - przeinstaluj komponent 0.~
       END
     END
   END
@@ -293,7 +325,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     OUTER_SET mixed = $ds_str(~%t1%~)
     OUTER_SET help  = $ds_str(~%t2%~)
     APPEND ~KITLIST.2DA~ ~%k_2%              %lower% %mixed% %help%~ UNLESS ~%k_2%~
-    APPEND ~KIT.IDS~ ~%k_3% %k_2%~ UNLESS ~%k_2%~
+    APPEND ~KIT.IDS~ ~%k_3% %k_2%~ UNLESS ~%k_2%~   // ten sam bit w dwoch klasach = dwa wiersze z ta sama wartoscia
   END
 
   // ALIGNMNT: dozwolone charaktery (L_G L_N L_E N_G N_N N_E C_G C_N C_E) - propozycja do decyzji wlasciciela;
@@ -307,6 +339,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     LPF ds_wiersz_kitu STR_VAR wiersz = ~DRUID_DS~    wzor = ~DRUID~    END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~BARD_DS~     wzor = ~BARD~     END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~SORCERER_DS~ wzor = ~SORCERER~ END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~ROGUE_DS~    wzor = ~ROGUE~    END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~WIZARD_DS~   wzor = ~WIZARD~   END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS2~  wzor = ~CLERIC~   END
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -325,6 +360,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
         LPF ds_wiersz_kitu STR_VAR wiersz = ~DRUID_DS~     wzor = ~DRUID~     END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~BARD_DS~      wzor = ~BARD~      END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~SORCERER_DS~  wzor = ~SORCERER~  END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~ROGUE_DS~     wzor = ~ROGUE~     END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~WIZARD_DS~    wzor = ~WIZARD~    END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS2~   wzor = ~CLERIC~    END
     END
   END
 
@@ -423,7 +461,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     END
   END
 
-  // --- 4. Tablice zdolnosci CLAB (exe wybiera je po kicie i klasie, nazwy w tabeli 0x846C18 + 32*i) ---
+  // --- 4. Tablice zdolnosci CLAB (exe wybiera je po kicie i klasie, nazwa w tabeli podklas +0x18) ---
   // Kopia tablicy klasy bazowej + testowa zdolnosc na 1. poziomie (wolny wiersz ABILITYn, kolumna 1).
   COPY_EXISTING ~CLABPA01.2da~ ~override/CLABDS01.2da~   // zakon templariuszy: Prayer
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN209~ END
@@ -442,12 +480,19 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   // Zaklinacz nie ma w grze tablicy CLAB (CLABSR01 nie istnieje - exe dostaje pusta tablice), wiec CLABDS08 jest
   // w paczce: tylko testowa zdolnosc na 1. poziomie.
   COPY ~darksun_rasy/2da/CLABDS08.2DA~ ~override~        // psionik: Spell Shield (GA_SPIN243)
+  COPY_EXISTING ~CLABTH01.2da~ ~override/CLABDS09.2da~   // lotrzyk Athasu (test25): Invisibility
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN191~ END
+  COPY ~darksun_rasy/2da/CLABDS10.2DA~ ~override~        // obronca (czarodziej, test25): Spell Shield; gra nie ma CLABMA01
+  COPY_EXISTING ~CLABPR01.2da~ ~override/CLABDS11.2da~   // kaplan ognia (test25): Ilmater's Endurance
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN267~ END
 
-  // GUICG.CHU: przycisk 14 w oknie 12 (nowe bostwo kaplana) - kopia przycisku 9 o jeden odstep nizej.
-  // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie. Dziala na GUI 800x600 i 1920.
+  // GUICG.CHU: przyciski 14, 15, ... w oknie 12 (podklasy DS kaplana i czarodzieja) - kopie przycisku 9, kazdy
+  // o jeden odstep nizej. Liczba = najwieksza liczba podklas kaplana albo czarodzieja (tu 2: CLERIC_DS, CLERIC_DS2).
+  // Nadmiarowe przyciski exe ukrywa. Dziala na GUI 800x600 i 1920; przy wielu przyciskach sprawdzic, czy mieszcza sie w oknie.
   INCLUDE ~darksun_rasy/ds_chu_przycisk.tph~
   COPY_EXISTING ~GUICG.CHU~ ~override~
-    LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 9 wzor_pop = 8 nowe_id = 14 RET dodano = dodano END
+    LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 9  wzor_pop = 8 nowe_id = 14 RET dodano = dodano END
+    LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 14 wzor_pop = 9 nowe_id = 15 RET dodano = dodano END
 
 BEGIN ~TEST: polelf atasyjski jako podrasa polelfa~ DESIGNATED 3
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~

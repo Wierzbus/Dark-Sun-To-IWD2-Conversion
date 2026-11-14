@@ -20,3 +20,6 @@ RANGER_DS     HPWAR     BAATFGT   SAVEWAR   *         *
 DRUID_DS      HPPRS     BAATNFG   SAVEPRS   *         *
 BARD_DS       HPROG     BAATNFG   SAVEBRD   *         *
 SORCERER_DS   HPWIZ     BAATMAG   SAVEWIZ   *         *
+ROGUE_DS      HPROG     BAATNFG   SAVEROG   *         *
+WIZARD_DS     HPWIZ     BAATMAG   SAVEWIZ   *         *
+CLERIC_DS2    HPPRS     BAATNFG   SAVEPRS   *         *

@@ -50,9 +50,28 @@ HAKI2 = [
     (0x6F8EF4, "call", "aura", 0),           # aura paladyna (aktualizacja co runde)
 ]
 # rasy.asm (test20) w nowej sekcji PE .dsras (adres 0xA21000, 4 KB) na koncu pliku
-SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x2000
+SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x4000
 ORG3 = BASE + SEKCJA_RVA
 DANE3 = 0xA22000                             # zmienne kodu ras (druga strona sekcji)
+ORG4 = 0xA24000                              # kity.asm (test25): tabela podklas (bit, klasa) 0xA23000, kod 0xA24000
+# haki podklas (kity.asm) - zastepuja haki podklasy.asm o tych samych adresach; (adres, oczekiwane bajty, rodzaj, etykieta, nop)
+HAKI4 = [
+    (0x541DA0, "518b44240c", "jmp", "klasa_wiersz2", 0),         # GetClassRow: wiersz podklasy po (bit, klasa)
+    (0x60D6C3, "0f848f000000", "jmp", "okno52", 8),              # okno 52: przyciski podklas klasy
+    (0x60D753, "e983000000", "jmp", "paladyn52", 0),             # okno 52: podklasy paladyna od przycisku 4
+    (0x60D7D2, "c644246003", "jmp", "mnich52", 0),               # okno 52: podklasy mnicha od przycisku 4
+    (0x60D871, "8b5424448d42ff", "jmp", "podswietl", 2),         # zaznaczenie wybranej podklasy
+    (0x621DBE, "89820c080000", "call", "klik52", 1),             # klikniecie w oknie 52
+    (0x615C50, "8bad0c080000", "call", "gotowe52", 1),           # Gotowe: podklasa opcjonalna
+    (0x61CD4A, "83f80b774f", "jmp", "getkit_k", 0),              # okno 12 kaplana: przyciski 14.. = podklasy
+    (0x61CCCE, "83f80b774f", "jmp", "getkit_m", 0),              # okno 12 czarodzieja
+    (0x61012E, "83ff0d0f8e0a", "jmp", "petla_k", 4),             # okno 12 kaplana: etykiety przyciskow podklas
+    (0x61001B, "e932010000", "jmp", "petla_m", 0),               # okno 12 czarodzieja
+    (0x61D031, "6a00686c638a00", "jmp", "pomoc12", 2),           # okno 12: opis podklasy
+    (0x61C09E, "ff248da8c16100", "jmp", "okno_klasy", 2),        # klik klasy: okno 52, gdy klasa ma podklasy DS
+]
+# maski szkol czarodzieja 0x7FC0 -> 0xFF007FC0 (bit podklasy DS przy kliknieciu w oknie 12 i przy Gotowe)
+MASKI_MAG = [0x61CEE9, 0x615CED]
 # (adres, oryginalne bajty, rodzaj, etykieta, nop)
 HAKI3 = [
     (0x71E996, "33c08a8766090000", "jmp", "rasa_awans", 3),      # awans: tablica RLAB rasy + SR_LEVEL
@@ -112,8 +131,6 @@ def dodaj_sekcje(d):
     return raw
 
 
-# tablica skokow klikniecia klasy (0x61C1A8, indeks = klasa - 1): 0x61C0A5 = okno 52
-KLASY_OKNO52 = [1, 2, 4, 5, 8, 10]          # barbarzynca, bard, druid, wojownik, tropiciel, zaklinacz
 DANE = [
     # operand imm32 (instrukcje: 0x61CEF4 mov ecx, 0xFF8000 / 0x615CFE and eax, 0xFF8000). Do test19 wlacznie
     # zapis szedl pod adres instrukcji i niszczyl jej kod (blad poprawiony w test20).
@@ -154,6 +171,10 @@ def main():
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     d = bytearray(open(a.base, "rb").read())
+    for adr, h, _, lab, _ in HAKI4:
+        assert d[adr - BASE:adr - BASE + len(h) // 2].hex() == h, (hex(adr), lab)
+    for adr in MASKI_MAG:
+        assert struct.unpack_from("<I", d, adr - BASE)[0] == 0x7FC0, hex(adr)
     kod, et = nasm(os.path.join(ASM, "podklasy.asm"))
     if ORG + len(kod) > 0x847000:
         sys.exit("kod podklas wychodzi poza .text")
@@ -167,6 +188,15 @@ def main():
         sys.exit("rasy.asm wchodzi na zmienne 0xA22000")
     raw3 = dodaj_sekcje(d)
     d[raw3:raw3 + len(kod3)] = kod3
+    kod4, et4 = nasm(os.path.join(ASM, "kity.asm"), ORG4,
+                     {"szukaj": et3["szukaj"], "wczytaj": et3["wczytaj"], "komorka": et["komorka"],
+                      "tabela2da": et["tabela2da"]})
+    if ORG4 + len(kod4) > ORG3 + SEKCJA_ROZM:
+        sys.exit("kity.asm wychodzi poza sekcje")
+    assert et4["kit_wpis"] and kod4[:8] == b"DSKITY01"
+    d[raw3 + (ORG4 - ORG3):raw3 + (ORG4 - ORG3) + len(kod4)] = kod4
+    for adr in MASKI_MAG:
+        struct.pack_into("<I", d, adr - BASE, 0xFF007FC0)
     kod2, et2 = nasm(os.path.join(ASM, "dodatki.asm"), ORG2,
                      {k: et[k] for k in ("zdolnosc", "liczba", "tabela2da", "sneak_poziom")})
     if ORG2 + len(kod2) > KONIEC2:
@@ -181,6 +211,7 @@ def main():
         assert struct.unpack_from("<I", d, adr - BASE)[0] == 0x84EAA8, hex(adr)
         struct.pack_into("<I", d, adr - BASE, et3["miot_wart"])
     et.update(et3)
+    et.update(et4)
     for adr, h, lab in HP_MIEJSCA:
         o = adr - BASE
         assert d[o:o + 6].hex() == h, hex(adr)
@@ -221,14 +252,15 @@ def main():
     o = 0x546F37 - BASE
     assert d[o:o + 6].hex() == "8d8ec4180000"
     d[o:o + 6] = b"\xE8" + struct.pack("<i", et["bab_mnich"] - 0x546F3C) + b"\x90"
-    haki = [(a, r, l, n) for a, r, l, n in HAKI if a != 0x546030] + [(0x546030, "jmp", "clab_rasa", 4)]
+    zastapione = {a for a, *_ in HAKI4} | {0x6100F0}
+    haki = [(a, r, l, n) for a, r, l, n in HAKI if a != 0x546030 and a not in zastapione] + \
+        [(0x546030, "jmp", "clab_rasa", 4)] + [(a, r, l, n) for a, _, r, l, n in HAKI4]
     for adr, rodzaj, lab, nop in haki + HAKI2 + [(a, r, l, n) for a, _, r, l, n in HAKI3]:
         o = adr - BASE
         op = 0xE9 if rodzaj == "jmp" else 0xE8
         d[o:o + 5] = bytes([op]) + struct.pack("<i", et[lab] - (adr + 5))
         d[o + 5:o + 5 + nop] = b"\x90" * nop
-    for k in KLASY_OKNO52:
-        struct.pack_into("<I", d, 0x61C1A8 - BASE + 4 * (k - 1), 0x61C0A5)
+    # od test25 tablica skokow 0x61C1A8 zostaje oryginalna - o oknie 52 decyduje okno_klasy (kity.asm) wg tabeli podklas
     assert d[0x61CEF4 - BASE] == 0xB9 and d[0x615CFE - BASE] == 0x25, "maska bostw: oczekiwano mov ecx / and eax"
     for adr, b in DANE:
         d[adr - BASE:adr - BASE + len(b)] = b
@@ -275,7 +307,8 @@ def main():
     open(a.out, "wb").write(d)
     for k in ("klasa_wiersz", "clab", "szukaj_klase"):
         print(k, hex(et[k]))
-    print("koniec podklasy.asm", hex(ORG + len(kod)), "dodatki.asm", hex(ORG2 + len(kod2)), "rasy.asm", hex(ORG3 + len(kod3)))
+    print("koniec podklasy.asm", hex(ORG + len(kod)), "dodatki.asm", hex(ORG2 + len(kod2)), "rasy.asm", hex(ORG3 + len(kod3)),
+          "kity.asm", hex(ORG4 + len(kod4)))
     print("zapisano", a.out)
 
 

@@ -1,5 +1,5 @@
 ; Zdolnosci ras z tabel (test20) i progresja klas z DSKLPROG.2DA (test21): tablice RLAB ras (jak CLAB klas) i cechy z DSRASY.2DA / DSRWROG.2DA.
-; Kod w nowej sekcji PE .dsras (adres 0xA21000, 8 KB: kod 0xA21000-0xA21FFF, dane 0xA22000-0xA22FFF).
+; Kod w nowej sekcji PE .dsras (adres 0xA21000, 16 KB: kod 0xA21000-0xA21FFF, dane 0xA22000-0xA22FFF, tabela podklas 0xA23000, kity.asm 0xA24000).
 ; Etykiety z podklasy.asm (clab, komorka, tabela2da) podaje nasm -D.
 ;
 ; DSRASY.2DA: wiersze = nazwy wierszy ras z GetRaceRow (HUMAN, HUMAN_AASIMAR, ..., HALF_ORC_MUL, HALF_ELF_DS), kolumny:
@@ -22,14 +22,6 @@ KPTR_PROG equ 0xA22F14          ; C2DArray DSKLPROG
 CTX       equ 0xA22F18          ; postac, dla ktorej gra liczy rzuty obronne / PW (ustawiaja haki w miejscach wywolan)
 KCACHE    equ 0xA22000          ; 64 wpisy po 12 B: klucz (kolumna<<8 | klasa), kit, tablica (1 = wiersz klasy)
 N_KCACHE  equ 64
-DLISTY    equ 0xA22400          ; 8 list domen podklas DS po 0x4C B (obiekt listy czarow gry)
-DFLAG     equ 0xA22700          ; 8 B: 0 = nie budowano, 1 = brak konfiguracji, 2 = lista gotowa
-DPARAM    equ 0xA22708          ; 2 dword: kolumna poziomu, kolumna nazwy czaru (argumenty budowy listy)
-SLISTY    equ 0xA22780          ; 8 list czarow podklas DS po 0x4C B (test24, LISTSPLL)
-SFLAG     equ 0xA229F0          ; 8 B flag jak DFLAG
-SPARAM    equ 0xA229F8          ; 2 dword jak DPARAM
-INV19     equ 0x286BCA1B        ; odwrotnosc 19 mod 2^32 (indeks listy z adresu: idx * 0x4C = adres - baza)
-TAB_KITOW equ 0x846C00          ; tabela podklas DS w podklasy.asm (+0 bit, +8 nazwa wiersza, +0x17 klasa)
 PCACHE    equ 0xA22B00          ; 3 x 11 dword: tablica progresji (kolumna, klasa); 0 = nie liczone, 1 = oryginal
 CACHE     equ 0xA22C00          ; 64 wpisy po 12 B: nazwa (8), C2DArray (4) - tablice wczytane po nazwie
 N_CACHE   equ 64
@@ -191,7 +183,7 @@ cecha:
 ;================================================================ tablica zdolnosci rasy (GetClabTable 0x546030, klasa 12)
 clab_rasa:
     cmp dword [esp+4], KLASA_RASY
-    jne clab
+    jne 0xa24012                ; GetClabTable podklas (kity.asm)
     push ebx
     push esi
     push edi
@@ -569,59 +561,8 @@ prog:
     pop ebp
     ret 8
 
-; kit_wiersz(tabela, klasa, kit) -> eax = wiersz podklasy w tabeli albo -1. stdcall
-; podklasa DS (bity 0xFF000000): nazwa z TAB_KITOW, tylko gdy podklasa nalezy do tej klasy;
-; inne kity (zakony, bostwa, szkoly): nazwa z GetClassRow(klasa, kit).
-kit_wiersz:
-    push ebp
-    mov ebp, esp
-    push ecx
-    push edx
-    mov eax, [ebp+0x10]
-    test eax, 0xff000000
-    jz .wan
-    mov edx, TAB_KITOW
-.t: mov ecx, [edx]
-    test ecx, ecx
-    jz .nie
-    test eax, ecx
-    jnz .j
-    add edx, 32
-    jmp .t
-.j: movzx ecx, byte [edx+0x17]
-    cmp ecx, [ebp+0xc]
-    jne .nie
-    lea eax, [edx+8]
-    push 0
-    push eax
-    push dword [ebp+8]
-    call szukaj
-    jmp .k
-.wan:
-    sub esp, 4
-    push dword [ebp+0x10]
-    push dword [ebp+0xc]
-    lea eax, [esp+8]
-    push eax
-    mov ecx, [0x8cf6dc]
-    mov ecx, [ecx+0x1c54]
-    call 0x541da0               ; GetClassRow(&wynik, klasa, kit)
-    push 0
-    push dword [esp+4]
-    push dword [ebp+8]
-    call szukaj
-    push eax
-    lea ecx, [esp+4]
-    call 0x7fcc1a               ; ~CString
-    pop eax
-    add esp, 4
-    jmp .k
-.nie:
-    or eax, -1
-.k: pop edx
-    pop ecx
-    pop ebp
-    ret 12
+; kit_wiersz(tabela, klasa, kit) -> wiersz podklasy albo -1: kity.asm (stale wejscie 0xA2400D)
+kit_wiersz equ 0xA2400D
 
 ; prog_k(kolumna, klasa, postac) -> eax = C2DArray albo 0 (oryginal). stdcall
 ; najpierw wiersz podklasy postaci (kit z postaci +0x80C, nalezacy do tej klasy), potem wiersz klasy (prog).
@@ -880,297 +821,6 @@ bab_mnich:
     pop eax
     ret
 
-;================================================================ listy czarow podklas DS (test23 domeny, test24 listy klas)
-; lista_kitu(nr podklasy 0..7, opis) -> eax = adres obiektu listy czarow albo 0 (brak konfiguracji). stdcall.
-; Lista budowana raz: wiersz podklasy w DSKLPROG, kolumna opis+0 = nazwa kolumny poziomow w tabeli opis+4,
-; nazwy czarow z kolumny opis+8; obiekt listy (0x4C B) pod opis+12 + nr*0x4C, flaga pod opis+16 + nr
-; (0 = nie budowano, 1 = brak, 2 = gotowa), parametry budowy (2 dword) pod opis+20.
-lista_kitu:
-    push ebx
-    push esi
-    push edi
-    push ebp
-    mov ebx, [esp+0x14]         ; numer podklasy
-    mov ebp, [esp+0x18]         ; opis
-    imul edi, ebx, 0x4c
-    add edi, [ebp+12]           ; obiekt listy
-    mov edx, [ebp+16]
-    cmp byte [edx+ebx], 0
-    jne .gotowe
-    mov byte [edx+ebx], 1
-    push edi
-    mov esi, KPTR_PROG
-    mov edi, n_prog
-    call tabela2da
-    pop edi
-    test eax, eax
-    jz .gotowe
-    cmp word [eax+0x22], 0
-    jle .gotowe
-    mov esi, eax                ; DSKLPROG
-    mov eax, ebx
-    shl eax, 5
-    add eax, TAB_KITOW+8        ; nazwa wiersza podklasy
-    push 0
-    push eax
-    push esi
-    call szukaj
-    cmp eax, -1
-    je .gotowe
-    push eax                    ; wiersz
-    push 1
-    push dword [ebp]
-    push esi
-    call szukaj
-    pop ecx
-    cmp eax, -1
-    je .gotowe
-    push eax
-    push ecx
-    mov eax, esi
-    call komorka                ; char* nazwy kolumny poziomow
-    test eax, eax
-    jz .gotowe
-    cmp byte [eax], '*'
-    je .gotowe
-    cmp byte [eax], 0
-    je .gotowe
-    push eax                    ; nazwa kolumny (zachowana)
-    push dword [ebp+4]
-    call wczytaj                ; LISTSPLL / LISTDOMN
-    pop ecx
-    test eax, eax
-    jz .gotowe
-    mov esi, eax
-    push 1
-    push ecx
-    push esi
-    call szukaj
-    cmp eax, -1
-    je .gotowe
-    mov edx, [ebp+20]
-    mov [edx], eax              ; kolumna poziomu
-    push 1
-    push dword [ebp+8]
-    push esi
-    call szukaj
-    cmp eax, -1
-    je .gotowe
-    mov edx, [ebp+20]
-    mov [edx+4], eax            ; kolumna nazw czarow
-    mov ecx, edi
-    call 0x59eb60               ; konstruktor listy
-    mov edx, [ebp+20]
-    push 0                      ; bez listy kontrolnej
-    lea eax, [edx+4]
-    push eax                    ; &kolumna nazw
-    push edx                    ; &kolumna poziomu
-    push esi                    ; tabela
-    mov ecx, edi
-    call 0x5ca2a0               ; budowa listy (ret 0x10)
-    mov edx, [ebp+16]
-    mov byte [edx+ebx], 2
-.gotowe:
-    mov edx, [ebp+16]
-    xor eax, eax
-    cmp byte [edx+ebx], 2
-    jne .k
-    mov eax, edi
-.k: pop ebp
-    pop edi
-    pop esi
-    pop ebx
-    ret 8
-
-; ---- domeny bostw (test23), hak 0x5CA910: GetDomainIndex(&kit), thiscall (ecx = reguly), ret 4.
-; Gra liczy adres listy: reguly + 0x4E2C + idx*0x4C. Dla kitu kaplana DS (bity 0xFF000000) wlasna lista z LISTDOMN.2DA
-; (kolumna DOMAIN w DSKLPROG); zwracamy idx, dla ktorego ten wzor daje adres naszej listy (arytmetyka mod 2^32).
-domena:
-    mov eax, [esp+4]
-    mov eax, [eax]
-    test eax, 0xff000000
-    jnz .ds
-    jmp 0x5ca916
-.ds:
-    push ebx
-    push ebp
-    mov ebp, ecx                ; reguly
-    mov edx, TAB_KITOW
-.t: mov ecx, [edx]
-    test ecx, ecx
-    jz .inna
-    test eax, ecx
-    jnz .j
-    add edx, 32
-    jmp .t
-.j: cmp byte [edx+0x17], 3      ; tylko podklasa kaplana
-    jne .inna
-    mov ebx, edx
-    sub ebx, TAB_KITOW
-    shr ebx, 5                  ; numer podklasy 0..7
-    push opis_dom
-    push ebx
-    call lista_kitu
-    test eax, eax
-    jz .k                       ; brak konfiguracji: domeny 1. bostwa (bez asercji)
-    sub eax, ebp
-    sub eax, 0x4e2c
-    shr eax, 2
-    imul eax, eax, INV19
-.k: pop ebp
-    pop ebx
-    ret 4
-.inna:                          ; bit podklasy innej klasy (wieloklasowa postac): bostwo z bitow gry
-    pop ebp
-    pop ebx
-    mov eax, [esp+4]
-    mov eax, [eax]
-    and eax, 0xff8000
-    jmp 0x5ca916
-
-; ---- listy czarow klas (test24): miejsca, w ktorych gra liczy adres listy (reguly + 0x4C18 + idx*0x4C) z wyniku
-; 0x5CA5D0(&klasa) (thiscall, ret 4). Haki zastepuja call i podaja postac (eax) - ze stosu albo rejestru miejsca.
-; Pozostale wywolania 0x5CA5D0 (numer ksiegi czarow postaci 0..6) zostaja bez zmian.
-lk_esp1c:
-    mov eax, [esp+0x1c]
-    jmp lista_klasy
-lk_esp60:
-    mov eax, [esp+0x60]
-    jmp lista_klasy
-lk_esp70:
-    mov eax, [esp+0x70]
-    jmp lista_klasy
-lk_esp90:
-    mov eax, [esp+0x90]
-    jmp lista_klasy
-lk_esp94:
-    mov eax, [esp+0x94]
-    jmp lista_klasy
-lk_espa4:
-    mov eax, [esp+0xa4]
-    jmp lista_klasy
-lk_ebp:
-    mov eax, ebp
-; lista_klasy: eax = postac (albo cokolwiek - sprawdzamy vtable CGameSprite), ecx = reguly, [esp+4] = &klasa
-lista_klasy:
-    push ebx
-    push esi
-    push ebp
-    mov ebp, ecx                ; reguly
-    mov esi, eax                ; postac
-    push dword [esp+0x10]
-    call 0x5ca5d0               ; indeks listy klasy (oryginal)
-    mov ebx, eax
-    cmp esi, 0x10000
-    jb .k
-    cmp dword [esi], 0x85bdd4   ; CGameSprite
-    jne .k
-    mov eax, [esi+0x80c]        ; kit postaci
-    test eax, 0xff000000
-    jz .k
-    mov edx, TAB_KITOW
-.t: mov ecx, [edx]
-    test ecx, ecx
-    jz .k
-    test eax, ecx
-    jnz .j
-    add edx, 32
-    jmp .t
-.j: mov ecx, [esp+0x10]
-    mov cl, [ecx]               ; klasa, dla ktorej gra chce liste
-    cmp cl, [edx+0x17]          ; podklasa tej klasy?
-    jne .k
-    sub edx, TAB_KITOW
-    shr edx, 5
-    push opis_spl
-    push edx
-    call lista_kitu
-    test eax, eax
-    jz .k
-    sub eax, ebp
-    sub eax, 0x4c18
-    shr eax, 2
-    imul ebx, eax, INV19
-.k: mov eax, ebx
-    pop ebp
-    pop esi
-    pop ebx
-    ret 4
-
-; ---- poziom czaru dla klasy: zamiast call 0x5CAC30(resref*, klasa, kit) w 4 miejscach (stdcall, ret 0xC; 9 = brak).
-; Gdy czaru nie ma na liscie klasy (ani domeny), szukamy go na listach podklas DS tej klasy (postaci tu nie znamy).
-poziom_czaru:
-    push dword [esp+0xc]
-    push dword [esp+0xc]
-    push dword [esp+0xc]
-    call 0x5cac30
-    cmp eax, 9
-    jb .k
-    push ebx
-    push esi
-    push edi
-    push ebp
-    mov ecx, [0x8cf6dc]
-    mov ecx, [ecx+0x1c54]
-    mov edx, [esp+0x14]         ; resref czaru
-    mov esi, [ecx+0x4bf8]       ; tablica czarow gry (8 B na czar)
-    mov edi, [ecx+0x4bfc]
-    xor ebp, ebp
-.s: cmp ebp, edi
-    jae .nie
-    mov eax, [esi+ebp*8]
-    cmp eax, [edx]
-    jne .sn
-    mov eax, [esi+ebp*8+4]
-    cmp eax, [edx+4]
-    je .zn
-.sn:inc ebp
-    jmp .s
-.zn:movzx ebx, byte [esp+0x18]  ; klasa
-    xor edi, edi                ; numer podklasy
-.kit:
-    cmp edi, 8
-    jae .nie
-    mov eax, edi
-    shl eax, 5
-    cmp dword [TAB_KITOW+eax], 0
-    je .nie
-    movzx ecx, byte [TAB_KITOW+eax+0x17]
-    cmp ecx, ebx
-    jne .kn
-    push opis_spl
-    push edi
-    call lista_kitu
-    test eax, eax
-    jz .kn
-    xor ecx, ecx                ; poziom 0..8
-.l: mov esi, [eax+ecx*8]
-    mov edx, [eax+ecx*8+4]
-    test esi, esi
-    jz .ln
-.e: test edx, edx
-    jz .ln
-    cmp [esi], ebp
-    je .jest
-    add esi, 8
-    dec edx
-    jmp .e
-.ln:inc ecx
-    cmp ecx, 9
-    jb .l
-.kn:inc edi
-    jmp .kit
-.jest:
-    mov eax, ecx
-    jmp .w
-.nie:
-    mov eax, 9
-.w: pop ebp
-    pop edi
-    pop esi
-    pop ebx
-.k: ret 0xc
-
 ;================================================================ dane
 align 4
 miot_wart:
@@ -1209,9 +859,6 @@ c10: db 'SORCERER', 0
 c11: db 'WIZARD', 0
 align 4
 nazwy_kol:  dd k_hp, k_bab, k_save
-; opisy list podklas dla lista_kitu: kolumna DSKLPROG, tabela, kolumna nazw czarow, listy, flagi, parametry
-opis_dom:   dd k_dom, n_listdomn, k_domres, DLISTY, DFLAG, DPARAM
-opis_spl:   dd k_spells, n_listspll, k_splres, SLISTY, SFLAG, SPARAM
 nazwy_klas: dd c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11
 ; tablice oryginalne w obiekcie regul (klasa 1..11); barbarzynca: HPBARB (oryginal: HPWAR z kostka 12 - to samo)
 dom_hp:  dd 0x3a0, 0x37c, 0x358, 0x358, 0x310, 0x3c4, 0x310, 0x310, 0x37c, 0x334, 0x334

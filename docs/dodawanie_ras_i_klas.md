@@ -1,4 +1,4 @@
-# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test24, 2026-11-14)
+# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test25, 2026-11-15)
 
 Dotyczy exe z paczki 2 (`setup-darksun_rasy`, komponent 0: `IWD2_DS.exe` / `IWD2_<W>_DS.exe`). Szczegóły łatek:
 `docs/iwd2_exe_rasy_klasy.md` (sekcje 7–11). Wszystkie tabele są w `override` (WeiDU), teksty przez `.tra` (`@numer`).
@@ -17,7 +17,7 @@ Tabele są czytane przy pierwszym użyciu – po zmianie w `override` uruchom gr
 | Zdolności rasy (wrodzone czary, efekty, premie zależne od poziomu postaci) | **tylko tabele**: RLAB (sekcja 2) |
 | Cechy walki rasy (widzenie w ciemności, wrogowie rasy, olbrzymy, broń miotana, odporność na magię) | **tylko tabele**: DSRASY, DSRWROG (sekcja 3) |
 | Nowa **klasa bazowa** | **niemożliwe**: 11 klas na stałe w formacie CRE (osobny poziom każdej klasy) i w setkach miejsc exe |
-| **Podklasa** (kit) | 8 miejsc w exe (bity `0x01000000`–`0x80000000`), **wszystkie zajęte** przez podklasy DS – zmiana podklasy = tabele + teksty (sekcja 4); zmiana nazwy wiersza albo klasy bazowej miejsca = przebudowa exe (`podklasy.asm`) |
+| **Podklasa** (kit) | **tylko tabele i tp2** (sekcja 4): do 31 podklas, do 8 na klasę; bity `0x01000000`–`0x80000000` wspólne dla klas (wpis = bit + klasa) |
 | Zdolności klasy / podklasy wg poziomu | **tylko tabele**: CLAB (sekcja 5) |
 | Progi zdolności klas (Unik, Uncanny Dodge, atak z zaskoczenia, ulubiony wróg, aura) | **tylko tabele**: DSKLASY, DSSNEAK, DSWROG (sekcja 6) |
 | Kość PW, premia do ataku, rzuty obronne **klasy i podklasy** | **tylko tabele**: DSKLPROG (sekcja 7) – wiersz podklasy, a bez niego wiersz klasy bazowej |
@@ -122,21 +122,49 @@ Brak całej tabeli DSRWROG = oryginalna funkcja gry.
 
 ## 4. Podklasa (kit)
 
-### 4.1 Miejsca w exe (tabela 0x846C00, 8 wpisów po 32 B; źródło `asm/podklasy.asm`)
-| Wpis | Bit (`KIT.IDS`) | Wiersz | Klasa | CLAB | Gdzie w kreatorze |
+### 4.1 Tabela podklas (od test25: wpisy (bit, klasa), wypełnia ją WeiDU; kod `asm/kity.asm`)
+Tabela leży w exe w sekcji `.dsras` (0xA23000, w pliku 0x4CE000), do **31 podklas**. Komponent 2 wpisuje ją z tablicy
+`ds_kity` w `setup-darksun_rasy.tp2` – **nowa podklasa nie wymaga przebudowy exe**, tylko wiersza w `ds_kity`, tekstów
+w `.tra` i tabel z 4.2.
+
+| Nr | Bit | Wiersz | Klasa | CLAB | Gdzie w kreatorze |
 |---|---|---|---|---|---|
-| 0 | 0x01000000 | PALADIN_DS | 7 paladyn | CLABDS01 | okno 52, przycisk 4 (zakony) |
+| 0 | 0x01000000 | PALADIN_DS | 7 paladyn | CLABDS01 | okno 52, przycisk 4 (po zakonach gry) |
 | 1 | 0x02000000 | BARBARIAN_DS | 1 barbarzyńca | CLABDS02 | okno 52, przycisk 2 (1 = bez podklasy) |
-| 2 | 0x04000000 | CLERIC_DS | 3 kapłan | CLABDS03 | okno 12, przycisk 14 (bóstwa; GUICG.CHU – komponent 2 dodaje przycisk) |
+| 2 | 0x04000000 | CLERIC_DS | 3 kapłan | CLABDS03 | okno 12, przycisk 14 |
 | 3 | 0x08000000 | FIGHTER_DS | 5 wojownik | CLABDS04 | okno 52, przycisk 2 |
 | 4 | 0x10000000 | RANGER_DS | 8 tropiciel | CLABDS05 | okno 52, przycisk 2 |
 | 5 | 0x20000000 | DRUID_DS | 4 druid | CLABDS06 | okno 52, przycisk 2 |
 | 6 | 0x40000000 | BARD_DS | 2 bard | CLABDS07 | okno 52, przycisk 2 |
-| 7 | 0x80000000 | SORCERER_DS | 10 zaklinacz | CLABDS08 | okno 52, przycisk 2 |
-Wpis: +0 bit, +4 strref etykiety przycisku (WeiDU), +8 nazwa wiersza (do 15 znaków), +0x17 klasa, +0x18 CLAB.
-Za tabelą: 0x846D04 strref opisu nowego bóstwa, 0x846D08 + 4·klasa – strref etykiety „bez podklasy”.
-Nazwa wiersza, klasa i CLAB są w asm – zmiana = przebudowa exe (`tools/iwd2_podklasy_exe.py`) i makr
-(`tools/iwd2_paczki_exe.py`). Teksty zmienia się w `.tra` (tablica `ds_kity` w komponencie 2).
+| 7 | 0x80000000 | SORCERER_DS | 10 zaklinacz | CLABDS08 (w paczce) | okno 52, przycisk 2 |
+| 8 | 0x01000000 | ROGUE_DS | 9 łotrzyk | CLABDS09 | okno 52, przycisk 2 |
+| 9 | 0x02000000 | WIZARD_DS | 11 czarodziej | CLABDS10 (w paczce) | okno 12, przycisk 14 |
+| 10 | 0x80000000 | CLERIC_DS2 | 3 kapłan | CLABDS11 | okno 12, przycisk 15 |
+
+Wiersz `ds_kity`: `nr, klasa, WIERSZ, bit, CLAB, starszy bajt bitu => tra` (tra = lower, +1 mixed = etykieta przycisku,
++2 help = opis), np. `11, 5, FIGHTER_DS2, 0x02000000, CLABDS12, 2 => 311`; numery kolejne od 0, `ds_n_kitow` = ich liczba.
+**Zasady bitów:**
+- w jednej klasie bity muszą być różne (8 bitów = do 8 podklas klasy);
+- ten sam bit w różnych klasach jest dozwolony – exe szuka wpisu po parze (bit, klasa);
+- postać wieloklasowa z obiema klasami pary, która dzieli bit, ma obie podklasy naraz (każda działa na poziomy swojej
+  klasy). Pary dobieraj z klas rzadko łączonych (tu: paladyn + łotrzyk, barbarzyńca + czarodziej, zaklinacz + kapłan ognia);
+- zmiana bitu istniejącej podklasy zmienia podklasę postaci w zapisach gry.
+
+**Okna kreatora:**
+- okno 52 (wszystkie klasy poza kapłanem i czarodziejem): przycisk 1 = „bez podklasy” (etykieta z `ds_nok`),
+  2–10 = podklasy klasy w kolejności z tabeli; paladyn i mnich: przyciski 1–3 = zakony gry, 4–10 = podklasy DS.
+  Klasa otwiera okno 52 tylko wtedy, gdy ma w tabeli choć jedną podklasę.
+- okno 12 (kapłan, czarodziej): przyciski 14, 15, … = podklasy klasy. Komponent 2 dopisuje te przyciski do GUICG.CHU
+  (`ds_chu_przycisk`, kopia przycisku 9 o odstęp niżej) – tyle, ile podklas ma kapłan albo czarodziej (tu 2). Nadmiarowe
+  przyciski exe ukrywa. Przy kilku przyciskach sprawdź w grze, czy mieszczą się w oknie.
+- podklasa DS czarodzieja zastępuje szkołę (jak generalista: brak szkół przeciwnych), podklasa DS kapłana – bóstwo gry
+  (kolumny bóstw w FEATS/SKILLS dają wartości domyślne).
+
+**Awans i nowa klasa (multiklasowanie):** ekran awansu ma własne okna wyboru podklasy tylko dla czarodzieja (szkoła),
+kapłana (bóstwo), paladyna i mnicha (zakon) i pokazuje w nich wyłącznie podklasy gry. Pozostałe klasy dostają klasę
+główną bez wyboru. **Podklasę DS wybiera się więc tylko w kreatorze.** Bity podklas z kreatora zostają przy awansie
+(gra łączy stary kit z nowym). Postać, która ma bit dzielony z dobieraną klasą (np. paladyn DS bierze łotrzyka), od razu
+ma też podklasę DS tej klasy.
 
 ### 4.2 Tabele podklasy – wiersz o nazwie podklasy (np. `FIGHTER_DS`)
 Komponent 2 kopiuje wiersz klasy bazowej (funkcja `ds_wiersz_kitu`), potem można go zmienić:
@@ -242,8 +270,10 @@ karcie postaci w `*_DS.exe` → nowa postać w grze.
 
 **Nowe zdolności istniejącej rasy:** DSRASY kolumna RLAB → `RL<nazwa>.2DA` (+ SPL dla `AP_`/`GA_`).
 
-**Zmiana podklasy DS (jednego z 8 miejsc):** teksty (`ds_kity`, `.tra`) → KITLIST, ALIGNMNT, CLSSRSMD, ABCLASRQ →
-CLABDSnn → (opcjonalnie) progi w DSKLASY dotyczą klasy bazowej.
+**Nowa podklasa DS:** wiersz w `ds_kity` (nr, klasa, wiersz, bit wolny w tej klasie, CLAB) i `ds_n_kitow` → teksty w `.tra`
+(lower, mixed, help; dla nowej klasy w oknie 52 także `ds_nok`) → ALIGNMNT i pętla tabel klas w komponencie 2
+(`ds_wiersz_kitu`) → CLABDSnn → DSKLPROG (wiersz podklasy; opcjonalnie `SPELLS`, `DOMAIN`) → dla kapłana / czarodzieja:
+liczba przycisków okna 12 w GUICG.CHU → przeinstalować komponent 2 (exe bez zmian).
 
 **Inna progresja klasy albo podklasy:** DSKLPROG (wiersz klasy albo podklasy, kolumna HP / BAB / SAVE) → ewentualnie nowa tablica w `override`.
 
