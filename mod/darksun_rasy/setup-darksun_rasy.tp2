@@ -220,6 +220,37 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     8 => 240
     10 => 270
   END
+  // strrefy tekstow podklas w tablicy $ds_str (bez (AT ...) - starsze WeiDU go nie znaja)
+  OUTER_SET $ds_str(~201~) = RESOLVE_STR_REF(@201)
+  OUTER_SET $ds_str(~202~) = RESOLVE_STR_REF(@202)
+  OUTER_SET $ds_str(~203~) = RESOLVE_STR_REF(@203)
+  OUTER_SET $ds_str(~211~) = RESOLVE_STR_REF(@211)
+  OUTER_SET $ds_str(~212~) = RESOLVE_STR_REF(@212)
+  OUTER_SET $ds_str(~213~) = RESOLVE_STR_REF(@213)
+  OUTER_SET $ds_str(~214~) = RESOLVE_STR_REF(@214)
+  OUTER_SET $ds_str(~221~) = RESOLVE_STR_REF(@221)
+  OUTER_SET $ds_str(~222~) = RESOLVE_STR_REF(@222)
+  OUTER_SET $ds_str(~223~) = RESOLVE_STR_REF(@223)
+  OUTER_SET $ds_str(~230~) = RESOLVE_STR_REF(@230)
+  OUTER_SET $ds_str(~231~) = RESOLVE_STR_REF(@231)
+  OUTER_SET $ds_str(~232~) = RESOLVE_STR_REF(@232)
+  OUTER_SET $ds_str(~233~) = RESOLVE_STR_REF(@233)
+  OUTER_SET $ds_str(~240~) = RESOLVE_STR_REF(@240)
+  OUTER_SET $ds_str(~241~) = RESOLVE_STR_REF(@241)
+  OUTER_SET $ds_str(~242~) = RESOLVE_STR_REF(@242)
+  OUTER_SET $ds_str(~243~) = RESOLVE_STR_REF(@243)
+  OUTER_SET $ds_str(~250~) = RESOLVE_STR_REF(@250)
+  OUTER_SET $ds_str(~251~) = RESOLVE_STR_REF(@251)
+  OUTER_SET $ds_str(~252~) = RESOLVE_STR_REF(@252)
+  OUTER_SET $ds_str(~253~) = RESOLVE_STR_REF(@253)
+  OUTER_SET $ds_str(~260~) = RESOLVE_STR_REF(@260)
+  OUTER_SET $ds_str(~261~) = RESOLVE_STR_REF(@261)
+  OUTER_SET $ds_str(~262~) = RESOLVE_STR_REF(@262)
+  OUTER_SET $ds_str(~263~) = RESOLVE_STR_REF(@263)
+  OUTER_SET $ds_str(~270~) = RESOLVE_STR_REF(@270)
+  OUTER_SET $ds_str(~271~) = RESOLVE_STR_REF(@271)
+  OUTER_SET $ds_str(~272~) = RESOLVE_STR_REF(@272)
+  OUTER_SET $ds_str(~273~) = RESOLVE_STR_REF(@273)
   OUTER_SET clr_help = RESOLVE_STR_REF(@223)
   OUTER_SET patched = 0
   ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?_DS\.exe$~ BEGIN
@@ -234,12 +265,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
       ACTION_IF ok BEGIN
         COPY ~%src%.exe~ ~%src%.exe~
           PHP_EACH ds_kity AS k => tra BEGIN
-            SET mixed = RESOLVE_STR_REF((AT (tra + 1)))
+            SET t1 = tra + 1
+            SET mixed = $ds_str(~%t1%~)
             WRITE_LONG (0x446C04 + 32 * k_0) mixed
           END
           WRITE_LONG 0x446D04 clr_help
           PHP_EACH ds_nok AS kl => tra BEGIN
-            SET t = RESOLVE_STR_REF((AT tra))
+            SET t = $ds_str(~%tra%~)
             WRITE_LONG (0x446D08 + 4 * kl) t
           END
         OUTER_SET patched = patched + 1
@@ -254,9 +286,11 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   // --- 2. Tabele ---
   // KITLIST: teksty kitu (HELP czyta gra po nazwie wiersza z GetClassRow); KIT.IDS: bity z wolnej puli.
   ACTION_PHP_EACH ds_kity AS k => tra BEGIN
-    OUTER_SET lower = RESOLVE_STR_REF((AT tra))
-    OUTER_SET mixed = RESOLVE_STR_REF((AT (tra + 1)))
-    OUTER_SET help  = RESOLVE_STR_REF((AT (tra + 2)))
+    OUTER_SET t1 = tra + 1
+    OUTER_SET t2 = tra + 2
+    OUTER_SET lower = $ds_str(~%tra%~)
+    OUTER_SET mixed = $ds_str(~%t1%~)
+    OUTER_SET help  = $ds_str(~%t2%~)
     APPEND ~KITLIST.2DA~ ~%k_2%              %lower% %mixed% %help%~ UNLESS ~%k_2%~
     APPEND ~KIT.IDS~ ~%k_3% %k_2%~ UNLESS ~%k_2%~
   END
