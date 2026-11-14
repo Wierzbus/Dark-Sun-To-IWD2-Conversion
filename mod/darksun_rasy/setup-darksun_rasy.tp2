@@ -295,9 +295,10 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
             WRITE_BYTE (o + 2) 0
             WRITE_BYTE (o + 3) k_5
             WRITE_LONG (o + 4) mixed
-            WRITE_ASCIIE (o + 8) ~%k_2%~ #15
+            FOR (z = 8; z < 0x20; ++z) BEGIN WRITE_BYTE (o + z) 0 END
+            WRITE_ASCIIE (o + 8) ~%k_2%~
             WRITE_BYTE (o + 0x17) k_1
-            WRITE_ASCIIE (o + 0x18) ~%k_4%~ #8
+            WRITE_ASCIIE (o + 0x18) ~%k_4%~
             WRITE_LONG (0x4CE600 + 4 * k_0) help
           END
           WRITE_LONG (0x4CE000 + 32 * ds_n_kitow) 0
