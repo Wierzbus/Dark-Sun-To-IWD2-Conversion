@@ -17,6 +17,11 @@ python -m pip install --upgrade pyinstaller || exit /b 1
 python -m PyInstaller --noconfirm --clean --onedir --console --name iwd2_gui_buduj ^
   --paths tools --paths tools\iwd2_gui --paths . ^
   --hidden-import scipy.ndimage ^
+  --exclude-module PyQt5 --exclude-module PyQt6 --exclude-module PySide2 --exclude-module PySide6 ^
+  --exclude-module tkinter --exclude-module matplotlib --exclude-module IPython --exclude-module jupyter ^
+  --exclude-module notebook --exclude-module pandas --exclude-module sklearn --exclude-module torch ^
+  --exclude-module tensorflow --exclude-module numba --exclude-module sympy --exclude-module bokeh ^
+  --exclude-module dask --exclude-module distributed --exclude-module pyarrow --exclude-module h5py ^
   --distpath build\pyi\dist --workpath build\pyi\work --specpath build\pyi ^
   tools\iwd2_gui\buduj.py || exit /b 1
 if exist "%~1\iwd2_upscale\generator\iwd2_gui_buduj" rmdir /S /Q "%~1\iwd2_upscale\generator\iwd2_gui_buduj"
