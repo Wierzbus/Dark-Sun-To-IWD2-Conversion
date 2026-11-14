@@ -337,3 +337,22 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
      wstecz tamtą klasę).
 - Ryzyka: okno 6 w powiększonym GUI (paczka 1) – położenie nowych przycisków; ekran awansu działa też w trybie gry
   wieloosobowej i przy tworzeniu postaci z poziomem > 1 (te same okna) – do sprawdzenia w grze.
+
+## 19. Wolne miejsce w nagłówku CRE na podklasy DS – rozpoznanie (2026-11-15)
+- Nagłówek CRE V2.2 od 0x8 do 0x383 (0x37C B) to struktura postaci pod CGameSprite+0x5A4 (zerowanie `rep stos`
+  0x6EF9DB / 0x70AF48), czyli **pole pliku f = postać +0x59C+f** (podklasa: plik 0x270 = +0x80C).
+- Kopiowany w całości, bajt w bajt: wczytanie 0x70D1C2 (plik+8 → +0x5A4), zapis 0x70B5F3 (+0x5A4 → plik+8), eksport /
+  CRE 0x5A5C5D, ekran awansu 0x5E5612 (kopia +0x85A) i 0x5E4191 (z powrotem), 0x5E1B7C. Bajty, których kod gry nie
+  czyta ani nie zapisuje, przechodzą więc przez zapis gry, eksport postaci (.CHR) i awans bez zmian.
+- **Nieużywane przez exe** (brak odwołań `[rejestr+przesunięcie]` innym rejestrem niż esp, zarówno jako postać +0x59C+f,
+  jak i wskaźnik nagłówka +f−8; brak dostępu indeksowanego): **plik 0x30C–0x31B (16 B, postać +0x8A8…+0x8B7)** i
+  **0x344–0x34D (10 B, +0x8E0…+0x8E9)**. Sąsiednie pola z obszaru „Unknown” IESDP są używane: 0x304 (+0x8A0 flagi),
+  0x306/0x307 (+0x8A2/0x8A3), 0x308 (+0x8A4), 0x31C (+0x8B8 dword), 0x33C–0x343 (+0x8D8…), 0x34E (+0x8EA).
+- Dane: we wszystkich 1630 CRE z CRE.bif i Dev.bif oraz w 12 postaciach z Characters\*.CHR bajty 0x2F2–0x383 są zerami
+  (poza 0x303 – flagi).
+- Propozycja: **bajt na klasę** pod 0x30C + klasa − 1 (0x30C–0x316 dla klas 1–11): 0 = brak podklasy DS, 1–255 =
+  numer wpisu w tabeli podklas + 1. Każda klasa postaci ma własną podklasę – brak wspólnych bitów i konfliktów przy
+  wieloklasowości. W polu kitu zostaje jeden bit „ma podklasę DS” (dla masek gry: Gotowe kapłana / czarodzieja).
+  0x317–0x31B rezerwa (np. wersja układu).
+- Ryzyka: edytory (NearInfinity, DLTCEP) pokazują te bajty jako „Unknown” – przy ręcznej edycji postaci mogą je zmienić;
+  potwierdzić w grze test zapisu i wczytania (wpisać wartość, zapisać grę, wczytać, sprawdzić).
