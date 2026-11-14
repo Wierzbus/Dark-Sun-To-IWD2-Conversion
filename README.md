@@ -30,20 +30,20 @@ Trzy niezależne paczki, każda z własnym setup-*.exe (kopia WeiDU), rozpakowyw
    `IWD2_<W>.exe` paczki 1 (łatki ras i klas; exe większe o 8 KB – nowa sekcja PE `.dsras`). Komponenty:
    1 mul, 2 podklasy + zdolności klas z 2DA (DSKLASY, DSSNEAK, DSWROG), 3 półelf atasyjski,
    4 zdolności ras z tabel (DSRASY, DSRWROG, tablice RLAB ras w formacie CLAB),
-   5 progresja klas i podklas (DSKLPROG: kość PW, premia do ataku, rzuty obronne).
+   5 progresja klas i podklas (DSKLPROG: kość PW, premia do ataku, rzuty obronne, domeny i listy czarów podklas DS).
 3. **iwd2_nowe_lokacje** – AR9020, AR9021, AR9022 (Dark Sun) i skok w dialogu Hedrona; lokacje zbudowane przed spakowaniem.
 
 Makra exe (`*_exe.tpa`) zawierają fragmenty kodu gry do kontroli oryginału, więc są generowane, nie commitowane.
-Paczka 2 (stan test22):
+Paczka 2 (stan test24):
 ```
-python tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out IWD2_1920x1080_test22.exe
-python tools/iwd2_paczki_exe.py --orig IWD2.exe --upscale IWD2_1920x1080_test13.exe --rasy IWD2_1920x1080_test22.exe --out-upscale upscale_exe.tpa --out-rasy mod/darksun_rasy/darksun_rasy/exe/rasy_exe.tpa
+python tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out IWD2_1920x1080_test24.exe
+python tools/iwd2_paczki_exe.py --orig IWD2.exe --upscale IWD2_1920x1080_test13.exe --rasy IWD2_1920x1080_test24.exe --out-upscale upscale_exe.tpa --out-rasy mod/darksun_rasy/darksun_rasy/exe/rasy_exe.tpa
 ```
 Paczka 1: makra powstają w instalatorze (program budujący zestaw).
 
 ## Rasy, podrasy, podklasy i zdolności Dark Sun w IWD2 (mod WeiDU `darksun_rasy`, eksperymentalny)
 - **Jak dodać rasę / podrasę / podklasę i co wpisać do której tabeli:** [docs/dodawanie_ras_i_klas.md](docs/dodawanie_ras_i_klas.md).
-- Mapa miejsc w exe i opis łatek (test14–test22): [docs/iwd2_exe_rasy_klasy.md](docs/iwd2_exe_rasy_klasy.md).
+- Mapa miejsc w exe i opis łatek (test14–test24): [docs/iwd2_exe_rasy_klasy.md](docs/iwd2_exe_rasy_klasy.md).
 - Kod łatek: `mod/darksun_rasy/darksun_rasy/asm/` (`podklasy.asm` – koniec .text, `dodatki.asm` – martwy kod pięści
   mnicha, `rasy.asm` – sekcja `.dsras`, `halforc.asm`, `halfelf.asm`).
 Instalacja: `mod/darksun_rasy/darksun_rasy` i `setup-darksun_rasy.tp2` do katalogu IWD2, obok `setup-darksun_rasy.exe`

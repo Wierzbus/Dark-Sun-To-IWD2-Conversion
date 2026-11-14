@@ -76,6 +76,15 @@ CTX_WYWOLANIA = [(a, 0x5429B0, "ctx_sv_ebp") for a in (0x5D8F3A, 0x5D8F5B, 0x5D8
                 [(a, 0x5429B0, "ctx_sv_esi") for a in (0x612A1E, 0x612A3F, 0x612A60, 0x737A05, 0x737A20, 0x737A3B,
                                                        0x737DB8, 0x737DD3, 0x737DEE)] + \
                 [(0x5D908F, 0x542FA0, "ctx_hp_ebp"), (0x6129EB, 0x542FA0, "ctx_hp_esi")]
+# test24: listy czarow podklas - miejsca liczace adres listy klasy z 0x5CA5D0 (adres call, etykieta haka z postacia)
+LISTY_KLAS = [(0x4BCA66, "lk_esp70"),                          # efekt nauki czaru czarodzieja (cel efektu)
+              (0x5D9BAB, "lk_espa4"), (0x5D9C50, "lk_espa4"),  # ekran wyboru czarow barda / zaklinacza
+              (0x5E14B0, "lk_esp94"), (0x5E152B, "lk_esp94"),  # j.w. (druga funkcja ekranu)
+              (0x60EFD2, "lk_esp90"), (0x60F092, "lk_esp90"),  # ekran czarow kreatora (klasa z postaci +0x3E3E)
+              (0x61827A, "lk_esp1c"), (0x618496, "lk_esp1c"),  # nauka czarow czarodzieja przy awansie
+              (0x618D5F, "lk_esp60"), (0x618DBB, "lk_esp60"),  # j.w. (0x618D10)
+              (0x71EABB, "lk_ebp")]                            # awans: czary kaplana / druida / paladyna / tropiciela
+POZIOM_CZARU = [0x4ED086, 0x629996, 0x62B3A8, 0x716728]        # call 0x5CAC30 (poziom czaru klasy)
 # premia za bron miotana czytana z MIOT zamiast 0x84EAA8 (operand instrukcji mov)
 MIOT_OPERANDY = [0x73BC4E, 0x73CA9B]
 
@@ -201,6 +210,14 @@ def main():
         h = h.replace(" ", "")
         assert d[o:o + len(h) // 2].hex() == h, hex(adr)
         struct.pack_into("<I", d, o + len(h) // 2 - 4, 0xFFFF8000)
+    for adr, lab in LISTY_KLAS:
+        o = adr - BASE
+        assert d[o] == 0xE8 and struct.unpack_from("<i", d, o + 1)[0] + adr + 5 == 0x5CA5D0, hex(adr)
+        struct.pack_into("<i", d, o + 1, et[lab] - (adr + 5))
+    for adr in POZIOM_CZARU:
+        o = adr - BASE
+        assert d[o] == 0xE8 and struct.unpack_from("<i", d, o + 1)[0] + adr + 5 == 0x5CAC30, hex(adr)
+        struct.pack_into("<i", d, o + 1, et["poziom_czaru"] - (adr + 5))
     o = 0x546F37 - BASE
     assert d[o:o + 6].hex() == "8d8ec4180000"
     d[o:o + 6] = b"\xE8" + struct.pack("<i", et["bab_mnich"] - 0x546F3C) + b"\x90"

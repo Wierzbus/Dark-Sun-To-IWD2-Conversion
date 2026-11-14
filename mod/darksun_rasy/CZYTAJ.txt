@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test23: zdolnosci ras, progresja klas i podklas, domeny kaplana DS)
+PACZKA 2 - rasy i klasy Dark Sun (test24: zdolnosci ras, progresja klas i podklas, domeny i listy czarow podklas DS)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -31,3 +31,9 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
  test23: kaplan DS (CLERIC_DS) ma wlasna liste domen: kolumna CDS w LISTDOMN.2DA (na poczatek kopia domen Tempusa),
      wskazywana w DSKLPROG kolumna DOMAIN. Wczesniej gra trafiala na asercje / liste spoza tablicy.
      Test: nowy kaplan DS w kreatorze - wybor czarow domeny; awans kaplana DS; czary domeny w ksiedze.
+ test24: podklasa DS moze miec wlasna liste czarow: kolumna w LISTSPLL.2DA (za SPELL_RES_REF), wskazywana w DSKLPROG
+     kolumna SPELLS. Komponent 5 dopisuje kolumne CLR_DS (na poczatek kopia listy kaplana) i wpisuje ja kaplanowi DS.
+     Reinstall: komponent 0 (exe) i 5 (tabele).
+     Test: w override\LISTSPLL.2DA w kolumnie CLR_DS wpisz 0 przy jednym czarze 1. poziomu kaplana (np. wiersz
+     SPPR101) i 1 przy czarze spoza listy kaplana (np. SPWI112, Magic Missile). Nowy kaplan DS: pierwszego czaru nie
+     powinno byc w ksiedze, drugi powinien byc do zapamietania i rzucenia. Zwykly kaplan bez zmian.

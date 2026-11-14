@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test23-2026-11-14~
+VERSION ~test24-2026-11-14~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -492,7 +492,7 @@ BEGIN ~TEST: zdolnosci ras z tabel (DSRASY, DSRWROG, tablice RLAB ras)~ DESIGNAT
        ~darksun_rasy/2da/DSRWROG.2DA~ ~override~
        ~darksun_rasy/2da/RLMUL.2DA~   ~override~
 
-BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do ataku, rzuty obronne)~ DESIGNATED 5
+BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do ataku, rzuty obronne, domeny, listy czarow)~ DESIGNATED 5
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
   // Exe (komponent 0, asm/rasy.asm, test21) bierze tablice progresji klasy z DSKLPROG.2DA: wiersz = klasa
@@ -505,6 +505,9 @@ BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do atak
   // a brak wiersza podklasy = wiersz klasy bazowej. Wiersze podklas DS sa wpisane z wartosciami klasy bazowej.
   // Od test23 kolumna DOMAIN: dla podklasy kaplana DS nazwa kolumny LISTDOMN.2DA z jej czarami domeny
   // (np. CTE = domeny Tempusa albo wlasna kolumna). Bez wpisu - domeny Ilmatera (zamiast asercji gry).
+  // Od test24 kolumna SPELLS: dla podklasy DS nazwa kolumny LISTSPLL.2DA z jej lista czarow (poziom 1..9, 0 = brak),
+  // zamiast listy klasy bazowej - w kreatorze, przy awansie (czary kaplana/druida/paladyna/tropiciela, wybor czarow
+  // barda/zaklinacza, nauka czarodzieja) i przy zwoju. * = lista klasy bazowej.
   // Tabela jest czytana raz na uruchomienie gry.
   COPY ~darksun_rasy/2da/DSKLPROG.2DA~ ~override~
   // LISTDOMN: kolumna CDS (domeny kaplana DS, CLERIC_DS) dopisana za DOMAIN_RESREF - gra czyta tylko kolumny 0..9.
@@ -520,6 +523,27 @@ BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do atak
           TEXT_SPRINT ds_l ~%ds_l%%ds_v%	~
         END
         READ_2DA_ENTRY_FORMER ds_d ds_i 6 ds_v
+        TEXT_SPRINT ds_out ~%ds_out%%ds_l%%ds_v%%WNL%~
+      END
+      DELETE_BYTES 0 BUFFER_LENGTH
+      INSERT_BYTES 0 (STRING_LENGTH ~%ds_out%~)
+      WRITE_ASCIIE 0 ~%ds_out%~
+    END
+  BUT_ONLY
+  // LISTSPLL: kolumna CLR_DS (lista czarow kaplana DS, CLERIC_DS) dopisana za SPELL_RES_REF - gra czyta kolumny 0..7.
+  // Na poczatek kopia kolumny kaplana (CLR) - do decyzji wlasciciela (poziom czaru 1..9 albo 0 = poza lista).
+  // Nowa podklasa z wlasna lista: kolejna kolumna tutaj + jej nazwa w kolumnie SPELLS wiersza podklasy w DSKLPROG.
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    PATCH_IF (INDEX_BUFFER (~CLR_DS~) < 0) BEGIN
+      READ_2DA_ENTRIES_NOW ds_d 9
+      TEXT_SPRINT ds_out ~2DA V1.0%WNL%0%WNL%	BRD	CLR	DRD	PAL	RGR	SOR	WIZ	SPELL_RES_REF	CLR_DS%WNL%~
+      FOR (ds_i = 0; ds_i < ds_d; ++ds_i) BEGIN
+        TEXT_SPRINT ds_l ~~
+        FOR (ds_c = 0; ds_c < 9; ++ds_c) BEGIN
+          READ_2DA_ENTRY_FORMER ds_d ds_i ds_c ds_v
+          TEXT_SPRINT ds_l ~%ds_l%%ds_v%	~
+        END
+        READ_2DA_ENTRY_FORMER ds_d ds_i 2 ds_v
         TEXT_SPRINT ds_out ~%ds_out%%ds_l%%ds_v%%WNL%~
       END
       DELETE_BYTES 0 BUFFER_LENGTH

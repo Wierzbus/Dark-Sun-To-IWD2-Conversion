@@ -1,4 +1,4 @@
-# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test23, 2026-11-14)
+# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test24, 2026-11-14)
 
 Dotyczy exe z paczki 2 (`setup-darksun_rasy`, komponent 0: `IWD2_DS.exe` / `IWD2_<W>_DS.exe`). Szczegóły łatek:
 `docs/iwd2_exe_rasy_klasy.md` (sekcje 7–11). Wszystkie tabele są w `override` (WeiDU), teksty przez `.tra` (`@numer`).
@@ -21,6 +21,7 @@ Tabele są czytane przy pierwszym użyciu – po zmianie w `override` uruchom gr
 | Zdolności klasy / podklasy wg poziomu | **tylko tabele**: CLAB (sekcja 5) |
 | Progi zdolności klas (Unik, Uncanny Dodge, atak z zaskoczenia, ulubiony wróg, aura) | **tylko tabele**: DSKLASY, DSSNEAK, DSWROG (sekcja 6) |
 | Kość PW, premia do ataku, rzuty obronne **klasy i podklasy** | **tylko tabele**: DSKLPROG (sekcja 7) – wiersz podklasy, a bez niego wiersz klasy bazowej |
+| Własna **lista czarów** i domeny podklasy DS (klasy czarujące) | **tylko tabele**: kolumna w LISTSPLL / LISTDOMN + DSKLPROG `SPELLS` / `DOMAIN` (sekcje 7, 7a) |
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -195,15 +196,10 @@ domeny jej bóstwa. Komponent 5 dopisuje do LISTDOMN kolumnę `CDS` (za `DOMAIN_
 `CTE`) i wpisuje `CDS` w wierszu CLERIC_DS. Można wskazać kolumnę istniejącego bóstwa (CIL CLA CSE CHE COG CTE CBA CMA CTA)
 albo dopisać własną (wartość = poziom czaru domeny 1–9, 0 = brak). Bez wpisu – domeny Ilmatera zamiast asercji gry.
 
-## 7a. Listy czarów – co decyduje i jakie są ograniczenia
-- `LISTSPLL.2DA`: kolumny BRD CLR DRD PAL RGR SOR WIZ (po pozycji), wartość = poziom czaru 1–9, 0 = brak na liście.
-  **Lista zależy wyłącznie od klasy** – podklasa (także DS) korzysta z listy klasy bazowej. Dodatkowe kolumny są pomijane.
-- `LISTDOMN.2DA`: domeny 9 bóstw gry + kolumny dopisane dla podklas kapłana DS (sekcja 7, `DOMAIN`).
-- `LISTINNT`, `LISTSONG`, `LISTSHAP`: zdolności wrodzone, pieśni barda, kształty druida. `LISTMAGE` – nieużywana przez exe.
-- Liczba czarów na dzień: `MXSPLBRD/CLR/DRD/PAL/RGR/SOR/WIZ`, premia z cechy `MXSPLBON`, znane czary zaklinacza `SPLSRCKN`.
-- Listy czarów mają tylko klasy czarujące (bard, kapłan, druid, paladyn, tropiciel, zaklinacz, czarodziej): CRE V2.2
-  trzyma księgi tylko tych klas. Podklasa wojownika / barbarzyńcy / mnicha / łotrzyka może dostać czary wyłącznie jako
-  zdolności wrodzone `GA_` (CLAB / RLAB).
+**Kolumna `SPELLS` (test24)** – dla każdej z 8 podklas DS: nazwa kolumny w `LISTSPLL.2DA` z listą czarów podklasy
+**zamiast** listy klasy bazowej. Komponent 5 dopisuje do LISTSPLL kolumnę `CLR_DS` (za `SPELL_RES_REF`; na początek kopia
+listy kapłana `CLR`) i wpisuje `CLR_DS` w wierszu CLERIC_DS. `*` = lista klasy bazowej. Szczegóły w sekcji 7a.
+
 | Kolumna | Tablica | Format tablicy | Oryginał |
 |---|---|---|---|
 | `HP` | kość PW przy awansie | wiersz = poziom klasy 1–40: `SIDES ROLLS MODIFIER` (HPWAR, HPBARB, HPPRS, HPROG, HPMONK, HPWIZ) | barbarzyńca HPBARB (k12), wojownik/paladyn/tropiciel HPWAR (k10), kapłan/druid HPPRS (k8), mnich HPMONK (k8), bard/łotrzyk HPROG (k6), zaklinacz/czarodziej HPWIZ (k4) |
@@ -212,6 +208,29 @@ albo dopisać własną (wartość = poziom czaru domeny 1–9, 0 = brak). Bez wp
 Można wpisać **własną tablicę** (np. `HPDS01`) – plik musi być w `override` i mieć te same kolumny. Wpis `*`, brak
 wiersza albo nieudane wczytanie → tablica oryginalna. Mnich bez broni zawsze BAATMKU. Premia z Kondycji: `HPCONBON.2DA`
 (bez zmian). Rzuty: suma po wszystkich klasach postaci (+ SAVERACE). Tabela jest czytana raz na uruchomienie gry.
+
+## 7a. Listy czarów – co decyduje i jakie są ograniczenia
+- `LISTSPLL.2DA`: kolumny BRD CLR DRD PAL RGR SOR WIZ (po pozycji), wartość = poziom czaru 1–9, 0 = brak na liście.
+  Klasa bazowa zawsze korzysta ze swojej kolumny. **Od test24 podklasa DS może mieć własną listę**: dopisz kolumnę na
+  końcu LISTSPLL (np. `CLR_DS`, `DRD_DS`, `SOR_DS`; poziom 1–9 albo 0) i wpisz jej nazwę w kolumnie `SPELLS` wiersza
+  podklasy w DSKLPROG. Kolumn gry (BRD … WIZ) nie ruszaj i nie przestawiaj – exe czyta je po pozycji.
+  - Lista podklasy **zastępuje** listę klasy: czary kapłana / druida / paladyna / tropiciela dodawane przy awansie,
+    wybór czarów barda i zaklinacza (kreator i awans), ekran czarów kreatora, nauka czarodzieja przy awansie i ze zwoju.
+    Czary trafiają do księgi klasy bazowej (CRE ma księgi tylko 7 klas czarujących) i liczą się do jej limitów
+    `MXSPL*` / `SPLSRCKN`.
+  - Poziom czaru przy rzucaniu i zapamiętywaniu: najpierw lista klasy (i domena), a gdy czaru tam nie ma – listy podklas
+    DS tej klasy. Czar, który jest na obu listach na różnych poziomach, ma poziom z listy klasy – trzymaj te same poziomy.
+  - Czar musi być wierszem LISTSPLL (gra buduje z niej tablicę wszystkich czarów). Nowy czar = nowy wiersz z `0` w kolumnach
+    klas gry i poziomem w kolumnie podklasy.
+  - Postać wieloklasowa: lista podklasy działa tylko dla klasy, do której podklasa należy.
+  - Kody (cheat) „dodaj wszystkie czary klasy” korzystają z listy klasy bazowej.
+- `LISTDOMN.2DA`: domeny 9 bóstw gry + kolumny dopisane dla podklas kapłana DS (sekcja 7, `DOMAIN`).
+- `LISTINNT`, `LISTSONG`, `LISTSHAP`: zdolności wrodzone, pieśni barda, kształty druida. `LISTMAGE` – nieużywana przez exe.
+- Liczba czarów na dzień: `MXSPLBRD/CLR/DRD/PAL/RGR/SOR/WIZ`, premia z cechy `MXSPLBON`, znane czary zaklinacza `SPLSRCKN`
+  – zależą od klasy, nie od podklasy.
+- Listy czarów mają tylko klasy czarujące (bard, kapłan, druid, paladyn, tropiciel, zaklinacz, czarodziej): CRE V2.2
+  trzyma księgi tylko tych klas. Podklasa wojownika / barbarzyńcy / mnicha / łotrzyka może dostać czary wyłącznie jako
+  zdolności wrodzone `GA_` (CLAB / RLAB).
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -227,6 +246,9 @@ karcie postaci w `*_DS.exe` → nowa postać w grze.
 CLABDSnn → (opcjonalnie) progi w DSKLASY dotyczą klasy bazowej.
 
 **Inna progresja klasy albo podklasy:** DSKLPROG (wiersz klasy albo podklasy, kolumna HP / BAB / SAVE) → ewentualnie nowa tablica w `override`.
+
+**Własna lista czarów podklasy DS:** kolumna na końcu LISTSPLL (poziom 1–9 / 0; nowe czary jako nowe wiersze) → jej nazwa
+w kolumnie `SPELLS` wiersza podklasy w DSKLPROG. Domeny kapłana DS: kolumna LISTDOMN → `DOMAIN`.
 
 **Po zmianie exe (asm):** `tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out testNN.exe` →
 `tools/iwd2_paczki_exe.py ... --rasy testNN.exe --out-rasy darksun_rasy/exe/rasy_exe.tpa` → przeinstalować komponent 0

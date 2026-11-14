@@ -228,7 +228,7 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - **LISTSPLL.2DA**: jedna tabela, kolumny po pozycji (nazw kolumn nie ma w exe): BRD CLR DRD PAL RGR SOR WIZ, wartość = poziom
   czaru 1–9 (0 = czaru nie ma na liście), ostatnia kolumna SPELL_RES_REF. Przy starcie (0x59D778) gra buduje 7 list w obiekcie
   reguł: +0x4C18 + 0x4C·i (i = 0..6, budowa 0x5CA2A0). Inne kolumny są pomijane.
-- **Klasa → lista**: `0x5CA5D0(&klasa)` (36 wywołań): bard 0, kapłan 1, druid 2, paladyn 3, tropiciel 4, zaklinacz 5,
+- **Klasa → lista**: `0x5CA5D0(&klasa)` (33 wywołania; 12 z nich liczy adres listy, reszta używa wyniku jako numeru księgi czarów postaci 0–6 – zob. sekcja 16): bard 0, kapłan 1, druid 2, paladyn 3, tropiciel 4, zaklinacz 5,
   czarodziej 6; barbarzyńca, wojownik, mnich, łotrzyk → asercja. Funkcja dostaje tylko numer klasy – **podklasa nie ma wpływu**.
 - **LISTDOMN.2DA**: 9 kolumn bóstw (CIL CLA CSE CHE COG CTE CBA CMA CTA) → 9 list domen +0x4E2C + 0x4C·i (0x59D851).
   Bóstwo → indeks: `0x5CA910(&kit)` po bitach 0x8000 … 0x800000 (0–8); inny bit → asercja i indeks 10 (poza 9 listami).
@@ -252,3 +252,34 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   konfiguracji → indeks 0 (domeny Ilmatera) zamiast asercji.
 - Pozostałe maski 0xFF8000 (0x541DF6, 0x547303, 0x5E10D7, 0x5E20C8, 0x5E61FF, 0x5E66EE, 0x5E674C, 0x62A59C, 0x7231A2,
   0x763EEC, testy 0x5B9BFE / 0x5BA106) zostają: dla kapłana DS dają „brak bóstwa gry” (np. kolumny bóstw w FEATS/SKILLS).
+
+## 16. Test24: listy czarów podklas DS (LISTSPLL, kolumna SPELLS w DSKLPROG)
+- **Dwa użycia `0x5CA5D0`.** Wynik jest (a) indeksem listy: `reguły + 0x4C18 + idx·0x4C` – 13 miejsc, albo (b) numerem
+  księgi czarów postaci 0–6 (`cmp idx, 7`, `shl idx, 8` + 0x4284 w CGameSprite itd.) – 20 miejsc. Funkcja zostaje bez zmian;
+  podmieniamy tylko wywołania typu (a), więc księgi w CRE dalej są księgami klas.
+- **Haki (a)** – `call 0x5CA5D0` → stub podający postać w eax → `lista_klasy` (wynik oryginalny, a gdy postać jest
+  CGameSprite (vtable 0x85BDD4), ma kit DS należący do tej klasy i wiersz podklasy w DSKLPROG ma w kolumnie `SPELLS`
+  nazwę kolumny LISTSPLL: indeks tej listy wg wzoru z sekcji 15, baza +0x4C18):
+
+  | Miejsce | Funkcja | Co robi | Postać |
+  |---|---|---|---|
+  | 0x4BCA66 | 0x4BC8C0 (vtable efektu 0x84997C) | nauka czaru czarodzieja (zwój), klasa 11 | cel efektu, `[esp+0x70]` w stubie |
+  | 0x5D9BAB, 0x5D9C50 | 0x5D9970 | ekran wyboru czarów barda / zaklinacza | 1. argument, `[esp+0xA4]` |
+  | 0x5E14B0, 0x5E152B | 0x5E0FD0 | j.w. (druga ścieżka ekranu) | 2. argument, `[esp+0x94]` |
+  | 0x60EFD2, 0x60F092 | 0x60EF70 | ekran czarów kreatora (klasa z postaci +0x3E3E) | 1. argument, `[esp+0x90]` |
+  | 0x61827A, 0x618496 | 0x617D80 | nauka czarów czarodzieja przy awansie, klasa 11 | zmienna lokalna, `[esp+0x1C]` |
+  | 0x618D5F, 0x618DBB | 0x618D10 | j.w. | 2. argument, `[esp+0x60]` |
+  | 0x71EABB | 0x71E9F0 (CGameSprite) | awans: czary kapłana, druida, paladyna, tropiciela (cała lista do księgi) | ebp (this) |
+
+  Pominięte: 0x4EDCB7 (0x4EDCA0 – kod konsoli „wszystkie czary klasy”, lista klasy) i 0x5CAD14 (poziom czaru, niżej).
+  Przesunięcia stosu sprawdzone względem odczytów tego samego argumentu w funkcji (wywołania między nimi zdejmują swoje argumenty).
+- **Poziom czaru** `0x5CAC30(resref, klasa, kit)` (ret 0xC, 9 = brak): wywołania 0x4ED086, 0x629996, 0x62B3A8, 0x716728 →
+  `poziom_czaru`: oryginał, a przy wyniku 9 – szukanie numeru czaru (tablica reguł +0x4BF8, 8 B na czar) na listach
+  podklas DS tej klasy (bez postaci; lista budowana przy pierwszym użyciu). Lista klasy ma pierwszeństwo.
+- **Budowa list** – wspólna `lista_kitu(nr, opis)` dla domen (test23) i list klas: wiersz podklasy w DSKLPROG, kolumna
+  z opisu (`DOMAIN` / `SPELLS`) → nazwa kolumny w LISTDOMN / LISTSPLL (wczytane własną kopią przez cache 2DA), kolumna nazw
+  `DOMAIN_RESREF` / `SPELL_RES_REF`, konstruktor 0x59EB60, budowa 0x5CA2A0. Listy klas: 0xA22780 + 0x4C·k, flagi 0xA229F0,
+  parametry 0xA229F8.
+- Instalator (komponent 5): kolumna `SPELLS` w DSKLPROG (`CLR_DS` dla CLERIC_DS, reszta `*`), kolumna `CLR_DS` w LISTSPLL
+  za `SPELL_RES_REF` (kopia `CLR`, do decyzji właściciela).
+- Kod `.dsras` 0xA21000–0xA21CB0 (3248 B).
