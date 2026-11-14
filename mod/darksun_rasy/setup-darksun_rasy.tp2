@@ -438,8 +438,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN141~ END
   COPY_EXISTING ~CLABBA01.2da~ ~override/CLABDS07.2da~   // bard Athasu: Invisibility
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN191~ END
-  COPY_EXISTING ~CLABSR01.2da~ ~override/CLABDS08.2da~   // psionik: Spell Shield
-    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN243~ END
+  // Zaklinacz nie ma w grze tablicy CLAB (CLABSR01 nie istnieje - exe dostaje pusta tablice), wiec CLABDS08 jest
+  // w paczce: tylko testowa zdolnosc na 1. poziomie.
+  COPY ~darksun_rasy/2da/CLABDS08.2DA~ ~override~        // psionik: Spell Shield (GA_SPIN243)
 
   // GUICG.CHU: przycisk 14 w oknie 12 (nowe bostwo kaplana) - kopia przycisku 9 o jeden odstep nizej.
   // Bez tego przycisku i z wpisanym tekstem bostwa kreator kaplana sie wysypie. Dziala na GUI 800x600 i 1920.

@@ -157,7 +157,7 @@ Progresja PW / BAB / rzutów: wiersz podklasy w DSKLPROG, a bez niego klasa bazo
 ## 5. Zdolności klasy i podklasy – CLAB
 
 Tablica wybierana przez exe: klasa bazowa → CLABBA01, CLABFI05 (barbarzyńca), CLABCL01–09 / CLABPR01 (kapłan wg bóstwa),
-CLABDR01, CLABFI01, CLABMO01, CLABPA01, CLABRN01, CLABTH01, CLABSR01, CLABMA01; podklasa DS → CLABDSnn.
+CLABDR01, CLABFI01, CLABMO01, CLABPA01, CLABRN01, CLABTH01, CLABSR01, CLABMA01 (tych dwóch plików gra nie ma – zaklinacz i czarodziej dostają pustą tablicę); podklasa DS → CLABDSnn (CLABDS08 zaklinacza jest w paczce, nie kopią).
 Format i prefiksy jak w sekcji 2, kolumny = **poziom klasy**. Dodatkowo `FI_<ITM>` w CLAB mnicha = przedmiot pięści
 (najwyższa kolumna ≤ poziomowi). Funkcje WeiDU: `ds_clab_poziom` (wpis na poziom), `ds_clab_poziom1`.
 Zdolności przeniesione z exe do CLAB: odporność paladyna na strach (`AP_DSPALEMF`, poziom 2), odporność druida na
