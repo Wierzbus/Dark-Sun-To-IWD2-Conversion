@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test22: zdolnosci ras, progresja klas i podklas z tabel)
+PACZKA 2 - rasy i klasy Dark Sun (test23: zdolnosci ras, progresja klas i podklas, domeny kaplana DS)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -28,3 +28,6 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
  test22: DSKLPROG ma tez wiersze podklas (PALADIN_DS ... SORCERER_DS; mozna dopisac kity gry po nazwie z KITLIST).
      Podklasa bez wiersza = progresja klasy bazowej. Test: w override\DSKLPROG.2DA zmien wiersz FIGHTER_DS na
      "FIGHTER_DS    HPBARB    BAATFGT   SAVEWAR" i awansuj gladiatora - powinien dostawac k12 PW (zwykly wojownik k10).
+ test23: kaplan DS (CLERIC_DS) ma wlasna liste domen: kolumna CDS w LISTDOMN.2DA (na poczatek kopia domen Tempusa),
+     wskazywana w DSKLPROG kolumna DOMAIN. Wczesniej gra trafiala na asercje / liste spoza tablicy.
+     Test: nowy kaplan DS w kreatorze - wybor czarow domeny; awans kaplana DS; czary domeny w ksiedze.
