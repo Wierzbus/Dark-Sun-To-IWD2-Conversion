@@ -73,6 +73,10 @@ HAKI4 = [
     (0x61BF5D, "89b80c080000", "call", "klasa_zeruj", 1),        # kreator: klik klasy - kit 0, bajty zerowane
     (0x61CF0E, "898a0c080000", "call", "zapisz12", 1),           # kreator: klik w oknie 12 - bajt klasy
     (0x722D9C, "e8cf570000", "call", "kit_722", 0),              # procedura CLAB: kit z bajtu klasy
+    (0x5D96DB, "8bbf0c080000", "call", "abclas_aw", 1),           # ABCLASRQ (awans): podklasa tej klasy
+    (0x60BEFD, "8bbf0c080000", "call", "abclas_kr", 1),           # ABCLASRQ (kreator)
+    (0x611EDE, "e88d661100", "call", "clss_kit", 0),              # CLSSRSMD (odpornosci)
+    (0x62193F, "8bb60c080000", "call", "klist_kit", 1),           # opis KITLIST
     # test26: okno 6 ekranu awansu (GUIREC.CHU)
     (0x5E1020, "8a8606010000", "jmp", "okno6_czy", 1),           # okno 6 tez dla klas z podklasami DS
     (0x5DA8EB, "83ff040f8fd9000000", "jmp", "inne6", 4),         # przyciski gry tylko dla paladyna i mnicha

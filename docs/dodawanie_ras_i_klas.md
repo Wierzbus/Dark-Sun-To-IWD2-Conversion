@@ -147,8 +147,8 @@ Wiersz `ds_kity`: `nr, klasa, WIERSZ, CLAB, nr+1 szesnastkowo => tra` (tra = low
 **Jak postać pamięta podklasę (od test26):** każda klasa ma własny bajt w nagłówku postaci (plik CRE 0x30C + klasa − 1:
 0 = brak podklasy DS, nr + 1 = podklasa). Postać wieloklasowa może mieć podklasy DS kilku klas naraz, bez konfliktów.
 W polu kitu gry (0x270) starszy bajt = „główna” podklasa DS (z kreatora; przy awansie podklasa kapłana ma pierwszeństwo)
-– z niej korzysta kod, który zna tylko pole kitu: nazwa wiersza w KITLIST / ALIGNMNT / CLSSRSMD / ABCLASRQ, domeny
-kapłana, `Kit()` w skryptach (KIT.IDS: `0x0N000000`). Progresja (DSKLPROG), CLAB i listy czarów czytają bajt klasy.
+– z niej korzystają tylko domeny kapłana i `Kit()` w skryptach (KIT.IDS: `0x0N000000`). Progresja (DSKLPROG), CLAB,
+listy czarów oraz wiersze KITLIST / ALIGNMNT / CLSSRSMD / ABCLASRQ biorą podklasę właściwej klasy z jej bajtu.
 Edytory postaci (NearInfinity, DLTCEP) pokazują bajty 0x30C–0x316 jako „Unknown” – nie zmieniaj ich ręcznie.
 
 **Okna:**

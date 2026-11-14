@@ -380,5 +380,8 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   | 0x5E2E39 | `kit_awans` | kit = stary \| nowy (bez starszego bajtu nowego), bajt klasy = wybór, starszy bajt: stary, a gdy pusty lub podklasa kapłana – nowy |
 
   Anulowanie awansu przywraca nagłówek z kopii (0x5E4181), więc i bajty klas.
-- Znane ograniczenie: kod znający tylko pole kitu (GetClassRow: opisy KITLIST, ALIGNMNT, CLSSRSMD, ABCLASRQ; domeny
-  kapłana; `Kit()` w skryptach) widzi tylko „główną” podklasę DS postaci.
+- GetClassRow z kitem postaci (4 miejsca) dostaje kit z podklasą właściwej klasy (`kit_synt`): 0x5D96DB ABCLASRQ przy
+  awansie (`abclas_aw`), 0x60BEFD ABCLASRQ w kreatorze (`abclas_kr`), 0x611EDE CLSSRSMD (`clss_kit`), 0x62193F opis
+  KITLIST (`klist_kit`). Pozostałe wywołania GetClassRow podają kit 0 albo kit właśnie wybierany (ALIGNMNT 0x544A60).
+- Znane ograniczenie: domeny kapłana (GetDomainIndex dostaje tylko kit) i `Kit()` w skryptach widzą tylko „główną”
+  podklasę DS postaci.

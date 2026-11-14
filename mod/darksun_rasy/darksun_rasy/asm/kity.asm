@@ -629,6 +629,59 @@ kit_722:
     call kit_synt
     ret
 
+;================================================================ GetClassRow z kitem postaci: podklasa DS tej klasy z bajtu klasy
+; (wymagania ABCLASRQ przy awansie i w kreatorze, odpornosci CLSSRSMD, opis KITLIST) - zamiast starszego bajtu kitu
+; 0x5D96DB (awans, zamiast mov edi, [edi+0x80C]; edi = postac, klasa [esp+0x24]; eax musi zostac)
+abclas_aw:
+    push eax
+    push ecx
+    push edx
+    push dword [edi+0x80c]
+    movzx eax, byte [esp+0x34]
+    push eax
+    push edi
+    call kit_synt
+    mov edi, eax
+    pop edx
+    pop ecx
+    pop eax
+    ret
+; 0x60BEFD (kreator, zamiast mov edi, [edi+0x80C]; edi = postac, ebx = klasa; eax musi zostac)
+abclas_kr:
+    push eax
+    push ecx
+    push edx
+    push dword [edi+0x80c]
+    movzx eax, bl
+    push eax
+    push edi
+    call kit_synt
+    mov edi, eax
+    pop edx
+    pop ecx
+    pop eax
+    ret
+; 0x611EDE (odpornosci, zamiast call 0x728570; ecx = postac, klasa [esp+0x28])
+clss_kit:
+    push ecx
+    call 0x728570
+    pop ecx
+    push eax
+    movzx eax, byte [esp+0x2c]
+    push eax
+    push ecx
+    call kit_synt
+    ret
+; 0x62193F (opis KITLIST, zamiast mov esi, [esi+0x80C]; esi = postac, klasa [esp+0x18])
+klist_kit:
+    push dword [esi+0x80c]
+    movzx eax, byte [esp+0x1c]
+    push eax
+    push esi
+    call kit_synt
+    mov esi, eax
+    ret
+
 ;================================================================ ekran awansu (obiekt gry +0x1C60, GUIREC.CHU), okno 6 = wybor podklasy
 ; ukryj_id(id): SetActive(0) przycisku okna esi. stdcall, zachowuje rejestry poza eax
 ukryj_id:
