@@ -62,6 +62,15 @@ HAKI3 = [
     (0x73CA66, "8a462633ff3c057530", "jmp", "miot_info", 4),     # bron miotana (informacja)
     (0x73C8C0, "5556578b7c2410", "jmp", "wrogowie", 2),          # wrogowie rasy / olbrzymy
 ]
+# progresja klas (test21): PW 0x542CB0, rzuty obronne 0x542610, premia do ataku 0x546B60 - tablice z DSKLPROG.2DA
+HP_MIEJSCA = [(0x542D30, "8d8f34030000", "hp_ecx"), (0x542D90, "8d9710030000", "hp_edx"),
+              (0x542DDA, "8d8f58030000", "hp_ecx"), (0x542E24, "8d877c030000", "hp_eax"),
+              (0x542E6E, "8d97c4030000", "hp_edx")]
+SV_MIEJSCA = [0x542677, 0x5426C3, 0x54270F, 0x54275B, 0x5427A7, 0x5427F3, 0x54283F, 0x54288B, 0x5428D7, 0x542923,
+              0x54296F]                    # klasy 1..11, "lea ecx, [edi+SAVExxx]"
+BAB_BLOKI = [(1, 0x546BC6, 0x546BF7), (2, 0x546C17, 0x546C48), (3, 0x546C68, 0x546C99), (4, 0x546CB9, 0x546CEA),
+             (5, 0x546D0A, 0x546D3B), (7, 0x546D5B, 0x546D8C), (8, 0x546DAC, 0x546DDD), (9, 0x546DFF, 0x546E30),
+             (10, 0x546E52, 0x546E83), (11, 0x546EA5, 0x546ED6)]   # (klasa, poczatek odczytu, "push eax" po nim)
 # premia za bron miotana czytana z MIOT zamiast 0x84EAA8 (operand instrukcji mov)
 MIOT_OPERANDY = [0x73BC4E, 0x73CA9B]
 
@@ -158,6 +167,25 @@ def main():
         assert struct.unpack_from("<I", d, adr - BASE)[0] == 0x84EAA8, hex(adr)
         struct.pack_into("<I", d, adr - BASE, et3["miot_wart"])
     et.update(et3)
+    for adr, h, lab in HP_MIEJSCA:
+        o = adr - BASE
+        assert d[o:o + 6].hex() == h, hex(adr)
+        d[o:o + 6] = b"\xE8" + struct.pack("<i", et[lab] - (adr + 5)) + b"\x90"
+    # barbarzynca: bez wymuszonej kosci 12 (tablica HPBARB z DSKLPROG albo domyslnie)
+    assert d[0x542D50 - BASE:0x542D58 - BASE].hex() == "c744241c0c000000"
+    d[0x542D54 - BASE] = 0
+    for k, adr in enumerate(SV_MIEJSCA, 1):
+        o = adr - BASE
+        assert d[o:o + 2].hex() == "8d8f" and d[o + 4:o + 6] == b"\0\0", hex(adr)
+        d[o:o + 6] = b"\xE8" + struct.pack("<i", et[f"sv_{k}"] - (adr + 5)) + b"\x90"
+    for k, a0, a1 in BAB_BLOKI:
+        o = a0 - BASE
+        assert d[o:o + 3].hex() == "0fbf8e" and d[a1 - BASE - 2:a1 - BASE].hex() == "8b00", hex(a0)
+        kod_b = bytes([0x6A, k]) + b"\xE8" + struct.pack("<i", et["bab_tab"] - (a0 + 7)) + bytes([0xEB, a1 - (a0 + 9)])
+        d[o:a1 - BASE] = kod_b + b"\x90" * (a1 - a0 - len(kod_b))
+    o = 0x546F37 - BASE
+    assert d[o:o + 6].hex() == "8d8ec4180000"
+    d[o:o + 6] = b"\xE8" + struct.pack("<i", et["bab_mnich"] - 0x546F3C) + b"\x90"
     haki = [(a, r, l, n) for a, r, l, n in HAKI if a != 0x546030] + [(0x546030, "jmp", "clab_rasa", 4)]
     for adr, rodzaj, lab, nop in haki + HAKI2 + [(a, r, l, n) for a, _, r, l, n in HAKI3]:
         o = adr - BASE

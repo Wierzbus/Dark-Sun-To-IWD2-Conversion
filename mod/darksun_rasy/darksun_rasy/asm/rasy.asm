@@ -1,4 +1,4 @@
-; Zdolnosci ras z tabel (test20): tablice RLAB ras (jak CLAB klas) i cechy z DSRASY.2DA / DSRWROG.2DA.
+; Zdolnosci ras z tabel (test20) i progresja klas z DSKLPROG.2DA (test21): tablice RLAB ras (jak CLAB klas) i cechy z DSRASY.2DA / DSRWROG.2DA.
 ; Kod w nowej sekcji PE .dsras (adres 0xA21000, 4 KB, tworzy ja tools/iwd2_podklasy_exe.py i instalator).
 ; Etykiety z podklasy.asm (clab, komorka, tabela2da) podaje nasm -D.
 ;
@@ -17,8 +17,11 @@ org 0xA21000
 POST      equ 0xA21F00          ; postac, dla ktorej procedura CLAB czyta tablice rasy (klasa 12)
 KPTR_RASY equ 0xA21F04          ; C2DArray DSRASY
 KPTR_RWRG equ 0xA21F08          ; C2DArray DSRWROG
-BUF       equ 0xA21F0C          ; 8 B nazwa tablicy RLAB
-CACHE     equ 0xA21F20          ; 16 wpisow po 12 B: nazwa (8), C2DArray (4)
+BUF       equ 0xA21F0C          ; 8 B nazwa tablicy (RLAB / progresja klas)
+KPTR_PROG equ 0xA21F14          ; C2DArray DSKLPROG
+PCACHE    equ 0xA21B00          ; 3 x 11 dword: tablica progresji (kolumna, klasa); 0 = nie liczone, 1 = oryginal
+CACHE     equ 0xA21C00          ; 64 wpisy po 12 B: nazwa (8), C2DArray (4) - tablice wczytane po nazwie
+N_CACHE   equ 64
 KLASA_RASY equ 12
 
 ;================================================================ pomocnicze
@@ -213,7 +216,22 @@ clab_rasa:
     je .k
     cmp byte [eax], 0
     je .k
-    ; nazwa -> BUF (8 znakow, wielkie litery, dopelnienie zerami)
+    push eax
+    call wczytaj
+    mov ebx, eax
+.k: mov eax, ebx
+    pop edi
+    pop esi
+    pop ebx
+    ret 8
+
+; wczytaj(char* nazwa) -> eax = C2DArray (wczytana raz, pamiec podreczna 64 tablic) albo 0. stdcall
+wczytaj:
+    push ecx
+    push edx
+    push esi
+    push edi
+    mov eax, [esp+0x14]
     mov dword [BUF], 0
     mov dword [BUF+4], 0
     xor ecx, ecx
@@ -231,7 +249,7 @@ clab_rasa:
     jb .c
 .cache:
     mov esi, CACHE
-    mov ecx, 16
+    mov ecx, N_CACHE
 .p: mov eax, [esi]
     test eax, eax
     jz .nowy
@@ -240,11 +258,12 @@ clab_rasa:
     mov eax, [esi+4]
     cmp eax, [BUF+4]
     jne .n
-    mov ebx, [esi+8]
+    mov eax, [esi+8]
     jmp .k
 .n: add esi, 12
     loop .p
-    jmp .k                      ; pamiec podreczna pelna (16 tablic ras)
+    xor eax, eax                ; pamiec podreczna pelna
+    jmp .k
 .nowy:
     mov eax, [BUF]
     mov [esi], eax
@@ -253,12 +272,11 @@ clab_rasa:
     lea edi, [esi]              ; nazwa (CResRef)
     lea esi, [esi+8]            ; slot
     call tabela2da
-    mov ebx, eax
-.k: mov eax, ebx
-    pop edi
+.k: pop edi
     pop esi
-    pop ebx
-    ret 8
+    pop edx
+    pop ecx
+    ret 4
 
 ; poziom w procedurze CLAB (0x722DE3: call 0x447990(klasa), ecx = statystyki): dla klasy 12 poziom postaci (+0x46)
 poziom:
@@ -461,6 +479,208 @@ wrogowie:
     mov edi, [esp+0x10]
     jmp 0x73c8c7
 
+;================================================================ progresja klas z DSKLPROG.2DA (test21)
+; wiersze = klasy (BARBARIAN ... WIZARD), kolumny HP / BAB / SAVE = nazwy tablic (HPWAR, BAATFGT, SAVEWAR ...), * = oryginal.
+; prog(kolumna 0 HP / 1 BAB / 2 SAVE, klasa 1..11) -> eax = C2DArray albo 0 (oryginal). stdcall, wynik zapamietany.
+prog:
+    push ebp
+    mov ebp, esp
+    push ecx
+    push edx
+    push ebx
+    push esi
+    push edi
+    mov ecx, [ebp+0xc]
+    dec ecx
+    cmp ecx, 10
+    ja .zero
+    mov eax, [ebp+8]
+    cmp eax, 2
+    ja .zero
+    imul ebx, eax, 11
+    add ebx, ecx
+    mov eax, [PCACHE+ebx*4]
+    test eax, eax
+    jz .licz
+    cmp eax, 1
+    je .zero
+    jmp .k
+.licz:
+    mov esi, KPTR_PROG
+    mov edi, n_prog
+    call tabela2da
+    test eax, eax
+    jz .brak
+    cmp word [eax+0x22], 0
+    jle .brak
+    mov edi, eax
+    push 0
+    push dword [nazwy_klas+ecx*4]
+    push edi
+    call szukaj
+    cmp eax, -1
+    je .brak
+    mov esi, eax                ; wiersz
+    mov eax, [ebp+8]
+    push 1
+    push dword [nazwy_kol+eax*4]
+    push edi
+    call szukaj
+    cmp eax, -1
+    je .brak
+    push eax
+    push esi
+    mov eax, edi
+    call komorka
+    test eax, eax
+    jz .brak
+    cmp byte [eax], '*'
+    je .brak
+    cmp byte [eax], 0
+    je .brak
+    push eax
+    call wczytaj
+    test eax, eax
+    jz .brak
+    cmp word [eax+0x22], 0
+    jle .brak
+    mov [PCACHE+ebx*4], eax
+    jmp .k
+.brak:
+    mov dword [PCACHE+ebx*4], 1
+.zero:
+    xor eax, eax
+.k: pop edi
+    pop esi
+    pop ebx
+    pop edx
+    pop ecx
+    pop ebp
+    ret 8
+
+; ---- PW 0x542CB0 (esi = klasa, edi = obiekt regul): zamiast lea r, [edi+tabela]
+hp_tab:
+    push ecx
+    push esi
+    push 0
+    call prog
+    test eax, eax
+    jnz .k
+    mov ecx, [dom_hp+esi*4-4]
+    lea eax, [edi+ecx]
+.k: pop ecx
+    ret
+hp_ecx:
+    push eax
+    call hp_tab
+    mov ecx, eax
+    pop eax
+    ret
+hp_edx:
+    push eax
+    call hp_tab
+    mov edx, eax
+    pop eax
+    ret
+hp_eax:
+    jmp hp_tab
+
+; ---- rzuty obronne 0x542610 (edi = obiekt regul): 11 miejsc "lea ecx, [edi+tabela]" -> call sv_N
+sv_1:
+    push 1
+    jmp sv_wsp
+sv_2:
+    push 2
+    jmp sv_wsp
+sv_3:
+    push 3
+    jmp sv_wsp
+sv_4:
+    push 4
+    jmp sv_wsp
+sv_5:
+    push 5
+    jmp sv_wsp
+sv_6:
+    push 6
+    jmp sv_wsp
+sv_7:
+    push 7
+    jmp sv_wsp
+sv_8:
+    push 8
+    jmp sv_wsp
+sv_9:
+    push 9
+    jmp sv_wsp
+sv_10:
+    push 10
+    jmp sv_wsp
+sv_11:
+    push 11
+    jmp sv_wsp
+sv_wsp:                         ; [esp] = klasa, [esp+4] = powrot
+    push eax
+    push edx
+    push dword [esp+8]
+    push 2
+    call prog
+    test eax, eax
+    jnz .k
+    mov ecx, [esp+8]
+    mov ecx, [dom_sv+ecx*4-4]
+    lea eax, [edi+ecx]
+.k: mov ecx, eax
+    pop edx
+    pop eax
+    add esp, 4
+    ret
+
+; ---- premia do ataku 0x546B60 (esi = obiekt regul): blok klasy "push N; call bab_tab; jmp" zamiast odczytu z tabeli
+; wejscie eax = poziom klasy; wyjscie eax = char* wartosci BASE_ATTACK (jak w oryginale: domyslna wartosc tabeli poza zakresem)
+bab_tab:
+    push ebp
+    mov ebp, esp
+    push ecx
+    push edx
+    push eax
+    push dword [ebp+8]
+    push 1
+    call prog
+    test eax, eax
+    jnz .t
+    mov ecx, [ebp+8]
+    mov ecx, [dom_bab+ecx*4-4]
+    lea eax, [esi+ecx]
+.t: mov ecx, eax
+    pop eax
+    dec eax
+    push 0
+    push eax
+    mov eax, ecx
+    call komorka
+    test eax, eax
+    jnz .k
+    mov eax, [ecx+0x1c]
+.k: pop edx
+    pop ecx
+    pop ebp
+    ret 4
+; mnich z bronia 0x546F37: zamiast "lea ecx, [esi+BAATNFG]" (bez broni zostaje BAATMKU)
+bab_mnich:
+    push eax
+    push edx
+    push 6
+    push 1
+    call prog
+    test eax, eax
+    jnz .k
+    lea eax, [esi+0x18c4]
+.k: mov ecx, eax
+    pop edx
+    pop eax
+    ret
+
 ;================================================================ dane
 align 4
 miot_wart:
@@ -475,4 +695,27 @@ n_sr:     db 'SR_LEVEL', 0
 n_bonus:  db 'BONUS', 0
 n_aber:   db 'ABERRATION', 0
 n_e:      db 'E1', 0
+n_prog:   db 'DSKLPROG'          ; CResRef: 8 znakow
+          db 0
+k_hp:     db 'HP', 0
+k_bab:    db 'BAB', 0
+k_save:   db 'SAVE', 0
+c1:  db 'BARBARIAN', 0
+c2:  db 'BARD', 0
+c3:  db 'CLERIC', 0
+c4:  db 'DRUID', 0
+c5:  db 'FIGHTER', 0
+c6:  db 'MONK', 0
+c7:  db 'PALADIN', 0
+c8:  db 'RANGER', 0
+c9:  db 'ROGUE', 0
+c10: db 'SORCERER', 0
+c11: db 'WIZARD', 0
+align 4
+nazwy_kol:  dd k_hp, k_bab, k_save
+nazwy_klas: dd c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11
+; tablice oryginalne w obiekcie regul (klasa 1..11); barbarzynca: HPBARB (oryginal: HPWAR z kostka 12 - to samo)
+dom_hp:  dd 0x3a0, 0x37c, 0x358, 0x358, 0x310, 0x3c4, 0x310, 0x310, 0x37c, 0x334, 0x334
+dom_bab: dd 0x18a0, 0x18c4, 0x18c4, 0x18c4, 0x18a0, 0x18c4, 0x18a0, 0x18a0, 0x18c4, 0x18e8, 0x18e8
+dom_sv:  dd 0x238, 0x2a4, 0x214, 0x214, 0x238, 0x2c8, 0x238, 0x238, 0x280, 0x25c, 0x25c
 koniec_rasy:

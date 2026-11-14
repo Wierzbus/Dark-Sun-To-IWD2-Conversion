@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test20-2026-11-14~
+VERSION ~test21-2026-11-14~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -491,3 +491,14 @@ BEGIN ~TEST: zdolnosci ras z tabel (DSRASY, DSRWROG, tablice RLAB ras)~ DESIGNAT
   COPY ~darksun_rasy/2da/DSRASY.2DA~  ~override~
        ~darksun_rasy/2da/DSRWROG.2DA~ ~override~
        ~darksun_rasy/2da/RLMUL.2DA~   ~override~
+
+BEGIN ~TEST: progresja klas z tabeli DSKLPROG (kosc PW, premia do ataku, rzuty obronne)~ DESIGNATED 5
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
+  // Exe (komponent 0, asm/rasy.asm, test21) bierze tablice progresji klasy z DSKLPROG.2DA: wiersz = klasa
+  // (BARBARIAN ... WIZARD), kolumny HP (np. HPWAR: SIDES/ROLLS/MODIFIER na poziom), BAB (np. BAATFGT: BASE_ATTACK)
+  // i SAVE (np. SAVEWAR: FORTITUDE/REFLEX/WILL). Mozna wpisac nowa tablice (np. HPDS01) - musi lezec w override.
+  // Brak tabeli, wiersza, * albo nieudane wczytanie = tablica oryginalna. Wartosci = oryginal (barbarzynca: HPBARB,
+  // w oryginale HPWAR z wymuszona kostka 12 - ten sam wynik). Mnich bez broni dalej korzysta z BAATMKU.
+  // Tabela jest czytana raz na uruchomienie gry.
+  COPY ~darksun_rasy/2da/DSKLPROG.2DA~ ~override~

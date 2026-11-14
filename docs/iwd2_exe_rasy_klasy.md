@@ -199,3 +199,15 @@ Tablica RLAB rasy: format CLAB, kolumny = poziom postaci (suma klas) 1–30; dzi
 operand (0x61CEF5, 0x615CFF), niszcząc kod (`and eax` / `mov ecx`) przy zmianie bóstwa i przycisku Gotowe kapłana.
 Skrypt: `tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out test20.exe` (sekcja + trzy pliki asm),
 `tools/iwd2_paczki_exe.py` (makra, w tym dopisanie sekcji).
+
+## 12. Test21: progresja klas z DSKLPROG.2DA (PW, BAB, rzuty obronne)
+Kod w `asm/rasy.asm` (sekcja `.dsras`, do 0xA21798); wynik wyboru zapamiętany w 0xA21B00 (3 × 11 dword), tablice
+wczytane po nazwie w pamięci podręcznej 0xA21C00 (64 wpisy, wspólna z RLAB). Obiekty tabel w regułach (+offset):
+Save Prs 0x214, War 0x238, Wiz 0x25C, Rog 0x280, Brd 0x2A4, Monk 0x2C8; HP War 0x310, Wiz 0x334, Prs 0x358, Rog 0x37C,
+Barb 0x3A0, Monk 0x3C4; BAAT FGT 0x18A0, NFG 0x18C4, MAG 0x18E8, MKU 0x190C.
+| Miejsce | Zmiana |
+|---|---|
+| 0x542CB0 (PW przy awansie; switch po klasie, tablica 0x542E88) | 5 × `lea r, [edi+tabela]` (0x542D30, 0x542D90, 0x542DDA, 0x542E24, 0x542E6E) → `call hp_ecx/hp_edx/hp_eax` (kolumna HP); barbarzyńca: wymuszona kość 12 wyłączona (0x542D54 = 0), domyślnie HPBARB |
+| 0x542610 (suma rzutu obronnego po 11 klasach) | 11 × `lea ecx, [edi+SAVExxx]` (0x542677 … 0x54296F) → `call sv_N` (kolumna SAVE) |
+| 0x546B60 (premia do ataku, bloki klas inline) | 10 bloków odczytu → `push N; call bab_tab; jmp` (kolumna BAB); mnich z bronią 0x546F37 → `call bab_mnich`, bez broni BAATMKU |
+Przewodnik dodawania ras i klas: `docs/dodawanie_ras_i_klas.md`.
