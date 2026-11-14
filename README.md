@@ -25,7 +25,7 @@ Trzy niezależne paczki, każda z własnym setup-*.exe (kopia WeiDU), rozpakowyw
    3840x2160 / inna) uruchamiają przenośny program `iwd2_upscale/generator/iwd2_gui_buduj/iwd2_gui_buduj.exe`
    (z `tools/iwd2_gui/buduj.py`, budowany raz skryptem `tools/iwd2_gui/zbuduj_program.bat`), który z plików gry buduje
    zestaw w `iwd2_upscale/zestaw`; instalator tworzy `IWD2_<W>.exe`. Komponenty 10–12: GUI, portrety, ikony;
-   20: widok świata (tryb gry większy niż monitor przez DDrawCompat). Plan i stan: [docs/iwd2_gui_skala_plan.md](docs/iwd2_gui_skala_plan.md).
+   20: widok świata (tryb gry większy niż monitor przez DDrawCompat). Plan i stan: [docs/iwd2_gui_skala_plan.md](docs/iwd2_gui_skala_plan.md), łatki exe i grafiki: [docs/iwd2_exe_gui.md](docs/iwd2_exe_gui.md).
 2. **darksun_rasy** (`mod/darksun_rasy`) – komponent 0 tworzy `IWD2_DS.exe` i `IWD2_<W>_DS.exe` z każdego
    `IWD2_<W>.exe` paczki 1 (łatki ras i klas; exe większe o 8 KB – nowa sekcja PE `.dsras`). Komponenty:
    1 mul, 2 podklasy + zdolności klas z 2DA (DSKLASY, DSSNEAK, DSWROG), 3 półelf atasyjski,
