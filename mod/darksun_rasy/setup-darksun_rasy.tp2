@@ -284,26 +284,39 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
           PATCH_IF (~%nm%~ STRING_EQUAL ~DSKITY02~) BEGIN SET ok = 1 END
         END
       ACTION_IF ok BEGIN
-        COPY ~%src%.exe~ ~%src%.exe~
-          PHP_EACH ds_kity AS k => tra BEGIN
-            SET t1 = tra + 1
-            SET t2 = tra + 2
-            SET mixed = $ds_str(~%t1%~)
-            SET help = $ds_str(~%t2%~)
-            SET o = 0x4CE000 + 32 * k_0
+        // ACTION_PHP_EACH + osobny COPY na wpis: PHP_EACH wewnatrz COPY nie dziala w WeiDU 231 (nic nie wpisywal).
+        ACTION_PHP_EACH ds_kity AS k => tra BEGIN
+          OUTER_SET t1 = tra + 1
+          OUTER_SET t2 = tra + 2
+          OUTER_SET mixed = $ds_str(~%t1%~)
+          OUTER_SET help = $ds_str(~%t2%~)
+          OUTER_SET o = 0x4CE000 + 32 * k_0
+          OUTER_SET oh = 0x4D0040 + 4 * k_0
+          OUTER_SET kl = k_1
+          OUTER_TEXT_SPRINT nazwa ~%k_2%~
+          OUTER_TEXT_SPRINT clabn ~%k_3%~
+          COPY ~%src%.exe~ ~%src%.exe~
             WRITE_LONG o 1
             WRITE_LONG (o + 4) mixed
             FOR (z = 8; z < 0x20; ++z) BEGIN WRITE_BYTE (o + z) 0 END
-            WRITE_ASCIIE (o + 8) ~%k_2%~
-            WRITE_BYTE (o + 0x17) k_1
-            WRITE_ASCIIE (o + 0x18) ~%k_3%~
-            WRITE_LONG (0x4D0040 + 4 * k_0) help
-          END
-          WRITE_LONG (0x4CE000 + 32 * ds_n_kitow) 0
-          PHP_EACH ds_nok AS kl => tra BEGIN
-            SET t = $ds_str(~%tra%~)
-            WRITE_LONG (0x4D0000 + 4 * kl) t
-          END
+            WRITE_ASCIIE (o + 8) ~%nazwa%~
+            WRITE_BYTE (o + 0x17) kl
+            WRITE_ASCIIE (o + 0x18) ~%clabn%~
+            WRITE_LONG oh help
+        END
+        ACTION_PHP_EACH ds_nok AS kl => tra BEGIN
+          OUTER_SET t = $ds_str(~%tra%~)
+          OUTER_SET on = 0x4D0000 + 4 * kl
+          COPY ~%src%.exe~ ~%src%.exe~
+            WRITE_LONG on t
+        END
+        OUTER_SET o = 0x4CE000 + 32 * ds_n_kitow
+        COPY ~%src%.exe~ ~%src%.exe~
+          WRITE_LONG o 0
+          READ_LONG 0x4CE000 ds_k0       // kontrola: wpis 0 musi istniec
+        ACTION_IF (ds_k0 != 1) BEGIN
+          FAIL ~%src%.exe: tabela podklas nie zostala wpisana.~
+        END
         OUTER_SET patched = patched + 1
         PRINT ~%src%.exe: wpisano tabele podklas.~
       END ELSE BEGIN
