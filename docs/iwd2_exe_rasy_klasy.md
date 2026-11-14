@@ -314,5 +314,26 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   | 0x61D031 | `pomoc12` | opis podklasy z 0xA23600 |
   | 0x61CEE9, 0x615CED | – | maska szkół 0x7FC0 → 0xFF007FC0 (klik i Gotowe czarodzieja) |
   | 0x5CA910, wywołania 0x5CA5D0 i 0x5CAC30 | `domena`, `lk_*`, `poziom_czaru` | jak test23/24, numer listy = numer wpisu |
-- Znane braki: w oknie 12 ekranu awansu (jeśli korzysta z tego samego GUICG.CHU) dodatkowe przyciski 14/15 mogą być
-  widoczne bez tekstu (kliknięcie nic nie robi) – do sprawdzenia w grze.
+- Ekran awansu korzysta z GUIREC.CHU (nie GUICG), więc przyciski 14/15 dopisane do GUICG nie pojawiają się przy awansie.
+
+## 18. Podklasy DS przy awansie – rozpoznanie wykonalności (2026-11-15)
+- Ekran postaci / awansu: obiekt gry +0x1C60, okna z **GUIREC.CHU**. Kolejne okna awansu wybiera pętla 0x5E2417/0x5E2460:
+  okno pokazywane, gdy `0x5E0FD0(id, postać)` zwróci 1. **Okno 6** (GUIRLVL2) = wybór podklasy: przypadek 0x5E1020 –
+  tylko klasa 11/6/7/3 (`+0x106`) i poziom tej klasy 0 (`0x447990` na statystykach `+0x862`), czyli nowa klasa.
+  Okno 54 (GUIRLVL6) = wybór klasy (przyciski 2–12).
+- Okno 6: przyciski 2–10 (9 sztuk, x 26, y 77…317 co 30), 11 tekst, 13 pasek, 0/12 dalej/wstecz (y 382). Aktualizacja
+  0x5DA6E0: dla id 2..10 `GetKit` 0x5ED5A0 (czarodziej 2–10 szkoły, paladyn/mnich 2–4 zakony, kapłan 2–10 bóstwa, inne
+  klasy 0), zaznaczenie `[+0x846] & kit`, aktywność z 0x544A60 (ALIGNMNT), etykieta (czarodziej 0x543EB0, kapłan stałe).
+  Kliknięcie 0x5ED6F0…: `[+0x846] = word([+0x77C]) | kit` + opis po bicie. Gotowe okna 6: 0x5E2089 (maski klas).
+  Po awansie kit postaci = `[+0x846] | [+0x77C]` (0x5E2E39) – bity DS sprzed awansu zostają.
+- **Wykonalne łatkami**, w zakresie podobnym do test25 (okna kreatora):
+  1. 0x5E1020: okno 6 także dla klasy z podklasami DS w tabeli (poziom klasy 0);
+  2. 0x5DA6E0: przyciski podklas DS – klasy bez podklas gry: 2 = „bez podklasy”, 3–10 = do 8 podklas; paladyn i mnich:
+     5–10 = do 6 podklas DS; kapłan i czarodziej: nowe przyciski 14, 15 w GUIREC.CHU (miejsce tylko na 2 pod przyciskiem
+     10, y 347 i 377), czyli **najwyżej 2 podklasy DS kapłana i czarodzieja przy awansie**;
+  3. GetKit 0x5ED5A0, opis po kliknięciu (nieznany bit), Gotowe 0x5E2089 (podklasa opcjonalna poza 11/7/6/3);
+  4. reguła wspólnych bitów: postać, która ma już bit podklasy dobieranej klasy (np. paladyn DS → łotrzyk), dostaje ją
+     od razu bez okna; podklasa, której bit należy do podklasy innej klasy postaci, jest niedostępna (inaczej zmieniłaby
+     wstecz tamtą klasę).
+- Ryzyka: okno 6 w powiększonym GUI (paczka 1) – położenie nowych przycisków; ekran awansu działa też w trybie gry
+  wieloosobowej i przy tworzeniu postaci z poziomem > 1 (te same okna) – do sprawdzenia w grze.
