@@ -383,5 +383,8 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - GetClassRow z kitem postaci (4 miejsca) dostaje kit z podklasą właściwej klasy (`kit_synt`): 0x5D96DB ABCLASRQ przy
   awansie (`abclas_aw`), 0x60BEFD ABCLASRQ w kreatorze (`abclas_kr`), 0x611EDE CLSSRSMD (`clss_kit`), 0x62193F opis
   KITLIST (`klist_kit`). Pozostałe wywołania GetClassRow podają kit 0 albo kit właśnie wybierany (ALIGNMNT 0x544A60).
-- Znane ograniczenie: domeny kapłana (GetDomainIndex dostaje tylko kit) i `Kit()` w skryptach widzą tylko „główną”
-  podklasę DS postaci.
+- Domeny kapłana: GetDomainIndex dostaje tylko kit (0x60B871 kreator – kit postaci, 0x5E6303 awans – kit ekranu
+  `[+0x846]`, 0x5CAD72 – kit od wywołującego). Starszy bajt kitu to podklasa kapłana zawsze, gdy postać ją ma: w kreatorze
+  jest jedyną, a `kit_awans` przy awansie stawia podklasę kapłana na miejsce wcześniejszej (i nie zmienia jej potem). Przy
+  awansie, w którym postać dobiera kapłana DS, `[+0x846]` ma już wybraną podklasę kapłana. Domeny są więc zawsze właściwe.
+- Znane ograniczenie: `Kit()` w skryptach widzi tylko „główną” podklasę DS (u postaci z podklasą kapłana – kapłana).
