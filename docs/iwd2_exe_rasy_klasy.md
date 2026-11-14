@@ -223,3 +223,20 @@ Skąd postać: premia do ataku – 1. argument 0x546B60; rzuty (0x5429B0) i PW (
 statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc wywołania zapamiętuje postać w CTX
 (0xA22F18): `ctx_sv_ebp` 0x5D8F3A/5B/7C, 0x5D8FAB/D4/FD; `ctx_sv_esi` 0x612A1E/3F/60, 0x737A05/20/3B, 0x737DB8/D3/EE;
 `ctx_hp_ebp` 0x5D908F; `ctx_hp_esi` 0x6129EB.
+
+## 14. Listy czarów – rozpoznanie (2026-11-14)
+- **LISTSPLL.2DA**: jedna tabela, kolumny po pozycji (nazw kolumn nie ma w exe): BRD CLR DRD PAL RGR SOR WIZ, wartość = poziom
+  czaru 1–9 (0 = czaru nie ma na liście), ostatnia kolumna SPELL_RES_REF. Przy starcie (0x59D778) gra buduje 7 list w obiekcie
+  reguł: +0x4C18 + 0x4C·i (i = 0..6, budowa 0x5CA2A0). Inne kolumny są pomijane.
+- **Klasa → lista**: `0x5CA5D0(&klasa)` (36 wywołań): bard 0, kapłan 1, druid 2, paladyn 3, tropiciel 4, zaklinacz 5,
+  czarodziej 6; barbarzyńca, wojownik, mnich, łotrzyk → asercja. Funkcja dostaje tylko numer klasy – **podklasa nie ma wpływu**.
+- **LISTDOMN.2DA**: 9 kolumn bóstw (CIL CLA CSE CHE COG CTE CBA CMA CTA) → 9 list domen +0x4E2C + 0x4C·i (0x59D851).
+  Bóstwo → indeks: `0x5CA910(&kit)` po bitach 0x8000 … 0x800000 (0–8); inny bit → asercja i indeks 10 (poza 9 listami).
+  Wywołania: 0x5CAD72, 0x5E6303, 0x60B871 – kit maskowany `and 0xFF8000` (0x5E62E6, 0x60B85B).
+  **Problem podklasy CLERIC_DS (bit 0x04000000)**: po masce zostaje 0 → asercja i lista spoza tablicy.
+- **LISTINNT / LISTSONG / LISTSHAP** → +0x4C00 / +0x4C08 / +0x4C10 (wrodzone, pieśni barda, kształty druida).
+- **LISTMAGE.2DA** (kolumny szkół) – brak odwołania w exe (nieużywana); szkoły przeciwne – kod 0x703170.
+- **Liczba czarów na dzień**: MXSPLBRD/CLR/DRD/PAL/RGR/SOR/WIZ (obiekty reguł +0x454 … +0x52C), MXSPLBON (premia z cechy),
+  SPLSRCKN (znane czary zaklinacza) – wybór tabeli po klasie w kodzie.
+- **CRE V2.2** trzyma osobną księgę czarów każdej z 7 klas czarujących + domeny + wrodzone/pieśni/kształty – podklasa
+  zapisuje czary w księdze swojej klasy; klasy bez księgi (barbarzyńca, wojownik, mnich, łotrzyk) nie mogą mieć listy czarów.
