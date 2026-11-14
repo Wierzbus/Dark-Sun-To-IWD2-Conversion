@@ -192,6 +192,15 @@ def main():
         o = adr - BASE
         assert d[o] == 0xE8 and struct.unpack_from("<i", d, o + 1)[0] + adr + 5 == cel, hex(adr)
         struct.pack_into("<i", d, o + 1, et[lab] - (adr + 5))
+    # test23: domeny bostwa podklasy kaplana DS (hak 0x5CA910, maski kitu w wywolaniach listy domen)
+    o = 0x5CA910 - BASE
+    assert d[o:o + 6].hex() == "8b4424048b00"
+    d[o:o + 6] = b"\xE9" + struct.pack("<i", et["domena"] - 0x5CA915) + b"\x90"
+    for adr, h in ((0x5E62E6, "81e600 80ff00"), (0x60B85B, "250080ff00")):
+        o = adr - BASE
+        h = h.replace(" ", "")
+        assert d[o:o + len(h) // 2].hex() == h, hex(adr)
+        struct.pack_into("<I", d, o + len(h) // 2 - 4, 0xFFFF8000)
     o = 0x546F37 - BASE
     assert d[o:o + 6].hex() == "8d8ec4180000"
     d[o:o + 6] = b"\xE8" + struct.pack("<i", et["bab_mnich"] - 0x546F3C) + b"\x90"

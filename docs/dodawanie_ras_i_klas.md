@@ -1,4 +1,4 @@
-# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test22, 2026-11-14)
+# Jak dodać do IWD2 rasę, podrasę, podklasę i zdolności – przewodnik po tabelach (stan: test23, 2026-11-14)
 
 Dotyczy exe z paczki 2 (`setup-darksun_rasy`, komponent 0: `IWD2_DS.exe` / `IWD2_<W>_DS.exe`). Szczegóły łatek:
 `docs/iwd2_exe_rasy_klasy.md` (sekcje 7–11). Wszystkie tabele są w `override` (WeiDU), teksty przez `.tra` (`@numer`).
@@ -189,6 +189,21 @@ klasy bazowej) i kity gry (zakony mnicha i paladyna, bóstwa kapłana, szkoły c
 wiersz podklasy postaci (tylko gdy podklasa należy do tej klasy) → wiersz klasy bazowej → tablica oryginalna.
 Przykład – gladiator z kością k12 zamiast k10 wojownika: `FIGHTER_DS    HPBARB    BAATFGT   SAVEWAR`.
 Postać wieloklasowa: tablica podklasy działa tylko dla klasy, do której podklasa należy; pozostałe klasy – swoje wiersze.
+
+**Kolumna `DOMAIN` (test23)** – tylko dla podklasy kapłana DS (`CLERIC_DS`): nazwa kolumny w `LISTDOMN.2DA` z czarami
+domeny jej bóstwa. Komponent 5 dopisuje do LISTDOMN kolumnę `CDS` (za `DOMAIN_RESREF`; na początek kopia domen Tempusa
+`CTE`) i wpisuje `CDS` w wierszu CLERIC_DS. Można wskazać kolumnę istniejącego bóstwa (CIL CLA CSE CHE COG CTE CBA CMA CTA)
+albo dopisać własną (wartość = poziom czaru domeny 1–9, 0 = brak). Bez wpisu – domeny Ilmatera zamiast asercji gry.
+
+## 7a. Listy czarów – co decyduje i jakie są ograniczenia
+- `LISTSPLL.2DA`: kolumny BRD CLR DRD PAL RGR SOR WIZ (po pozycji), wartość = poziom czaru 1–9, 0 = brak na liście.
+  **Lista zależy wyłącznie od klasy** – podklasa (także DS) korzysta z listy klasy bazowej. Dodatkowe kolumny są pomijane.
+- `LISTDOMN.2DA`: domeny 9 bóstw gry + kolumny dopisane dla podklas kapłana DS (sekcja 7, `DOMAIN`).
+- `LISTINNT`, `LISTSONG`, `LISTSHAP`: zdolności wrodzone, pieśni barda, kształty druida. `LISTMAGE` – nieużywana przez exe.
+- Liczba czarów na dzień: `MXSPLBRD/CLR/DRD/PAL/RGR/SOR/WIZ`, premia z cechy `MXSPLBON`, znane czary zaklinacza `SPLSRCKN`.
+- Listy czarów mają tylko klasy czarujące (bard, kapłan, druid, paladyn, tropiciel, zaklinacz, czarodziej): CRE V2.2
+  trzyma księgi tylko tych klas. Podklasa wojownika / barbarzyńcy / mnicha / łotrzyka może dostać czary wyłącznie jako
+  zdolności wrodzone `GA_` (CLAB / RLAB).
 | Kolumna | Tablica | Format tablicy | Oryginał |
 |---|---|---|---|
 | `HP` | kość PW przy awansie | wiersz = poziom klasy 1–40: `SIDES ROLLS MODIFIER` (HPWAR, HPBARB, HPPRS, HPROG, HPMONK, HPWIZ) | barbarzyńca HPBARB (k12), wojownik/paladyn/tropiciel HPWAR (k10), kapłan/druid HPPRS (k8), mnich HPMONK (k8), bard/łotrzyk HPROG (k6), zaklinacz/czarodziej HPWIZ (k4) |

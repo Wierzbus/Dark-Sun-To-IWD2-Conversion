@@ -22,6 +22,10 @@ KPTR_PROG equ 0xA22F14          ; C2DArray DSKLPROG
 CTX       equ 0xA22F18          ; postac, dla ktorej gra liczy rzuty obronne / PW (ustawiaja haki w miejscach wywolan)
 KCACHE    equ 0xA22000          ; 64 wpisy po 12 B: klucz (kolumna<<8 | klasa), kit, tablica (1 = wiersz klasy)
 N_KCACHE  equ 64
+DLISTY    equ 0xA22400          ; 8 list domen podklas DS po 0x4C B (obiekt listy czarow gry)
+DFLAG     equ 0xA22700          ; 8 B: 0 = nie budowano, 1 = brak konfiguracji, 2 = lista gotowa
+DPARAM    equ 0xA22708          ; 2 dword: kolumna poziomu, kolumna nazwy czaru (argumenty budowy listy)
+INV19     equ 0x286BCA1B        ; odwrotnosc 19 mod 2^32 (indeks listy z adresu: idx * 0x4C = adres - baza)
 TAB_KITOW equ 0x846C00          ; tabela podklas DS w podklasy.asm (+0 bit, +8 nazwa wiersza, +0x17 klasa)
 PCACHE    equ 0xA22B00          ; 3 x 11 dword: tablica progresji (kolumna, klasa); 0 = nie liczone, 1 = oryginal
 CACHE     equ 0xA22C00          ; 64 wpisy po 12 B: nazwa (8), C2DArray (4) - tablice wczytane po nazwie
@@ -873,6 +877,135 @@ bab_mnich:
     pop eax
     ret
 
+;================================================================ domeny bostw podklas DS (test23), hak 0x5CA910
+; GetDomainIndex(&kit), thiscall (ecx = reguly), ret 4. Gra liczy adres listy: reguly + 0x4E2C + idx*0x4C.
+; Dla kitu kaplana DS (bity 0xFF000000) budujemy wlasna liste z LISTDOMN.2DA: kolumna poziomu = DSKLPROG, wiersz kitu,
+; kolumna DOMAIN (nazwa kolumny LISTDOMN, np. CTE albo nowa kolumna dopisana przez instalator), nazwy czarow z
+; DOMAIN_RESREF; zwracamy idx, dla ktorego ten wzor daje adres naszej listy (arytmetyka mod 2^32).
+domena:
+    mov eax, [esp+4]
+    mov eax, [eax]
+    test eax, 0xff000000
+    jnz .ds
+    mov eax, [esp+4]
+    mov eax, [eax]
+    jmp 0x5ca916
+.ds:
+    push ebx
+    push esi
+    push edi
+    push ebp
+    mov ebp, ecx                ; reguly
+    mov edx, TAB_KITOW
+.t: mov ecx, [edx]
+    test ecx, ecx
+    jz .inna
+    test eax, ecx
+    jnz .j
+    add edx, 32
+    jmp .t
+.j: cmp byte [edx+0x17], 3      ; tylko podklasa kaplana
+    jne .inna
+    mov ebx, edx
+    sub ebx, TAB_KITOW
+    shr ebx, 5                  ; numer podklasy 0..7
+    imul edi, ebx, 0x4c
+    add edi, DLISTY
+    cmp byte [DFLAG+ebx], 0
+    jne .gotowe
+    mov byte [DFLAG+ebx], 1
+    ; nazwa kolumny LISTDOMN z DSKLPROG (wiersz = nazwa podklasy, kolumna DOMAIN)
+    push esi
+    push edi
+    mov esi, KPTR_PROG
+    mov edi, n_prog
+    call tabela2da
+    pop edi
+    pop esi
+    test eax, eax
+    jz .gotowe
+    cmp word [eax+0x22], 0
+    jle .gotowe
+    mov esi, eax                ; DSKLPROG
+    lea eax, [edx+8]
+    push 0
+    push eax
+    push esi
+    call szukaj
+    cmp eax, -1
+    je .gotowe
+    push eax                    ; wiersz
+    push 1
+    push k_dom
+    push esi
+    call szukaj
+    pop ecx
+    cmp eax, -1
+    je .gotowe
+    push eax
+    push ecx
+    mov eax, esi
+    call komorka                ; char* nazwy kolumny LISTDOMN
+    test eax, eax
+    jz .gotowe
+    cmp byte [eax], '*'
+    je .gotowe
+    push eax                    ; nazwa kolumny (zachowana)
+    push n_listdomn
+    call wczytaj
+    pop ecx
+    test eax, eax
+    jz .gotowe
+    mov esi, eax                ; LISTDOMN
+    push 1
+    push ecx
+    push esi
+    call szukaj
+    cmp eax, -1
+    je .gotowe
+    mov [DPARAM], eax
+    push 1
+    push k_domres
+    push esi
+    call szukaj
+    cmp eax, -1
+    je .gotowe
+    mov [DPARAM+4], eax
+    mov ecx, edi
+    call 0x59eb60               ; konstruktor listy
+    push 0                      ; bez listy kontrolnej
+    push DPARAM+4               ; &kolumna nazw
+    push DPARAM                 ; &kolumna poziomu
+    push esi                    ; tabela
+    mov ecx, edi
+    call 0x5ca2a0               ; budowa listy (ret 0x10)
+    mov byte [DFLAG+ebx], 2
+.gotowe:
+    cmp byte [DFLAG+ebx], 2
+    jne .nie
+    mov eax, edi
+    sub eax, ebp
+    sub eax, 0x4e2c
+    shr eax, 2
+    imul eax, eax, INV19
+    jmp .k
+.nie:
+    xor eax, eax                ; brak konfiguracji: domeny 1. bostwa (bez asercji)
+.k: pop ebp
+    pop edi
+    pop esi
+    pop ebx
+    ret 4
+.inna:                          ; bit podklasy innej klasy (wieloklasowa postac): bostwo z bitow gry
+    pop ebp
+    pop edi
+    pop esi
+    pop ebx
+    mov eax, [esp+4]
+    mov eax, [eax]
+    and eax, 0xff8000
+    jmp 0x5ca916
+
 ;================================================================ dane
 align 4
 miot_wart:
@@ -892,6 +1025,9 @@ n_prog:   db 'DSKLPROG'          ; CResRef: 8 znakow
 k_hp:     db 'HP', 0
 k_bab:    db 'BAB', 0
 k_save:   db 'SAVE', 0
+k_dom:    db 'DOMAIN', 0
+k_domres: db 'DOMAIN_RESREF', 0
+n_listdomn: db 'LISTDOMN', 0
 c1:  db 'BARBARIAN', 0
 c2:  db 'BARD', 0
 c3:  db 'CLERIC', 0

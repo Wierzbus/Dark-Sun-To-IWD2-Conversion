@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test22-2026-11-14~
+VERSION ~test23-2026-11-14~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -503,5 +503,27 @@ BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do atak
   // Od test22 wiersz moze tez nosic nazwe podklasy (PALADIN_DS ... SORCERER_DS, a takze kity gry, np. zakony mnicha,
   // bostwa kaplana, szkoly czarodzieja - nazwy wierszy jak w KITLIST): wtedy ta podklasa ma wlasna progresje,
   // a brak wiersza podklasy = wiersz klasy bazowej. Wiersze podklas DS sa wpisane z wartosciami klasy bazowej.
+  // Od test23 kolumna DOMAIN: dla podklasy kaplana DS nazwa kolumny LISTDOMN.2DA z jej czarami domeny
+  // (np. CTE = domeny Tempusa albo wlasna kolumna). Bez wpisu - domeny Ilmatera (zamiast asercji gry).
   // Tabela jest czytana raz na uruchomienie gry.
   COPY ~darksun_rasy/2da/DSKLPROG.2DA~ ~override~
+  // LISTDOMN: kolumna CDS (domeny kaplana DS, CLERIC_DS) dopisana za DOMAIN_RESREF - gra czyta tylko kolumny 0..9.
+  // Na poczatek kopia domen Tempusa (CTE) - do decyzji wlasciciela (wpisz poziom czaru 1..9 albo 0 w kolumnie CDS).
+  COPY_EXISTING ~LISTDOMN.2DA~ ~override~
+    PATCH_IF (INDEX_BUFFER (~CDS~) < 0) BEGIN
+      READ_2DA_ENTRIES_NOW ds_d 11
+      TEXT_SPRINT ds_out ~2DA V1.0%WNL%0%WNL%	CIL	CLA	CSE	CHE	COG	CTE	CBA	CMA	CTA	DOMAIN_RESREF	CDS%WNL%~
+      FOR (ds_i = 0; ds_i < ds_d; ++ds_i) BEGIN
+        TEXT_SPRINT ds_l ~~
+        FOR (ds_c = 0; ds_c < 11; ++ds_c) BEGIN
+          READ_2DA_ENTRY_FORMER ds_d ds_i ds_c ds_v
+          TEXT_SPRINT ds_l ~%ds_l%%ds_v%	~
+        END
+        READ_2DA_ENTRY_FORMER ds_d ds_i 6 ds_v
+        TEXT_SPRINT ds_out ~%ds_out%%ds_l%%ds_v%%WNL%~
+      END
+      DELETE_BYTES 0 BUFFER_LENGTH
+      INSERT_BYTES 0 (STRING_LENGTH ~%ds_out%~)
+      WRITE_ASCIIE 0 ~%ds_out%~
+    END
+  BUT_ONLY

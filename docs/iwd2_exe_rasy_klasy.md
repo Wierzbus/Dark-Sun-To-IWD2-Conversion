@@ -240,3 +240,15 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   SPLSRCKN (znane czary zaklinacza) – wybór tabeli po klasie w kodzie.
 - **CRE V2.2** trzyma osobną księgę czarów każdej z 7 klas czarujących + domeny + wrodzone/pieśni/kształty – podklasa
   zapisuje czary w księdze swojej klasy; klasy bez księgi (barbarzyńca, wojownik, mnich, łotrzyk) nie mogą mieć listy czarów.
+
+## 15. Test23: domeny bóstwa podklasy kapłana DS
+- Hak 0x5CA910 (GetDomainIndex) → `domena`: kit z bitem 0xFF000000 należący do kapłana (wpis 0x846C00, +0x17 = 3) → lista
+  domen budowana raz z `LISTDOMN.2DA` (kolumna poziomu = DSKLPROG, wiersz podklasy, kolumna DOMAIN; kolumna nazw
+  `DOMAIN_RESREF`) do obiektu listy w `.dsras` (0xA22400 + 0x4C·k, konstruktor 0x59EB60, budowa 0x5CA2A0(tabela,
+  &kol_poziomu, &kol_nazw, 0)). Zwracany indeks = ((adres − (reguły + 0x4E2C)) >> 2) · 19⁻¹ mod 2³² – wzór gry
+  `reguły + 0x4E2C + idx·0x4C` daje wtedy adres naszej listy bez zmian w trzech miejscach wywołań.
+- Maski kitu przed wywołaniem: 0x5E62E6 i 0x60B85B `and 0xFF8000` → `and 0xFFFF8000` (bit podklasy DS dociera do funkcji).
+- Kit z bitem DS innej klasy (postać wieloklasowa) → oryginalny wybór po bitach bóstw gry; podklasa kapłana DS bez
+  konfiguracji → indeks 0 (domeny Ilmatera) zamiast asercji.
+- Pozostałe maski 0xFF8000 (0x541DF6, 0x547303, 0x5E10D7, 0x5E20C8, 0x5E61FF, 0x5E66EE, 0x5E674C, 0x62A59C, 0x7231A2,
+  0x763EEC, testy 0x5B9BFE / 0x5BA106) zostają: dla kapłana DS dają „brak bóstwa gry” (np. kolumny bóstw w FEATS/SKILLS).
