@@ -49,11 +49,53 @@ HAKI2 = [
     (0x4A48CF, "call", "aura", 0),           # aura paladyna (efekt 0x4A4xxx): klasy z DSKLASY (AURA_COURAGE)
     (0x6F8EF4, "call", "aura", 0),           # aura paladyna (aktualizacja co runde)
 ]
+# rasy.asm (test20) w nowej sekcji PE .dsras (adres 0xA21000, 4 KB) na koncu pliku
+SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x1000
+ORG3 = BASE + SEKCJA_RVA
+DANE3 = 0xA21F00                             # zmienne kodu ras (koniec sekcji)
+# (adres, oryginalne bajty, rodzaj, etykieta, nop)
+HAKI3 = [
+    (0x71E996, "33c08a8766090000", "jmp", "rasa_awans", 3),      # awans: tablica RLAB rasy + SR_LEVEL
+    (0x722862, "8b54245681e2ff000000", "jmp", "wzrok", 5),       # widzenie w ciemnosci z DSRASY
+    (0x722DE3, None, "call", "poziom", 0),                       # procedura CLAB: poziom postaci dla klasy 12
+    (0x73BC10, "807e2605c7442414000000007538", "jmp", "miot_atak", 9),   # bron miotana (atak)
+    (0x73CA66, "8a462633ff3c057530", "jmp", "miot_info", 4),     # bron miotana (informacja)
+    (0x73C8C0, "5556578b7c2410", "jmp", "wrogowie", 2),          # wrogowie rasy / olbrzymy
+]
+# premia za bron miotana czytana z MIOT zamiast 0x84EAA8 (operand instrukcji mov)
+MIOT_OPERANDY = [0x73BC4E, 0x73CA9B]
+
+
+def dodaj_sekcje(d):
+    """Dopisuje sekcje .dsras (RWX) na koncu pliku; zwraca offset w pliku. Gdy juz jest - zwraca jej offset."""
+    pe = struct.unpack_from("<I", d, 0x3C)[0]
+    n = struct.unpack_from("<H", d, pe + 6)[0]
+    opt = struct.unpack_from("<H", d, pe + 20)[0]
+    sh = pe + 24 + opt
+    for i in range(n):
+        if bytes(d[sh + 40 * i:sh + 40 * i + 8]).rstrip(b"\0") == SEKCJA_NAZWA:
+            return struct.unpack_from("<I", d, sh + 40 * i + 20)[0]
+    o = sh + 40 * n
+    assert not any(d[o:o + 40]), "brak miejsca na naglowek sekcji"
+    ost = sh + 40 * (n - 1)
+    assert struct.unpack_from("<I", d, ost + 12)[0] + 0x6000 <= SEKCJA_RVA, "RVA sekcji zajete"
+    raw = len(d)
+    assert raw % 0x1000 == 0
+    d[o:o + 40] = SEKCJA_NAZWA.ljust(8, b"\0") + struct.pack("<IIIIIIHHI", SEKCJA_ROZM, SEKCJA_RVA, SEKCJA_ROZM, raw,
+                                                               0, 0, 0, 0, 0xE0000060)
+    struct.pack_into("<H", d, pe + 6, n + 1)
+    struct.pack_into("<I", d, pe + 24 + 56, SEKCJA_RVA + SEKCJA_ROZM)    # SizeOfImage
+    d += b"\0" * SEKCJA_ROZM
+    return raw
+
+
 # tablica skokow klikniecia klasy (0x61C1A8, indeks = klasa - 1): 0x61C0A5 = okno 52
 KLASY_OKNO52 = [1, 2, 4, 5, 8, 10]          # barbarzynca, bard, druid, wojownik, tropiciel, zaklinacz
 DANE = [
-    (0x61CEF4, struct.pack("<I", 0xFFFF8000)),   # maska bostw przy zmianie bostwa
-    (0x615CFE, struct.pack("<I", 0xFFFF8000)),   # maska bostw przy przycisku Gotowe
+    # operand imm32 (instrukcje: 0x61CEF4 mov ecx, 0xFF8000 / 0x615CFE and eax, 0xFF8000). Do test19 wlacznie
+    # zapis szedl pod adres instrukcji i niszczyl jej kod (blad poprawiony w test20).
+    (0x61CEF5, struct.pack("<I", 0xFFFF8000)),   # maska bostw przy zmianie bostwa
+    (0x615CFF, struct.pack("<I", 0xFFFF8000)),   # maska bostw przy przycisku Gotowe
 ]
 
 
@@ -97,19 +139,34 @@ def main():
              0x73BC76: "8a0dac7c8400", 0x73DD34: "33c0a0ac7c8400"}
     for adr, h in oczek.items():
         assert d[adr - BASE:adr - BASE + len(h) // 2].hex() == h, hex(adr)
+    kod3, et3 = nasm(os.path.join(ASM, "rasy.asm"), ORG3, {k: et[k] for k in ("clab", "komorka", "tabela2da")})
+    if ORG3 + len(kod3) > DANE3:
+        sys.exit("rasy.asm wchodzi na zmienne 0xA21F00")
+    raw3 = dodaj_sekcje(d)
+    d[raw3:raw3 + len(kod3)] = kod3
     kod2, et2 = nasm(os.path.join(ASM, "dodatki.asm"), ORG2,
                      {k: et[k] for k in ("zdolnosc", "liczba", "tabela2da", "sneak_poziom")})
     if ORG2 + len(kod2) > KONIEC2:
         sys.exit("dodatki.asm wychodzi poza 0x7237A1")
     d[ORG2 - BASE:ORG2 - BASE + len(kod2)] = kod2
     et.update(et2)
-    for adr, rodzaj, lab, nop in HAKI + HAKI2:
+    for adr, h, rodzaj, lab, nop in HAKI3:
+        if h:
+            assert d[adr - BASE:adr - BASE + len(h) // 2].hex().startswith(h[:len(h) // 2 * 2]), hex(adr)
+    assert d[0x722DE3 - BASE] == 0xE8 and struct.unpack_from("<i", d, 0x722DE4 - BASE)[0] + 0x722DE8 == 0x447990
+    for adr in MIOT_OPERANDY:
+        assert struct.unpack_from("<I", d, adr - BASE)[0] == 0x84EAA8, hex(adr)
+        struct.pack_into("<I", d, adr - BASE, et3["miot_wart"])
+    et.update(et3)
+    haki = [(a, r, l, n) for a, r, l, n in HAKI if a != 0x546030] + [(0x546030, "jmp", "clab_rasa", 4)]
+    for adr, rodzaj, lab, nop in haki + HAKI2 + [(a, r, l, n) for a, _, r, l, n in HAKI3]:
         o = adr - BASE
         op = 0xE9 if rodzaj == "jmp" else 0xE8
         d[o:o + 5] = bytes([op]) + struct.pack("<i", et[lab] - (adr + 5))
         d[o + 5:o + 5 + nop] = b"\x90" * nop
     for k in KLASY_OKNO52:
         struct.pack_into("<I", d, 0x61C1A8 - BASE + 4 * (k - 1), 0x61C0A5)
+    assert d[0x61CEF4 - BASE] == 0xB9 and d[0x615CFE - BASE] == 0x25, "maska bostw: oczekiwano mov ecx / and eax"
     for adr, b in DANE:
         d[adr - BASE:adr - BASE + len(b)] = b
     # polelf: GetRaceRow (0x541A42), nazwa rasy (0x544EC6), zdolnosci rasowe (0x7228E2), okno podras (0x61C640)
@@ -149,7 +206,7 @@ def main():
     open(a.out, "wb").write(d)
     for k in ("klasa_wiersz", "clab", "szukaj_klase"):
         print(k, hex(et[k]))
-    print("koniec podklasy.asm", hex(ORG + len(kod)), "dodatki.asm", hex(ORG2 + len(kod2)))
+    print("koniec podklasy.asm", hex(ORG + len(kod)), "dodatki.asm", hex(ORG2 + len(kod2)), "rasy.asm", hex(ORG3 + len(kod3)))
     print("zapisano", a.out)
 
 

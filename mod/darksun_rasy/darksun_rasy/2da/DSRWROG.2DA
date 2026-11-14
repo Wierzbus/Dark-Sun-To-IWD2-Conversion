@@ -1,0 +1,21 @@
+2DA V1.0
+0
+                       BONUS ABERRATION E1  E2  E3  E4  E5  E6
+HUMAN                  0     0          0   0   0   0   0   0
+HUMAN_AASIMAR          0     0          0   0   0   0   0   0
+HUMAN_TIEFLING         0     0          0   0   0   0   0   0
+ELF                    0     0          0   0   0   0   0   0
+ELF_DROW               0     0          0   0   0   0   0   0
+ELF_WILD               0     0          0   0   0   0   0   0
+HALF_ELF               0     0          0   0   0   0   0   0
+HALF_ELF_DS            0     0          0   0   0   0   0   0
+DWARF                  1     0          111 155 160 180 0   0
+DWARF_GOLD             1     1          111 155 160 180 0   0
+DWARF_GRAY             1     0          111 155 160 180 0   0
+HALFLING               0     0          0   0   0   0   0   0
+HALFLING_STRONGHEART   0     0          0   0   0   0   0   0
+HALFLING_GHOSTWISE     0     0          0   0   0   0   0   0
+GNOME                  1     0          111 112 155 180 0   0
+GNOME_DEEP             1     0          111 112 155 180 0   0
+HALF_ORC               0     0          0   0   0   0   0   0
+HALF_ORC_MUL           0     0          0   0   0   0   0   0

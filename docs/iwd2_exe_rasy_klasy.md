@@ -180,3 +180,22 @@ Rasa i podrasa postaci: bajty `+0x26` i `+0x27` obiektu postaci (1 HUMAN, 2 ELF,
 | 0x73C7E1 | duergar: zależne od przedmiotu (`+0x12`, flaga 0x1 w `+0x40`) | do rozpoznania |
 Propozycja: `DSRASY.2DA` – wiersze = nazwy wierszy ras z GetRaceRow (jak ABRACEAD: HUMAN_AASIMAR, …, HALF_ORC_MUL),
 kolumny = cechy; `DSRWROG.2DA` – wrogowie rasy (lista RACE.IDS + premia). Brak wiersza = zachowanie oryginalne.
+
+## 11. Test20: zdolności ras z tabel (RLAB, DSRASY, DSRWROG)
+Kod `asm/rasy.asm` w **nowej sekcji PE `.dsras`** (RVA 0x621000 → adres 0xA21000, 4 KB, RWX, dopisana na końcu pliku;
+NumberOfSections 5, SizeOfImage 0x622000). Zmienne 0xA21F00–0xA21FEF (postać dla tablicy rasy, wskaźniki tabel,
+pamięć podręczna 16 tablic RLAB). Exe paczki 2 ma więc 5 033 984 B; makra WeiDU dopisują sekcję `INSERT_BYTES`.
+| Hak | Zmiana |
+|---|---|
+| 0x546030 GetClabTable | `clab_rasa`: klasa 12 → tablica z kolumny RLAB wiersza rasy postaci w DSRASY; inne → `clab` (podklasy) |
+| 0x722DE3 (procedura CLAB) | `poziom`: dla klasy 12 poziom postaci (statystyki +0x46) zamiast 0x447990 |
+| 0x71E996 (awans, po 11 wywołaniach CLAB klas) | `rasa_awans`: procedura CLAB 0x722D50 dla klasy 12 (zdobyte poziomy postaci); przyrost odporności na magię = SR_LEVEL × zdobyte poziomy (brak wartości → oryginał: drow i gnom głębinowy +1) |
+| 0x722862 (nadawanie cech rasy 0x722820) | `wzrok`: DARKVISION → flaga 0x20000; gnom głębinowy zachowuje pozostałe cechy (0x200000, +0x5E2) |
+| 0x73BC10, 0x73CA66 + operandy 0x73BC4E, 0x73CA9B | `miot_atak`/`miot_info`: THROWN zamiast „niziołek”, premia z `miot_wart` zamiast 0x84EAA8 |
+| 0x73C8C0 (premia rasowa do trafienia, z 0x73BBC9) | `wrogowie`: DSRWROG (BONUS × E1–E6 = rasa celu z RACE.IDS, ABERRATION przez 0x584AA0); olbrzym (153) / ogr (113) atakujący − GIANT_AC rasy celu; bez DSRWROG → oryginalna funkcja |
+Wiersze tabel = nazwy z GetRaceRow (jak ABRACEAD). Brak tabeli / wiersza / kolumny = zachowanie oryginalne.
+Tablica RLAB rasy: format CLAB, kolumny = poziom postaci (suma klas) 1–30; działa przy tworzeniu postaci i awansie.
+**Poprawiony błąd test14–19:** łatka maski bóstw pisała 0xFFFF8000 pod adres instrukcji (0x61CEF4, 0x615CFE) zamiast pod
+operand (0x61CEF5, 0x615CFF), niszcząc kod (`and eax` / `mov ecx`) przy zmianie bóstwa i przycisku Gotowe kapłana.
+Skrypt: `tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out test20.exe` (sekcja + trzy pliki asm),
+`tools/iwd2_paczki_exe.py` (makra, w tym dopisanie sekcji).

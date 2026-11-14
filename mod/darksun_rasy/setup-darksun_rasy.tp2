@@ -3,18 +3,20 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test-2026-11-13~
+VERSION ~test20-2026-11-14~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
-BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_1920_DS.exe (z IWD2_1920.exe z paczki 1, jesli jest)~ DESIGNATED 0
+BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe (z IWD2_<W>.exe z paczki 1, jesli jest)~ DESIGNATED 0
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   // Lata z tools/iwd2_paczki_exe.py (darksun_rasy/exe/rasy_exe.tpa): mul i polelf (GetRaceRow, nazwa podrasy,
   // zdolnosci rasowe, okno podras), 8 podklas (asm/podklasy.asm), zdolnosci klas z 2DA (asm/dodatki.asm),
-  // szybkosc barbarzyncy. Miejsca nie pokrywaja sie z latami paczki 1, wiec dziala na obu exe.
+  // szybkosc barbarzyncy, zdolnosci ras z tabel (asm/rasy.asm w nowej sekcji PE .dsras na koncu pliku, +4 KB).
+  // Miejsca nie pokrywaja sie z latami paczki 1, wiec dziala na IWD2.exe i na kazdym IWD2_<W>.exe z paczki 1.
   INCLUDE ~darksun_rasy/exe/rasy_exe.tpa~
   OUTER_SET patched = 0
-  ACTION_FOR_EACH src IN ~IWD2~ ~IWD2_1920~ BEGIN
+  ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?\.exe$~ BEGIN
+    OUTER_TEXT_SPRINT src ~%BASH_FOR_RES%~
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
@@ -33,9 +35,7 @@ BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_1920_DS.exe (z IWD2
   ACTION_IF patched = 0 BEGIN
     FAIL ~Zaden plik EXE nie pasuje do lat (wymagany IWD2.exe GOG 2.01).~
   END
-  ACTION_IF NOT FILE_EXISTS ~IWD2_1920.exe~ BEGIN
-    PRINT ~Brak IWD2_1920.exe (paczka 1). Po jej instalacji przeinstaluj ten komponent, zeby powstal IWD2_1920_DS.exe.~
-  END
+  PRINT ~Po (ponownej) instalacji paczki 1 przeinstaluj ten komponent, zeby powstal IWD2_<W>_DS.exe.~
 
 BEGIN ~TEST: mul jako podrasa polorka~ DESIGNATED 1
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
@@ -43,7 +43,8 @@ BEGIN ~TEST: mul jako podrasa polorka~ DESIGNATED 1
 
   // --- 1. Nazwa podrasy na karcie postaci: strref z tekstu moda w kopiach *_DS.exe (0x544FE6: mov eax, strref) ---
   OUTER_SET mul_mixed = RESOLVE_STR_REF(@102)
-  ACTION_FOR_EACH src IN ~IWD2_DS~ ~IWD2_1920_DS~ BEGIN
+  ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?_DS\.exe$~ BEGIN
+    OUTER_TEXT_SPRINT src ~%BASH_FOR_RES%~
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       COPY ~%src%.exe~ ~%src%.exe~
         PATCH_IF (BYTE_AT 0x144FE6 = 0xB8) BEGIN WRITE_LONG 0x144FE7 mul_mixed END
@@ -221,7 +222,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
   END
   OUTER_SET clr_help = RESOLVE_STR_REF(@223)
   OUTER_SET patched = 0
-  ACTION_FOR_EACH src IN ~IWD2_DS~ ~IWD2_1920_DS~ BEGIN
+  ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?_DS\.exe$~ BEGIN
+    OUTER_TEXT_SPRINT src ~%BASH_FOR_RES%~
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       OUTER_SET ok = 0
       COPY - ~%src%.exe~ ~%src%.exe~
@@ -246,7 +248,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan, wojownik, tropiciel, druid
     END
   END
   ACTION_IF patched = 0 BEGIN
-    FAIL ~Nie znaleziono IWD2_DS.exe ani IWD2_1920_DS.exe (komponent 0).~
+    FAIL ~Nie znaleziono IWD2_DS.exe ani IWD2_<W>_DS.exe (komponent 0).~
   END
 
   // --- 2. Tabele ---
@@ -418,7 +420,8 @@ BEGIN ~TEST: polelf atasyjski jako podrasa polelfa~ DESIGNATED 3
   // postaci (0x544EC6: mov eax, strref - wpisywany tutaj), zdolnosci rasowe bez asercji (0x7228E2),
   // przycisk polelfa otwiera okno podras (0x61C640).
   OUTER_SET he_mixed = RESOLVE_STR_REF(@112)
-  ACTION_FOR_EACH src IN ~IWD2_DS~ ~IWD2_1920_DS~ BEGIN
+  ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?_DS\.exe$~ BEGIN
+    OUTER_TEXT_SPRINT src ~%BASH_FOR_RES%~
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       COPY ~%src%.exe~ ~%src%.exe~
         PATCH_IF (BYTE_AT 0x144EC6 = 0xB8) BEGIN WRITE_LONG 0x144EC7 he_mixed END
@@ -473,3 +476,18 @@ BEGIN ~TEST: polelf atasyjski jako podrasa polelfa~ DESIGNATED 3
   APPEND ~SKILLRAC.2DA~ ~HALF_ELF_DS             5       2       1       2       2       0       0       0~ UNLESS ~HALF_ELF_DS~
   APPEND ~STRTXP.2DA~   ~HALF_ELF_DS             0~ UNLESS ~HALF_ELF_DS~
   APPEND ~SUBRACE.IDS~  ~0x00030001 HALF_ELF_DS~ UNLESS ~HALF_ELF_DS~
+
+BEGIN ~TEST: zdolnosci ras z tabel (DSRASY, DSRWROG, tablice RLAB ras)~ DESIGNATED 4
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
+  // Exe (komponent 0, asm/rasy.asm) czyta cechy ras z tabel; bez tabel albo bez wiersza - zachowanie oryginalne.
+  // DSRASY.2DA: wiersze = rasy/podrasy (nazwy jak w ABRACEAD), kolumny:
+  //   RLAB - tablica zdolnosci rasy w formacie CLAB (ABILITYn x poziom postaci 1..30: GA_/AP_/FA_), * = brak;
+  //   DARKVISION - widzenie w ciemnosci; GIANT_AC - o ile olbrzymy i ogry trafiaja gorzej;
+  //   THROWN - premia do trafienia bronia miotana / proca; SR_LEVEL - przyrost odpornosci na magie na poziom.
+  // DSRWROG.2DA: wrogowie rasy - BONUS do trafienia przeciw rasom E1..E6 (RACE.IDS), ABERRATION.
+  // Wartosci = zachowanie oryginalnej gry. RLMUL (mul) - TEST mechanizmu: na 1. poziomie GA_SPIN267.
+  // Tablice RLAB dzialaja przy awansie i tworzeniu postaci (nowe postacie albo kolejny poziom).
+  COPY ~darksun_rasy/2da/DSRASY.2DA~  ~override~
+       ~darksun_rasy/2da/DSRWROG.2DA~ ~override~
+       ~darksun_rasy/2da/RLMUL.2DA~   ~override~

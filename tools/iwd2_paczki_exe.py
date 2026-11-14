@@ -37,7 +37,8 @@ def przebiegi(a, b, przerwa=8):
     return r
 
 
-def tpa(nazwa, orig, cel, runs, opis):
+def tpa(nazwa, orig, cel, runs, opis, ext=b""):
+    """ext: bajty dopisywane na koncu pliku (nowa sekcja PE) - INSERT_BYTES + zapis niezerowych dwordow."""
     w = [f"// {opis}", "// Plik generowany: tools/iwd2_paczki_exe.py. Offsety w pliku (adres - 0x400000).", ""]
     w.append(f"DEFINE_PATCH_MACRO ~{nazwa}_sprawdz~ BEGIN")
     w.append(f"  SET {nazwa}_ok = (BUFFER_LENGTH = {len(orig)})")
@@ -52,9 +53,19 @@ def tpa(nazwa, orig, cel, runs, opis):
         w.append(f"    PATCH_IF (({f} 0x{o:X}) != 0x{v:X}) BEGIN SET {nazwa}_ok = 0 END")
         w.append(f"    PATCH_IF (({f} 0x{o:X}) != 0x{nv:X}) BEGIN SET {nazwa}_zrobione = 0 END")
     w.append("  END")
+    if ext:
+        w.append(f"  PATCH_IF (BUFFER_LENGTH != {len(orig) + len(ext)}) BEGIN SET {nazwa}_zrobione = 0 END")
     w.append("END")
     w.append("")
     w.append(f"DEFINE_PATCH_MACRO ~{nazwa}_zapisz~ BEGIN")
+    if ext:
+        n = len(orig)
+        w.append(f"  // nowa sekcja PE na koncu pliku ({len(ext)} B)")
+        w.append(f"  PATCH_IF (BUFFER_LENGTH = {n}) BEGIN INSERT_BYTES {n} {len(ext)} END")
+        for i in range(0, len(ext), 4):
+            v = int.from_bytes(ext[i:i + 4].ljust(4, b"\0"), "little")
+            if v:
+                w.append(f"  WRITE_LONG 0x{n + i:X} 0x{v:X}")
     for o, ln in runs:
         b = cel[o:o + ln]
         w.append(f"  // 0x{o + BASE:X} ({ln} B)")
@@ -80,7 +91,9 @@ def main():
     orig = open(a.orig, "rb").read()
     up = bytearray(open(a.upscale, "rb").read())
     rasy = open(a.rasy, "rb").read()
-    assert len(orig) == len(up) == len(rasy) == 5029888
+    assert len(orig) == len(up) == 5029888 and len(rasy) >= len(orig)
+    ext = rasy[len(orig):]                    # nowa sekcja PE (rasy.asm, test20)
+    rasy = rasy[:len(orig)]
     for adr, ln in MUL:
         o = adr - BASE
         up[o:o + ln] = orig[o:o + ln]
@@ -105,7 +118,7 @@ def main():
     open(a.out_upscale, "w").write(tpa("ds_upscale", orig, bytes(up), r1,
                                        "Paczka 1: IWD2.exe GOG 2.01 -> 1920x1080 (GUI, ekran ladowania, portrety, ikony)"))
     open(a.out_rasy, "w").write(tpa("ds_rasy", orig, rasy, r2,
-                                    "Paczka 2: lata ras i klas (mul, polelf, podklasy, zdolnosci klas z 2DA)"))
+                                    "Paczka 2: lata ras i klas (mul, polelf, podklasy, zdolnosci klas i ras z 2DA)", ext))
     print("paczka 1:", len(r1), "miejsc,", sum(l for _, l in r1), "B")
     print("paczka 2:", len(r2), "miejsc,", sum(l for _, l in r2), "B")
 
