@@ -75,4 +75,7 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - czlowiek z testowymi tabelami ras: pod "Human" wiersze Darkvision, "Thrown weapons and slings, to hit: +2",
        "To hit against Orc: +2", "To hit against Goblin: +2"; zwykla rasa bez cech - bez dodatkowych wierszy,
      - Levels: gladiator d12 (z tabel testowych), Athasian Rogue d10 i BAB jak wojownik; zwykly lotrzyk d6, BAB nizszy,
-     - wieloklasowiec: kazda klasa ze swoja koscia i BAB.
+     - wieloklasowiec: kazda klasa ze swoja koscia i BAB,
+     - Class Features: zdolnosci dzialajace same z tablic CLAB klas i RLAB rasy (wpisy FA_ do obecnego poziomu), np.
+       lotrzyk 2+: Evasion, 3+: Uncanny Dodge (Dex bonus to AC); barbarzynca: Damage Reduction - tylko najwyzszy stopien;
+       wieloklasowiec lotrzyk + barbarzynca - Uncanny Dodge raz.

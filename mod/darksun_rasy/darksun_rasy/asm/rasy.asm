@@ -1066,6 +1066,225 @@ karta_lv:
     add esp, 0x14
     jmp 0x5dcb5a
 
+;================================================================ karta postaci: zdolnosci wrodzone klas i rasy (FA_ w tablicach CLAB / RLAB)
+CF_N      equ 32
+CF_REF    equ 0xA25E80          ; 32 strrefy (wolne zmienne za DPAR / SPAR kity.asm)
+
+; eq_bc(a, b): 1 gdy napisy rowne po pominieciu cyfr ("Damage Reduction 1" = "... 2"). stdcall
+eq_bc:
+    push esi
+    push edi
+    mov esi, [esp+0xc]
+    mov edi, [esp+0x10]
+.l: movzx eax, byte [esi]
+    cmp al, '0'
+    jb .p
+    cmp al, '9'
+    ja .p
+    inc esi
+    jmp .l
+.p: movzx ecx, byte [edi]
+    cmp cl, '0'
+    jb .q
+    cmp cl, '9'
+    ja .q
+    inc edi
+    jmp .p
+.q: cmp eax, ecx
+    jne .nie
+    test eax, eax
+    jz .tak
+    inc esi
+    inc edi
+    jmp .l
+.tak:
+    mov eax, 1
+    jmp .k
+.nie:
+    xor eax, eax
+.k: pop edi
+    pop esi
+    ret 8
+
+; cf_tab: eax = tablica CLAB (albo 0), [cf_poz] = poziom -> dopisuje strrefy FA_ z kolumn 1..poziom do CF_REF (ebp = liczba)
+cf_tab:
+    test eax, eax
+    jz .r
+    cmp word [eax+0x22], 0
+    jle .r
+    push edi
+    mov edi, eax
+    movsx ecx, word [edi+0x20]
+    cmp ecx, [cf_poz]
+    jle .c
+    mov ecx, [cf_poz]
+.c: mov [cf_kol], ecx
+    mov dword [cf_c], 0
+.lc:
+    mov eax, [cf_c]
+    cmp eax, [cf_kol]
+    jge .e
+    mov dword [cf_r], 0
+.lr:
+    movsx eax, word [edi+0x22]
+    cmp [cf_r], eax
+    jge .nc
+    push dword [cf_c]
+    push dword [cf_r]
+    mov eax, edi
+    call komorka
+    test eax, eax
+    jz .nr
+    cmp byte [eax], 'F'
+    jne .nr
+    cmp byte [eax+1], 'A'
+    jne .nr
+    cmp byte [eax+2], '_'
+    jne .nr
+    add eax, 3
+    push eax
+    call 0x7e7b03               ; atoi
+    add esp, 4
+    test eax, eax
+    jle .nr
+    cmp ebp, CF_N
+    jae .nr
+    mov [CF_REF+ebp*4], eax
+    inc ebp
+.nr:
+    inc dword [cf_r]
+    jmp .lr
+.nc:
+    inc dword [cf_c]
+    jmp .lc
+.e: pop edi
+.r: ret
+
+; 0x5DD537 (koniec sekcji Class Features; zamiast "mov eax, [esp+0x48]; test eax, eax; jz 0x5DD54E"):
+; ebx = postac, [esp+0x48] = naglowek Class Features juz wypisany. Wiersze FA_ z CLAB klas (do poziomu klasy, podklasa DS
+; z bajtu klasy) i z RLAB rasy (do poziomu postaci); kolejne stopnie tej samej zdolnosci (rozne tylko cyfry) - ostatni.
+karta_cf:
+    pushad
+    xor ebp, ebp
+    mov dword [cf_suma], 0
+    mov dword [cf_kl], 1
+.kl:
+    lea ecx, [ebx+0x920]
+    push dword [cf_kl]
+    call 0x447990               ; poziom klasy
+    movzx eax, al
+    test eax, eax
+    jz .nkl
+    add [cf_suma], eax
+    mov [cf_poz], eax
+    push dword [ebx+0x80c]
+    push dword [cf_kl]
+    push ebx
+    call kit_synt
+    push eax
+    push dword [cf_kl]
+    mov ecx, [0x8cf6dc]
+    mov ecx, [ecx+0x1c54]
+    call 0x546030               ; GetClabTable(klasa, kit)
+    call cf_tab
+.nkl:
+    inc dword [cf_kl]
+    cmp dword [cf_kl], 11
+    jbe .kl
+    mov eax, [cf_suma]
+    test eax, eax
+    jz .druk
+    mov [cf_poz], eax
+    push dword [POST]
+    mov [POST], ebx
+    push 0
+    push KLASA_RASY
+    mov ecx, [0x8cf6dc]
+    mov ecx, [ecx+0x1c54]
+    call 0x546030               ; tablica RLAB rasy
+    pop dword [POST]
+    call cf_tab
+.druk:
+    test ebp, ebp
+    jz .k
+    cmp dword [esp+0x68], 0     ; [esp+0x48] funkcji karty
+    jne .h
+    sub esp, 4
+    push 0x9d7a                 ; "Class Features"
+    lea eax, [esp+4]
+    push eax
+    call 0x427b60
+    add esp, 8
+    mov eax, [eax]
+    push eax
+    push 0x8a6a68
+    push 0xc8c8
+    push esi
+    push edi
+    call 0x427ea0
+    add esp, 0x14
+    mov ecx, esp
+    call 0x7fcc1a
+    add esp, 4
+    mov dword [esp+0x68], 1
+.h: sub esp, CF_N*4
+    mov dword [cf_i], 0
+.f: mov eax, [cf_i]
+    cmp eax, ebp
+    jge .fe
+    push dword [CF_REF+eax*4]
+    lea ecx, [esp+4+eax*4]
+    push ecx
+    call 0x427b60
+    add esp, 8
+    inc dword [cf_i]
+    jmp .f
+.fe:
+    mov dword [cf_i], 0
+.p: mov eax, [cf_i]
+    cmp eax, ebp
+    jge .pe
+    mov edx, eax
+.j: inc edx
+    cmp edx, ebp
+    jge .pisz
+    mov [cf_j], edx
+    push dword [esp+edx*4]
+    mov eax, [cf_i]
+    push dword [esp+4+eax*4]
+    call eq_bc
+    mov edx, [cf_j]
+    test eax, eax
+    jnz .dalej
+    jmp .j
+.pisz:
+    mov eax, [cf_i]
+    push dword [esp+eax*4]
+    push 0x8a6a68
+    push esi
+    push edi
+    call 0x427c20
+    add esp, 0x10
+.dalej:
+    inc dword [cf_i]
+    jmp .p
+.pe:
+    mov dword [cf_i], 0
+.d: mov eax, [cf_i]
+    cmp eax, ebp
+    jge .de
+    lea ecx, [esp+eax*4]
+    call 0x7fcc1a
+    inc dword [cf_i]
+    jmp .d
+.de:
+    add esp, CF_N*4
+.k: popad
+    mov eax, [esp+0x48]
+    test eax, eax
+    jz 0x5dd54e
+    jmp 0x5dd53f
+
 ;================================================================ dane
 align 4
 miot_wart:
@@ -1119,4 +1338,12 @@ lv_kl:    dd 0
 lv_poz:   dd 0
 lv_hd:    dd 0
 lv_bab:   dd 0
+cf_suma:  dd 0
+cf_kl:    dd 0
+cf_poz:   dd 0
+cf_kol:   dd 0
+cf_c:     dd 0
+cf_r:     dd 0
+cf_i:     dd 0
+cf_j:     dd 0
 koniec_rasy:

@@ -411,3 +411,6 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   (plik 0x4D0030, komponent 4).
 - Hak 0x5DCB3C `karta_lv`: wiersz Levels „%s: %d (d%d, BAB +%d)” – SIDES z tablicy PW i BASE_ATTACK z tablicy BAB
   klasy na jej poziomie (`prog_k`: wiersz podklasy w DSKLPROG, potem klasy; bez nich tablice gry dom_hp / dom_bab).
+- Hak 0x5DD537 `karta_cf`: na końcu Class Features wiersze FA_<strref> z tablic CLAB każdej klasy (kolumny 1..poziom klasy,
+  `GetClabTable` 0x546030 z kitem `kit_synt`) i RLAB rasy (klasa 12, poziom postaci). Do 32 wpisów (0xA25E80); kolejne
+  stopnie tej samej zdolności (teksty różne tylko cyframi) – tylko ostatni; nagłówek wypisany, gdy gra go nie wypisała.
