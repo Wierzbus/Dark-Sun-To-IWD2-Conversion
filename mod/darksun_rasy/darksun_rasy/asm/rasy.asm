@@ -1334,8 +1334,10 @@ f_lv:     db '%s: %d (d%d, BAB +%d)', 0
 align 4
 kr_rasa:  dd 0
 kr_bonus: dd 0
-lv_kl:    dd 0
-lv_poz:   dd 0
+lv_kl:
+          dd 0
+lv_poz:
+          dd 0
 lv_hd:    dd 0
 lv_bab:   dd 0
 cf_suma:  dd 0

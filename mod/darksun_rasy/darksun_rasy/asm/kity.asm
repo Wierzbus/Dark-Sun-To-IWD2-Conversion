@@ -684,6 +684,307 @@ klist_kit:
     mov esi, eax
     ret
 
+;================================================================ klasy prestizowe: slot 1 (dawny barbarzynca), test30
+; DSPREST.2DA: wiersz = nazwa podklasy klasy 1, kolumny LEVEL (poziom postaci), BAB (suma premii do ataku klas),
+; CLASS (klasa 1..11) i CLASS_LEVEL (jej poziom), SUBCLASS (nazwa wiersza podklasy DS, ktora postac musi miec, * = dowolna).
+; Wartosc 0 / * = bez warunku. Charakter - wiersz podklasy w ALIGNMNT (0x544A60).
+KL_PREST  equ 1
+
+; pr_wart(tabela, wiersz, nazwa kolumny) -> eax = liczba (0 gdy brak / *). stdcall
+pr_wart:
+    push ecx
+    push edx
+    push 1
+    push dword [esp+0x18]
+    push dword [esp+0x14]
+    call szukaj
+    cmp eax, -1
+    je .zero
+    push eax
+    push dword [esp+0x14]
+    mov eax, [esp+0x14]
+    call komorka
+    test eax, eax
+    jz .zero
+    push eax
+    call 0x7e7b03               ; atoi
+    add esp, 4
+    jmp .k
+.zero:
+    xor eax, eax
+.k: pop edx
+    pop ecx
+    ret 12
+
+; kit_nazwa(char*) -> edx = wpis tabeli o tej nazwie albo 0. Zachowuje rejestry poza edx.
+kit_nazwa:
+    push eax
+    push ecx
+    mov edx, KITY
+.p: cmp dword [edx], 0
+    je .brak
+    push edx
+    lea eax, [edx+8]
+    push eax
+    push dword [esp+0x14]
+    call 0x7e7a54               ; stricmp (cdecl)
+    add esp, 8
+    pop edx
+    test eax, eax
+    jz .k
+    add edx, 32
+    jmp .p
+.brak:
+    xor edx, edx
+.k: pop ecx
+    pop eax
+    ret 4
+
+; pr_bab(postac) -> eax = suma premii do ataku klas postaci (tablice BAB klas / podklas, lv_wart z rasy.asm). stdcall
+pr_bab:
+    push ebx
+    push ecx
+    push edx
+    push esi
+    mov ebx, [esp+0x14]
+    xor esi, esi
+    mov dword [lv_kl], 1
+.p: mov eax, [lv_kl]
+    movzx eax, byte [ebx+0x626+eax]
+    test eax, eax
+    jz .n
+    mov [lv_poz], eax
+    push 1
+    call lv_wart
+    test eax, eax
+    jle .n
+    add esi, eax
+.n: inc dword [lv_kl]
+    cmp dword [lv_kl], 11
+    jbe .p
+    mov eax, esi
+    pop esi
+    pop edx
+    pop ecx
+    pop ebx
+    ret 4
+
+; pr_wpis(wpis, postac) -> eax = 1 gdy postac spelnia warunki DSPREST.2DA i charakter (ALIGNMNT) podklasy. stdcall
+pr_wpis:
+    push ebx
+    push ecx
+    push edx
+    push esi
+    push edi
+    mov esi, [esp+0x18]         ; wpis
+    mov ebx, [esp+0x1c]         ; postac
+    push n_prest
+    call wczytaj
+    test eax, eax
+    jz .war_ok
+    cmp word [eax+0x22], 0
+    jle .war_ok
+    mov edi, eax
+    push 0
+    lea eax, [esi+8]
+    push eax
+    push edi
+    call szukaj
+    cmp eax, -1
+    je .war_ok
+    mov [pr_w], eax
+    ; poziom postaci
+    push n_level
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    test eax, eax
+    jle .bab
+    movzx ecx, byte [ebx+0x966]
+    cmp ecx, eax
+    jl .nie
+.bab:
+    push n_bab
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    test eax, eax
+    jle .kl
+    push eax
+    push ebx
+    call pr_bab
+    pop ecx
+    cmp eax, ecx
+    jl .nie
+.kl:
+    push n_class
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    dec eax
+    cmp eax, 10
+    ja .pod
+    mov [pr_k], eax
+    push n_clevel
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    mov ecx, [pr_k]
+    movzx ecx, byte [ebx+0x627+ecx]
+    cmp ecx, eax
+    jl .nie
+    test ecx, ecx
+    jz .nie
+.pod:
+    push 1
+    push n_subclass
+    push edi
+    call szukaj
+    cmp eax, -1
+    je .war_ok
+    push eax
+    push dword [pr_w]
+    mov eax, edi
+    call komorka
+    test eax, eax
+    jz .war_ok
+    cmp byte [eax], '*'
+    je .war_ok
+    push eax
+    call kit_nazwa
+    test edx, edx
+    jz .nie
+    movzx ecx, byte [edx+0x17]
+    dec ecx
+    cmp ecx, 10
+    ja .nie
+    mov eax, edx
+    sub eax, KITY
+    shr eax, 5
+    inc eax
+    movzx ecx, byte [ebx+BAJTY+ecx]
+    cmp ecx, eax
+    jne .nie
+.war_ok:                        ; charakter: ALIGNMNT, wiersz podklasy
+    mov edx, esi
+    call wartosc                ; eax = (nr + 1) << 24
+    push eax
+    movzx eax, byte [ebx+0x3e4b]
+    push eax
+    push KL_PREST
+    mov ecx, [0x8cf6dc]
+    mov ecx, [ecx+0x1c54]
+    call 0x544a60
+    test eax, eax
+    setnz al
+    movzx eax, al
+    jmp .k
+.nie:
+    xor eax, eax
+.k: pop edi
+    pop esi
+    pop edx
+    pop ecx
+    pop ebx
+    ret 8
+
+; pr_dost(postac) -> eax = 1 gdy postac moze wziac klase 1: ma juz jej poziomy albo spelnia warunki ktorejs podklasy
+pr_dost:
+    push ecx
+    push edx
+    mov ecx, [esp+0xc]
+    cmp byte [ecx+0x626+KL_PREST], 0
+    jne .tak
+    xor eax, eax
+.p: push eax
+    mov ecx, KL_PREST
+    call kit_nty
+    pop eax
+    test edx, edx
+    jz .nie
+    push eax
+    push dword [esp+0x10]
+    push edx
+    call pr_wpis
+    test eax, eax
+    pop eax
+    jnz .tak
+    inc eax
+    jmp .p
+.tak:
+    mov eax, 1
+    jmp .k
+.nie:
+    xor eax, eax
+.k: pop edx
+    pop ecx
+    ret 4
+
+; 0x5E8DB8 okno 54 ekranu awansu (wybor klasy): zamiast "mov esi, eax; neg esi; sbb esi, esi; neg esi"
+; [esp+0x10] = klasa przycisku, [esp+0xE94] = postac. Klasa 1: aktywna wedlug pr_dost (charakter barbarzyncy nie liczy sie).
+prest54:
+    mov esi, eax
+    neg esi
+    sbb esi, esi
+    neg esi
+    cmp byte [esp+0x10], KL_PREST
+    jne .k
+    push dword [esp+0xe94]
+    call pr_dost
+    mov esi, eax
+.k: test esi, esi
+    jmp 0x5e8dc0
+
+; okno 6 dla klasy 1 (wywoluje okno6_po; esi = okno, [esp+4] = postac): ukryj "bez podklasy" (2) i niespelnione podklasy
+prest6:
+    push ecx
+    push edx
+    push 2
+    call ukryj_id
+    xor ecx, ecx
+.p: push ecx
+    mov eax, ecx
+    mov ecx, KL_PREST
+    call kit_nty
+    pop ecx
+    test edx, edx
+    jz .k
+    lea eax, [ecx+3]
+    cmp eax, 10
+    ja .k
+    push ecx
+    push dword [esp+0x10]
+    push edx
+    call pr_wpis
+    pop ecx
+    test eax, eax
+    jnz .n
+    lea eax, [ecx+3]
+    push eax
+    call ukryj_id
+.n: inc ecx
+    jmp .p
+.k: pop edx
+    pop ecx
+    ret 4
+
+; 0x7647C2 kara PD za wieloklasowosc (petla po klasach, esi = klasa): klasa 1 (prestizowa) nie liczy sie
+xp_kara:
+    cmp esi, KL_PREST
+    je 0x7647ec
+    cmp esi, [esp+0x18]
+    je 0x7647ec
+    jmp 0x7647c8
+; 0x764764 (najwyzsza klasa do kary PD): klasa 1 pomijana
+xp_najw:
+    cmp esi, KL_PREST
+    je 0x764794
+    cmp esi, ebp
+    je 0x764794
+    push esi
+    mov ecx, ebx
+    jmp 0x76476b
+
 ;================================================================ kolumny podklas w tabelach klas (test29)
 ; kol_kitu(tabela, klasa, postac) -> eax = indeks kolumny o nazwie podklasy DS tej klasy (nazwa wiersza wpisu, np.
 ; BARBARIAN_F) albo -1 (brak podklasy / kolumny). stdcall, zachowuje ecx i edx.
@@ -974,6 +1275,10 @@ okno6_po:
     jmp .uk2
 .po:
     add esp, 4
+    cmp edi, KL_PREST
+    jne .k
+    push dword [esp+0x50]       ; postac (1. argument 0x5DA6E0)
+    call prest6
 .k: pop ebp
     pop edi
     pop esi
@@ -1057,6 +1362,8 @@ gotowe6:
     test eax, eax
     jnz .tak
     mov cl, [esi+0x106]
+    cmp cl, KL_PREST
+    je .o
     cmp cl, 0xb
     je .o
     cmp cl, 7
@@ -1402,6 +1709,15 @@ poziom_czaru:
 .k: ret 0xc
 
 ;================================================================ dane
+n_prest:    db 'DSPREST', 0
+n_level:    db 'LEVEL', 0
+n_bab:      db 'BAB', 0
+n_class:    db 'CLASS', 0
+n_clevel:   db 'CLASS_LEVEL', 0
+n_subclass: db 'SUBCLASS', 0
+align 4
+pr_w:       dd 0
+pr_k:       dd 0
 align 4
 opis_dom:   dd k_dom, n_listdomn, k_domres, DLPTR, DFLG, DPAR
 opis_spl:   dd k_spells, n_listspll, k_splres, SLPTR, SFLG, SPAR

@@ -88,6 +88,10 @@ HAKI4 = [
     # test29: kolumny podklas w tabelach klas (kolumna o nazwie podklasy, np. BARBARIAN_F)
     (0x763D26, "8d4dff4a3bc8", "call", "featclas", 1),           # FEATCLAS: premiowe atuty przy awansie
     (0x763DBA, "8d41ff3bc2", "call", "skillpts", 0),             # SKILLPTS: punkty umiejetnosci
+    # test30: slot 1 = klasy prestizowe (DSPREST.2DA)
+    (0x5E8DB8, "8bf0f7de1bf6f7de", "jmp", "prest54", 3),         # okno 54 awansu: przycisk klasy 1 wg warunkow
+    (0x7647C2, "3b7424187424", "jmp", "xp_kara", 1),             # kara PD za wieloklasowosc bez klasy 1
+    (0x764764, "3bf5742c568bcb", "jmp", "xp_najw", 2),           # najwyzsza klasa (kara PD) bez klasy 1
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy
@@ -217,7 +221,8 @@ def main():
     kod4, et4 = nasm(os.path.join(ASM, "kity.asm"), ORG4,
                      {"szukaj": et3["szukaj"], "wczytaj": et3["wczytaj"], "komorka": et["komorka"],
                       "tabela2da": et["tabela2da"], "tab_klasy": et["tab_klasy"], "liczba": et["liczba"],
-                      "prog_kl": et["prog"]})
+                      "prog_kl": et["prog"], "lv_wart": et3["lv_wart"], "lv_kl": et3["lv_kl"],
+                      "lv_poz": et3["lv_poz"]})
     if ORG4 + len(kod4) > ORG3 + SEKCJA_ROZM:
         sys.exit("kity.asm wychodzi poza sekcje")
     assert kod4[:8] == b"DSKITY02" and et4["kit_synt"]

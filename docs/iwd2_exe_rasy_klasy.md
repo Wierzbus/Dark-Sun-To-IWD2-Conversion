@@ -427,3 +427,20 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Barbarzyńca w kodzie (do slotu klas prestiżowych, test30): zmęczenie po szale < 20. poziomu (0x4A5C79), wymiana szału
   na 15. poziomie (0x5E5B22, 0x71E677); reszta (szybkość, Uncanny Dodge, CLAB, PW, BAB, rzuty) już z tabel.
 - Pozostałe tabele per klasa: SKILLS (reguły +0xD0) i FEATS (+0xAC) – kolumny klas i bóstw po indeksie, wiele miejsc.
+
+## 24. Klasy prestiżowe w slocie 1 (test30)
+- Okno 54 ekranu awansu (wybór klasy): pętla przycisków 2..12 w 0x5E8C18 (id → klasa tablicą 0x5E9468), aktywność
+  `0x544A60(klasa, charakter [postać+0x3E4B], kit 0)` (ALIGNMNT) + flagi upadłego paladyna / mnicha, SetActive 0x4D57C0.
+  Postać: [esp+0xE94]. Hak 0x5E8DB8 `prest54`: klasa 1 aktywna wg `pr_dost` (ma już poziomy klasy 1 albo spełnia
+  warunki którejś podklasy klasy 1).
+- `pr_wpis(wpis, postać)`: DSPREST.2DA (wczytywana po nazwie) – LEVEL (postać +0x966), BAB (suma `lv_wart` po klasach),
+  CLASS / CLASS_LEVEL (postać +0x626 + klasa), SUBCLASS (bajt klasy = nr + 1 wpisu o tej nazwie), potem charakter
+  `0x544A60(1, charakter, (nr + 1) << 24)` – wiersz podklasy w ALIGNMNT.
+- Okno 6 dla klasy 1 (`okno6_po` → `prest6`): przycisk 2 (bez podklasy) i niespełnione podklasy nieaktywne; `gotowe6`:
+  klasa 1 wymaga wyboru.
+- Kara PD 0x7646E0: pętle po klasach 0x764764 (najwyższa klasa, `xp_najw`) i 0x7647C2 (+20% za klasę o > 1 poziom niższą,
+  `xp_kara`) pomijają klasę 1.
+- Nazwa klasy 1: `mov esi, 0x22` pod 0x5442C1 – strref wpisuje WeiDU (komponent 2) = „Prestige Class”.
+- Kreator: GUICG okno 2, przycisk 2 (klasa 1) – szerokość i wysokość 0 (WeiDU).
+- Kod barbarzyńcy w exe zostaje: zmęczenie po szale (0x4A5C79, poziom klasy 1 < 20) i Greater Rage od 15. poziomu klasy 1
+  (0x5E5B22, 0x71E677).

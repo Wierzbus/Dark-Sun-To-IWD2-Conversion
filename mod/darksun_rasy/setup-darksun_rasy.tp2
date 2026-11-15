@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test29-2026-11-15~
+VERSION ~test30-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -210,7 +210,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   // kity: (nr wpisu, klasa, wiersz, CLAB, cyfry szesnastkowe nr + 1 dla KIT.IDS) => tra lower (mixed = +1, help = +2)
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_kity BEGIN
     0, 7,  PALADIN_DS,   CLABDS01, 01 => 201
-    1, 1,  BARBARIAN_DS, CLABDS02, 02 => 212
+    1, 1,  ARENA_CHAMP,  CLABDS02, 02 => 321
     2, 3,  CLERIC_DS,    CLABDS03, 03 => 221
     3, 5,  FIGHTER_DS,   CLABDS04, 04 => 231
     4, 8,  RANGER_DS,    CLABDS05, 05 => 241
@@ -221,11 +221,12 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     9, 11, WIZARD_DS,    CLABDS10, 0A => 291
     10, 3, CLERIC_DS2,   CLABDS11, 0B => 301
     11, 5, BARBARIAN_F,  CLABDS12, 0C => 311
+    12, 1, ARCH_DEFILER, CLABDS13, 0D => 331
   END
-  OUTER_SET ds_n_kitow = 12
+  OUTER_SET ds_n_kitow = 13
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
-    1 => 211
+    1 => 320
     2 => 260
     4 => 250
     5 => 230
@@ -277,6 +278,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~311~) = RESOLVE_STR_REF(@311)
   OUTER_SET $ds_str(~312~) = RESOLVE_STR_REF(@312)
   OUTER_SET $ds_str(~313~) = RESOLVE_STR_REF(@313)
+  OUTER_SET $ds_str(~320~) = RESOLVE_STR_REF(@320)
+  OUTER_SET $ds_str(~321~) = RESOLVE_STR_REF(@321)
+  OUTER_SET $ds_str(~322~) = RESOLVE_STR_REF(@322)
+  OUTER_SET $ds_str(~323~) = RESOLVE_STR_REF(@323)
+  OUTER_SET $ds_str(~331~) = RESOLVE_STR_REF(@331)
+  OUTER_SET $ds_str(~332~) = RESOLVE_STR_REF(@332)
+  OUTER_SET $ds_str(~333~) = RESOLVE_STR_REF(@333)
   // UWAGA: COPY - zapamietuje bufor jako plik "inlined" pod nazwa CELU i kazdy pozniejszy COPY tej nazwy czyta go
   // z pamieci, nie z dysku (az do konca instalacji). Dlatego cel sprawdzenia to *_spr.tmp, nigdy sam exe -
   // inaczej nastepne komponenty nadpisywaly exe stara kopia (pusta tabela podklas w test26).
@@ -307,6 +315,11 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
             WRITE_LONG (0x4D0040 + 4 * k_0) help
           END
           WRITE_LONG (0x4CE000 + 32 * ds_n_kitow) 0
+          // test30: klasa 1 = "Prestige Class" (0x5442C1: mov esi, strref nazwy klasy 1 - karta postaci, przyciski)
+          PATCH_IF (BYTE_AT 0x1442C1 = 0xBE) BEGIN
+            SET ds_np = $ds_str(~320~)
+            WRITE_LONG 0x1442C2 ds_np
+          END
           PHP_EACH ds_nok AS kl => tra BEGIN
             SET t = $ds_str(~%tra%~)
             WRITE_LONG (0x4D0000 + 4 * kl) t
@@ -354,6 +367,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_wiersz_kitu STR_VAR wiersz = ~WIZARD_DS~   wzor = ~WIZARD~   END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS2~  wzor = ~CLERIC~   END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_F~ wzor = ~BARBARIAN~ END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~ARENA_CHAMP~ wzor = ~FIGHTER~   END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCH_DEFILER~ wzor = ~WIZARD~   END
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -376,6 +391,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~WIZARD_DS~    wzor = ~WIZARD~    END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS2~   wzor = ~CLERIC~    END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_F~  wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~ARENA_CHAMP~  wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCH_DEFILER~ wzor = ~BARBARIAN~ END
     END
   END
 
@@ -478,8 +495,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   // Kopia tablicy klasy bazowej + testowa zdolnosc na 1. poziomie (wolny wiersz ABILITYn, kolumna 1).
   COPY_EXISTING ~CLABPA01.2da~ ~override/CLABDS01.2da~   // zakon templariuszy: Prayer
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN209~ END
-  COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS02.2da~   // barbarzynca atasyjski: Ilmater's Endurance
-    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN267~ END
+  // CLABDS02 (od test30): klasa prestizowa Arena Champion (dawniej barbarzynca atasyjski) - plik paczki
+  COPY ~darksun_rasy/2da/CLABDS02.2DA~ ~override~
   COPY_EXISTING ~CLABPR01.2da~ ~override/CLABDS03.2da~   // kaplan ziemi: Tempus' Strength
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN264~ END
   COPY_EXISTING ~CLABFI01.2da~ ~override/CLABDS04.2da~   // gladiator: Maximized Attacks
@@ -500,6 +517,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN267~ END
   // barbarzynca jako podklasa wojownika (test29): tablica barbarzyncy (szal, od test19 tez szybkosc AP_DSBBNMV)
   COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS12.2da~
+  // klasy prestizowe (test30, slot 1 = dawny barbarzynca): CLAB w paczce; warunki wejscia w DSPREST.2DA
+  COPY ~darksun_rasy/2da/CLABDS13.2DA~ ~override~
+  // DSPREST.2DA: wiersz = podklasa klasy 1 (klasa prestizowa); LEVEL - poziom postaci, BAB - suma premii do ataku klas,
+  // CLASS / CLASS_LEVEL - wymagana klasa (1..11) i jej poziom, SUBCLASS - wymagana podklasa DS (wiersz z tabeli podklas).
+  // 0 / * = bez warunku. Charakter: wiersz podklasy w ALIGNMNT. Exe: przycisk klasy 1 przy awansie aktywny, gdy postac
+  // ma juz klase prestizowa albo spelnia warunki ktorejs; w oknie wyboru tylko spelnione. W kreatorze klasa 1 ukryta.
+  COPY ~darksun_rasy/2da/DSPREST.2DA~ ~override~
 
   // --- 5. Kolumny podklas w tabelach klas (test29, exe: kity.asm kol_kitu) ---
   // FEATCLAS (premiowe atuty, wiersz = poziom klasy) i SKILLPTS (punkty umiejetnosci): gdy tabela ma kolumne o nazwie
@@ -554,6 +578,26 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   COPY_EXISTING ~GUICG.CHU~ ~override~
     LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 9  wzor_pop = 8 nowe_id = 14 RET dodano = dodano END
     LPF ds_chu_przycisk INT_VAR okno = 12 wzor = 14 wzor_pop = 9 nowe_id = 15 RET dodano = dodano END
+    // test30: kreator - przycisk klasy 1 (okno 2, id 2; klasa prestizowa) ukryty: szerokosc i wysokosc 0
+    READ_LONG 0x08 ds_nw
+    READ_LONG 0x0c ds_co
+    READ_LONG 0x10 ds_wo
+    FOR (ds_w = 0; ds_w < ds_nw; ++ds_w) BEGIN
+      READ_SHORT (ds_wo + ds_w * 28) ds_wid
+      PATCH_IF (ds_wid = 2) BEGIN
+        READ_SHORT (ds_wo + ds_w * 28 + 14) ds_nc
+        READ_SHORT (ds_wo + ds_w * 28 + 24) ds_fc
+        FOR (ds_c = ds_fc; ds_c < ds_fc + ds_nc; ++ds_c) BEGIN
+          READ_LONG (ds_co + ds_c * 8) ds_off
+          READ_SHORT ds_off ds_cid
+          READ_BYTE (ds_off + 12) ds_typ
+          PATCH_IF ((ds_cid = 2) AND (ds_typ = 0)) BEGIN
+            WRITE_SHORT (ds_off + 8) 0
+            WRITE_SHORT (ds_off + 10) 0
+          END
+        END
+      END
+    END
   // GUIREC.CHU (ekran awansu): przyciski 14 i 15 w oknie 6 (wybor podklasy przy nowej klasie) - kopie przycisku 10,
   // y +30 i +60 (pod przyciskiem 10 jest miejsce tylko na dwa). Uzywa ich kaplan i czarodziej; inne klasy - ukryte.
   COPY_EXISTING ~GUIREC.CHU~ ~override~

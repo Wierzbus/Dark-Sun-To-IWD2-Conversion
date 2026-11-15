@@ -24,3 +24,5 @@ ROGUE_DS      HPROG     BAATNFG   SAVEROG   *         *
 WIZARD_DS     HPWIZ     BAATMAG   SAVEWIZ   *         *
 CLERIC_DS2    HPPRS     BAATNFG   SAVEPRS   *         *
 BARBARIAN_F   HPBARB    BAATFGT   SAVEWAR   *         *
+ARENA_CHAMP   HPWAR     BAATFGT   SAVEWAR   *         *
+ARCH_DEFILER  HPWIZ     BAATMAG   SAVEWIZ   *         *

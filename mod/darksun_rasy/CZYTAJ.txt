@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test29: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test30: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -96,3 +96,23 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - gladiator i zwykly wojownik bez zmian (atuty co 2 poziomy).
      Znane ograniczenia: umiejetnosci klasowe (SKILLS.2DA) i dostepne atuty (FEATS.2DA) - jak wojownik; kara za ciezka
      zbroje do szybkosci dziala tylko dla klasy barbarzyncy (efekt w ITM po CLASS) - nastepne rundy.
+ test30: slot klasy 1 (dawny barbarzynca) = "Prestige Class". Klasa prestizowa = podklasa klasy 1, warunki wejscia
+     w DSPREST.2DA (poziom postaci, suma BAB, wymagana klasa i jej poziom, wymagana podklasa DS; charakter z ALIGNMNT).
+     - kreator: przycisk klasy 1 ukryty (barbarzynca jest teraz podklasa wojownika "Barbarian Warrior"),
+     - awans: przycisk "Prestige Class" aktywny, gdy postac spelnia warunki ktorejs klasy prestizowej (albo juz ja ma);
+       w oknie wyboru tylko spelnione, bez opcji "bez podklasy"; Dalej dopiero po wyborze,
+     - kara PD za wieloklasowosc nie liczy klasy prestizowej,
+     - testowe klasy: Arena Champion (poziom postaci 5, BAB +5, Gladiator 5; k10, BAB i rzuty wojownika, Called Shot),
+       Arch-Defiler (poziom postaci 7, czarodziej 7; k4, BAB i rzuty czarodzieja, Spell Shield; bez wlasnych czarow).
+     Atasyjski barbarzynca (podklasa klasy 1) usuniety - jego miejsce w tabeli zajal Arena Champion.
+     Reinstall: 0 i potem 1-5. Postacie z poprzednich testow stworz od nowa. Testy 2DA: testy_2da_test30.
+     Sprawdzic:
+     - kreator: brak przycisku barbarzyncy, pozostale klasy bez zmian,
+     - gladiator do 5. poziomu (Ctrl+U): przy awansie na 6. przycisk Prestige Class aktywny, w oknie tylko Arena Champion;
+       zwykly wojownik 5 - przycisk nieaktywny,
+     - po wyborze: karta "Arena Champion: 1 (d10, BAB +1)", Called Shot w zdolnosciach; nastepny awans klasy
+       prestizowej bez okna wyboru,
+     - kara PD (karta, Multiclassing Penalty): gladiator 5 + Arena Champion 1 - brak kary,
+     - czarodziej 7: Arch-Defiler dostepny.
+     Znane ograniczenia: szal/wymiana na Greater Rage w exe nadal patrzy na poziom klasy 1 (dopiero od 15. poziomu klasy
+     prestizowej); jedna klasa prestizowa na postac; bez warunkow atutow i umiejetnosci (nastepna runda).
