@@ -92,6 +92,10 @@ HAKI4 = [
     (0x5E8DB8, "8bf0f7de1bf6f7de", "jmp", "prest54", 3),         # okno 54 awansu: przycisk klasy 1 wg warunkow
     (0x7647C2, "3b7424187424", "jmp", "xp_kara", 1),             # kara PD za wieloklasowosc bez klasy 1
     (0x764764, "3bf5742c568bcb", "jmp", "xp_najw", 2),           # najwyzsza klasa (kara PD) bez klasy 1
+    # test31: szal barbarzyncy z DSKLASY (GREATER_RAGE, TIRELESS_RAGE) zamiast poziomu klasy 1
+    (0x4A5C71, "6a018d8b20090000e8121dfaff83f8140f8d09010000", "jmp", "szal_zmecz", 17),
+    (0x71E66F, "6a018d8e20090000e81493d2ff83f80f7c1a6a018bcbe80693d2ff83f80f7d0c", "jmp", "szal_atut", 27),
+    (0x5E5B1A, "6a018d8d20090000e8691ee6ff83f80f0f8c24060000", "jmp", "szal_awans", 17),
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy

@@ -444,3 +444,10 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Kreator: GUICG okno 2, przycisk 2 (klasa 1) – szerokość i wysokość 0 (WeiDU).
 - Kod barbarzyńcy w exe zostaje: zmęczenie po szale (0x4A5C79, poziom klasy 1 < 20) i Greater Rage od 15. poziomu klasy 1
   (0x5E5B22, 0x71E677).
+
+## 25. Szał barbarzyńcy bez klasy 1 (test31)
+- 0x4A5C71 `szal_zmecz` (zmęczenie po szale; oryginał: klasa 1 < 20 → zmęczenie), 0x71E66F `szal_atut` (atut Extra Rage:
+  SPIN260 gdy klasa 1 ≥ 15 teraz i < 15 przed awansem, inaczej SPIN236), 0x5E5B1A `szal_awans` (awans: zamiana szału na
+  Greater Rage od klasy 1 ≥ 15). Teraz `zdol(wiersz, postać)` (kity.asm): któraś klasa (poziom ze statystyk +0x920)
+  osiąga próg z DSKLASY – wiersz 6 GREATER_RAGE, 7 TIRELESS_RAGE, kolumna klasy albo podklasy (`prog_p`). Brak wiersza
+  → oryginał.

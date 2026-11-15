@@ -7,3 +7,5 @@ UNCANNY_FLANK  0    0    0    0    0    0    0    0    6    0    0    5
 SNEAK_ATTACK   0    0    0    0    0    0    0    0    1    0    0    0
 FAVORED_ENEMY  0    0    0    0    0    0    0    1    0    0    0    0
 AURA_COURAGE   0    0    0    0    0    0    2    0    0    0    0    0
+GREATER_RAGE   0    0    0    0    0    0    0    0    0    0    0    15
+TIRELESS_RAGE  0    0    0    0    0    0    0    0    0    0    0    20

@@ -985,6 +985,108 @@ xp_najw:
     mov ecx, ebx
     jmp 0x76476b
 
+;================================================================ szal barbarzyncy bez klasy 1 (test31)
+; Exe liczyl zmeczenie po szale i Greater Rage z poziomu klasy 1 (barbarzynca). Teraz z DSKLASY: wiersz 6 GREATER_RAGE
+; (od tego poziomu klasy szal = Greater Rage, oryginal 15), wiersz 7 TIRELESS_RAGE (bez zmeczenia, oryginal 20);
+; kolumna klasy albo podklasy (np. BARBARIAN_F). Bez tych wierszy w DSKLASY - zachowanie oryginalne (klasa 1).
+W_GREATER equ 6
+W_TIRELESS equ 7
+
+; zdol(wiersz, postac) -> eax = 1 gdy ktoras klasa postaci (poziom ze statystyk +0x920) osiaga prog z DSKLASY,
+; 0 gdy nie, -1 gdy brak wiersza / tabeli. stdcall, zachowuje rejestry poza eax.
+zdol:
+    push ebx
+    push ecx
+    push edx
+    push esi
+    xor esi, esi
+    mov ebx, 1
+.p: push dword [esp+0x18]       ; postac
+    push ebx
+    push dword [esp+0x1c]       ; wiersz
+    call prog_p
+    cmp eax, -1
+    je .k
+    test eax, eax
+    jle .n
+    mov edx, eax
+    push ebx
+    mov ecx, [esp+0x1c]
+    add ecx, 0x920
+    call 0x447990               ; poziom klasy
+    cmp eax, edx
+    jl .n
+    mov esi, 1
+.n: inc ebx
+    cmp ebx, 11
+    jle .p
+    mov eax, esi
+.k: pop esi
+    pop edx
+    pop ecx
+    pop ebx
+    ret 8
+
+; 0x4A5C71 zmeczenie po szale (ebx = postac): bez zmeczenia, gdy TIRELESS_RAGE; oryginal: klasa 1 >= 20
+szal_zmecz:
+    push ebx
+    push W_TIRELESS
+    call zdol
+    cmp eax, -1
+    je .oryg
+    test eax, eax
+    jg 0x4a5d90
+    jmp 0x4a5c87
+.oryg:
+    push 1
+    lea ecx, [ebx+0x920]
+    call 0x447990
+    cmp eax, 0x14
+    jge 0x4a5d90
+    jmp 0x4a5c87
+
+; 0x71E66F atut Extra Rage (esi = postac, ebx = stare statystyki): dodatkowe uzycia Greater Rage (SPIN260) albo szalu
+; (SPIN236). Z tabela: Greater Rage, gdy GREATER_RAGE; oryginal: klasa 1 >= 15 teraz i < 15 wczesniej
+szal_atut:
+    push esi
+    push W_GREATER
+    call zdol
+    cmp eax, -1
+    je .oryg
+    test eax, eax
+    jg 0x71e68f
+    jmp 0x71e69b
+.oryg:
+    push 1
+    lea ecx, [esi+0x920]
+    call 0x447990
+    cmp eax, 0xf
+    jl 0x71e69b
+    push 1
+    mov ecx, ebx
+    call 0x447990
+    cmp eax, 0xf
+    jge 0x71e69b
+    jmp 0x71e68f
+
+; 0x5E5B1A awans (ebp = postac): zamiana szalu na Greater Rage. Z tabela: gdy GREATER_RAGE; oryginal: klasa 1 >= 15
+szal_awans:
+    push ebp
+    push W_GREATER
+    call zdol
+    cmp eax, -1
+    je .oryg
+    test eax, eax
+    jle 0x5e6154
+    jmp 0x5e5b30
+.oryg:
+    push 1
+    lea ecx, [ebp+0x920]
+    call 0x447990
+    cmp eax, 0xf
+    jl 0x5e6154
+    jmp 0x5e5b30
+
 ;================================================================ kolumny podklas w tabelach klas (test29)
 ; kol_kitu(tabela, klasa, postac) -> eax = indeks kolumny o nazwie podklasy DS tej klasy (nazwa wiersza wpisu, np.
 ; BARBARIAN_F) albo -1 (brak podklasy / kolumny). stdcall, zachowuje ecx i edx.

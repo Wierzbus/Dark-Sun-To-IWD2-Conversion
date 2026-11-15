@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test30: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test31: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -116,3 +116,13 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - czarodziej 7: Arch-Defiler dostepny.
      Znane ograniczenia: szal/wymiana na Greater Rage w exe nadal patrzy na poziom klasy 1 (dopiero od 15. poziomu klasy
      prestizowej); jedna klasa prestizowa na postac; bez warunkow atutow i umiejetnosci (nastepna runda).
+ test31: szal barbarzyncy niezalezny od klasy 1. Exe liczyl z poziomu klasy 1 (dawny barbarzynca): zamiane szalu
+     na Greater Rage (15. poziom), Greater Rage z atutu Extra Rage (15.) i brak zmeczenia po szale (20.). Teraz progi
+     w DSKLASY: wiersze GREATER_RAGE i TIRELESS_RAGE (kolumna klasy albo podklasy; Barbarian Warrior 15 i 20,
+     klasa 1 = 0). Bez tych wierszy (stary DSKLASY) - zachowanie oryginalne.
+     Reinstall: 0 i potem 1-5.
+     Sprawdzic:
+     - Barbarian Warrior: szal na 1. poziomie, po szale zmeczenie (jak barbarzynca ponizej 20.),
+     - Barbarian Warrior 15 (Ctrl+U): szal zamieniony na Greater Rage; 20: bez zmeczenia po szale,
+     - atut Extra Rage u Barbarian Warrior 15+: dodatkowe uzycia Greater Rage,
+     - klasa prestizowa 15+: bez Greater Rage.
