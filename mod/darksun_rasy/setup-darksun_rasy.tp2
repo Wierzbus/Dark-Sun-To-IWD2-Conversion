@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test26-2026-11-15~
+VERSION ~test27-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -644,3 +644,16 @@ BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do atak
       WRITE_ASCIIE 0 ~%ds_out%~
     END
   BUT_ONLY
+
+BEGIN ~TEST: kody gry - Cheats=1 w icewind2.ini (konsola Ctrl+Tab)~ DESIGNATED 6
+  // Konsola: Ctrl+Tab, np. ctrlaltdelete:enablecheatkeys() -> Ctrl+U dodaje doswiadczenie.
+  // Odinstalowanie przywraca icewind2.ini sprzed instalacji (takze inne ustawienia zmienione w miedzyczasie).
+  ACTION_IF NOT FILE_EXISTS ~icewind2.ini~ BEGIN
+    FAIL ~Nie znaleziono icewind2.ini - uruchom gre (albo Config.exe) raz, zeby go utworzyla.~
+  END
+  COPY ~icewind2.ini~ ~icewind2.ini~
+    REPLACE_TEXTUALLY ~^Cheats=[0-9]*~ ~Cheats=1~
+    COUNT_REGEXP_INSTANCES ~^Cheats=1~ ds_ch
+    PATCH_IF (ds_ch = 0) BEGIN
+      REPLACE_TEXTUALLY ~^\[Game Options\]~ ~[Game Options]%WNL%Cheats=1~
+    END

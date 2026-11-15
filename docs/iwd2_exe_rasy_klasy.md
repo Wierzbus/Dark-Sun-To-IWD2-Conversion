@@ -388,3 +388,14 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   jest jedyną, a `kit_awans` przy awansie stawia podklasę kapłana na miejsce wcześniejszej (i nie zmienia jej potem). Przy
   awansie, w którym postać dobiera kapłana DS, `[+0x846]` ma już wybraną podklasę kapłana. Domeny są więc zawsze właściwe.
 - Znane ograniczenie: `Kit()` w skryptach widzi tylko „główną” podklasę DS (u postaci z podklasą kapłana – kapłana).
+
+## 21. Nazwa podklasy DS na karcie postaci (test27)
+- `0x544120` (thiscall, `ret 0x14`): nazwa klasy do wyświetlenia – argumenty (klasa, kit, flagi CRE 0x10, &CString,
+  płeć). Prefiks z kitu (`kit & 0x7FC0`), potem skok po klasie 0x5444CC (kapłan po bóstwie `kit & 0xFF8000`).
+  Hak 0x5442A7 `nazwa_kl`: gdy starszy bajt kitu wskazuje wpis tabeli KITY tej klasy, nazwa = strref +4 wpisu
+  (etykieta przycisku), dalej jak gra od 0x54446E. Wywołania: 0x5DCB37 i 0x5DCC4B (karta postaci: Levels,
+  Favored Class), 0x5DD7CA, 0x5F115E, 0x5F5079, 0x611364, 0x619089, 0x64E1ED, 0x663F3D, 0x669DFC.
+- Karta postaci, sekcja Levels: pętla klas 1..11 w 0x5DCAFA (ebx = postać, kit z 0x728570). Hak 0x5DCB31 `karta_kl`
+  podaje `kit_synt(postać, klasa, kit)`, więc każda klasa wieloklasowca ma nazwę swojej podklasy DS.
+  Pozostałe wywołania znają tylko pole kitu (główna podklasa DS).
+- `KITLIST` jest czytany przez 0x621900 tylko dla opisu (kolumna HELP), nie dla nazwy.

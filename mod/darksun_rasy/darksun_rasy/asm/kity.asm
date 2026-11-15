@@ -682,6 +682,45 @@ klist_kit:
     mov esi, eax
     ret
 
+;================================================================ nazwa klasy z podklasa (0x544120, karta postaci, portrety, awans)
+; 0x5442A7 (zamiast "and ebx, 0xff; lea eax, [ebx-1]"): ebx = klasa, ebp = kit, na stosie ebx z 0x5441FA.
+; Podklasa DS tej klasy (starszy bajt kitu) -> esi = strref nazwy podklasy (+4 wpisu), dalej jak gra (0x54446E).
+nazwa_kl:
+    and ebx, 0xff
+    push ecx
+    push edx
+    mov eax, ebp
+    mov cl, bl
+    call kit_wpis
+    test edx, edx
+    jz .nie
+    mov eax, [edx+4]
+    test eax, eax
+    jle .nie
+    mov esi, eax
+    pop edx
+    pop ecx
+    pop ebx
+    jmp 0x54446E
+.nie:
+    pop edx
+    pop ecx
+    lea eax, [ebx-1]
+    jmp 0x5442B0
+
+; 0x5DCB31 karta postaci, sekcja Levels (zamiast "push ecx; mov ecx, [esp+0x24]"): ecx = kit, edx = klasa,
+; ebx = postac -> kit z podklasa DS tej klasy (bajt klasy), wiec kazda klasa wieloklasowca ma swoja nazwe.
+karta_kl:
+    push edx
+    push ecx
+    push edx
+    push ebx
+    call kit_synt
+    pop edx
+    push eax
+    mov ecx, [esp+0x24]
+    jmp 0x5DCB36
+
 ;================================================================ ekran awansu (obiekt gry +0x1C60, GUIREC.CHU), okno 6 = wybor podklasy
 ; ukryj_id(id): SetActive(0) przycisku okna esi. stdcall, zachowuje rejestry poza eax
 ukryj_id:

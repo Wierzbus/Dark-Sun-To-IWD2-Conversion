@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test26: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test27: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -59,3 +59,11 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - po dobraniu lotrzyka DS: zdolnosc Invisibility (CLABDS09) na 1. poziomie lotrzyka; gladiator z kreatora dalej ma swoje,
      - anulowanie awansu przywraca postac bez nowej podklasy,
      - zapis i wczytanie gry: podklasy zostaja (karta postaci, kolejny awans).
+ test27: nazwa podklasy DS zamiast nazwy klasy (karta postaci - sekcja Levels i Favored Class, portrety, awans),
+     przy wieloklasowosci kazda klasa ze swoja podklasa. Komponent 6: Cheats=1 w icewind2.ini.
+     Reinstall: 0 i potem 1, 2, 3, 4, 5 (exe sie zmienil); 6 wedlug uznania. Poprawka instalatora: COPY - nie
+     podmienia juz exe stara kopia (pusta tabela podklas w test26).
+     Sprawdzic:
+     - karta postaci z podklasa DS: "Athasian Rogue: 1" itp. zamiast "Rogue: 1"; bez podklasy - nazwa klasy jak dotad,
+     - wieloklasowiec z podklasami DS dwoch klas: obie nazwy w Levels,
+     - kody: Ctrl+Tab, ctrlaltdelete:enablecheatkeys(), potem Ctrl+U = doswiadczenie -> awans.

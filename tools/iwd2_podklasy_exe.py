@@ -85,6 +85,9 @@ HAKI4 = [
     (0x5ED913, "6a00686c638a00", "jmp", "pomoc6", 2),            # opis podklasy po kliknieciu
     (0x5E2089, "8a8e0601000033c0", "jmp", "gotowe6", 3),         # Gotowe okna 6
     (0x5E2E39, "8b8d460800008b857c0700000bc18b4c241089810c080000", "jmp", "kit_awans", 19),  # zatwierdzenie podklasy
+    # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
+    (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
+    (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy
 ]
 # maski szkol czarodzieja 0x7FC0 -> 0xFF007FC0 (bit podklasy DS przy kliknieciu w oknie 12 i przy Gotowe)
 MASKI_MAG = [0x61CEE9, 0x615CED]
