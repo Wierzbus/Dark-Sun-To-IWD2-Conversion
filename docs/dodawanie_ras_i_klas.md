@@ -312,6 +312,7 @@ wiersz w DSKLPROG (PW / BAB / rzuty), CLABDSnn, wiersz w ALIGNMNT (charakter) i 
 | `FEAT1`..`FEAT3` | wymagane atuty (FEATS.IDS, np. 16 DODGE, 69 TOUGHNESS) |
 | `SKILL1`/`RANK1`, `SKILL2`/`RANK2` | umiejętność (SKILLS.IDS 0..15, np. 6 Hide, 9 Move_Silently) i minimalna liczba rang |
 | `ARCANE` | minimalna suma poziomów barda, zaklinacza i czarodzieja |
+| `SPELLCLASS` | (test34) klasa 2..11, której miejsca na czary rosną z każdym poziomem klasy prestiżowej (0 = brak) |
 
 W kreatorze klasa 1 jest ukryta; przy awansie przycisk „Prestige Class” jest aktywny, gdy postać ma już klasę
 prestiżową poniżej MAX_LEVEL albo spełnia warunki którejś z nich (okno wyboru pokazuje tylko spełnione). Jedna klasa

@@ -684,6 +684,106 @@ klist_kit:
     mov esi, eax
     ret
 
+;================================================================ czary klas prestizowych (test34)
+; DSPREST.2DA kolumna SPELLCLASS (klasa 2..11): kazdy poziom klasy prestizowej liczy sie jak poziom tej klasy przy
+; miejscach na czary (MXSPLxxx, 0x5431E0) i przy najwyzszym kregu czarow kaplana / druida przy awansie (0x71EB3B).
+CTX_R     equ 0xA22F18          ; postac z ostatniego liczenia rzutow / PW (rasy.asm)
+
+; pr_czar(statystyki, klasa) -> eax = poziomy klasy prestizowej doliczane do tej klasy (0 gdy brak). stdcall
+pr_czar:
+    push ebx
+    push ecx
+    push edx
+    push esi
+    push edi
+    mov esi, [esp+0x18]         ; statystyki (poziom klasy k pod +0x46 + k)
+    xor edi, edi
+    test esi, esi
+    jz .k
+    movzx edi, byte [esi+0x46+KL_PREST]
+    test edi, edi
+    jz .k
+    ; postac: statystyki w postaci (+0x920 albo +0x1778), inaczej ostatnia postac z CTX (ekran awansu)
+    lea ebx, [esi-0x920]
+    cmp dword [ebx], 0x85bdd4
+    je .p
+    lea ebx, [esi-0x1778]
+    cmp dword [ebx], 0x85bdd4
+    je .p
+    mov ebx, [CTX_R]
+    test ebx, ebx
+    jz .zero
+    cmp dword [ebx], 0x85bdd4
+    jne .zero
+.p: movzx edx, byte [ebx+BAJTY+KL_PREST-1]
+    test edx, edx
+    jz .zero
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    push edx
+    push n_prest
+    call wczytaj
+    pop edx
+    test eax, eax
+    jz .zero
+    cmp word [eax+0x22], 0
+    jle .zero
+    mov esi, eax
+    push 0
+    lea ecx, [edx+8]
+    push ecx
+    push esi
+    call szukaj
+    cmp eax, -1
+    je .zero
+    push n_spellcl
+    push eax
+    push esi
+    call pr_wart
+    cmp eax, [esp+0x1c]         ; klasa
+    je .k
+.zero:
+    xor edi, edi
+.k: mov eax, edi
+    pop edi
+    pop esi
+    pop edx
+    pop ecx
+    pop ebx
+    ret 8
+
+; zamiast "call 0x447990" (poziom klasy, thiscall ecx = statystyki, [esp+4] = klasa) w miejscach liczenia czarow
+cz_lvl:
+    push ecx
+    push dword [esp+8]
+    call 0x447990
+    pop ecx
+    push eax
+    push dword [esp+8]
+    push ecx
+    call pr_czar
+    pop ecx
+    add eax, ecx
+    ret 4
+
+; zamiast "call 0x447950" (suma poziomow klas z maski, [esp+4] = maska): kaplan (4) i druid (8)
+cz_maska:
+    push ecx
+    push dword [esp+8]
+    call 0x447950
+    pop ecx
+    push eax
+    mov eax, [esp+8]
+    bsf eax, eax
+    inc eax                     ; klasa = bit + 1
+    push eax
+    push ecx
+    call pr_czar
+    pop ecx
+    add eax, ecx
+    ret 4
+
 ;================================================================ klasy prestizowe: slot 1 (dawny barbarzynca), test30
 ; DSPREST.2DA: wiersz = nazwa podklasy klasy 1, kolumny LEVEL (poziom postaci), BAB (suma premii do ataku klas),
 ; CLASS (klasa 1..11) i CLASS_LEVEL (jej poziom), SUBCLASS (nazwa wiersza podklasy DS, ktora postac musi miec, * = dowolna).
@@ -1943,6 +2043,7 @@ n_skill2:   db 'SKILL2', 0
 n_rank1:    db 'RANK1', 0
 n_rank2:    db 'RANK2', 0
 n_arcane:   db 'ARCANE', 0
+n_spellcl:  db 'SPELLCLASS', 0
 align 4
 n_featy:    dd n_feat1, n_feat2, n_feat3
 n_umiej:    dd n_skill1, n_skill2

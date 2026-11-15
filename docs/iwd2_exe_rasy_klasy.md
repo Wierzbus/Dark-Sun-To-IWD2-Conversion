@@ -462,3 +462,15 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   (jak 0x763E40); `ARCANE` – suma bajtów poziomów klas 2 (bard), 10 (zaklinacz), 11 (czarodziej) (+0x626 + klasa).
 - Defensive Stance: kopia SPIN236 (szał) – opcode 440 (szał barbarzyńcy, po nim zmęczenie `EffBBR` w 0x4A5C60)
   zamieniony na 33 (Wytrwałość), 288 na 34 (Refleks), więc bez zmęczenia.
+
+## 28. Czary klas prestiżowych – SPELLCLASS (test34)
+- 0x5431E0 (thiscall reguły; argumenty: &klasa, cechy postaci +0x3E36, statystyki, kit, krąg, &premia) = liczba miejsc
+  na czary kręgu: MXSPLxxx[poziom klasy][krąg] (reguły +0x454 BRD, +0x478 CLR, +0x49C DRD, +0x4C0 PAL, +0x4E4 RGR,
+  +0x508 SOR, +0x52C WIZ) i premia MXSPLBON (+0x5BC). Poziom: 0x447990(klasa) – bard, zaklinacz, paladyn, tropiciel,
+  czarodziej; 0x447950(maska) – kapłan (4), druid (8). Wywołania m.in. 0x71C144 (przeliczenie miejsc), karta, kreator, awans.
+- 0x547130(&klasa, &poziom) = najwyższy krąg dla poziomu klasy; poziom z 0x447990 w 0x71EB3B (awans: czary kapłana /
+  druida), 0x716806 (domeny), 0x5E62B1 (awans kapłana).
+- Haki (kity.asm): `cz_lvl` / `cz_maska` zamiast tych wywołań – poziom + `pr_czar(statystyki, klasa)`: poziomy klasy 1
+  (statystyki +0x47), gdy podklasa klasy 1 postaci ma w DSPREST `SPELLCLASS` = klasa. Postać ze statystyk (+0x920 / +0x1778,
+  vtable 0x85BDD4), inaczej z CTX (0xA22F18, ekran awansu).
+- Nie ruszane: poziom rzucającego przy rzucaniu, okna wyboru czarów zaklinacza / barda przy awansie.

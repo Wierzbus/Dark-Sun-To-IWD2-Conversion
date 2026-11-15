@@ -96,6 +96,17 @@ HAKI4 = [
     (0x4A5C71, "6a018d8b20090000e8121dfaff83f8140f8d09010000", "jmp", "szal_zmecz", 17),
     (0x71E66F, "6a018d8e20090000e81493d2ff83f80f7c1a6a018bcbe80693d2ff83f80f7d0c", "jmp", "szal_atut", 27),
     (0x5E5B1A, "6a018d8d20090000e8691ee6ff83f80f0f8c24060000", "jmp", "szal_awans", 17),
+    # test34: czary klas prestizowych (DSPREST SPELLCLASS) - poziom klasy rzucajacej + poziomy klasy prestizowej
+    (0x5432E3, "e8a846f0ff", "call", "cz_lvl", 0),               # 0x5431E0 miejsca na czary: bard
+    (0x543372, "e81946f0ff", "call", "cz_lvl", 0),               # zaklinacz
+    (0x54351B, "e87044f0ff", "call", "cz_lvl", 0),               # paladyn
+    (0x5435A8, "e8e343f0ff", "call", "cz_lvl", 0),               # tropiciel
+    (0x543637, "e85443f0ff", "call", "cz_lvl", 0),               # czarodziej
+    (0x543400, "e84b45f0ff", "call", "cz_maska", 0),             # kaplan (maska 4)
+    (0x54348E, "e8bd44f0ff", "call", "cz_maska", 0),             # druid (maska 8)
+    (0x71EB3B, "e8508ed2ff", "call", "cz_lvl", 0),               # awans: najwyzszy krag czarow kaplana / druida
+    (0x716806, "e88511d3ff", "call", "cz_lvl", 0),               # domeny kaplana: najwyzszy krag
+    (0x5E62B1, "e8da16e6ff", "call", "cz_lvl", 0),               # awans kaplana: domeny
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy

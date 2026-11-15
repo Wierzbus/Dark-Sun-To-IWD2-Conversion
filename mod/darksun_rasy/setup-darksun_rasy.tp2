@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test33-2026-11-15~
+VERSION ~test34-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -570,6 +570,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   // Od test33: RACE (RACE.IDS 1..7), FEAT1..FEAT3 (FEATS.IDS, np. 16 DODGE, 69 TOUGHNESS), SKILL1/RANK1 i SKILL2/RANK2
   // (SKILLS.IDS 0..15 i minimalna liczba rang, np. 6 Hide, 9 Move_Silently), ARCANE (suma poziomow barda, zaklinacza
   // i czarodzieja). 0 = bez warunku.
+  // Od test34: SPELLCLASS (klasa 2..11) - kazdy poziom klasy prestizowej liczy sie jako poziom tej klasy przy miejscach
+  // na czary (MXSPLxxx) i przy najwyzszym kregu czarow kaplana / druida (+1 poziom istniejacej klasy rzucajacej z SRD).
   // 0 / * = bez warunku. Charakter: wiersz podklasy w ALIGNMNT. Exe: przycisk klasy 1 przy awansie aktywny, gdy postac
   // ma juz klase prestizowa albo spelnia warunki ktorejs; w oknie wyboru tylko spelnione. W kreatorze klasa 1 ukryta.
   COPY ~darksun_rasy/2da/DSPREST.2DA~ ~override~
