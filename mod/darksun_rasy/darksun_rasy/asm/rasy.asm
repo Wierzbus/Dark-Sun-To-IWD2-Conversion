@@ -827,6 +827,245 @@ bab_mnich:
     pop eax
     ret
 
+;================================================================ karta postaci (test28)
+STR_RAS   equ 0xA25030          ; 4 strrefy (WeiDU, komponent 4): bron miotana, "trafienie przeciw", aberracje, KP vs olbrzymy
+TXT_DV    equ 14060             ; "Darkvision" z gry
+
+; linia(strref, n): dopisuje wiersz "%s" (n = 0) albo "%s: +%d"; edi, esi = argumenty listy tekstu karty. stdcall
+linia:
+    mov eax, [esp+4]
+    test eax, eax
+    jle .r
+    sub esp, 4
+    push eax
+    lea eax, [esp+4]
+    push eax
+    call 0x427b60               ; CString z tekstu strref
+    add esp, 8
+    mov eax, [eax]
+    mov ecx, [esp+0xc]
+    test ecx, ecx
+    jz .s
+    push ecx
+    push eax
+    push f_plus
+    push esi
+    push edi
+    call 0x427c20
+    add esp, 0x14
+    jmp .z
+.s: push eax
+    push 0x8a6a68               ; "%s"
+    push esi
+    push edi
+    call 0x427c20
+    add esp, 0x10
+.z: mov ecx, esp
+    call 0x7fcc1a
+    add esp, 4
+.r: ret 8
+
+; linia2(strref1, strref2, n): wiersz "%s %s: +%d". stdcall
+linia2:
+    cmp dword [esp+4], 0
+    jle .r
+    cmp dword [esp+8], 0
+    jle .r
+    sub esp, 8
+    push dword [esp+0xc]
+    lea eax, [esp+4]
+    push eax
+    call 0x427b60
+    add esp, 8
+    push dword [esp+0x10]
+    lea eax, [esp+8]
+    push eax
+    call 0x427b60
+    add esp, 8
+    push dword [esp+0x14]
+    push dword [esp+8]
+    push dword [esp+8]
+    push f_two
+    push esi
+    push edi
+    call 0x427c20
+    add esp, 0x18
+    lea ecx, [esp+4]
+    call 0x7fcc1a
+    mov ecx, esp
+    call 0x7fcc1a
+    add esp, 8
+.r: ret 12
+
+; wrog_nazwa: eax = rasa (RACE.IDS) -> eax = strref nazwy z tabeli ulubionych wrogow tropiciela (0x5DD5C6) albo -1
+wrog_nazwa:
+    sub eax, 0x71
+    cmp eax, 0x4e
+    ja .nie
+    movzx eax, byte [0x5de254+eax]
+    mov eax, [0x5de210+eax*4]
+    cmp byte [eax], 0xb8        ; mov eax, strref
+    jne .nie
+    mov eax, [eax+1]
+    ret
+.nie:
+    or eax, -1
+    ret
+
+; 0x5DD219 (po wierszu z nazwa rasy; zamiast "push 0x8C5CF8; push esi; push edi"): cechy rasy z DSRASY / DSRWROG.
+; ebp = typ obiektu postaci (+6 rasa, +7 podrasa), edi / esi = lista tekstu.
+karta_rasa:
+    pushad
+    movzx eax, word [ebp+6]
+    mov [kr_rasa], eax
+    push n_dv
+    push eax
+    call cecha
+    test eax, eax
+    jle .t
+    push 0
+    push TXT_DV
+    call linia
+.t: push n_miot
+    push dword [kr_rasa]
+    call cecha
+    test eax, eax
+    jle .g
+    push eax
+    push dword [STR_RAS]
+    call linia
+.g: push n_giant
+    push dword [kr_rasa]
+    call cecha
+    test eax, eax
+    jle .w
+    push eax
+    push dword [STR_RAS+12]
+    call linia
+.w: call tab_rwrog
+    test eax, eax
+    jz .k
+    mov ebx, eax
+    push dword [kr_rasa]
+    push ebx
+    call rasa_wiersz
+    cmp eax, -1
+    je .k
+    mov ebp, eax
+    push n_bonus
+    push ebp
+    push ebx
+    call wartosc
+    test eax, eax
+    jle .k
+    mov [kr_bonus], eax
+    mov byte [n_e+1], '1'
+.e: push n_e
+    push ebp
+    push ebx
+    call wartosc
+    test eax, eax
+    jle .en
+    call wrog_nazwa
+    cmp eax, -1
+    je .en
+    push dword [kr_bonus]
+    push eax
+    push dword [STR_RAS+4]
+    call linia2
+.en:
+    inc byte [n_e+1]
+    cmp byte [n_e+1], '6'
+    jbe .e
+    push n_aber
+    push ebp
+    push ebx
+    call wartosc
+    test eax, eax
+    jle .k
+    push dword [kr_bonus]
+    push dword [STR_RAS+8]
+    push dword [STR_RAS+4]
+    call linia2
+.k: popad
+    push 0x8c5cf8
+    push esi
+    push edi
+    jmp 0x5dd220
+
+; lv_wart(kolumna 0 HP / 1 BAB): ebx = postac, [lv_kl], [lv_poz] -> eax = SIDES / BASE_ATTACK z tablicy klasy albo -1
+lv_wart:
+    push ebx
+    push dword [lv_kl]
+    push dword [esp+0xc]
+    call prog_k
+    test eax, eax
+    jnz .t
+    mov ecx, [lv_kl]
+    cmp dword [esp+4], 0
+    jne .b
+    mov ecx, [dom_hp+ecx*4-4]
+    jmp .d
+.b: mov ecx, [dom_bab+ecx*4-4]
+.d: mov eax, [0x8cf6dc]
+    mov eax, [eax+0x1c54]
+    add eax, ecx
+.t: mov ecx, [lv_poz]
+    dec ecx
+    push 0
+    push ecx
+    call komorka
+    test eax, eax
+    jz .nie
+    push eax
+    call 0x7e7b03               ; atoi
+    add esp, 4
+    ret 4
+.nie:
+    or eax, -1
+    ret 4
+
+; 0x5DCB3C karta postaci, Levels: "Klasa: poziom (dN, BAB +n)" - kosc PW i premia do ataku klasy (DSKLPROG / tablice gry).
+; [esp+0x48] = poziom (bajt), [esp+0x4C] = klasa, [esp+0x10] = nazwa (char*), ebx = postac.
+karta_lv:
+    mov eax, [esp+0x48]
+    and eax, 0xff
+    mov [lv_poz], eax
+    mov eax, [esp+0x4c]
+    mov [lv_kl], eax
+    pushad
+    push 0
+    call lv_wart
+    mov [lv_hd], eax
+    push 1
+    call lv_wart
+    mov [lv_bab], eax
+    popad
+    mov ecx, [esp+0x10]
+    cmp dword [lv_hd], 0
+    jle .oryg
+    cmp dword [lv_bab], 0
+    jl .oryg
+    push dword [lv_bab]
+    push dword [lv_hd]
+    push dword [lv_poz]
+    push ecx
+    push f_lv
+    push esi
+    push edi
+    call 0x427c20
+    add esp, 0x1c
+    jmp 0x5dcb5a
+.oryg:
+    push dword [lv_poz]
+    push ecx
+    push 0x8b2b84               ; "%s: %d"
+    push esi
+    push edi
+    call 0x427c20
+    add esp, 0x14
+    jmp 0x5dcb5a
+
 ;================================================================ dane
 align 4
 miot_wart:
@@ -870,4 +1109,14 @@ nazwy_klas: dd c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11
 dom_hp:  dd 0x3a0, 0x37c, 0x358, 0x358, 0x310, 0x3c4, 0x310, 0x310, 0x37c, 0x334, 0x334
 dom_bab: dd 0x18a0, 0x18c4, 0x18c4, 0x18c4, 0x18a0, 0x18c4, 0x18a0, 0x18a0, 0x18c4, 0x18e8, 0x18e8
 dom_sv:  dd 0x238, 0x2a4, 0x214, 0x214, 0x238, 0x2c8, 0x238, 0x238, 0x280, 0x25c, 0x25c
+f_plus:   db '%s: +%d', 0
+f_two:    db '%s %s: +%d', 0
+f_lv:     db '%s: %d (d%d, BAB +%d)', 0
+align 4
+kr_rasa:  dd 0
+kr_bonus: dd 0
+lv_kl:    dd 0
+lv_poz:   dd 0
+lv_hd:    dd 0
+lv_bab:   dd 0
 koniec_rasy:

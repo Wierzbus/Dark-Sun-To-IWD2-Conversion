@@ -399,3 +399,15 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   podaje `kit_synt(postać, klasa, kit)`, więc każda klasa wieloklasowca ma nazwę swojej podklasy DS.
   Pozostałe wywołania znają tylko pole kitu (główna podklasa DS).
 - `KITLIST` jest czytany przez 0x621900 tylko dla opisu (kolumna HELP), nie dla nazwy.
+
+## 22. Karta postaci: cechy rasy i progresja klas (test28)
+- Funkcja karty 0x5DC9D0 (ebx = postać, ebp = typ obiektu: +6 rasa, +7 podrasa; edi/esi = lista tekstu). Wiersze:
+  `0x427B60(&CString, strref)` – tekst, `0x427EA0(edi, esi, 0xC8C8, "%s", tekst)` – nagłówek (żółty),
+  `0x427C20(edi, esi, fmt, ...)` – zwykły wiersz (printf), pusty wiersz = fmt 0x8C5CF8.
+- Oryginał nie wypisuje żadnych cech ras (sekcja Race = sama nazwa); Class Features nagłówek leniwy ([esp+0x48]).
+- Hak 0x5DD219 `karta_rasa` (rasy.asm): po nazwie rasy wiersze z DSRASY (DARKVISION → strref 14060, THROWN, GIANT_AC)
+  i DSRWROG (BONUS × E1..E6, ABERRATION). Nazwy ras wrogów z tabeli ulubionych wrogów tropiciela: rasa 0x71..0xBF,
+  bajt 0x5DE254 + (rasa − 0x71) → skok 0x5DE210, cel `mov eax, strref`. Teksty moda: strrefy 0xA25030..0xA2503C
+  (plik 0x4D0030, komponent 4).
+- Hak 0x5DCB3C `karta_lv`: wiersz Levels „%s: %d (d%d, BAB +%d)” – SIDES z tablicy PW i BASE_ATTACK z tablicy BAB
+  klasy na jej poziomie (`prog_k`: wiersz podklasy w DSKLPROG, potem klasy; bez nich tablice gry dom_hp / dom_bab).

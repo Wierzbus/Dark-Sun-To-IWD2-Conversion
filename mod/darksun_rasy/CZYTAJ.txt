@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test27: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test28: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -67,3 +67,12 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - karta postaci z podklasa DS: "Athasian Rogue: 1" itp. zamiast "Rogue: 1"; bez podklasy - nazwa klasy jak dotad,
      - wieloklasowiec z podklasami DS dwoch klas: obie nazwy w Levels,
      - kody: Ctrl+Tab, ctrlaltdelete:enablecheatkeys(), potem Ctrl+U = doswiadczenie -> awans.
+ test28: karta postaci - pod nazwa rasy cechy z DSRASY / DSRWROG (Darkvision, bron miotana, premia przeciw wrogom
+     z nazwami ras, KP przeciw olbrzymom); w sekcji Levels przy kazdej klasie kosc PW i premia do ataku klasy:
+     "Gladiator: 3 (d12, BAB +3)" - z DSKLPROG (wiersz podklasy albo klasy) albo z tablic gry.
+     Reinstall: 0 i potem 1-5 (komponent 4 wpisuje nowe teksty do exe), 6 bez zmian.
+     Sprawdzic:
+     - czlowiek z testowymi tabelami ras: pod "Human" wiersze Darkvision, "Thrown weapons and slings, to hit: +2",
+       "To hit against Orc: +2", "To hit against Goblin: +2"; zwykla rasa bez cech - bez dodatkowych wierszy,
+     - Levels: gladiator d12 (z tabel testowych), Athasian Rogue d10 i BAB jak wojownik; zwykly lotrzyk d6, BAB nizszy,
+     - wieloklasowiec: kazda klasa ze swoja koscia i BAB.

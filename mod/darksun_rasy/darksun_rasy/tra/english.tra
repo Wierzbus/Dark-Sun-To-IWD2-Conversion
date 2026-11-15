@@ -95,3 +95,9 @@ Disadvantages:
 @303 = ~FIRE CLERIC: Clerics of Fire serve the elemental plane of flame, the most destructive of the four elements under the crimson sun of Athas.
 
 (Experimental cleric patron: Dark Sun conversion test. Test ability at level 1: Ilmater's Endurance.)~
+
+// karta postaci (test28): cechy rasy pod nazwa rasy
+@121 = ~Thrown weapons and slings, to hit~
+@122 = ~To hit against~
+@123 = ~aberrations~
+@124 = ~AC against giants and ogres~

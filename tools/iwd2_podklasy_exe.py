@@ -99,6 +99,9 @@ HAKI3 = [
     (0x73BC10, "807e2605c7442414000000007538", "jmp", "miot_atak", 9),   # bron miotana (atak)
     (0x73CA66, "8a462633ff3c057530", "jmp", "miot_info", 4),     # bron miotana (informacja)
     (0x73C8C0, "5556578b7c2410", "jmp", "wrogowie", 2),          # wrogowie rasy / olbrzymy
+    # test28: karta postaci - cechy rasy pod nazwa rasy, kosc PW i BAB klas w sekcji Levels
+    (0x5DD219, "68f85c8c005657", "jmp", "karta_rasa", 2),
+    (0x5DCB3C, "8b4424488b4c241025ff000000505168842b8b005657e8c9b0e4ff83c414", "jmp", "karta_lv", 25),
 ]
 # progresja klas (test21): PW 0x542CB0, rzuty obronne 0x542610, premia do ataku 0x546B60 - tablice z DSKLPROG.2DA
 HP_MIEJSCA = [(0x542D30, "8d8f34030000", "hp_ecx"), (0x542D90, "8d9710030000", "hp_edx"),
