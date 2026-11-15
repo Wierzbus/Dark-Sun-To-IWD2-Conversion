@@ -1,4 +1,4 @@
-"""Buduje zestaw testowych tabel 2DA do override (test20-test24 paczki 2): listy czarow i domeny podklas DS,
+"""Buduje zestaw testowych tabel 2DA do override (test20-test27 paczki 2): listy czarow i domeny podklas DS,
 progresja podklas z DSKLPROG, cechy i zdolnosci rasy z DSRASY/DSRWROG/RLAB.
 
   python tools/ds_testy_2da.py --listspll LISTSPLL.2DA --listdomn LISTDOMN.2DA --out testy_2da
@@ -18,6 +18,7 @@ LISTY = [
     ("DRD_DS", "DRD", {"SPPR105": 0, "SPWI103": 1}),                 # bez Entangle; Burning Hands 1
     ("SOR_DS", "SOR", {"SPWI112": 0, "SPPR103": 1}),                 # bez Magic Missile; Cure Light Wounds 1
     ("BRD_DS", "BRD", {"SPWI112": 1}),                               # Magic Missile 1
+    ("WIZ_DS", "WIZ", {"SPWI112": 0, "SPWI304": 2}),                 # bez Magic Missile; Fireball 2
 ]
 # domeny kaplana DS (LISTDOMN kolumna CDS): zywiol ognia i ziemi, po jednym czarze na poziom
 DOMENA = {"SPPR113": 1, "SPWI217": 2, "SPPR306": 3, "SPWI427": 4, "SPPR503": 5,
@@ -29,6 +30,9 @@ PROG = {
     "CLERIC_DS": {"DOMAIN": "CDS", "SPELLS": "CLR_DS"},
     "DRUID_DS": {"SPELLS": "DRD_DS"},
     "BARD_DS": {"SPELLS": "BRD_DS"},
+    "ROGUE_DS": {"HP": "HPWAR", "BAB": "BAATFGT"},
+    "WIZARD_DS": {"SPELLS": "WIZ_DS"},
+    "CLERIC_DS2": {"DOMAIN": "CTE"},
 }
 
 
@@ -101,9 +105,9 @@ def rasy(out_dir):
         "2DA V1.0\n****\n          %s\nABILITY1  %s\nABILITY2  %s\n" % (kol, "  ".join(a1), "  ".join(a2)))
 
 
-CZYTAJ = r"""TESTOWE TABELE 2DA - paczka 2 (test20-test24)
+CZYTAJ = r"""TESTOWE TABELE 2DA - paczka 2 (test20-test27)
 
-Wymaga: paczka 2 test24 zainstalowana (komponenty 0, 4, 5), gra z IWD2_<W>_DS.exe.
+Wymaga: paczka 2 test27 zainstalowana (komponenty 0-5; 6 = kody do awansu), gra z IWD2_<W>_DS.exe.
 Przed skopiowaniem zrob kopie override\DSKLPROG.2DA, LISTSPLL.2DA, LISTDOMN.2DA, DSRASY.2DA, DSRWROG.2DA.
 Skopiuj zawartosc katalogu klasy\ (i opcjonalnie rasy\) do override. Tabele sa czytane przy starcie gry.
 Wszystkie testy na NOWYCH postaciach (kreator) - istniejace postacie nie dostana list z minionych poziomow.
@@ -133,8 +137,24 @@ KLASY (katalog klasy\: DSKLPROG.2DA, LISTSPLL.2DA, LISTDOMN.2DA)
 5. Wojownik DS (FIGHTER_DS) - kosc PW k12 (HPBARB) zamiast k10. Sprawdz PW przy kolejnych awansach
    (srednio wiecej niz zwykly wojownik; maksimum na poziom 12 + premia z Kondycji).
 
+6. Lotrzyk DS (ROGUE_DS, Athasian Rogue) - kosc PW k10 (HPWAR) i premia do ataku wojownika (BAATFGT, +1 na 1. poziomie).
+   Sprawdz karte postaci (premia do ataku) i PW przy awansach; porownaj ze zwyklym lotrzykiem (k6, +0).
+
+7. Czarodziej DS (WIZARD_DS, Preserver) - lista WIZ_DS: bez Magic Missile, Fireball (SPWI304) na 2. poziomie.
+   Sprawdz: ksiega nowego Preservera w kreatorze - nie ma Magic Missile; na 3. poziomie postaci (czary 2. kregu)
+   mozna wybrac Fireball. Zwykly czarodziej ma Magic Missile, Fireball dopiero w 3. kregu.
+
+8. Kaplan DS 2 (CLERIC_DS2, Fire Cleric) - domena Tempusa (CTE) zamiast domeny CDS kaplana DS (Earth Cleric).
+   Sprawdz: czary domeny 1. poziomu Fire Clerica = jak kaplan Tempusa; Earth Cleric (CLERIC_DS) = Sunscorch.
+
+9. Wieloklasowosc (test26/27): kazda klasa ma wlasna podklase DS i jej progresje.
+   Np. gladiator (FIGHTER_DS, k12) z charakterem nie-praworzadnym -> przy awansie dobiera lotrzyka, w oknie podklas
+   wybiera Athasian Rogue. Sprawdz: karta postaci - "Gladiator: n" i "Athasian Rogue: 1" w sekcji Levels;
+   PW za poziom lotrzyka k10, za poziom gladiatora k12; premia do ataku rosnie jak u wojownika w obu klasach.
+   Praworzadna postac nie dobierze barbarzyncy ani barda (ALIGNMNT - reguly gry).
+
 RASY (katalog rasy\: DSRASY.2DA, DSRWROG.2DA, RLTSTHUM.2DA) - test20 na czlowieku
-6. Czlowiek: widzenie w ciemnosci, +2 do trafienia bronia miotana i proca, odpornosc na magie +1 na poziom postaci,
+10. Czlowiek: widzenie w ciemnosci, +2 do trafienia bronia miotana i proca, odpornosc na magie +1 na poziom postaci,
    +2 do trafienia przeciw orkom (160) i goblinom (155); zdolnosci: 1. poziom Ilmater's Endurance (GA_SPIN267),
    2. poziom Tempus' Strength (GA_SPIN264).
    Sprawdz: nowy czlowiek - zdolnosci wrodzone na 1. poziomie, po awansie druga; odpornosc na magie na karcie rosnie.
