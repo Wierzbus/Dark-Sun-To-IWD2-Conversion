@@ -90,6 +90,11 @@ Disadvantages:
 @293 = ~PRESERVER: Arcane magic on Athas draws life from the land itself. Preservers take only what the land can spare and are hunted by templars and defilers alike.
 
 (Experimental wizard subclass: Dark Sun conversion test. Test ability at level 1: Spell Shield.)~
+@311 = ~barbarian warrior~
+@312 = ~Barbarian Warrior~
+@313 = ~BARBARIAN WARRIOR: The barbarian as a fighter subclass. Tribes of the wastes and the slave villages raise warriors who fight with fury rather than drill.
+
+(Experimental fighter subclass, test29: barbarian moved from its own class. No fighter bonus feats (FEATCLAS column BARBARIAN_F), 4 skill points per level (SKILLPTS), Uncanny Dodge (DSKLASY), d12 hit die, rage and fast movement from CLABDS12.)~
 @301 = ~fire cleric~
 @302 = ~Fire Cleric~
 @303 = ~FIRE CLERIC: Clerics of Fire serve the elemental plane of flame, the most destructive of the four elements under the crimson sun of Athas.

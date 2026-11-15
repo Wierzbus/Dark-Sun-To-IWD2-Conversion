@@ -85,6 +85,9 @@ HAKI4 = [
     (0x5ED913, "6a00686c638a00", "jmp", "pomoc6", 2),            # opis podklasy po kliknieciu
     (0x5E2089, "8a8e0601000033c0", "jmp", "gotowe6", 3),         # Gotowe okna 6
     (0x5E2E39, "8b8d460800008b857c0700000bc18b4c241089810c080000", "jmp", "kit_awans", 19),  # zatwierdzenie podklasy
+    # test29: kolumny podklas w tabelach klas (kolumna o nazwie podklasy, np. BARBARIAN_F)
+    (0x763D26, "8d4dff4a3bc8", "call", "featclas", 1),           # FEATCLAS: premiowe atuty przy awansie
+    (0x763DBA, "8d41ff3bc2", "call", "skillpts", 0),             # SKILLPTS: punkty umiejetnosci
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy
@@ -213,10 +216,12 @@ def main():
     d[raw3:raw3 + len(kod3)] = kod3
     kod4, et4 = nasm(os.path.join(ASM, "kity.asm"), ORG4,
                      {"szukaj": et3["szukaj"], "wczytaj": et3["wczytaj"], "komorka": et["komorka"],
-                      "tabela2da": et["tabela2da"]})
+                      "tabela2da": et["tabela2da"], "tab_klasy": et["tab_klasy"], "liczba": et["liczba"],
+                      "prog_kl": et["prog"]})
     if ORG4 + len(kod4) > ORG3 + SEKCJA_ROZM:
         sys.exit("kity.asm wychodzi poza sekcje")
     assert kod4[:8] == b"DSKITY02" and et4["kit_synt"]
+    assert et4["kol_kitu"] and kod4[0x1C] == 0xE9 and kod4[0x21] == 0xE9
     d[raw3 + (ORG4 - ORG3):raw3 + (ORG4 - ORG3) + len(kod4)] = kod4
     for adr in MASKI_MAG:
         struct.pack_into("<I", d, adr - BASE, 0xFF007FC0)

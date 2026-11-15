@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test28-2026-11-15~
+VERSION ~test29-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -220,8 +220,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     8, 9,  ROGUE_DS,     CLABDS09, 09 => 281
     9, 11, WIZARD_DS,    CLABDS10, 0A => 291
     10, 3, CLERIC_DS2,   CLABDS11, 0B => 301
+    11, 5, BARBARIAN_F,  CLABDS12, 0C => 311
   END
-  OUTER_SET ds_n_kitow = 11
+  OUTER_SET ds_n_kitow = 12
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 211
@@ -273,6 +274,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~301~) = RESOLVE_STR_REF(@301)
   OUTER_SET $ds_str(~302~) = RESOLVE_STR_REF(@302)
   OUTER_SET $ds_str(~303~) = RESOLVE_STR_REF(@303)
+  OUTER_SET $ds_str(~311~) = RESOLVE_STR_REF(@311)
+  OUTER_SET $ds_str(~312~) = RESOLVE_STR_REF(@312)
+  OUTER_SET $ds_str(~313~) = RESOLVE_STR_REF(@313)
   // UWAGA: COPY - zapamietuje bufor jako plik "inlined" pod nazwa CELU i kazdy pozniejszy COPY tej nazwy czyta go
   // z pamieci, nie z dysku (az do konca instalacji). Dlatego cel sprawdzenia to *_spr.tmp, nigdy sam exe -
   // inaczej nastepne komponenty nadpisywaly exe stara kopia (pusta tabela podklas w test26).
@@ -349,10 +353,11 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ROGUE_DS~    wzor = ~ROGUE~    END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~WIZARD_DS~   wzor = ~WIZARD~   END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS2~  wzor = ~CLERIC~   END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_F~ wzor = ~BARBARIAN~ END
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
-  // Kolumn kitow nie dodajemy: FEATS/SKILLS czytaja kolumny bostw po indeksie z exe (0x5472FF),
+  // Kolumn kitow nie dodajemy do FEATS/SKILLS: czytaja kolumny bostw po indeksie z exe (0x5472FF),
   // a nowy bit daje indeks spoza tabeli, wiec gra bierze wartosc domyslna.
   ACTION_FOR_EACH tab IN ~ABCLASRQ~ ~ABCLSMOD~ ~CHPTXT2~ ~CHPTXT3~ ~CHPTXT4~ ~CHPTXT5~ ~CHPTXT6~ ~CHPTXT7~
                          ~CLASWEAP~ ~CLSSRSMD~ ~DUALCLAS~ ~ENCMOD~ ~KITTABLE~ ~LORE~ ~PROFS~ ~PROFSMAX~
@@ -370,6 +375,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ROGUE_DS~     wzor = ~ROGUE~     END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~WIZARD_DS~    wzor = ~WIZARD~    END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS2~   wzor = ~CLERIC~    END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_F~  wzor = ~BARBARIAN~ END
     END
   END
 
@@ -492,6 +498,54 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   COPY ~darksun_rasy/2da/CLABDS10.2DA~ ~override~        // obronca (czarodziej, test25): Spell Shield; gra nie ma CLABMA01
   COPY_EXISTING ~CLABPR01.2da~ ~override/CLABDS11.2da~   // kaplan ognia (test25): Ilmater's Endurance
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN267~ END
+  // barbarzynca jako podklasa wojownika (test29): tablica barbarzyncy (szal, od test19 tez szybkosc AP_DSBBNMV)
+  COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS12.2da~
+
+  // --- 5. Kolumny podklas w tabelach klas (test29, exe: kity.asm kol_kitu) ---
+  // FEATCLAS (premiowe atuty, wiersz = poziom klasy) i SKILLPTS (punkty umiejetnosci): gdy tabela ma kolumne o nazwie
+  // podklasy DS postaci, gra uzywa jej zamiast kolumny klasy. Kolumna dopisana na koncu - gra czyta kolumny klas po
+  // indeksie, dalsze pomija. DSKLASY (progi Unik / Uncanny Dodge / ...) - kolumny podklas w pliku paczki.
+  // BARBARIAN_F (barbarzynca jako wojownik): bez premiowych atutow wojownika, punkty umiejetnosci barbarzyncy.
+  DEFINE_PATCH_FUNCTION ds_kolumna_kitu
+    STR_VAR kol = ~~ wzor = ~~
+  BEGIN
+    COUNT_2DA_COLS ds_nc
+    READ_2DA_ENTRIES_NOW ds_h (ds_nc - 1)
+    SET ds_jest = 0
+    SET ds_j = 0 - 1
+    FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+      READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_v
+      PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%kol%~) BEGIN SET ds_jest = 1 END
+      PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%wzor%~) BEGIN SET ds_j = ds_c + 1 END
+    END
+    PATCH_IF (ds_jest = 0) AND (ds_j > 0) BEGIN
+      TEXT_SPRINT ds_out ~2DA V1.0%WNL%0%WNL%~
+      FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+        READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_v
+        TEXT_SPRINT ds_out ~%ds_out%	%ds_v%~
+      END
+      TEXT_SPRINT ds_out ~%ds_out%	%kol%%WNL%~
+      READ_2DA_ENTRIES_NOW ds_r ds_nc
+      FOR (ds_i = 0; ds_i < ds_r; ++ds_i) BEGIN
+        TEXT_SPRINT ds_l ~~
+        FOR (ds_c = 0; ds_c < ds_nc; ++ds_c) BEGIN
+          READ_2DA_ENTRY_FORMER ds_r ds_i ds_c ds_v
+          TEXT_SPRINT ds_l ~%ds_l%%ds_v%	~
+        END
+        READ_2DA_ENTRY_FORMER ds_r ds_i ds_j ds_v
+        TEXT_SPRINT ds_out ~%ds_out%%ds_l%%ds_v%%WNL%~
+      END
+      DELETE_BYTES 0 BUFFER_LENGTH
+      INSERT_BYTES 0 (STRING_LENGTH ~%ds_out%~)
+      WRITE_ASCIIE 0 ~%ds_out%~
+    END
+  END
+  COPY_EXISTING ~FEATCLAS.2DA~ ~override~
+    LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BARBARIAN~ END
+  BUT_ONLY
+  COPY_EXISTING ~SKILLPTS.2DA~ ~override~
+    LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BBN~ END
+  BUT_ONLY
 
   // GUICG.CHU: przyciski 14, 15, ... w oknie 12 (podklasy DS kaplana i czarodzieja) - kopie przycisku 9, kazdy
   // o jeden odstep nizej. Liczba = najwieksza liczba podklas kaplana albo czarodzieja (tu 2: CLERIC_DS, CLERIC_DS2).

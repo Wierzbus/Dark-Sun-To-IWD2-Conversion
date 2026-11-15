@@ -279,3 +279,19 @@ w kolumnie `SPELLS` wiersza podklasy w DSKLPROG. Domeny kapłana DS: kolumna LIS
 **Po zmianie exe (asm):** `tools/iwd2_podklasy_exe.py --base IWD2_1920x1080_test13.exe --out testNN.exe` →
 `tools/iwd2_paczki_exe.py ... --rasy testNN.exe --out-rasy darksun_rasy/exe/rasy_exe.tpa` → przeinstalować komponent 0
 paczki 2 (i komponenty wpisujące strrefy: 1, 2, 3).
+
+## 8. Kolumny podklas w tabelach klas (test29)
+
+Tabele z kolumną na klasę mogą mieć kolumnę **o nazwie podklasy** (nazwa wiersza z tabeli podklas, np. `BARBARIAN_F`).
+Postać z tą podklasą używa wtedy jej zamiast kolumny klasy bazowej; bez takiej kolumny – kolumna klasy, jak dotąd.
+
+| Tabela | Co | Uwagi |
+|---|---|---|
+| `FEATCLAS.2DA` | premiowe atuty (wiersz = poziom klasy, 1 = atut) | kolumna dopisana na końcu (funkcja `ds_kolumna_kitu`) |
+| `SKILLPTS.2DA` | punkty umiejętności na poziom | j.w. |
+| `DSKLASY.2DA` | progi Unik / Uncanny Dodge / atak z zaskoczenia / ulubiony wróg / aura | kolumna w pliku paczki |
+
+Przykład – barbarzyńca jako podklasa wojownika (`BARBARIAN_F`): kolumna `BARBARIAN_F` w FEATCLAS = kolumna BARBARIAN
+(zera – bez premiowych atutów wojownika), w SKILLPTS = BBN, w DSKLASY = BBN (Uncanny Dodge 2 / 5); DSKLPROG
+`HPBARB BAATFGT SAVEWAR`; CLAB = kopia CLABFI05 (szał, szybkość). Jeszcze bez kolumn podklas: SKILLS.2DA (umiejętności
+klasowe) i FEATS.2DA (dostępne atuty) – czytane po indeksie w wielu miejscach exe.

@@ -481,9 +481,10 @@ unik:
     push ebx
     push edi
     mov ebx, 1
-.p: push ebx
+.p: push esi
+    push ebx
     push 0
-    call prog
+    call 0xA26021               ; prog_p (kity.asm): kolumna podklasy postaci albo klasy
     test eax, eax               ; 0 albo -1 (brak tabeli) = brak zdolnosci
     jle .n
     mov edi, eax
@@ -513,9 +514,10 @@ zdolnosc:
     push esi
     xor esi, esi                ; wynik
     mov ebx, 1
-.p: push ebx
-    push dword [esp+0x14]       ; wiersz
-    call prog
+.p: push dword [esp+0x14]       ; postac
+    push ebx
+    push dword [esp+0x18]       ; wiersz
+    call 0xA26021               ; prog_p
     cmp eax, -1
     je .brak
     test eax, eax

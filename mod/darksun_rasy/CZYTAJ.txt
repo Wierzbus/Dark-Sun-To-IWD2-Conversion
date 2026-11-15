@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test28: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test29: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -79,3 +79,20 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - Class Features: zdolnosci dzialajace same z tablic CLAB klas i RLAB rasy (wpisy FA_ do obecnego poziomu), np.
        lotrzyk 2+: Evasion, 3+: Uncanny Dodge (Dex bonus to AC); barbarzynca: Damage Reduction - tylko najwyzszy stopien;
        wieloklasowiec lotrzyk + barbarzynca - Uncanny Dodge raz.
+ test29: kolumny podklas w tabelach klas - FEATCLAS (premiowe atuty), SKILLPTS (punkty umiejetnosci) i DSKLASY (Unik,
+     Uncanny Dodge, atak z zaskoczenia, ...): kolumna o nazwie podklasy (np. BARBARIAN_F) zamiast kolumny klasy.
+     Nowa podklasa wojownika "Barbarian Warrior" (BARBARIAN_F): k12, BAB i rzuty wojownika, bez premiowych atutow
+     wojownika, punkty umiejetnosci barbarzyncy, Uncanny Dodge od 2./5. poziomu, szal i szybkosc (CLABDS12 = CLABFI05).
+     Stary barbarzynca (klasa) na razie zostaje - do porownania.
+     Reinstall: 0 i potem 1-5 (nowy wpis podklasy, DSKLASY, DSKLPROG, kolumny FEATCLAS/SKILLPTS).
+     Testy 2DA: uzyj testy_2da_test29 (DSKLPROG z wierszem BARBARIAN_F).
+     Sprawdzic:
+     - kreator: wojownik -> okno podklas: bez podklasy, Gladiator, Barbarian Warrior; opis po kliknieciu,
+     - Barbarian Warrior 1. poziom: brak premiowego atutu wojownika (zwykly wojownik dostaje 1 dodatkowy),
+       punkty umiejetnosci jak barbarzynca (wiecej niz wojownik), na karcie "Barbarian Warrior: 1 (d12, BAB +1)",
+       szal w zdolnosciach, Class Features: Uncanny Dodge od 2. poziomu,
+     - awans 2-4: wojownik dostaje atut na 2. i 4. poziomie, Barbarian Warrior nie,
+     - Uncanny Dodge (Dex bonus to AC) na 2. poziomie, (Can't be flanked) na 5.,
+     - gladiator i zwykly wojownik bez zmian (atuty co 2 poziomy).
+     Znane ograniczenia: umiejetnosci klasowe (SKILLS.2DA) i dostepne atuty (FEATS.2DA) - jak wojownik; kara za ciezka
+     zbroje do szybkosci dziala tylko dla klasy barbarzyncy (efekt w ITM po CLASS) - nastepne rundy.

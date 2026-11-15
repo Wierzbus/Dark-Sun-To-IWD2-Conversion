@@ -33,6 +33,8 @@ k_wpis_we:    jmp near kit_wpis     ; 0xA26008
 k_wiersz_we:  jmp near kit_wiersz   ; 0xA2600D
 k_clab_we:    jmp near clab2        ; 0xA26012
 k_synt_we:    jmp near kit_synt     ; 0xA26017
+k_kol_we:     jmp near kol_kitu     ; 0xA2601C
+k_progp_we:   jmp near prog_p       ; 0xA26021
 
 ;================================================================ wyszukiwanie w tabeli
 ; kit_wpis: eax = kit (starszy bajt = numer wpisu + 1), cl = klasa -> edx = wpis tej klasy albo 0
@@ -680,6 +682,105 @@ klist_kit:
     push esi
     call kit_synt
     mov esi, eax
+    ret
+
+;================================================================ kolumny podklas w tabelach klas (test29)
+; kol_kitu(tabela, klasa, postac) -> eax = indeks kolumny o nazwie podklasy DS tej klasy (nazwa wiersza wpisu, np.
+; BARBARIAN_F) albo -1 (brak podklasy / kolumny). stdcall, zachowuje ecx i edx.
+kol_kitu:
+    push ecx
+    push edx
+    mov eax, [esp+0xc]
+    test eax, eax
+    jz .nie
+    mov edx, [esp+0x14]
+    test edx, edx
+    jz .nie
+    push dword [edx+0x80c]
+    push dword [esp+0x14]
+    push edx
+    call kit_synt
+    mov ecx, [esp+0x10]
+    call kit_wpis
+    test edx, edx
+    jz .nie
+    push 1
+    lea eax, [edx+8]
+    push eax
+    push dword [esp+0x14]
+    call szukaj
+    jmp .k
+.nie:
+    or eax, -1
+.k: pop edx
+    pop ecx
+    ret 12
+
+; prog_p(wiersz, klasa, postac) -> eax = prog zdolnosci z DSKLASY: kolumna podklasy postaci, a bez niej klasy (prog_kl).
+; stdcall, zachowuje ecx i edx. Wywoluja unik i zdolnosc z podklasy.asm (stale wejscie 0xA26021).
+prog_p:
+    push ecx
+    push edx
+    call tab_klasy
+    test eax, eax
+    jz .zw
+    push eax
+    push dword [esp+0x18]
+    push dword [esp+0x18]
+    push dword [esp+8]
+    call kol_kitu
+    pop ecx
+    cmp eax, -1
+    je .zw
+    push eax
+    push dword [esp+0x10]
+    mov eax, ecx
+    call liczba
+    jmp .k
+.zw:
+    push dword [esp+0x10]
+    push dword [esp+0x10]
+    call prog_kl
+.k: pop edx
+    pop ecx
+    ret 12
+
+; 0x763D26 (liczba atutow przy awansie, FEATCLAS; zamiast "lea ecx, [ebp-1]; dec edx; cmp ecx, eax"):
+; ebp = klasa, edi = postac, esi = reguly, eax = liczba kolumn, edx = poziom klasy -> ecx = kolumna (podklasy albo klasy)
+featclas:
+    lea ecx, [ebp-1]
+    dec edx
+    push eax
+    push edx
+    push edi
+    push ebp
+    lea eax, [esi+0xd30]
+    push eax
+    call kol_kitu
+    test eax, eax
+    jl .k
+    mov ecx, eax
+.k: pop edx
+    pop eax
+    cmp ecx, eax
+    ret
+
+; 0x763DBA (punkty umiejetnosci, SKILLPTS; zamiast "lea eax, [ecx-1]; cmp eax, edx"): ecx = klasa, ebx = postac,
+; esi = reguly, edx = liczba kolumn -> eax = kolumna (podklasy albo klasy)
+skillpts:
+    push ecx
+    push edx
+    push ebx
+    push ecx
+    lea edx, [esi+0xd9c]
+    push edx
+    call kol_kitu
+    pop edx
+    pop ecx
+    test eax, eax
+    jge .k
+    lea eax, [ecx-1]
+.k: cmp eax, edx
     ret
 
 ;================================================================ nazwa klasy z podklasa (0x544120, karta postaci, portrety, awans)

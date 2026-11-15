@@ -414,3 +414,16 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Hak 0x5DD537 `karta_cf`: na końcu Class Features wiersze FA_<strref> z tablic CLAB każdej klasy (kolumny 1..poziom klasy,
   `GetClabTable` 0x546030 z kitem `kit_synt`) i RLAB rasy (klasa 12, poziom postaci). Do 32 wpisów (0xA25E80); kolejne
   stopnie tej samej zdolności (teksty różne tylko cyframi) – tylko ostatni; nagłówek wypisany, gdy gra go nie wypisała.
+
+## 23. Kolumny podklas w tabelach klas (test29)
+- Funkcje awansu w CGameSprite: 0x763CB0(klasa) = liczba atutów (FEATLVL wg poziomu postaci + FEATCLAS[poziom klasy − 1,
+  klasa − 1], reguły +0xD30: dane +0xD48, kolumny +0xD50, wiersze +0xD52; człowiek +1 na 1. poziomie), 0x763DA0(klasa) =
+  punkty umiejętności (SKILLPTS reguły +0xD9C, wiersz 0, kolumna klasa − 1, + modyfikator INT 0x542510, ×4 na 1. poziomie,
+  człowiek +1). Wywołania: 0x5E2F08 / 0x5E2F20, 0x5E3450 / 0x5E3470 (awans), 0x60CAA2 / 0x60C7A2 (kreator).
+- Haki: 0x763D26 `featclas`, 0x763DBA `skillpts` (kity.asm) – kolumna z `kol_kitu(tabela, klasa, postać)`: podklasa DS
+  tej klasy (bajt klasy), kolumna o nazwie wiersza wpisu (+8), inaczej klasa.
+- DSKLASY: `prog_p(wiersz, klasa, postać)` (kity.asm, stałe wejście 0xA26021) zamiast `prog` w `unik` i `zdolnosc`
+  (podklasy.asm). Stałe wejścia kity.asm: 0xA2601C `kol_kitu`, 0xA26021 `prog_p`.
+- Barbarzyńca w kodzie (do slotu klas prestiżowych, test30): zmęczenie po szale < 20. poziomu (0x4A5C79), wymiana szału
+  na 15. poziomie (0x5E5B22, 0x71E677); reszta (szybkość, Uncanny Dodge, CLAB, PW, BAB, rzuty) już z tabel.
+- Pozostałe tabele per klasa: SKILLS (reguły +0xD0) i FEATS (+0xAC) – kolumny klas i bóstw po indeksie, wiele miejsc.
