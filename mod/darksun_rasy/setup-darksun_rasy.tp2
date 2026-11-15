@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test32-2026-11-15~
+VERSION ~test33-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -222,8 +222,10 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     10, 3, CLERIC_DS2,   CLABDS11, 0B => 301
     11, 5, BARBARIAN_F,  CLABDS12, 0C => 311
     12, 1, ARCH_DEFILER, CLABDS13, 0D => 331
+    13, 1, DWARVEN_DEF,  CLABDS14, 0E => 341
+    14, 1, ASSASSIN,     CLABDS15, 0F => 351
   END
-  OUTER_SET ds_n_kitow = 13
+  OUTER_SET ds_n_kitow = 15
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 320
@@ -285,6 +287,12 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~331~) = RESOLVE_STR_REF(@331)
   OUTER_SET $ds_str(~332~) = RESOLVE_STR_REF(@332)
   OUTER_SET $ds_str(~333~) = RESOLVE_STR_REF(@333)
+  OUTER_SET $ds_str(~341~) = RESOLVE_STR_REF(@341)
+  OUTER_SET $ds_str(~342~) = RESOLVE_STR_REF(@342)
+  OUTER_SET $ds_str(~343~) = RESOLVE_STR_REF(@343)
+  OUTER_SET $ds_str(~351~) = RESOLVE_STR_REF(@351)
+  OUTER_SET $ds_str(~352~) = RESOLVE_STR_REF(@352)
+  OUTER_SET $ds_str(~353~) = RESOLVE_STR_REF(@353)
   // UWAGA: COPY - zapamietuje bufor jako plik "inlined" pod nazwa CELU i kazdy pozniejszy COPY tej nazwy czyta go
   // z pamieci, nie z dysku (az do konca instalacji). Dlatego cel sprawdzenia to *_spr.tmp, nigdy sam exe -
   // inaczej nastepne komponenty nadpisywaly exe stara kopia (pusta tabela podklas w test26).
@@ -357,6 +365,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   APPEND ~ALIGNMNT.2DA~ ~PALADIN_DS	1	0	0	0	0	0	0	0	0~ UNLESS ~PALADIN_DS~
   APPEND ~ALIGNMNT.2DA~ ~BARBARIAN_DS	0	0	0	1	1	1	1	1	1~ UNLESS ~BARBARIAN_DS~
   APPEND ~ALIGNMNT.2DA~ ~CLERIC_DS	1	1	1	1	1	1	1	1	1~ UNLESS ~CLERIC_DS~
+  APPEND ~ALIGNMNT.2DA~ ~DWARVEN_DEF	1	1	1	0	0	0	0	0	0~ UNLESS ~DWARVEN_DEF~
+  APPEND ~ALIGNMNT.2DA~ ~ASSASSIN	0	0	1	0	0	1	0	0	1~ UNLESS ~ASSASSIN~
   COPY_EXISTING ~ALIGNMNT.2DA~ ~override~
     LPF ds_wiersz_kitu STR_VAR wiersz = ~FIGHTER_DS~  wzor = ~FIGHTER~  END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~RANGER_DS~   wzor = ~RANGER~   END
@@ -393,6 +403,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_F~  wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ARENA_CHAMP~  wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCH_DEFILER~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DWARVEN_DEF~  wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~ASSASSIN~     wzor = ~BARBARIAN~ END
     END
   END
 
@@ -519,9 +531,45 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS12.2da~
   // klasy prestizowe (test30, slot 1 = dawny barbarzynca): CLAB w paczce; warunki wejscia w DSPREST.2DA
   COPY ~darksun_rasy/2da/CLABDS13.2DA~ ~override~
+  // test33: Dwarven Defender (CLABDS14) i Assassin (CLABDS15) - klasy prestizowe z SRD 3.5
+  COPY ~darksun_rasy/2da/CLABDS14.2DA~ ~override~
+       ~darksun_rasy/2da/CLABDS15.2DA~ ~override~
+       ~darksun_rasy/spl/DSDDAC.SPL~   ~override~     // +1 KP (opcode 0)
+       ~darksun_rasy/spl/DSDDDR.SPL~   ~override~     // redukcja obrazen 3/- (opcode 436) - do sprawdzenia
+  // Defensive Stance: kopia szalu (SPIN236, ikona i czas trwania gry) - zamiast +4 SIL / -2 KP: +2 SIL, +4 KON, +4 KP,
+  // +2 do Wytrwalosci (33), Refleksu (34) i Woli (35); bez znacznika szalu (opcode 440 / 288 zamienione na rzuty).
+  // Unieruchomienie postaci (SRD) - jeszcze nie.
+  OUTER_SET ds_stn = RESOLVE_STR_REF(@344)
+  COPY_EXISTING ~SPIN236.SPL~ ~override/DSDDSTN.SPL~
+    WRITE_LONG 0x08 ds_stn
+    WRITE_LONG 0x0c ds_stn
+    READ_LONG  0x64 ds_ab
+    READ_SHORT 0x68 ds_nab
+    READ_LONG  0x6a ds_ef
+    READ_SHORT 0x70 ds_neg
+    SET ds_ne = ds_neg
+    FOR (ds_i = 0; ds_i < ds_nab; ++ds_i) BEGIN
+      READ_SHORT (ds_ab + ds_i * 0x28 + 0x1e) ds_n
+      READ_SHORT (ds_ab + ds_i * 0x28 + 0x20) ds_f
+      PATCH_IF ((ds_f + ds_n) > ds_ne) BEGIN SET ds_ne = ds_f + ds_n END
+    END
+    FOR (ds_i = 0; ds_i < ds_ne; ++ds_i) BEGIN
+      SET ds_o = ds_ef + ds_i * 0x30
+      READ_SHORT ds_o ds_op
+      PATCH_IF (ds_op = 44) BEGIN WRITE_LONG (ds_o + 4) 2 END
+      PATCH_IF (ds_op = 10) BEGIN WRITE_LONG (ds_o + 4) 4 END
+      PATCH_IF (ds_op = 0)  BEGIN WRITE_LONG (ds_o + 4) 4 END
+      PATCH_IF (ds_op = 35) BEGIN WRITE_LONG (ds_o + 4) 2 END
+      PATCH_IF (ds_op = 440) BEGIN WRITE_SHORT ds_o 33 WRITE_LONG (ds_o + 4) 2 WRITE_LONG (ds_o + 8) 0 END
+      PATCH_IF (ds_op = 288) BEGIN WRITE_SHORT ds_o 34 WRITE_LONG (ds_o + 4) 2 WRITE_LONG (ds_o + 8) 0 END
+    END
+  BUT_ONLY
   // DSPREST.2DA: wiersz = podklasa klasy 1 (klasa prestizowa); LEVEL - poziom postaci, BAB - suma premii do ataku klas,
   // CLASS / CLASS_LEVEL - wymagana klasa (1..11) i jej poziom, SUBCLASS - wymagana podklasa DS (wiersz z tabeli podklas).
   // MAX_LEVEL - najwyzszy poziom klasy prestizowej (0 / brak = 10): po nim przycisk klasy 1 przy awansie nieaktywny.
+  // Od test33: RACE (RACE.IDS 1..7), FEAT1..FEAT3 (FEATS.IDS, np. 16 DODGE, 69 TOUGHNESS), SKILL1/RANK1 i SKILL2/RANK2
+  // (SKILLS.IDS 0..15 i minimalna liczba rang, np. 6 Hide, 9 Move_Silently), ARCANE (suma poziomow barda, zaklinacza
+  // i czarodzieja). 0 = bez warunku.
   // 0 / * = bez warunku. Charakter: wiersz podklasy w ALIGNMNT. Exe: przycisk klasy 1 przy awansie aktywny, gdy postac
   // ma juz klase prestizowa albo spelnia warunki ktorejs; w oknie wyboru tylko spelnione. W kreatorze klasa 1 ukryta.
   COPY ~darksun_rasy/2da/DSPREST.2DA~ ~override~
@@ -570,6 +618,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   BUT_ONLY
   COPY_EXISTING ~SKILLPTS.2DA~ ~override~
     LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BBN~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DWARVEN_DEF~ wzor = ~FTR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~ASSASSIN~    wzor = ~ROG~ END
   BUT_ONLY
 
   // GUICG.CHU: przyciski 14, 15, ... w oknie 12 (podklasy DS kaplana i czarodzieja) - kopie przycisku 9, kazdy

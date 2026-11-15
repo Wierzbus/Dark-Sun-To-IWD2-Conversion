@@ -308,6 +308,10 @@ wiersz w DSKLPROG (PW / BAB / rzuty), CLABDSnn, wiersz w ALIGNMNT (charakter) i 
 | `CLASS`, `CLASS_LEVEL` | wymagana klasa (1..11) i jej minimalny poziom |
 | `SUBCLASS` | wymagana podklasa DS (nazwa wiersza z tabeli podklas, np. `FIGHTER_DS`) |
 | `MAX_LEVEL` | najwyższy poziom klasy prestiżowej (domyślnie 10) |
+| `RACE` | rasa (RACE.IDS 1..7, np. 4 krasnolud) – od test33 |
+| `FEAT1`..`FEAT3` | wymagane atuty (FEATS.IDS, np. 16 DODGE, 69 TOUGHNESS) |
+| `SKILL1`/`RANK1`, `SKILL2`/`RANK2` | umiejętność (SKILLS.IDS 0..15, np. 6 Hide, 9 Move_Silently) i minimalna liczba rang |
+| `ARCANE` | minimalna suma poziomów barda, zaklinacza i czarodzieja |
 
 W kreatorze klasa 1 jest ukryta; przy awansie przycisk „Prestige Class” jest aktywny, gdy postać ma już klasę
 prestiżową poniżej MAX_LEVEL albo spełnia warunki którejś z nich (okno wyboru pokazuje tylko spełnione). Jedna klasa

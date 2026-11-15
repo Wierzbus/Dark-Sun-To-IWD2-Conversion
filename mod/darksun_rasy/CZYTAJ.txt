@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test32: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test33: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -131,3 +131,16 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      Reinstall: 0 i potem 1-5.
      Sprawdzic: Arena Champion 10 (Ctrl+U) - przy kolejnym awansie przycisk klasy prestizowej szary.
      Szybszy test: wpisz w override\DSPREST.2DA MAX_LEVEL 2 dla ARENA_CHAMP (tabela czytana przy starcie gry).
+ test33: klasy prestizowe z SRD 3.5 - Dwarven Defender i Assassin; nowe warunki w DSPREST.2DA: RACE, FEAT1..FEAT3,
+     SKILL1/RANK1, SKILL2/RANK2, ARCANE (suma poziomow barda, zaklinacza i czarodzieja).
+     - Dwarven Defender: krasnolud, praworzadny, BAB +7, atuty Dodge i Toughness. k12, BAB wojownika, rzuty jak kaplan
+       (Wytrwalosc i Wola dobre), +1 KP na 1/4/7/10, Defensive Stance (zdolnosc: +2 SIL, +4 KON, +4 KP, +2 do rzutow)
+       na 1/3/5/7/9, Uncanny Dodge 2/6, redukcja obrazen 3/- na 6 i 10 (opcode 436 - do sprawdzenia).
+     - Assassin: charakter zly, Hide 8 i Move Silently 8 rang. k6, sredni BAB, dobry Refleks, atak z zaskoczenia jak
+       lotrzyk tego poziomu, Uncanny Dodge 2/5, Invisibility na 4 i 8. Death attack i trucizny - pozniej.
+     Reinstall: 0 i potem 1-5. Testy 2DA: testy_2da_test33 (DSKLPROG z nowymi wierszami).
+     Sprawdzic:
+     - krasnolud praworzadny z BAB +7, Dodge i Toughness (np. wojownik 7): przy awansie Prestige Class -> Dwarven Defender
+       dostepny; bez Toughness albo nie-krasnolud - niedostepny,
+     - Defender 1: KP +1, Defensive Stance w zdolnosciach (ikona szalu), dziala i znika po czasie, bez zmeczenia,
+     - zly lotrzyk z Hide 8 i Move Silently 8: Assassin dostepny; atak z zaskoczenia, Invisibility na 4.

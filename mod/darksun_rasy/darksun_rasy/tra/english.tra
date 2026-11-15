@@ -110,6 +110,21 @@ Requirements: character level 5, base attack bonus +5, Gladiator (Fighter subcla
 Requirements: character level 7, Wizard level 7.
 
 (Experimental prestige class, test30: d4, wizard attack bonus and saves. No spellcasting progression of its own. Test ability at level 1: Spell Shield.)~
+@341 = ~dwarven defender~
+@342 = ~Dwarven Defender~
+@343 = ~DWARVEN DEFENDER (prestige class): Dwarves who make the defence of their focus - a village, a well, a mine - the whole purpose of their lives. A line of defenders holds better than a wall.
+
+Requirements: dwarf, lawful alignment, base attack bonus +7, feats Dodge and Toughness.
+
+(Experimental prestige class, test33: d12, fighter attack bonus, good Fortitude and Will. +1 AC at levels 1, 4, 7 and 10, Defensive Stance at 1, 3, 5, 7 and 9 (one use per day each), Uncanny Dodge at 2 and 6, damage reduction 3/- at 6 and 10.)~
+@344 = ~Defensive Stance~
+@351 = ~assassin~
+@352 = ~Assassin~
+@353 = ~ASSASSIN (prestige class): Killers for hire of the merchant houses and the templars of the city-states, masters of the quiet death.
+
+Requirements: evil alignment, Hide 8 ranks, Move Silently 8 ranks.
+
+(Experimental prestige class, test33: d6, medium attack bonus, good Reflex. Sneak attack like a rogue of the same level, Uncanny Dodge at 2 and 5, Invisibility at 4 and 8. Death attack and poison use - next tests.)~
 @301 = ~fire cleric~
 @302 = ~Fire Cleric~
 @303 = ~FIRE CLERIC: Clerics of Fire serve the elemental plane of flame, the most destructive of the four elements under the crimson sun of Athas.

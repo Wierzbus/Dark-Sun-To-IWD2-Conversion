@@ -48,6 +48,10 @@ ZDOLNOSCI = {
     "DSDRVEN": [efekt(101, p2=25)],
     # barbarzynca od 1. poziomu: +2 do szybkosci ruchu (opcode 126, p2=0 = dodaj); w exe x1.2 w 0x72E2DC..0x72E31E
     "DSBBNMV": [efekt(126, p1=2, p2=0)],
+    # test33 Dwarven Defender: premia do KP +1 (opcode 0; CLAB na 1/4/7/10 = +4 lacznie)
+    "DSDDAC": [efekt(0, p1=1, p2=0)],
+    # test33 Dwarven Defender: redukcja obrazen 3/- (opcode 436, p1 = wartosc; CLAB na 6 i 10) - do sprawdzenia w grze
+    "DSDDDR": [efekt(436, p1=3, p2=0)],
 }
 
 

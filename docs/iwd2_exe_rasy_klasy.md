@@ -455,3 +455,10 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 ## 26. Limit poziomów klasy prestiżowej (test32)
 - `pr_dost`: postać z poziomami klasy 1 – przycisk aktywny tylko, gdy poziom klasy 1 < `pr_max(postać)` = DSPREST.2DA
   kolumna MAX_LEVEL wiersza jej klasy prestiżowej (bajt klasy 1, plik CRE 0x30C); 0 / brak kolumny / wiersza = 10.
+
+## 27. Warunki klas prestiżowych: rasa, atuty, umiejętności, czary tajemne (test33)
+- `pr_wpis` (kity.asm), kolumny DSPREST.2DA: `RACE` – bajt postaci +0x26 (RACE.IDS); `FEAT1..3` – `0x763150(atut)`
+  (thiscall postać, bit w +0x75C + atut/32·4); `SKILL1/RANK1`, `SKILL2/RANK2` – rangi bazowe +0x7B4 + umiejętność
+  (jak 0x763E40); `ARCANE` – suma bajtów poziomów klas 2 (bard), 10 (zaklinacz), 11 (czarodziej) (+0x626 + klasa).
+- Defensive Stance: kopia SPIN236 (szał) – opcode 440 (szał barbarzyńcy, po nim zmęczenie `EffBBR` w 0x4A5C60)
+  zamieniony na 33 (Wytrwałość), 288 na 34 (Refleks), więc bez zmęczenia.

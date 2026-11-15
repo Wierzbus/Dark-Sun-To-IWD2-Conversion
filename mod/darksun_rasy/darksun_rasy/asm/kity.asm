@@ -836,6 +836,73 @@ pr_wpis:
     test ecx, ecx
     jz .nie
 .pod:
+    ; test33: rasa, atuty, rangi umiejetnosci, poziom czarow tajemnych
+    push n_race
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    test eax, eax
+    jle .atuty
+    cmp [ebx+0x26], al          ; rasa (RACE.IDS 1..7)
+    jne .nie
+.atuty:
+    mov dword [pr_k], 0
+.at:
+    mov eax, [pr_k]
+    push dword [n_featy+eax*4]
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    test eax, eax
+    jle .atn
+    push eax
+    mov ecx, ebx
+    call 0x763150               ; postac ma atut (FEATS.IDS)?
+    test eax, eax
+    jz .nie
+.atn:
+    inc dword [pr_k]
+    cmp dword [pr_k], 3
+    jb .at
+    mov dword [pr_k], 0
+.um:
+    mov eax, [pr_k]
+    push dword [n_rangi+eax*4]
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    test eax, eax
+    jle .umn
+    push eax                    ; ranga
+    mov eax, [pr_k]
+    push dword [n_umiej+eax*4]
+    push dword [pr_w]
+    push edi
+    call pr_wart                ; umiejetnosc (SKILLS.IDS 0..15)
+    pop ecx
+    cmp eax, 15
+    ja .nie
+    movzx eax, byte [ebx+0x7b4+eax]
+    cmp eax, ecx
+    jl .nie
+.umn:
+    inc dword [pr_k]
+    cmp dword [pr_k], 2
+    jb .um
+    push n_arcane
+    push dword [pr_w]
+    push edi
+    call pr_wart
+    test eax, eax
+    jle .pod2
+    movzx ecx, byte [ebx+0x626+2]   ; bard
+    movzx edx, byte [ebx+0x626+10]  ; zaklinacz
+    add ecx, edx
+    movzx edx, byte [ebx+0x626+11]  ; czarodziej
+    add ecx, edx
+    cmp ecx, eax
+    jl .nie
+.pod2:
     push 1
     push n_subclass
     push edi
@@ -1867,6 +1934,19 @@ n_class:    db 'CLASS', 0
 n_clevel:   db 'CLASS_LEVEL', 0
 n_subclass: db 'SUBCLASS', 0
 n_maxlev:   db 'MAX_LEVEL', 0
+n_race:     db 'RACE', 0
+n_feat1:    db 'FEAT1', 0
+n_feat2:    db 'FEAT2', 0
+n_feat3:    db 'FEAT3', 0
+n_skill1:   db 'SKILL1', 0
+n_skill2:   db 'SKILL2', 0
+n_rank1:    db 'RANK1', 0
+n_rank2:    db 'RANK2', 0
+n_arcane:   db 'ARCANE', 0
+align 4
+n_featy:    dd n_feat1, n_feat2, n_feat3
+n_umiej:    dd n_skill1, n_skill2
+n_rangi:    dd n_rank1, n_rank2
 align 4
 pr_w:       dd 0
 pr_k:       dd 0
