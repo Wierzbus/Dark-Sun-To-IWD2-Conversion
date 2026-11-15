@@ -295,3 +295,20 @@ Przykład – barbarzyńca jako podklasa wojownika (`BARBARIAN_F`): kolumna `BAR
 (zera – bez premiowych atutów wojownika), w SKILLPTS = BBN, w DSKLASY = BBN (Uncanny Dodge 2 / 5); DSKLPROG
 `HPBARB BAATFGT SAVEWAR`; CLAB = kopia CLABFI05 (szał, szybkość). Jeszcze bez kolumn podklas: SKILLS.2DA (umiejętności
 klasowe) i FEATS.2DA (dostępne atuty) – czytane po indeksie w wielu miejscach exe.
+
+## 9. Klasy prestiżowe – DSPREST.2DA (test30, MAX_LEVEL od test32)
+
+Klasa prestiżowa = podklasa klasy 1 (slot dawnego barbarzyńcy): wpis w tabeli podklas komponentu 2 (klasa 1),
+wiersz w DSKLPROG (PW / BAB / rzuty), CLABDSnn, wiersz w ALIGNMNT (charakter) i wiersz w DSPREST.2DA:
+
+| Kolumna | Znaczenie (0 / * = bez warunku) |
+|---|---|
+| `LEVEL` | minimalny poziom postaci |
+| `BAB` | minimalna suma premii do ataku klas postaci |
+| `CLASS`, `CLASS_LEVEL` | wymagana klasa (1..11) i jej minimalny poziom |
+| `SUBCLASS` | wymagana podklasa DS (nazwa wiersza z tabeli podklas, np. `FIGHTER_DS`) |
+| `MAX_LEVEL` | najwyższy poziom klasy prestiżowej (domyślnie 10) |
+
+W kreatorze klasa 1 jest ukryta; przy awansie przycisk „Prestige Class” jest aktywny, gdy postać ma już klasę
+prestiżową poniżej MAX_LEVEL albo spełnia warunki którejś z nich (okno wyboru pokazuje tylko spełnione). Jedna klasa
+prestiżowa na postać. Kara PD za wieloklasowość nie liczy klasy prestiżowej.

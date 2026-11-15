@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test31-2026-11-15~
+VERSION ~test32-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -521,6 +521,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   COPY ~darksun_rasy/2da/CLABDS13.2DA~ ~override~
   // DSPREST.2DA: wiersz = podklasa klasy 1 (klasa prestizowa); LEVEL - poziom postaci, BAB - suma premii do ataku klas,
   // CLASS / CLASS_LEVEL - wymagana klasa (1..11) i jej poziom, SUBCLASS - wymagana podklasa DS (wiersz z tabeli podklas).
+  // MAX_LEVEL - najwyzszy poziom klasy prestizowej (0 / brak = 10): po nim przycisk klasy 1 przy awansie nieaktywny.
   // 0 / * = bez warunku. Charakter: wiersz podklasy w ALIGNMNT. Exe: przycisk klasy 1 przy awansie aktywny, gdy postac
   // ma juz klase prestizowa albo spelnia warunki ktorejs; w oknie wyboru tylko spelnione. W kreatorze klasa 1 ukryta.
   COPY ~darksun_rasy/2da/DSPREST.2DA~ ~override~

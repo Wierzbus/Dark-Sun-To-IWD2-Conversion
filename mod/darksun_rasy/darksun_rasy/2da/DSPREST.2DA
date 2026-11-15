@@ -1,5 +1,5 @@
 2DA V1.0
 0
-              LEVEL  BAB  CLASS  CLASS_LEVEL  SUBCLASS
-ARENA_CHAMP   5      5    5      5            FIGHTER_DS
-ARCH_DEFILER  7      0    11     7            *
+              LEVEL  BAB  CLASS  CLASS_LEVEL  SUBCLASS    MAX_LEVEL
+ARENA_CHAMP   5      5    5      5            FIGHTER_DS  10
+ARCH_DEFILER  7      0    11     7            *           10

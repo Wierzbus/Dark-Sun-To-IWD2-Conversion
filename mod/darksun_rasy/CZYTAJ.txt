@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test31: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test32: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -126,3 +126,8 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - Barbarian Warrior 15 (Ctrl+U): szal zamieniony na Greater Rage; 20: bez zmeczenia po szale,
      - atut Extra Rage u Barbarian Warrior 15+: dodatkowe uzycia Greater Rage,
      - klasa prestizowa 15+: bez Greater Rage.
+ test32: limit poziomow klasy prestizowej - DSPREST.2DA kolumna MAX_LEVEL (0 / brak = 10). Po osiagnieciu limitu
+     przycisk "Prestige Class" przy awansie nieaktywny; inne klasy dalej do wyboru.
+     Reinstall: 0 i potem 1-5.
+     Sprawdzic: Arena Champion 10 (Ctrl+U) - przy kolejnym awansie przycisk klasy prestizowej szary.
+     Szybszy test: wpisz w override\DSPREST.2DA MAX_LEVEL 2 dla ARENA_CHAMP (tabela czytana przy starcie gry).

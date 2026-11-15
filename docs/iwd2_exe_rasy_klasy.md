@@ -451,3 +451,7 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   Greater Rage od klasy 1 ≥ 15). Teraz `zdol(wiersz, postać)` (kity.asm): któraś klasa (poziom ze statystyk +0x920)
   osiąga próg z DSKLASY – wiersz 6 GREATER_RAGE, 7 TIRELESS_RAGE, kolumna klasy albo podklasy (`prog_p`). Brak wiersza
   → oryginał.
+
+## 26. Limit poziomów klasy prestiżowej (test32)
+- `pr_dost`: postać z poziomami klasy 1 – przycisk aktywny tylko, gdy poziom klasy 1 < `pr_max(postać)` = DSPREST.2DA
+  kolumna MAX_LEVEL wiersza jej klasy prestiżowej (bajt klasy 1, plik CRE 0x30C); 0 / brak kolumny / wiersza = 10.

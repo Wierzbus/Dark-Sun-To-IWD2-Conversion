@@ -893,8 +893,17 @@ pr_dost:
     push ecx
     push edx
     mov ecx, [esp+0xc]
-    cmp byte [ecx+0x626+KL_PREST], 0
-    jne .tak
+    movzx eax, byte [ecx+0x626+KL_PREST]
+    test eax, eax
+    jz .szukaj
+    push eax                    ; ma juz klase prestizowa: awans do MAX_LEVEL
+    push ecx
+    call pr_max
+    pop ecx
+    cmp ecx, eax
+    jl .tak
+    jmp .nie
+.szukaj:
     xor eax, eax
 .p: push eax
     mov ecx, KL_PREST
@@ -916,6 +925,46 @@ pr_dost:
     jmp .k
 .nie:
     xor eax, eax
+.k: pop edx
+    pop ecx
+    ret 4
+
+; pr_max(postac) -> eax = najwyzszy poziom klasy prestizowej postaci (DSPREST.2DA kolumna MAX_LEVEL; 0 / brak = 10)
+pr_max:
+    push ecx
+    push edx
+    mov ecx, [esp+0xc]
+    movzx edx, byte [ecx+BAJTY+KL_PREST-1]
+    test edx, edx
+    jz .dom
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    push edx
+    push n_prest
+    call wczytaj
+    pop edx
+    test eax, eax
+    jz .dom
+    cmp word [eax+0x22], 0
+    jle .dom
+    push eax
+    push 0
+    lea ecx, [edx+8]
+    push ecx
+    push eax
+    call szukaj
+    pop ecx                     ; tabela
+    cmp eax, -1
+    je .dom
+    push n_maxlev
+    push eax
+    push ecx
+    call pr_wart
+    test eax, eax
+    jg .k
+.dom:
+    mov eax, 10
 .k: pop edx
     pop ecx
     ret 4
@@ -1817,6 +1866,7 @@ n_bab:      db 'BAB', 0
 n_class:    db 'CLASS', 0
 n_clevel:   db 'CLASS_LEVEL', 0
 n_subclass: db 'SUBCLASS', 0
+n_maxlev:   db 'MAX_LEVEL', 0
 align 4
 pr_w:       dd 0
 pr_k:       dd 0
