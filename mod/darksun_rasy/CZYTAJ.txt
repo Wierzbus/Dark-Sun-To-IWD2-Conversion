@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test34: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test35: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -156,3 +156,13 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      Nie zrobione (nastepne rundy, jesli potrzebne): poziom rzucajacego przy rzucaniu (sila / czas czarow), okno wyboru
      znanych czarow zaklinacza i barda przy awansie klasy prestizowej, nauka czarow wyzszego kregu ze zwojow
      (do sprawdzenia - moze dzialac od razu).
+ test35: poziom rzucajacego (sila, zasieg, czas trwania czarow) tez liczy poziomy klasy prestizowej z SPELLCLASS.
+     Gra bierze najwyzszy poziom z ksiag postaci (paladyn / tropiciel: polowa od 4.); teraz poziom klasy rzucajacej
+     + poziomy klasy prestizowej. Czary kaplana / druida nowego kregu dochodza przy kazdym awansie (gra przelicza listy
+     wszystkich klas boskich przy awansie dowolnej klasy) - to dzialalo juz w test34.
+     Reinstall: 0 i potem 1-5.
+     Sprawdzic:
+     - czarodziej 7 + Arch-Defiler 3: Magic Missile - 5 pociskow (poziom 10) zamiast 4; czas trwania czarow dluzszy,
+     - nauka czaru 5. kregu ze zwoju przy czarodzieju 7 + Arch-Defiler 2.
+     Nadal nie: okno wyboru znanych czarow zaklinacza i barda przy awansie klasy prestizowej (okno awansu dziala
+     na klasie wlasnie zdobywanej - zmiana grozi bledami ksiag; do osobnej decyzji).

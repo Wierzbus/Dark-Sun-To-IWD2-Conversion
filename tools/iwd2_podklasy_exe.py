@@ -107,6 +107,10 @@ HAKI4 = [
     (0x71EB3B, "e8508ed2ff", "call", "cz_lvl", 0),               # awans: najwyzszy krag czarow kaplana / druida
     (0x716806, "e88511d3ff", "call", "cz_lvl", 0),               # domeny kaplana: najwyzszy krag
     (0x5E62B1, "e8da16e6ff", "call", "cz_lvl", 0),               # awans kaplana: domeny
+    # test35: poziom rzucajacego (0x75EA..: najwyzszy z ksiag; paladyn / tropiciel polowa od 4.)
+    (0x75EB49, "e8428eceff", "call", "cz_lvl", 0),
+    (0x75EB59, "e8328eceff", "call", "cz_lvl", 0),
+    (0x75EB6E, "e81d8eceff", "call", "cz_lvl", 0),
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy

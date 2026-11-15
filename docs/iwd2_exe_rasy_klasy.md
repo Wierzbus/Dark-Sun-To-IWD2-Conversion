@@ -474,3 +474,9 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   (statystyki +0x47), gdy podklasa klasy 1 postaci ma w DSPREST `SPELLCLASS` = klasa. Postać ze statystyk (+0x920 / +0x1778,
   vtable 0x85BDD4), inaczej z CTX (0xA22F18, ekran awansu).
 - Nie ruszane: poziom rzucającego przy rzucaniu, okna wyboru czarów zaklinacza / barda przy awansie.
+- (test35) Poziom rzucającego: funkcja ok. 0x75EA..0x75EBAF – pętla po księgach (0x5CA5D0 / 0x5CA730 → klasa), poziom
+  0x447990 (0x75EB49 zwykły, 0x75EB59 +1 przy bóstwie z domeną, 0x75EB6E paladyn / tropiciel: od 4. połowa), wynik =
+  najwyższy. Haki `cz_lvl` na trzech wywołaniach.
+- Lista czarów boskich (0x71E9F0) jest wołana dla kapłana, druida, paladyna i tropiciela przy każdym awansie (0x5E57BE..),
+  wczytaniu (0x5A1728..) i w kreatorze (0x60B469..) – najwyższy krąg z hakiem 0x71EB3B, więc nowe kręgi z klasy
+  prestiżowej dochodzą od razu.
