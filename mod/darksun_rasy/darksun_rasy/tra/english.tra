@@ -125,6 +125,13 @@ Requirements: dwarf, lawful alignment, base attack bonus +7, feats Dodge and Tou
 Requirements: evil alignment, Hide 8 ranks, Move Silently 8 ranks.
 
 (Experimental prestige class, test33: d6, medium attack bonus, good Reflex. Sneak attack like a rogue of the same level, Uncanny Dodge at 2 and 5, Invisibility at 4 and 8. Death attack and poison use - next tests.)~
+@361 = ~elemental adept~
+@362 = ~Elemental Adept~
+@363 = ~ELEMENTAL ADEPT (prestige class, test): sorcerers who bind their power to one of the four elemental planes worshipped on Athas.
+
+Requirements: Sorcerer level 3.
+
+(Experimental prestige class, test36 - spellcasting test: d4, wizard attack bonus and saves; each level counts as a sorcerer level for spell slots, caster level and new known spells (spell choice window at level-up). Test ability at level 1: Spell Shield.)~
 @301 = ~fire cleric~
 @302 = ~Fire Cleric~
 @303 = ~FIRE CLERIC: Clerics of Fire serve the elemental plane of flame, the most destructive of the four elements under the crimson sun of Athas.

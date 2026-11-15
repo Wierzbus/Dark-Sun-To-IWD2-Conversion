@@ -5,3 +5,4 @@ ARENA_CHAMP   5      5    5      5            FIGHTER_DS  10         0     0    
 ARCH_DEFILER  7      0    11     7            *           10         0     0      0      0      0       0      0       0      0  11
 DWARVEN_DEF   0      7    0      0            *           10         4     16     69     0      0       0      0       0      0  0
 ASSASSIN      0      0    0      0            *           10         0     0      0      0      6       8      9       8      0  0
+ELEM_ADEPT    0      0    10     3            *           10         0     0      0      0      0       0      0       0      0  10

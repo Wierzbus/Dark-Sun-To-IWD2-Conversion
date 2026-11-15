@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test35-2026-11-15~
+VERSION ~test36-2026-11-15~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -224,8 +224,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     12, 1, ARCH_DEFILER, CLABDS13, 0D => 331
     13, 1, DWARVEN_DEF,  CLABDS14, 0E => 341
     14, 1, ASSASSIN,     CLABDS15, 0F => 351
+    15, 1, ELEM_ADEPT,   CLABDS13, 10 => 361
   END
-  OUTER_SET ds_n_kitow = 15
+  OUTER_SET ds_n_kitow = 16
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 320
@@ -293,6 +294,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~351~) = RESOLVE_STR_REF(@351)
   OUTER_SET $ds_str(~352~) = RESOLVE_STR_REF(@352)
   OUTER_SET $ds_str(~353~) = RESOLVE_STR_REF(@353)
+  OUTER_SET $ds_str(~361~) = RESOLVE_STR_REF(@361)
+  OUTER_SET $ds_str(~362~) = RESOLVE_STR_REF(@362)
+  OUTER_SET $ds_str(~363~) = RESOLVE_STR_REF(@363)
   // UWAGA: COPY - zapamietuje bufor jako plik "inlined" pod nazwa CELU i kazdy pozniejszy COPY tej nazwy czyta go
   // z pamieci, nie z dysku (az do konca instalacji). Dlatego cel sprawdzenia to *_spr.tmp, nigdy sam exe -
   // inaczej nastepne komponenty nadpisywaly exe stara kopia (pusta tabela podklas w test26).
@@ -379,6 +383,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_F~ wzor = ~BARBARIAN~ END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ARENA_CHAMP~ wzor = ~FIGHTER~   END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCH_DEFILER~ wzor = ~WIZARD~   END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~ELEM_ADEPT~  wzor = ~SORCERER~ END
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -405,6 +410,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCH_DEFILER~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~DWARVEN_DEF~  wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ASSASSIN~     wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~ELEM_ADEPT~   wzor = ~BARBARIAN~ END
     END
   END
 

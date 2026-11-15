@@ -480,3 +480,13 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Lista czarów boskich (0x71E9F0) jest wołana dla kapłana, druida, paladyna i tropiciela przy każdym awansie (0x5E57BE..),
   wczytaniu (0x5A1728..) i w kreatorze (0x60B469..) – najwyższy krąg z hakiem 0x71EB3B, więc nowe kręgi z klasy
   prestiżowej dochodzą od razu.
+
+## 29. Okno 8 awansu (znane czary barda / zaklinacza) dla klasy prestiżowej (test36)
+- 0x5E0FD0 przypadek 8 (0x5E126C): okno, gdy `[ekran+0x106]` = 2 / 10 i liczba znanych czarów kręgu (SPLBRDKN reguły
+  +0x568, SPLSRCKN +0x58C) dla nowego poziomu (statystyki postaci) > dla starego (kopia `[ekran+0x85E]`); licznik kręgu
+  `[ekran+0x1776]`. Aktualizacja okna 0x5D99C9.., zatwierdzenie 0x5E57F6 (wskaźnik klasy w edi), obsługa 0x5EC067.
+- `wirt(ekran)`: klasa 1 z podklasą prestiżową, której SPELLCLASS = 2 / 10 → ta klasa (bajt `KL_WIRT`, wskaźnik do niego
+  zamiast `&[ekran+0x106]`). Haki: 0x5E126C `kw_a`, 0x5D99C9 `kw_b`, 0x5D9F04 `kw_c`, 0x5DA005 `kw_d`, 0x5E57F6 `kw_e`,
+  0x5EC067 `kw_f`; poziomy w liczeniu znanych czarów (0x5D9A00, 0x5D9ACF, 0x5E12D3, 0x5E133D, 0x5E13AF, 0x5E141A) przez `cz_lvl`.
+- `pr_czar` dla kopii statystyk ekranu awansu: bajt klasy 1 z kopii nagłówka `[ekran+0x85A]` + 0x304; na 1. poziomie
+  klasy prestiżowej (bajt jeszcze 0) – wybór z okna 6 (starszy bajt `[ekran+0x846]`).

@@ -105,9 +105,9 @@ def rasy(out_dir):
         "2DA V1.0\n****\n          %s\nABILITY1  %s\nABILITY2  %s\n" % (kol, "  ".join(a1), "  ".join(a2)))
 
 
-CZYTAJ = r"""TESTOWE TABELE 2DA - paczka 2 (test20-test34)
+CZYTAJ = r"""TESTOWE TABELE 2DA - paczka 2 (test20-test36)
 
-Wymaga: paczka 2 test34 zainstalowana (komponenty 0-5; 6 = kody do awansu), gra z IWD2_<W>_DS.exe.
+Wymaga: paczka 2 test36 zainstalowana (komponenty 0-5; 6 = kody do awansu), gra z IWD2_<W>_DS.exe.
 Przed skopiowaniem zrob kopie override\DSKLPROG.2DA, LISTSPLL.2DA, LISTDOMN.2DA, DSRASY.2DA, DSRWROG.2DA.
 Skopiuj zawartosc katalogu klasy\ (i opcjonalnie rasy\) do override. Tabele sa czytane przy starcie gry.
 Wszystkie testy na NOWYCH postaciach (kreator) - istniejace postacie nie dostana list z minionych poziomow.

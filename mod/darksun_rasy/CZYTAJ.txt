@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test35: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test36: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -166,3 +166,13 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - nauka czaru 5. kregu ze zwoju przy czarodzieju 7 + Arch-Defiler 2.
      Nadal nie: okno wyboru znanych czarow zaklinacza i barda przy awansie klasy prestizowej (okno awansu dziala
      na klasie wlasnie zdobywanej - zmiana grozi bledami ksiag; do osobnej decyzji).
+ test36: okno wyboru znanych czarow przy awansie klasy prestizowej z SPELLCLASS 2 (bard) albo 10 (zaklinacz).
+     Ekran awansu traktuje wtedy klase prestizowa jak bard / zaklinacz w oknie czarow (pokazanie okna, lista, zapis
+     do ksiegi). Testowa klasa: Elemental Adept (zaklinacz 3, SPELLCLASS 10, Spell Shield).
+     UWAGA: eksperymentalne - przed testem zrob zapis gry.
+     Reinstall: 0 i potem 1-5. Testy 2DA: testy_2da_test36.
+     Sprawdzic:
+     - zaklinacz 3 -> Elemental Adept 1: po oknie podklasy pojawia sie okno wyboru znanych czarow, nowe czary trafiaja
+       do ksiegi zaklinacza i da sie je rzucic,
+     - kolejne poziomy Elemental Adepta: okno czarow, gdy przybywa znanych czarow (jak zaklinacz 5, 6, ...),
+     - zwykly awans zaklinacza i barda bez zmian; awans innych klas prestizowych bez okna czarow.

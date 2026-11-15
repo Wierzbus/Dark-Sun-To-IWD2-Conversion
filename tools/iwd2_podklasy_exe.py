@@ -111,6 +111,19 @@ HAKI4 = [
     (0x75EB49, "e8428eceff", "call", "cz_lvl", 0),
     (0x75EB59, "e8328eceff", "call", "cz_lvl", 0),
     (0x75EB6E, "e81d8eceff", "call", "cz_lvl", 0),
+    # test36: okno 8 awansu (wybor znanych czarow barda / zaklinacza) dla klasy prestizowej z SPELLCLASS 2 / 10
+    (0x5D9A00, "e88bdfe6ff", "call", "cz_lvl", 0),               # okno 8: liczba znanych czarow barda
+    (0x5D9ACF, "e8bcdee6ff", "call", "cz_lvl", 0),               # zaklinacza
+    (0x5E12D3, "e8b866e6ff", "call", "cz_lvl", 0),               # czy pokazac okno 8: bard (stary poziom)
+    (0x5E133D, "e84e66e6ff", "call", "cz_lvl", 0),               # bard (nowy)
+    (0x5E13AF, "e8dc65e6ff", "call", "cz_lvl", 0),               # zaklinacz (stary)
+    (0x5E141A, "e87165e6ff", "call", "cz_lvl", 0),               # zaklinacz (nowy)
+    (0x5E126C, "8a8e0601000080f9028d9606010000", "jmp", "kw_a", 10),
+    (0x5D99C9, "8d8506010000894424188a00", "jmp", "kw_b", 7),
+    (0x5D9F04, "8a8506010000", "jmp", "kw_c", 1),
+    (0x5DA005, "8d82060100008a00", "jmp", "kw_d", 3),
+    (0x5E57F6, "8a86060100008dbe06010000", "jmp", "kw_e", 7),
+    (0x5EC067, "8a8e06010000", "call", "kw_f", 1),
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy

@@ -689,38 +689,12 @@ klist_kit:
 ; miejscach na czary (MXSPLxxx, 0x5431E0) i przy najwyzszym kregu czarow kaplana / druida przy awansie (0x71EB3B).
 CTX_R     equ 0xA22F18          ; postac z ostatniego liczenia rzutow / PW (rasy.asm)
 
-; pr_czar(statystyki, klasa) -> eax = poziomy klasy prestizowej doliczane do tej klasy (0 gdy brak). stdcall
-pr_czar:
-    push ebx
+; pr_spellcl(wpis) -> eax = SPELLCLASS podklasy z DSPREST.2DA (0 gdy brak). stdcall, zachowuje rejestry poza eax
+pr_spellcl:
     push ecx
     push edx
     push esi
-    push edi
-    mov esi, [esp+0x18]         ; statystyki (poziom klasy k pod +0x46 + k)
-    xor edi, edi
-    test esi, esi
-    jz .k
-    movzx edi, byte [esi+0x46+KL_PREST]
-    test edi, edi
-    jz .k
-    ; postac: statystyki w postaci (+0x920 albo +0x1778), inaczej ostatnia postac z CTX (ekran awansu)
-    lea ebx, [esi-0x920]
-    cmp dword [ebx], 0x85bdd4
-    je .p
-    lea ebx, [esi-0x1778]
-    cmp dword [ebx], 0x85bdd4
-    je .p
-    mov ebx, [CTX_R]
-    test ebx, ebx
-    jz .zero
-    cmp dword [ebx], 0x85bdd4
-    jne .zero
-.p: movzx edx, byte [ebx+BAJTY+KL_PREST-1]
-    test edx, edx
-    jz .zero
-    dec edx
-    shl edx, 5
-    add edx, KITY
+    mov edx, [esp+0x10]
     push edx
     push n_prest
     call wczytaj
@@ -741,6 +715,96 @@ pr_czar:
     push eax
     push esi
     call pr_wart
+    jmp .k
+.zero:
+    xor eax, eax
+.k: pop esi
+    pop edx
+    pop ecx
+    ret 4
+
+; ekran_wpis: ebx = ekran awansu -> edx = wpis klasy prestizowej wybranej w oknie 6 (starszy bajt [+0x846], klasa 1)
+; albo z kopii naglowka postaci sprzed awansu ([+0x85A] + 0x304 = bajt klasy 1), albo 0
+ekran_wpis:
+    mov edx, [ebx+0x846]
+    shr edx, 24
+    jz .kopia
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    cmp byte [edx+0x17], KL_PREST
+    je .k
+.kopia:
+    mov edx, [ebx+0x85a]
+    test edx, edx
+    jz .zero
+    movzx edx, byte [edx+0x304]
+    test edx, edx
+    jz .zero
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    ret
+.zero:
+    xor edx, edx
+.k: ret
+
+; pr_czar(statystyki, klasa) -> eax = poziomy klasy prestizowej doliczane do tej klasy (0 gdy brak). stdcall
+pr_czar:
+    push ebx
+    push ecx
+    push edx
+    push esi
+    push edi
+    mov esi, [esp+0x18]         ; statystyki (poziom klasy k pod +0x46 + k)
+    xor edi, edi
+    test esi, esi
+    jz .k
+    movzx edi, byte [esi+0x46+KL_PREST]
+    test edi, edi
+    jz .k
+    xor edx, edx
+    ; postac: statystyki w postaci (+0x920 / +0x1778)
+    lea ebx, [esi-0x920]
+    cmp dword [ebx], 0x85bdd4
+    je .post
+    lea ebx, [esi-0x1778]
+    cmp dword [ebx], 0x85bdd4
+    je .post
+    ; kopia statystyk ekranu awansu ([ekran+0x85E]) - bajt klasy z kopii naglowka
+    mov ebx, [0x8cf6dc]
+    mov ebx, [ebx+0x1c60]
+    test ebx, ebx
+    jz .ctx
+    cmp esi, [ebx+0x85e]
+    jne .ctx
+    call ekran_wpis
+    jmp .wpis
+.ctx:
+    mov ebx, [CTX_R]
+    test ebx, ebx
+    jz .ekran
+    cmp dword [ebx], 0x85bdd4
+    jne .ekran
+.post:
+    movzx edx, byte [ebx+BAJTY+KL_PREST-1]
+    test edx, edx
+    jz .ekran
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    jmp .wpis
+.ekran:                         ; awans na 1. poziom klasy prestizowej: bajt jeszcze pusty - wybor z okna 6
+    mov ebx, [0x8cf6dc]
+    mov ebx, [ebx+0x1c60]
+    test ebx, ebx
+    jz .zero
+    call ekran_wpis
+.wpis:
+    test edx, edx
+    jz .zero
+    push edx
+    call pr_spellcl
     cmp eax, [esp+0x1c]         ; klasa
     je .k
 .zero:
@@ -752,6 +816,76 @@ pr_czar:
     pop ecx
     pop ebx
     ret 8
+
+; wirt(ekran) -> eax = klasa awansu dla okien czarow: [+0x106], a dla klasy prestizowej z SPELLCLASS 2 / 10 (bard,
+; zaklinacz) - ta klasa (okno 8: wybor znanych czarow). stdcall, zachowuje rejestry poza eax
+wirt:
+    push ebx
+    push ecx
+    push edx
+    mov ebx, [esp+0x10]
+    movzx eax, byte [ebx+0x106]
+    cmp eax, KL_PREST
+    jne .k
+    call ekran_wpis
+    test edx, edx
+    jz .p
+    push edx
+    call pr_spellcl
+    cmp eax, 2
+    je .k
+    cmp eax, 10
+    je .k
+.p: mov eax, KL_PREST
+.k: mov [KL_WIRT], al
+    pop edx
+    pop ecx
+    pop ebx
+    ret 4
+
+; okno 8 (wybor znanych czarow barda / zaklinacza) - klasa z wirt zamiast [ekran+0x106]
+; 0x5E126C (czy pokazac okno 8; esi = ekran)
+kw_a:
+    push eax
+    push esi
+    call wirt
+    mov cl, al
+    pop eax
+    mov edx, KL_WIRT
+    cmp cl, 2
+    jmp 0x5e127b
+; 0x5D99C9 (aktualizacja okna 8; ebp = ekran)
+kw_b:
+    push ebp
+    call wirt
+    mov eax, KL_WIRT
+    mov [esp+0x18], eax
+    mov al, [eax]
+    jmp 0x5d99d5
+; 0x5D9F04
+kw_c:
+    push ebp
+    call wirt
+    jmp 0x5d9f0a
+; 0x5DA005 (edx = ekran)
+kw_d:
+    push edx
+    call wirt
+    jmp 0x5da00d
+; 0x5E57F6 (zatwierdzenie awansu: znane czary barda / zaklinacza; esi = ekran)
+kw_e:
+    push esi
+    call wirt
+    mov edi, KL_WIRT
+    jmp 0x5e5802
+; 0x5EC067 (call; esi = ekran) -> cl = klasa
+kw_f:
+    push eax
+    push esi
+    call wirt
+    mov cl, al
+    pop eax
+    ret
 
 ; zamiast "call 0x447990" (poziom klasy, thiscall ecx = statystyki, [esp+4] = klasa) w miejscach liczenia czarow
 cz_lvl:
@@ -2051,6 +2185,8 @@ n_rangi:    dd n_rank1, n_rank2
 align 4
 pr_w:       dd 0
 pr_k:       dd 0
+KL_WIRT:    db 0
+align 4
 align 4
 opis_dom:   dd k_dom, n_listdomn, k_domres, DLPTR, DFLG, DPAR
 opis_spl:   dd k_spells, n_listspll, k_splres, SLPTR, SFLG, SPAR
