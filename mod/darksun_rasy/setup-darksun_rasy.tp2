@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test39-2026-11-16~
+VERSION ~test40-2026-11-16~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -295,6 +295,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~352~) = RESOLVE_STR_REF(@352)
   OUTER_SET $ds_str(~353~) = RESOLVE_STR_REF(@353)
   OUTER_SET $ds_str(~324~) = RESOLVE_STR_REF(@324)
+  OUTER_SET $ds_str(~325~) = RESOLVE_STR_REF(@325)
   OUTER_SET $ds_str(~361~) = RESOLVE_STR_REF(@361)
   OUTER_SET $ds_str(~362~) = RESOLVE_STR_REF(@362)
   OUTER_SET $ds_str(~363~) = RESOLVE_STR_REF(@363)
@@ -343,6 +344,10 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
             SET ds_np = $ds_str(~324~)
             WRITE_LONG 0x1EB6FE ds_np
           END
+          // test40: przycisk 2 okna 6 dla klasy prestizowej - nastepna strona listy (0xA25F00)
+          SET ds_np = $ds_str(~325~)
+          WRITE_LONG 0x4D0F00 ds_np
+          WRITE_LONG 0x4D0F04 8         // klas prestizowych na stronie (komponent 7: 2)
           PHP_EACH ds_nok AS kl => tra BEGIN
             SET t = $ds_str(~%tra%~)
             WRITE_LONG (0x4D0000 + 4 * kl) t
@@ -849,3 +854,34 @@ BEGIN ~TEST: kody gry - Cheats=1 w icewind2.ini (konsola Ctrl+Tab)~ DESIGNATED 6
     PATCH_IF (ds_ch = 0) BEGIN
       REPLACE_TEXTUALLY ~^\[Game Options\]~ ~[Game Options]%WNL%Cheats=1~
     END
+
+BEGIN ~TEST: lista klas prestizowych po 2 na stronie i bez warunkow wejscia (sprawdzenie przycisku "More prestige classes")~ DESIGNATED 7
+REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~2~ ~Wymaga komponentu 2 (podklasy).~
+  // test40: zmienna 0xA25F04 (plik 0x4D0F04) w kopiach exe moda; komponent 2 wpisuje 8
+  ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?_DS\.exe$~ BEGIN
+    OUTER_TEXT_SPRINT src ~%BASH_FOR_RES%~
+    ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
+      OUTER_SET ok = 0
+      COPY - ~%src%.exe~ ~%src%_spr7.tmp~
+        PATCH_IF (BUFFER_LENGTH >= 0x4D3000) BEGIN
+          READ_ASCII 0x4D1000 nm (8)
+          PATCH_IF (~%nm%~ STRING_EQUAL ~DSKITY02~) BEGIN SET ok = 1 END
+        END
+      ACTION_IF ok BEGIN
+        COPY ~%src%.exe~ ~%src%.exe~
+          WRITE_LONG 0x4D0F04 2
+      END
+    END
+  END
+  // wszystkie klasy prestizowe bez warunkow (kolumny LEVEL..ARCANE = 0, SUBCLASS = *); MAX_LEVEL i SPELLCLASS zostaja
+  COPY_EXISTING ~DSPREST.2DA~ ~override~
+    COUNT_2DA_COLS ds_kol
+    COUNT_2DA_ROWS ds_kol ds_wier
+    FOR (w = 0; w < ds_wier; ++w) BEGIN
+      FOR (k = 1; k < ds_kol; ++k) BEGIN
+        PATCH_IF (k != 6) AND (k != 16) BEGIN
+          PATCH_IF (k = 5) BEGIN SET_2DA_ENTRY w k ds_kol ~*~ END ELSE BEGIN SET_2DA_ENTRY w k ds_kol ~0~ END
+        END
+      END
+    END
+

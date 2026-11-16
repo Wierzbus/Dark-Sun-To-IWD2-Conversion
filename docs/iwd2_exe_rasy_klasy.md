@@ -507,3 +507,12 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Eksport (CHR) gladiator 11 + Arena Champion 3 sprawdzony: BAB 14 (0x50), ataki 3 (0x51), rzuty 10/4/5
   (0x52–0x54 – z atutami: Discipline +1 Wola), podklasy w 0x30C+, zdolności wrodzone (0x5FA: przesunięcie, liczba;
   indeksy LISTINNT) – zgodne z DSKLPROG (SAVEWAR, BAATFGT).
+
+## 32. Strony listy klas prestiżowych w oknie 6 (test40)
+- `okno6_po` dla klasy 1 → `prest_lista(postać)`: tylko klasy, których warunki postać spełnia (`pr_wpis`), pozycje
+  `pr_str` … `pr_str` + strona − 1 na przyciskach 3–10, reszta ukryta; przycisk 2 = napis `[0xA25F00]` (@325), gdy klas
+  jest więcej niż strona. `getkit6` dla klasy 1: id − 3 + `pr_str` → n-ta dostępna (`prest_nty`, postać z ostatniego
+  odświeżenia `pr_post`).
+- Kliknięcie 0x5ED780 `klik6`: klasa 1, przycisk 2 → `pr_str` += strona, odświeżenie okna 0x5ED94E (0x5E0B20) bez zmiany
+  wyboru. `prest54` (okno 54) zeruje `pr_str`.
+- Strona = `[0xA25F04]` (plik 0x4D0F04): komponent 2 wpisuje 8, testowy komponent 7 – 2 (i DSPREST bez warunków).

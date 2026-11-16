@@ -23,6 +23,8 @@ DFLG      equ 0xA25C40          ; 255 B flag list domen
 SFLG      equ 0xA25D40          ; 255 B flag list czarow
 DPAR      equ 0xA25E40
 SPAR      equ 0xA25E48
+PR_WIECEJ equ 0xA25F00          ; strref napisu przycisku 2 "wiecej klas prestizowych" (komponent 2, test40)
+PR_STRONA equ 0xA25F04          ; klas prestizowych na stronie okna 6 (1..8, przyciski 3..10; 0 = 8) - komponent 2 / 7
 BAJTY     equ 0x8A8             ; bajt podklasy klasy 1 w postaci (plik CRE 0x30C)
 KPTR_PROG equ 0xA22F14
 INV19     equ 0x286BCA1B
@@ -1273,6 +1275,7 @@ pr_max:
 ; 0x5E8DB8 okno 54 ekranu awansu (wybor klasy): zamiast "mov esi, eax; neg esi; sbb esi, esi; neg esi"
 ; [esp+0x10] = klasa przycisku, [esp+0xE94] = postac. Klasa 1: aktywna wedlug pr_dost (charakter barbarzyncy nie liczy sie).
 prest54:
+    mov dword [pr_str], 0
     mov esi, eax
     neg esi
     sbb esi, esi
@@ -1285,12 +1288,18 @@ prest54:
 .k: test esi, esi
     jmp 0x5e8dc0
 
-; okno 6 dla klasy 1 (wywoluje okno6_po; esi = okno, [esp+4] = postac): ukryj "bez podklasy" (2) i niespelnione podklasy
-prest6:
+;================================================================ okno 6 klasy 1: strony po 8 klas prestizowych (test40)
+; Na liscie tylko klasy prestizowe, ktorych warunki postac spelnia (pr_wpis); przyciski 3..10 = pozycje
+; pr_str .. pr_str + 7; przycisk 2 (u innych klas "bez podklasy") = nastepna strona, gdy klas jest wiecej niz 8.
+pr_str:     dd 0                ; pierwsza pozycja strony
+pr_post:    dd 0                ; postac z ostatniego odswiezenia okna 6
+
+; prest_nty: eax = n -> edx = wpis n-tej (od 0) klasy prestizowej dostepnej dla [pr_post] albo 0. Zachowuje eax, ecx.
+prest_nty:
+    push eax
     push ecx
-    push edx
-    push 2
-    call ukryj_id
+    push ebx
+    mov ebx, eax                ; ile jeszcze pominac
     xor ecx, ecx
 .p: push ecx
     mov eax, ecx
@@ -1299,24 +1308,127 @@ prest6:
     pop ecx
     test edx, edx
     jz .k
-    lea eax, [ecx+3]
-    cmp eax, 10
-    ja .k
     push ecx
-    push dword [esp+0x10]
+    push edx
+    push dword [pr_post]
     push edx
     call pr_wpis
+    pop edx
     pop ecx
     test eax, eax
-    jnz .n
+    jz .n
+    test ebx, ebx
+    jz .k
+    dec ebx
+.n: inc ecx
+    jmp .p
+.k: pop ebx
+    pop ecx
+    pop eax
+    ret
+
+; pr_ns: -> eax = liczba klas prestizowych na stronie (1..8)
+pr_ns:
+    mov eax, [PR_STRONA]
+    test eax, eax
+    jz .d
+    cmp eax, 8
+    jbe .k
+.d: mov eax, 8
+.k: ret
+
+; prest_ile: -> eax = liczba klas prestizowych dostepnych dla [pr_post]
+prest_ile:
+    push edx
+    xor eax, eax
+.p: call prest_nty
+    test edx, edx
+    jz .k
+    inc eax
+    jmp .p
+.k: pop edx
+    ret
+
+; prest_lista(postac): esi = okno, ebp = wybrany wpis + 1 albo 0. stdcall
+prest_lista:
+    push ecx
+    push edx
+    push edi
+    mov eax, [esp+0x10]
+    mov [pr_post], eax
+    call prest_ile
+    mov edi, eax                ; m
+    mov eax, [pr_str]
+    cmp eax, edi
+    jb .str_ok
+    mov dword [pr_str], 0
+.str_ok:
+    xor ecx, ecx                ; j
+.p: cmp ecx, 8
+    jae .wiecej
+    call pr_ns
+    cmp ecx, eax
+    jae .pusty
+    mov eax, [pr_str]
+    add eax, ecx
+    call prest_nty
+    lea eax, [ecx+3]            ; id
+    test edx, edx
+    jz .ukryj
+    push eax
+    push dword [edx+4]
+    push eax
+    call napis_id
+    call wartosc
+    shr eax, 24
+    cmp eax, ebp
+    sete al
+    movzx eax, al
+    pop edx                     ; id
+    push eax
+    push edx
+    call zaznacz_id
+    jmp .n
+.pusty:
     lea eax, [ecx+3]
+.ukryj:
     push eax
     call ukryj_id
 .n: inc ecx
     jmp .p
-.k: pop edx
+.wiecej:
+    call pr_ns
+    cmp edi, eax
+    jbe .bez
+    push dword [PR_WIECEJ]
+    push 2
+    call napis_id
+    push 0
+    push 2
+    call zaznacz_id
+    jmp .k
+.bez:
+    push 2
+    call ukryj_id
+.k: pop edi
+    pop edx
     pop ecx
     ret 4
+
+; 0x5ED780 klikniecie przycisku okna 6 (ebx = przycisk, edi = ekran awansu; zamiast "mov ecx, ebx; call 0x5ED5A0"):
+; klasa 1, przycisk 2 -> nastepna strona (bez zmiany wyboru), potem odswiezenie okna (0x5ED94E)
+klik6:
+    cmp byte [edi+0x106], KL_PREST
+    jne .oryg
+    cmp dword [ebx+0xa], 2
+    jne .oryg
+    call pr_ns
+    add [pr_str], eax
+    jmp 0x5ed94e
+.oryg:
+    mov ecx, ebx
+    call 0x5ed5a0
+    jmp 0x5ed787
 
 ; 0x7647C2 kara PD za wieloklasowosc (petla po klasach, esi = klasa): klasa 1 (prestizowa) nie liczy sie
 xp_kara:
@@ -1699,6 +1811,12 @@ okno6_po:
     movzx edi, byte [ebx+0x106] ; klasa
     call wybor_awans
     mov ebp, eax                ; wybrany wpis + 1 albo 0
+    cmp edi, KL_PREST
+    jne .niep
+    push dword [esp+0x50]       ; postac (1. argument 0x5DA6E0)
+    call prest_lista
+    jmp .k
+.niep:
     cmp edi, 7
     je .pm
     cmp edi, 6
@@ -1775,10 +1893,6 @@ okno6_po:
     jmp .uk2
 .po:
     add esp, 4
-    cmp edi, KL_PREST
-    jne .k
-    push dword [esp+0x50]       ; postac (1. argument 0x5DA6E0)
-    call prest6
 .k: pop ebp
     pop edi
     pop esi
@@ -1794,6 +1908,20 @@ getkit6:
     mov edx, [eax+0x1c60]
     movzx edx, byte [edx+0x106]
     mov ecx, [ecx+0xa]          ; id
+    cmp edx, KL_PREST
+    jne .niep
+    sub ecx, 3
+    jb .zero                    ; id 2 = nastepna strona
+    add ecx, [pr_str]
+    mov eax, ecx
+    call prest_nty
+    test edx, edx
+    jz .zero
+    call wartosc
+    pop edx
+    pop ecx
+    ret
+.niep:
     cmp edx, 7
     je .pm
     cmp edx, 6

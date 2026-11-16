@@ -129,6 +129,8 @@ HAKI4 = [
     # test39: atuty Extra Rage i Heroic Inspiration - barbarzynca jako podklasa wojownika zamiast klasy 1
     (0x76345B, "80be27060000010f8295040000", "jmp", "at_szal", 8),
     (0x76355D, "8a8e27060000b8010000003ac87314", "jmp", "at_heroic", 10),
+    # test40: okno 6 klasy prestizowej - strony po 8 klas, przycisk 2 = nastepna strona
+    (0x5ED780, "8bcbe819feffff", "jmp", "klik6", 2),
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy

@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test39: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test40: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -193,3 +193,12 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      wiec dawala je kazda klasa prestizowa. Teraz wymagaja barbarzyncy - podklasy wojownika (BARBARIAN_F);
      Heroic Inspiration dalej tez barda albo mnicha.
      Sprawdzic: Arena Champion bez Dodatkowego szalu na liscie atutow; barbarzynca (wojownik) - atut dostepny.
+ test40: lista klas prestizowych przy awansie bez limitu 8. Okno podklas pokazuje tylko klasy, ktorych warunki
+     postac spelnia, po 8 na stronie; gdy jest ich wiecej, przycisk "More prestige classes..." (miejsce "bez
+     podklasy") pokazuje nastepna strone (po ostatniej - pierwsza).
+     Nowy komponent 7 (tylko do testu): po 2 klasy na stronie i wszystkie klasy prestizowe bez warunkow.
+     Reinstall: 0 i potem 1-5 (6 opcjonalnie), do testu stron tez 7.
+     Sprawdzic z komponentem 7 (5 klas, strony po 2):
+     - okno podklas: 2 klasy + "More prestige classes...", klikniecie -> nastepne 2, potem 1, potem znowu pierwsze 2,
+     - wybor klasy z 2. albo 3. strony, opis po kliknieciu, "Gotowe", awans zapisuje te klase (karta postaci),
+     - bez komponentu 7: tylko spelnione klasy, bez przycisku "More..." (mniej niz 9 klas).
