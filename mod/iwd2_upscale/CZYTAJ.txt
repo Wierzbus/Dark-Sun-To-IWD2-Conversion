@@ -12,6 +12,8 @@ Komponenty:
        IWD2_<W>.exe (kopia IWD2.exe z latkami) i ustawia Resolution=<W> w icewind2.ini.
        Oryginalny IWD2.exe zostaje bez zmian; instalator sprawdza, czy to GOG 2.01.
        Ponowna instalacja tej samej rozdzielczosci uzywa gotowego zestawu (bez budowania).
+       Czcionki dostaja znaki w stronie kodowej gry z Language.ini (CharSet=238 w polskiej wersji -> cp1250:
+       ą ć ę ł ń ó ś ź ż); zestaw zbudowany starsza wersja programu jest budowany od nowa.
   10   GUI (ekrany, przyciski, czcionki Classica, ekrany ladowania, suwaki, pasy boczne)
   11   portrety
   12   ikony

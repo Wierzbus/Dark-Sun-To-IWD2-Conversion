@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import struct
 import sys
@@ -129,6 +130,19 @@ def min_etykiety(gui: Path) -> dict:
     return m
 
 
+# Language.ini [Config] CharSet (kod zestawu znakow Windows) -> strona kodowa tekstow gry i czcionek BAM
+ZESTAWY = {0: "cp1252", 238: "cp1250", 204: "cp1251", 161: "cp1253", 162: "cp1254", 186: "cp1257"}
+
+
+def kodowanie_gry(gra: Path) -> str:
+    ini = gra / "Language.ini"
+    if ini.exists():
+        m = re.search(rb"(?im)^\s*CharSet\s*=\s*(\d+)", ini.read_bytes())
+        if m and int(m.group(1)) in ZESTAWY:
+            return ZESTAWY[int(m.group(1))]
+    return "cp1252"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--gra", required=True)
@@ -136,6 +150,7 @@ def main() -> None:
     ap.add_argument("--wys", type=int, required=True)
     ap.add_argument("--ttf", help="czcionka TTF (domyslnie Classica-Bold.ttf obok programu)")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--kodowanie", help="strona kodowa czcionek (domyslnie z Language.ini gry: CharSet 238 = cp1250 ...)")
     ap.add_argument("--bez-exe", action="store_true", help="bez kopii IWD2_<W>.exe (instalator uzywa makr z upscale_exe.tpa)")
     a = ap.parse_args()
     if not a.ttf:
@@ -148,6 +163,11 @@ def main() -> None:
         raise SystemExit("Minimum 1024x768, ekran poziomy.")
     r, S, Z = H / 1080.0, H / 600.0, 1.4 * H / 1080.0
     gra = Path(a.gra)
+    kod = a.kodowanie or kodowanie_gry(gra)
+    "".encode(kod)
+    import iwd2_czcionka_ttf
+    from guiscale import fontgen
+    iwd2_czcionka_ttf.KODOWANIE = fontgen.KODOWANIE = kod
     out = Path(a.out)
     gui, ikony, portrety = out / "override" / "gui", out / "override" / "ikony", out / "override" / "portrety"
     (out / "GOTOWE.txt").unlink(missing_ok=True)
@@ -163,7 +183,7 @@ def main() -> None:
     gen.mkdir()
 
     sys.stdout.reconfigure(line_buffering=True)
-    print(f"== {W}x{H}: ekrany x{S:.3f}, pasek gry x{Z:.3f}")
+    print(f"== {W}x{H}: ekrany x{S:.3f}, pasek gry x{Z:.3f}, czcionki {kod}")
     exe = (tmp if a.bez_exe else out) / f"IWD2_{W}.exe"
     patch_exe(gra / "IWD2.exe", exe, W, H, "stock", Z)
     build_hud(g, W, H, Z, a.ttf, gen)
@@ -272,7 +292,8 @@ def main() -> None:
 
     shutil.rmtree(tmp)
     (out / "GOTOWE.txt").write_text(f"{W}x{H}\n")
-    (out / "rozdzielczosc.tpa").write_text(f"OUTER_SET ds_zestaw_szer = {W}\nOUTER_SET ds_zestaw_wys = {H}\n")
+    (out / "rozdzielczosc.tpa").write_text(f"OUTER_SET ds_zestaw_szer = {W}\nOUTER_SET ds_zestaw_wys = {H}\nOUTER_SET ds_zestaw_wersja = 2\n"
+                                             f"// czcionki: {kod}\n")
     print(f"\nGotowe: {exe.name}, upscale_exe.tpa, override: gui {len(list(gui.iterdir()))}, "
           f"ikony {len(list(ikony.iterdir()))}, portrety {len(list(portrety.iterdir()))}")
     print(f"W icewind2.ini: Resolution={W}")

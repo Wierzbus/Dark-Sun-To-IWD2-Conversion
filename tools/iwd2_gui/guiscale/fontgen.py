@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 from guiscale.bamio import Bam, Frame
 
 SS = 4          # supersampling
+KODOWANIE = "cp1252"    # strona kodowa gry (polska wersja: cp1250) - ustawia buduj.py
 
 
 def _cap_height_px(ttf: str, size: float) -> float:
@@ -32,7 +33,7 @@ def scale_font(orig: Bam, ttf: str, s: float) -> Bam:
         nw = max(1, round(f.w * s))
         adv = round((f.w - f.cx) * s)
         ncx = nw - adv
-        ch = bytes([code]).decode("cp1252", errors="replace") if code >= 32 else ""
+        ch = bytes([code]).decode(KODOWANIE, errors="replace") if code >= 32 else ""
         pix, nh, ncy = bytes(nw), 1, 1
         if ch.strip() and any(f.pix):
             cw = int(size * 3) + 20

@@ -1,5 +1,5 @@
 """Czcionka BAM dla IWD2 z fontu TTF, w ukladzie sprawdzonym w grze (mod "IWD2 Better Fonts", Nexus 5):
-255 klatek po jednym cyklu (cykl i = znak cp1252 i+1), wszystkie klatki tej samej wysokosci H z linia bazowa
+255 klatek po jednym cyklu (cykl i = znak i+1 w stronie kodowej gry, domyslnie cp1252), wszystkie klatki tej samej wysokosci H z linia bazowa
 na cy, cx = 0, szerokosc = krok znaku. Paleta: jasna rampa (indeks 0 = przezroczysty, 255 = pelne pokrycie = biel),
 piksel = pokrycie 0..255 (gra koloruje tekst wg indeksu). Zapis BAM V1 bez kompresji.
 
@@ -14,6 +14,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 SS = 4  # nadprobkowanie
+KODOWANIE = "cp1252"  # strona kodowa gry (polska wersja: cp1250) - ustawia buduj.py
 
 
 def generuj(ttf, wys, wersalik=None, prog=8, odstep=1):
@@ -27,9 +28,17 @@ def generuj(ttf, wys, wersalik=None, prog=8, odstep=1):
     # linia bazowa: tak, by zmiescily sie wydluzenia dolne
     dol = min(wys - wersalik - 1, round(desc / SS) + 1)
     cy = wys - max(1, dol)
+    # znaki z akcentem nad wersalikiem (polskie Ó Ś Ć Ź Ń, francuskie É ...): linia bazowa nizej, jesli akcent
+    # nie miesci sie nad nia, ale nie tak nisko, by obciac wydluzenia dolne
+    zn = [bytes([k]).decode(KODOWANIE, errors="replace") for k in range(0xC0, 0x100)]
+    zn = [c for c in zn + list("\u015a\u0106\u0179\u0143\u017b") if c != "\ufffd" and c.isupper()]
+    gora = max((-font.getbbox(c, anchor="ls")[1] for c in zn), default=0) / SS
+    dolg = max(font.getbbox(c, anchor="ls")[3] for c in "gjpqy") / SS
+    if cy < gora:
+        cy = max(cy, min(int(gora + 0.999), wys - int(dolg + 0.999)))
     klatki = []
     for kod in range(1, 256):
-        ch = bytes([kod]).decode("cp1252", errors="replace") if kod >= 32 else ""
+        ch = bytes([kod]).decode(KODOWANIE, errors="replace") if kod >= 32 else ""
         if ch == "�" or not ch:
             klatki.append((1, np.zeros((wys, 1), np.uint8)))
             continue

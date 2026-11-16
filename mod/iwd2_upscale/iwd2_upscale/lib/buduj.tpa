@@ -10,9 +10,11 @@ ACTION_IF (ds_rozmiar != 5029888) BEGIN
 END
 
 OUTER_SET ds_gotowy = 0
+OUTER_SET ds_zestaw_wersja = 0
 ACTION_IF (FILE_EXISTS ~%ds_zestaw%/GOTOWE.txt~) AND (FILE_EXISTS ~%ds_zestaw%/rozdzielczosc.tpa~) BEGIN
   INCLUDE ~%ds_zestaw%/rozdzielczosc.tpa~
-  ACTION_IF (ds_zestaw_szer = ds_szer) AND (ds_zestaw_wys = ds_wys) BEGIN
+  // wersja 2: czcionki w stronie kodowej gry (polska wersja: cp1250); starszy zestaw budowany od nowa
+  ACTION_IF (ds_zestaw_szer = ds_szer) AND (ds_zestaw_wys = ds_wys) AND (ds_zestaw_wersja >= 2) BEGIN
     OUTER_SET ds_gotowy = 1
     PRINT ~Zestaw %ds_szer%x%ds_wys% jest juz zbudowany - uzywam go.~
   END
