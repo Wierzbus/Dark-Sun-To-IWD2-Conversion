@@ -126,6 +126,9 @@ HAKI4 = [
     (0x5EC067, "8a8e06010000", "call", "kw_f", 1),
     # test37: kara PD bez innych klas niz ulubiona i prestizowa (asercja 0x447990(0) po wyborze klasy prestizowej)
     (0x76479A, "578bcbe8ee31ceff", "jmp", "xp_zero", 3),
+    # test39: atuty Extra Rage i Heroic Inspiration - barbarzynca jako podklasa wojownika zamiast klasy 1
+    (0x76345B, "80be27060000010f8295040000", "jmp", "at_szal", 8),
+    (0x76355D, "8a8e27060000b8010000003ac87314", "jmp", "at_heroic", 10),
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy

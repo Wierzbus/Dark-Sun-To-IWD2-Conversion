@@ -1334,6 +1334,44 @@ xp_najw:
     push esi
     mov ecx, ebx
     jmp 0x76476b
+;================================================================ atuty barbarzyncy (test39)
+; Warunki atutow (0x763200, switch po atucie, esi = postac) sprawdzaly poziom klasy 1 (dawny barbarzynca), teraz
+; klasy prestizowej. Barbarzynca = podklasa wojownika BARBARIAN_F (bajt podklasy wojownika, wpis o tej nazwie wiersza).
+; czy_barb: esi = postac -> eax = 1 gdy postac ma poziomy wojownika z podklasa BARBARIAN_F. Zachowuje rejestry poza eax.
+czy_barb:
+    push edx
+    xor eax, eax
+    cmp byte [esi+0x626+5], 0
+    je .k
+    movzx edx, byte [esi+BAJTY+5-1]
+    test edx, edx
+    jz .k
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    cmp dword [edx+8], 'BARB'
+    jne .k
+    cmp dword [edx+12], 'ARIA'
+    jne .k
+    cmp dword [edx+16], 'N_F'
+    jne .k
+    inc eax
+.k: pop edx
+    ret
+; 0x76345B Extra Rage (atut 20; oryginal: klasa 1 >= 1)
+at_szal:
+    call czy_barb
+    test eax, eax
+    jz 0x7638fd
+    jmp 0x763468
+; 0x76355D Heroic Inspiration (atut 29; oryginal: barbarzynca, bard albo mnich >= 1)
+at_heroic:
+    call czy_barb
+    test eax, eax
+    jnz 0x763580
+    mov eax, 1
+    jmp 0x76356c
+
 ; 0x76479A (zamiast "push edi; mov ecx, ebx; call 0x447990"): edi = najwyzsza klasa poza ulubiona i prestizowa.
 ; Gdy innych klas brak (np. gladiator + klasa prestizowa), edi = 0 - gra wolala 0x447990(0) (asercja
 ; CDerivedStats.cpp 2070). Wtedy bez kary PD.

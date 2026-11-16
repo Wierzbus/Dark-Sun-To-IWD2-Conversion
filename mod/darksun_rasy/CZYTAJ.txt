@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test38: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test39: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -189,3 +189,7 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      Sprawdzic na zapisie sprzed awansu (szal nadany wczesniej zostaje w postaci):
      - Arena Champion 1: tylko Called Shot, bez szalu i bez premii do szybkosci,
      - barbarzynca (podklasa wojownika): szal jak dotad.
+ test39: atuty Extra Rage (Dodatkowy szal) i Heroic Inspiration wymagaly poziomu klasy 1 (dawnego barbarzyncy),
+     wiec dawala je kazda klasa prestizowa. Teraz wymagaja barbarzyncy - podklasy wojownika (BARBARIAN_F);
+     Heroic Inspiration dalej tez barda albo mnicha.
+     Sprawdzic: Arena Champion bez Dodatkowego szalu na liscie atutow; barbarzynca (wojownik) - atut dostepny.

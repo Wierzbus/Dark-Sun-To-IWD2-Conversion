@@ -498,3 +498,12 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Napisy przycisków klas w oknie 54: konstruktor przycisku 0x5EB340 → 0x543EB0 (nazwa klasy; klasa 1: 0x54402D
   `mov esi, 31`). Kliknięcie 0x5EB5E0: `[ekran+0x106]` = klasa, opis klasy 1 – 0x5EB6FD `mov edi, 37`.
   Komponent 2 wpisuje strref @320 i @324 (opis klas prestiżowych).
+
+## 31. Warunki atutów barbarzyńcy (test39)
+- 0x763200 (warunki atutu, `switch` po FEATS.IDS, tablica 0x763908, `esi` = postać): Extra Rage (20) 0x76345B
+  `cmp byte [esi+0x627], 1`, Heroic Inspiration (29) 0x76355D – barbarzyńca, bard albo mnich ≥ 1. Klasa 1 to teraz
+  klasa prestiżowa, więc haki `at_szal` / `at_heroic` sprawdzają `czy_barb`: wojownik ≥ 1 z podklasą o nazwie
+  wiersza `BARBARIAN_F` (bajt postaci +0x8AC).
+- Eksport (CHR) gladiator 11 + Arena Champion 3 sprawdzony: BAB 14 (0x50), ataki 3 (0x51), rzuty 10/4/5
+  (0x52–0x54 – z atutami: Discipline +1 Wola), podklasy w 0x30C+, zdolności wrodzone (0x5FA: przesunięcie, liczba;
+  indeksy LISTINNT) – zgodne z DSKLPROG (SAVEWAR, BAATFGT).
