@@ -1334,6 +1334,16 @@ xp_najw:
     push esi
     mov ecx, ebx
     jmp 0x76476b
+; 0x76479A (zamiast "push edi; mov ecx, ebx; call 0x447990"): edi = najwyzsza klasa poza ulubiona i prestizowa.
+; Gdy innych klas brak (np. gladiator + klasa prestizowa), edi = 0 - gra wolala 0x447990(0) (asercja
+; CDerivedStats.cpp 2070). Wtedy bez kary PD.
+xp_zero:
+    test edi, edi
+    jz 0x7647ab
+    push edi
+    mov ecx, ebx
+    call 0x447990
+    jmp 0x7647a2
 
 ;================================================================ szal barbarzyncy bez klasy 1 (test31)
 ; Exe liczyl zmeczenie po szale i Greater Rage z poziomu klasy 1 (barbarzynca). Teraz z DSKLASY: wiersz 6 GREATER_RAGE

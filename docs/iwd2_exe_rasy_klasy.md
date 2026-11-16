@@ -490,3 +490,11 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   0x5EC067 `kw_f`; poziomy w liczeniu znanych czarów (0x5D9A00, 0x5D9ACF, 0x5E12D3, 0x5E133D, 0x5E13AF, 0x5E141A) przez `cz_lvl`.
 - `pr_czar` dla kopii statystyk ekranu awansu: bajt klasy 1 z kopii nagłówka `[ekran+0x85A]` + 0x304; na 1. poziomie
   klasy prestiżowej (bajt jeszcze 0) – wybór z okna 6 (starszy bajt `[ekran+0x846]`).
+
+## 30. Kara PD i przycisk klasy prestiżowej w oknie 54 (test37)
+- 0x764700..: kara PD za wieloklasowość. Pętla 0x764764 szuka najwyższej klasy `edi` poza ulubioną (`ebp`); `xp_najw`
+  pomija też klasę 1. Bez innych klas `edi` = 0 i 0x76479A woła 0x447990(0) → asercja CDerivedStats.cpp 2070
+  (`class > 0`). Hak 0x76479A `xp_zero`: `edi` = 0 → 0x7647AB (bez kary).
+- Napisy przycisków klas w oknie 54: konstruktor przycisku 0x5EB340 → 0x543EB0 (nazwa klasy; klasa 1: 0x54402D
+  `mov esi, 31`). Kliknięcie 0x5EB5E0: `[ekran+0x106]` = klasa, opis klasy 1 – 0x5EB6FD `mov edi, 37`.
+  Komponent 2 wpisuje strref @320 i @324 (opis klas prestiżowych).

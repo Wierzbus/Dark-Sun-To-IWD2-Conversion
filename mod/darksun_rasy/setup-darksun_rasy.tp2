@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test36-2026-11-15~
+VERSION ~test37-2026-11-16~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -294,6 +294,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~351~) = RESOLVE_STR_REF(@351)
   OUTER_SET $ds_str(~352~) = RESOLVE_STR_REF(@352)
   OUTER_SET $ds_str(~353~) = RESOLVE_STR_REF(@353)
+  OUTER_SET $ds_str(~324~) = RESOLVE_STR_REF(@324)
   OUTER_SET $ds_str(~361~) = RESOLVE_STR_REF(@361)
   OUTER_SET $ds_str(~362~) = RESOLVE_STR_REF(@362)
   OUTER_SET $ds_str(~363~) = RESOLVE_STR_REF(@363)
@@ -331,6 +332,16 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
           PATCH_IF (BYTE_AT 0x1442C1 = 0xBE) BEGIN
             SET ds_np = $ds_str(~320~)
             WRITE_LONG 0x1442C2 ds_np
+          END
+          // test37: ta sama nazwa w 0x543EB0 (przyciski okna 54 awansu: 0x54402D mov esi, 31) i opis po kliknieciu
+          // klasy 1 w oknie 54 (0x5EB6FD mov edi, 37 - opis barbarzyncy)
+          PATCH_IF (BYTE_AT 0x14402D = 0xBE) AND (LONG_AT 0x14402E = 31) BEGIN
+            SET ds_np = $ds_str(~320~)
+            WRITE_LONG 0x14402E ds_np
+          END
+          PATCH_IF (BYTE_AT 0x1EB6FD = 0xBF) AND (LONG_AT 0x1EB6FE = 37) BEGIN
+            SET ds_np = $ds_str(~324~)
+            WRITE_LONG 0x1EB6FE ds_np
           END
           PHP_EACH ds_nok AS kl => tra BEGIN
             SET t = $ds_str(~%tra%~)

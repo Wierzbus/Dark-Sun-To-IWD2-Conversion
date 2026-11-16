@@ -96,6 +96,9 @@ Disadvantages:
 
 (Experimental fighter subclass, test29: barbarian moved from its own class. No fighter bonus feats (FEATCLAS column BARBARIAN_F), 4 skill points per level (SKILLPTS), Uncanny Dodge (DSKLASY), d12 hit die, rage and fast movement from CLABDS12.)~
 @320 = ~Prestige Class~
+@324 = ~PRESTIGE CLASS: specialised paths open only to experienced characters. On the next screen choose one of the prestige classes whose requirements your character meets (level, attack bonus, class level, race, feats, skills).
+
+A prestige class has at most 10 levels and does not count towards the multiclass experience penalty.~
 @321 = ~arena champion~
 @322 = ~Arena Champion~
 @323 = ~ARENA CHAMPION (prestige class): Gladiators who survive enough bouts in the arenas of Tyr, Urik or Balic become champions, idols of the crowd and valuable property of their owners.

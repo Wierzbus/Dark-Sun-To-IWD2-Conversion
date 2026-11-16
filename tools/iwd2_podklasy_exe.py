@@ -124,6 +124,8 @@ HAKI4 = [
     (0x5DA005, "8d82060100008a00", "jmp", "kw_d", 3),
     (0x5E57F6, "8a86060100008dbe06010000", "jmp", "kw_e", 7),
     (0x5EC067, "8a8e06010000", "call", "kw_f", 1),
+    # test37: kara PD bez innych klas niz ulubiona i prestizowa (asercja 0x447990(0) po wyborze klasy prestizowej)
+    (0x76479A, "578bcbe8ee31ceff", "jmp", "xp_zero", 3),
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
     (0x5DCB31, "518b4c2424", "jmp", "karta_kl", 0),               # karta postaci (Levels): kit z bajtu klasy
