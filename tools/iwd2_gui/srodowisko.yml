@@ -1,0 +1,17 @@
+# Srodowisko conda do budowy programu iwd2_gui_buduj.exe (paczka 1). Tylko conda-forge i OpenBLAS zamiast Intel MKL,
+# zeby gotowy program mial ok. 100 MB zamiast ok. 700 MB.
+#   conda env create -f tools\iwd2_gui\srodowisko.yml
+#   conda activate iwd2lite
+#   tools\iwd2_gui\zbuduj_program.bat KATALOG_PACZKI
+name: iwd2lite
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - pillow
+  - pyinstaller
+  - libblas=*=*openblas
+  - git

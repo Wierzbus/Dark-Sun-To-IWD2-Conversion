@@ -1,6 +1,7 @@
 @echo off
 rem Buduje przenosny program iwd2_gui_buduj.exe (Python + numpy + Pillow + scipy w jednym folderze),
 rem zeby instalator paczki 1 dzialal u graczy bez zainstalowanego Pythona.
+rem Srodowisko: conda env create -f tools\iwd2_gui\srodowisko.yml, potem conda activate iwd2lite (bez Intel MKL).
 rem Uruchom RAZ w Anaconda Prompt z katalogu repo:
 rem     tools\iwd2_gui\zbuduj_program.bat KATALOG_PACZKI
 rem KATALOG_PACZKI = folder z setup-iwd2_upscale.tp2 (program trafi do iwd2_upscale\generator\).
