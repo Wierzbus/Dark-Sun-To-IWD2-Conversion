@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test37: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test38: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -183,3 +183,9 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - przycisk w oknie wyboru klasy podpisany "Prestige Class" (byl "Barbarzynca"), po kliknieciu opis klas
        prestizowych zamiast opisu barbarzyncy.
      Reinstall: 0 i potem 1-5 (6 opcjonalnie).
+ test38: klasa prestizowa nie dostaje juz szalu barbarzyncy. Klasa 1 bez zapisanej podklasy brala tablice
+     zdolnosci dawnego barbarzyncy (CLABFI05: szal, szybkosc); teraz CLABFI05 jest pusta (barbarzynca - podklasa
+     wojownika - ma wlasna CLABDS12). Exe bez zmian od test37.
+     Sprawdzic na zapisie sprzed awansu (szal nadany wczesniej zostaje w postaci):
+     - Arena Champion 1: tylko Called Shot, bez szalu i bez premii do szybkosci,
+     - barbarzynca (podklasa wojownika): szal jak dotad.

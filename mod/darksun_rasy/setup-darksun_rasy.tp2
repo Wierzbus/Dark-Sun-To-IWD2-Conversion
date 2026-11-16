@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test37-2026-11-16~
+VERSION ~test38-2026-11-16~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 
@@ -546,6 +546,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN267~ END
   // barbarzynca jako podklasa wojownika (test29): tablica barbarzyncy (szal, od test19 tez szybkosc AP_DSBBNMV)
   COPY_EXISTING ~CLABFI05.2da~ ~override/CLABDS12.2da~
+  // test38: klasa 1 bez podklasy (klasa prestizowa przed zapisaniem podklasy, karta postaci) nie dostaje juz szalu
+  // i szybkosci barbarzyncy - CLABFI05 pusta (barbarzynca ma teraz CLABDS12)
+  COPY ~darksun_rasy/2da/DSPUSTY.2DA~ ~override/CLABFI05.2da~
   // klasy prestizowe (test30, slot 1 = dawny barbarzynca): CLAB w paczce; warunki wejscia w DSPREST.2DA
   COPY ~darksun_rasy/2da/CLABDS13.2DA~ ~override~
   // test33: Dwarven Defender (CLABDS14) i Assassin (CLABDS15) - klasy prestizowe z SRD 3.5
