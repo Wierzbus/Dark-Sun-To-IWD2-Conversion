@@ -569,3 +569,24 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Komponent 8 zapisuje CRE: 0x310 (bajt podklasy wojownika) = nr + 1, PW 0x24/0x26, cechy 0x266–0x26B z DSPOTWOR.2DA
   (wygenerowana z porównania CRE gry z Monster Manualami; przypisanie typu: wzorzec MM albo RACE w CRE).
 
+## 38. Doświadczenie za zabicie i odporności potworów (test46)
+- **XP za zabicie** (0x7289F7 → 0x5C0BB0): bajt CR postaci (sprite+0x7F6 = CRE **0x25A**) to numer kolumny
+  MONCRATE.2DA (1 = CR ¼, 2 = ½, 3 = CR 1, n = CR n−2; 0 = brak XP), wiersz = średni poziom drużyny
+  (0x542560 na regułach +0x1F0, tabela „MoncRate”). Wynik dzielony przez 2, potem na członków drużyny.
+  Pole 0x14 (XP za zabicie z BG) nie bierze w tym udziału – używają go skrypty i inne ścieżki (flaga 0 w 0x5C0BB0).
+- Komponent 8 (test46): CR +1, gdy nowe PW ≥ 1,6× stare, −1 przy ≤ 0,6× (27 i 24 CRE); CR 0 bez zmian (246 CRE –
+  doświadczenie dają im skrypty albo wcale).
+- **Odporności w IWD2** (system 3.0 / BG, nie 3.5):
+  - energia: bajty nagłówka CRE 0x55 ogień, 0x56 zimno, 0x57 elektryczność, 0x58 kwas (punkty na trafienie,
+    100 = odporność całkowita), 0x59 odporność na magię (SR), 0x5A/0x5B magiczny ogień/zimno, 0x60 obrażenia magiczne;
+  - obrażenia fizyczne według rodzaju: 0x5C cięte, 0x5D obuchowe, 0x5E kłute, 0x5F pociski (np. szkielet 5/obuchowe
+    z 3.0: cięte 5, kłute 5, obuchowe −5);
+  - „X/+N” z 3.0 gra robi odpornością na broń poniżej zaczarowania (przedmioty potworów 00CIIMM1/00CIIMM2:
+    opcode 120, p2 = 2 broń niemagiczna, p1 = N przy p2 = 0), bez wartości X;
+  - cechy nieumarłych: przedmiot 00CIDEAD (opcode 261 na efekty 24, 25, 39, 3, 5, 109, 45, 78, 128, 134, 55, 101/93,
+    ochrony przed czarami 206). Klasy potworów (DSMN*.SPL) od test46 używają tego samego opcode 261.
+- **3.5 → IWD2** (przy przenoszeniu potworów z podręczników 3.5): najpierw cofnąć redukcję obrażeń do 3.0, potem
+  zapisać jak gra: X/magic → +1, X/srebro → +1 i +2 dla wilkołaków (3.0: X/srebro), X/zimne żelazo → +2,
+  X/dobro|zło|prawo|chaos → +2 (z magią +3), X/adamantyt → +3, X/epickie → +5; X/obuchowe|cięte|kłute → bajty
+  0x5C–0x5F; X/— → opcode 436 albo bajty 0x5C–0x5F po X. Odporność na energię i SR – bez zmian (wartości z MM).
+

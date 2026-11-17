@@ -73,14 +73,15 @@ ZDOLNOSCI = {
     "DSINCHM": [efekt(101, p2=5)],
     # test43 Hunter of the Dead: Spurn Death's Touch - odpornosc na wysysanie poziomow (101, 216 Level drain)
     "DSHDLD": [efekt(101, p2=216)],
-    # test45 klasy potworow (CLAB 1. poziom): odpornosci typu (opcode 101 na efekty: 25 trucizna, 39 sen, 109 paraliz,
-    # 45 ogluszenie, 78 choroba, 5 zauroczenie, 24 strach, 128 zamet) i widzenie w ciemnosci (63)
-    "DSMNUND": [efekt(101, p2=x) for x in (25, 39, 109, 45, 78, 5, 24, 128)] + [efekt(63)],
-    "DSMNCON": [efekt(101, p2=x) for x in (25, 39, 109, 45, 78, 5, 24, 128)] + [efekt(63)],
-    "DSMNOOZ": [efekt(101, p2=x) for x in (25, 39, 109, 45, 5, 24, 128)],
-    "DSMNELE": [efekt(101, p2=x) for x in (25, 39, 109, 45)] + [efekt(63)],
-    "DSMNVER": [efekt(101, p2=x) for x in (5, 24, 128)] + [efekt(63)],
-    "DSMNDRA": [efekt(101, p2=x) for x in (39, 109)] + [efekt(63)],
+    # test45 klasy potworow (CLAB 1. poziom): odpornosci typu jak w przedmiotach gry (00CIDEAD: opcode 261 na efekt -
+    # 24 strach, 25 trucizna, 39 sen, 3 szal, 5 zauroczenie, 109 paraliz, 45 ogluszenie, 78 choroba, 128 zamet,
+    # 134 skamienienie, 55 smierc) i widzenie w ciemnosci (63). test46: opcode 261 zamiast 101, jak w grze.
+    "DSMNUND": [efekt(261, p2=x) for x in (24, 25, 39, 3, 5, 109, 45, 78, 128, 134, 55)] + [efekt(101, p2=93), efekt(63)],
+    "DSMNCON": [efekt(261, p2=x) for x in (24, 25, 39, 3, 5, 109, 45, 78, 128, 134, 55)] + [efekt(63)],
+    "DSMNOOZ": [efekt(261, p2=x) for x in (24, 25, 39, 3, 5, 109, 45, 128)],
+    "DSMNELE": [efekt(261, p2=x) for x in (25, 39, 109, 45)] + [efekt(63)],
+    "DSMNVER": [efekt(261, p2=x) for x in (24, 3, 5, 128)] + [efekt(63)],
+    "DSMNDRA": [efekt(261, p2=x) for x in (39, 109)] + [efekt(63)],
     "DSMNDV": [efekt(63)],
 }
 

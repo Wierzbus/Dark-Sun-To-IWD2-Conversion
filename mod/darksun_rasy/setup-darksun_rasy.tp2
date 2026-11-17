@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test45-2026-11-17~
+VERSION ~test46-2026-11-17~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -1432,8 +1432,8 @@ BEGIN ~TEST: klasy potworow w CRE gry (podklasa typu D&D 3.5, PW i cechy z Monst
   END
   COPY ~darksun_rasy/2da/DSPOTWOR.2DA~ ~override~
   COPY_EXISTING ~DSPOTWOR.2DA~ ~override~
-    COUNT_2DA_ROWS 9 ds_np
-    READ_2DA_ENTRIES_NOW ds_pt 9
+    COUNT_2DA_ROWS 10 ds_np
+    READ_2DA_ENTRIES_NOW ds_pt 10
   BUT_ONLY
   OUTER_SET ds_zmien = 0
   OUTER_FOR (ds_w = 0; ds_w < ds_np; ++ds_w) BEGIN
@@ -1453,6 +1453,11 @@ BEGIN ~TEST: klasy potworow w CRE gry (podklasa typu D&D 3.5, PW i cechy z Monst
             TEXT_SPRINT ds_v $ds_pt(~%ds_w%~ ~%ds_k%~)
             PATCH_IF IS_AN_INT ds_v BEGIN WRITE_BYTE (0x266 + ds_c) ds_v END
           END
+          // test46: CR (0x25A, kolumna MONCRATE.2DA: 1 = CR 1/4, 2 = 1/2, 3 = CR 1, n = CR n-2) +1 / -1, gdy PW
+          // wzrosly co najmniej 1,6 raza / spadly do 0,6; * = bez zmian. Gra daje za zabicie MONCRATE[sredni poziom
+          // druzyny][CR] / 2, dzielone na czlonkow druzyny; pole XP 0x14 nie sluzy do tego.
+          TEXT_SPRINT ds_v $ds_pt(~%ds_w%~ ~9~)
+          PATCH_IF IS_AN_INT ds_v BEGIN WRITE_BYTE 0x25A ds_v END
           SET ds_zmien = ds_zmien + 1
         END
       BUT_ONLY

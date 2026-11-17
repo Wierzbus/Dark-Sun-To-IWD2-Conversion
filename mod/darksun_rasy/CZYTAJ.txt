@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test45: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test46: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -284,3 +284,10 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - po komponencie 8: potwor (np. Ghoul, Umber Hulk, Troll) - karta postaci przez Ctrl+Q / konsole: PW, BAB,
        rzuty i cechy jak w zakladce "Poprawki CRE"; nieumarli odporni na sen i trucizne,
      - walki w znanych miejscach - czy balans nie jest zbyt latwy / trudny.
+ test46: CR potworow i odpornosci typu jak w grze.
+     Exe bez zmian (test45). Reinstall: 0, 1-5 i 8.
+     - Komponent 8 zmienia tez CR (0x25A, z niego gra liczy doswiadczenie za zabicie): +1 dla 27 CRE z PW wyzszymi
+       co najmniej 1,6 raza, -1 dla 24 CRE z PW nizszymi do 0,6. Pole XP 0x14 bez zmian (nie sluzy do zabic).
+     - Odpornosci klas potworow (nieumarly, konstrukt, szlam, roslina, zywiolak, robactwo, smok) przez opcode 261,
+       jak przedmiot gry 00CIDEAD (sen, trucizna, paraliz, strach, zauroczenie, zamet, smierc, skamienienie...).
+     Sprawdzic: doswiadczenie za zabicie np. trolla przed i po komponencie 8; nieumarly z klasa potwora - Sen, Strach.
