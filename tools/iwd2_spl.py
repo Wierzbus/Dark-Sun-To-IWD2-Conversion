@@ -105,6 +105,10 @@ def eff(op, *, p1=0, p2=0, timing=2, res=b"", cel=1, czas=0) -> bytes:
 EFEKTY = {
     # barbarzynca w ciezkiej zbroi: -2 do szybkosci (znosi DSBBNMV); naklada go opcode 177 z ciezkich zbroi
     "DSBBNARM": eff(126, p1=-2, p2=0, timing=2),
+    # test44 Scout w ciezkiej zbroi: -1 KP i -1 obrazen na kazdy stopien Skirmish (znosi DSSCSK); naklada je opcode 177
+    # z ciezkich zbroi z IDS 9 = podklasa SCOUT i minimalnym poziomem lotrzyka 1/5/9/13/17 (kity.asm ids_kit)
+    "DSSCAC": eff(0, p1=-1, p2=0, timing=2),
+    "DSSCDM": eff(73, p1=-1, p2=0, timing=2),
 }
 
 

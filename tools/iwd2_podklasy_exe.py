@@ -131,6 +131,8 @@ HAKI4 = [
     (0x76355D, "8a8e27060000b8010000003ac87314", "jmp", "at_heroic", 10),
     # test40: okno 6 klasy prestizowej - strony po 8 klas, przycisk 2 = nastepna strona
     (0x5ED780, "8bcbe819feffff", "jmp", "klik6", 2),
+    # test44: opcode 177 - typ IDS 9 = podklasa DS (Skirmish zwiadowcy znoszony przez ciezka zbroje)
+    (0x4BE30E, "8b471c83c0fe83f806c68424ec00000002", "jmp", "ids_kit", 12),
     # test42: umiejetnosci klasowe podklas (SKILCOST.2DA - kolumna podklasy DS przed kolumna klasy)
     (0x764371, "0fbf85980d00008d4eff3bc87d290fbf959a0d0000395424247d1c85c97c188b54242485d27c100fafc203c18b8d900d00008d0481eb068d85940d00008b00", "jmp", "skc_a", 58),
     (0x76445E, "0fbf85980d00003bf07d270fbf959a0d00008b4c24243bca7d1885f67c1485c97c100fafc18b8d900d000003c68d0481eb068d85940d00008b00", "jmp", "skc_b", 53),

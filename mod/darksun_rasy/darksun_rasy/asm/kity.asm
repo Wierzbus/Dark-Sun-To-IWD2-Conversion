@@ -1446,6 +1446,41 @@ xp_najw:
     push esi
     mov ecx, ebx
     jmp 0x76476b
+;================================================================ efekt z przedmiotu dla podklasy (test44)
+; Opcode 177 (Use EFF file) sprawdza cel wg IDS 2..8 (0x4BE30E: EA ... ALIGNMENT). Nowy typ 9 = podklasa DS:
+; param1 = bajt 0: nr podklasy + 1 (jak w KIT.IDS >> 24), bajt 1: minimalny poziom klasy tej podklasy (0 = dowolny).
+; ebx = cel (postac), edi = efekt (+0x18 param1, +0x1C param2). Zgodny -> 0x4BE43C, niezgodny -> 0x4BE598.
+; Uzycie: ciezkie zbroje znosza Skirmish zwiadowcy (instalator, DSSCAC/DSSCDM.EFF, po jednym na stopien).
+ids_kit:
+    mov byte [esp+0xec], 2
+    mov eax, [edi+0x1c]
+    cmp eax, 9
+    je .kit
+    add eax, -2
+    cmp eax, 6
+    ja 0x4be598
+    jmp [eax*4+0x4be5dc]
+.kit:
+    push ecx
+    push edx
+    mov ecx, [edi+0x18]
+    xor edx, edx
+.l: cmp [ebx+BAJTY+edx], cl
+    jne .n
+    movzx eax, byte [ebx+0x626+1+edx]
+    cmp al, ch
+    jae .tak
+.n: inc edx
+    cmp edx, 11
+    jb .l
+    pop edx
+    pop ecx
+    jmp 0x4be598
+.tak:
+    pop edx
+    pop ecx
+    jmp 0x4be43c
+
 ;================================================================ umiejetnosci klasowe podklas (test42)
 ; SKILCOST.2DA (regul +0xD78; wiersz = umiejetnosc, kolumna = klasa - 1; 1 = klasowa, 2 = poza klasa, 0 = zabroniona)
 ; czyta tylko 0x764310 (koszt i limit rang; kreator i awans). Kolumna o nazwie podklasy DS postaci (np. SCOUT) ma

@@ -238,7 +238,7 @@ Umiejêtnoœci klasowe: jak ³otrzyk, a tak¿e Koncentracja; bez U¿ywania magicznych
 Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobry rzut obronny: Refleks. Punkty umiejêtnoœci: 8 na poziom. Charakter: dowolny.
 
 Zdolnoœci klasowe:
-- Harcownictwo (poziom 1; silniejsze na 5, 9, 13 i 17): +1 do KP i +1 do obra¿eñ na stopieñ (w zasadach tylko po ruchu; tu zawsze).
+- Harcownictwo (poziom 1; silniejsze na 5, 9, 13 i 17): +1 do KP i +1 do obra¿eñ na stopieñ (w zasadach tylko po ruchu; tu zawsze, ale nie w ciê¿kiej zbroi).
 - Nieprzewidywalny unik (poziom 2), Lepszy nieprzewidywalny unik (poziom 11), Unik (poziom 5).
 - Bojowa wytrwa³oœæ (poziom 2): +1 do rzutów na Wytrwa³oœæ; +2 na poziomie 11.
 - Szybkie poruszanie siê (poziom 3): szybszy ruch; wiêcej na poziomie 11.
@@ -248,7 +248,7 @@ Zdolnoœci klasowe:
 - Znajdowanie pu³apek, Bezb³êdny krok, Kamufla¿, Swoboda ruchów: tylko opis na karcie postaci.
 
 Zwiadowca nie ma ataku z zaskoczenia. Umiejêtnoœci klasowe: Wiedza o naturze zamiast Blefu, Dyplomacji, Zastraszania, Otwierania zamków, Kradzie¿y kieszonkowej i U¿ywania magicznych przedmiotów.~
-@444 = ~Harcownictwo: +1 do KP i +1 do obra¿eñ.~
+@444 = ~Harcownictwo: +1 do KP i +1 do obra¿eñ (nie w ciê¿kiej zbroi).~
 @445 = ~Bojowa wytrwa³oœæ: +1 do rzutów obronnych na Wytrwa³oœæ.~
 @446 = ~Szybkie poruszanie siê: szybszy ruch.~
 @447 = ~Sztuka pustkowi: znajdowanie pu³apek, bezb³êdny krok, kamufla¿, swoboda ruchów (tylko opis). Œlepowidzenie (poziom 10): widzenie niewidzialnego. Ukrycie na widoku (poziomy 14 i 18): niewidzialnoœæ.~

@@ -553,3 +553,11 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - LISTSPLL `WU_JEN`: kopia WIZ, potem 0 dla czarów spoza listy wu jen (Complete Arcane, dopasowanie nazw), Fire Seeds 6
   i Whirlwind 8 z listy druida.
 
+## 36. Opcode 177 z typem IDS 9 = podklasa DS (test44)
+- Dopasowanie celu opcode 177 (0x4BE2A0, wirtualna +8 klasy efektu 0x8495DC): `[efekt+0x1C]` = typ IDS 2..8
+  (tabela skoków 0x4BE5DC), `[efekt+0x18]` = wartość; zgodny → 0x4BE43C, niezgodny → 0x4BE598. ebx = cel (postać).
+- Hak 0x4BE30E (kity.asm `ids_kit`): typ 9 – bajt 0 param1 = nr podklasy + 1 (bajty postaci 0x8A8 + klasa − 1),
+  bajt 1 = minimalny poziom tej klasy (poziomy bazowe 0x626 + klasa).
+- Kategorie zbroi w 0x724690: lekka 0x3C–0x3D, średnia 0x3E/0x42/0x44, ciężka 0x3F–0x41. Skirmish zwiadowcy znoszą
+  efekty zbroi ciężkich (DSSCAC −1 KP, DSSCDM −1 obrażeń, po parze na stopień 1/5/9/13/17).
+

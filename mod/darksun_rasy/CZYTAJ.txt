@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test43: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test44: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -261,3 +261,11 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - wymagania (np. Inkwizytor tylko dla kaplana 3+ z rangami, Derwisz z atutami Unik i Expertise),
      - czary inkwizytora / wladcy burz / kaplana wojny / plugawego druida rosna z poziomem klasy prestizowej,
      - Wu Jen: w ksiedze nie ma Blyskawicy ani Plonacych dloni, sa Kula ognia i Ogniste nasiona (6. krag).
+ test44: Skirmish zwiadowcy tylko w zbroi nie ciezszej niz srednia.
+     Exe zmienione (opcode 177 rozpoznaje podklase DS: typ IDS 9) - reinstall: 0 i potem 1-5.
+     Ciezkie zbroje (jak przy szybkosci barbarzyncy) dostaja efekty, ktore u zwiadowcy znosza premie Skirmish:
+     -1 KP i -1 obrazen za kazdy stopien (poziomy lotrzyka-zwiadowcy 1/5/9/13/17).
+     Sprawdzic:
+     - zwiadowca w skorzni / kolczudze: KP i obrazenia jak dotad; w zbroi plytowej: KP i obrazenia nizsze
+       o liczbe stopni (np. na 5. poziomie o 2), po zdjeciu wraca,
+     - zwykly lotrzyk i inne klasy w zbroi plytowej - bez zmian.

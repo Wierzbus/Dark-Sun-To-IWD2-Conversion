@@ -239,7 +239,7 @@ Class skills: as a rogue, plus Concentration; no Use Magic Device.~
 Hit Die: d8. Base attack bonus: as cleric. Good saving throw: Reflex. Skill points: 8 per level. Alignment: any.
 
 Class features:
-- Skirmish (level 1; stronger at 5, 9, 13 and 17): +1 Armor Class and +1 damage per step (in the rules only after moving; here always).
+- Skirmish (level 1; stronger at 5, 9, 13 and 17): +1 Armor Class and +1 damage per step (in the rules only after moving; here always, but not in heavy armor).
 - Uncanny Dodge (level 2), Improved Uncanny Dodge (level 11), Evasion (level 5).
 - Battle Fortitude (level 2): +1 Fortitude save; +2 at level 11.
 - Fast Movement (level 3): faster movement; more at level 11.
@@ -249,7 +249,7 @@ Class features:
 - Trapfinding, Flawless Stride, Camouflage, Free Movement: described on the character sheet only.
 
 The scout has no sneak attack. Class skills: Wilderness Lore instead of Bluff, Diplomacy, Intimidate, Open Lock, Pick Pocket and Use Magic Device.~
-@444 = ~Skirmish: +1 to Armor Class and +1 to damage rolls.~
+@444 = ~Skirmish: +1 to Armor Class and +1 to damage rolls (not in heavy armor).~
 @445 = ~Battle Fortitude: +1 to Fortitude saving throws.~
 @446 = ~Fast Movement: faster movement.~
 @447 = ~Wilderness craft: trapfinding, flawless stride, camouflage, free movement (description only). Blindsense (level 10): see invisibility. Hide in Plain Sight (levels 14 and 18): invisibility.~
