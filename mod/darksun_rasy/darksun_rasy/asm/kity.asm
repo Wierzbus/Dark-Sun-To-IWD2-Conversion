@@ -1446,6 +1446,66 @@ xp_najw:
     push esi
     mov ecx, ebx
     jmp 0x76476b
+;================================================================ umiejetnosci klasowe podklas (test42)
+; SKILCOST.2DA (regul +0xD78; wiersz = umiejetnosc, kolumna = klasa - 1; 1 = klasowa, 2 = poza klasa, 0 = zabroniona)
+; czyta tylko 0x764310 (koszt i limit rang; kreator i awans). Kolumna o nazwie podklasy DS postaci (np. SCOUT) ma
+; pierwszenstwo przed kolumna klasy - jak FEATCLAS i SKILLPTS (kol_kitu).
+; skc_cell(postac, umiejetnosc, klasa) -> eax = tekst komorki. stdcall, zachowuje rejestry poza eax
+skc_cell:
+    push ebx
+    push ecx
+    push edx
+    push esi
+    mov ebx, [0x8cf6dc]
+    mov ebx, [ebx+0x1c54]
+    add ebx, 0xd78
+    mov esi, [esp+0x1c]         ; klasa
+    push dword [esp+0x14]       ; postac
+    push esi
+    push ebx
+    call kol_kitu
+    test eax, eax
+    jge .kol
+    lea eax, [esi-1]
+.kol:
+    movsx ecx, word [ebx+0x20]  ; kolumny
+    cmp eax, ecx
+    jge .dom
+    test eax, eax
+    jl .dom
+    mov edx, [esp+0x18]         ; umiejetnosc
+    test edx, edx
+    jl .dom
+    movsx esi, word [ebx+0x22]  ; wiersze
+    cmp edx, esi
+    jge .dom
+    imul ecx, edx
+    add ecx, eax
+    mov eax, [ebx+0x18]
+    mov eax, [eax+ecx*4]
+    jmp .k
+.dom:
+    mov eax, [ebx+0x1c]
+.k: pop esi
+    pop edx
+    pop ecx
+    pop ebx
+    ret 0xc
+; 0x764371 (petla klas, esi = klasa; postac [esp+0x18], umiejetnosc [esp+0x24])
+skc_a:
+    push esi
+    push dword [esp+0x28]
+    push dword [esp+0x20]
+    call skc_cell
+    jmp 0x7643b0
+; 0x76445E (petla poziomow, edi = klasa)
+skc_b:
+    push edi
+    push dword [esp+0x28]
+    push dword [esp+0x20]
+    call skc_cell
+    jmp 0x764498
+
 ;================================================================ atuty barbarzyncy (test39)
 ; Warunki atutow (0x763200, switch po atucie, esi = postac) sprawdzaly poziom klasy 1 (dawny barbarzynca), teraz
 ; klasy prestizowej. Barbarzynca = podklasa wojownika BARBARIAN_F (bajt podklasy wojownika, wpis o tej nazwie wiersza).

@@ -1,0 +1,296 @@
+// Teksty wlasne (nie z gry). Kodowanie: cp1250 (polska wersja IWD2, CharSet 238).
+@101 = ~mul~
+@102 = ~Mul~
+@103 = ~MUL: Mulowie to bezp³odne potomstwo ludzi i krasnoludów, hodowane w niewolniczych zagrodach Athasu do pracy i walk na arenach. £¹cz¹ ludzki wzrost z krasnoludzk¹ krzep¹ i s³yn¹ z wytrzyma³oœci.
+
+Zalety:
++2 do Si³y
++2 do Kondycji
+
+Wady:
+-2 do Inteligencji
+-2 do Charyzmy
+
+(Eksperymentalna podrasa: test konwersji Dark Sun.)~
+
+// --- Podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
+@201 = ~zakon templariuszy~
+@202 = ~Zakon Templariuszy~
+@203 = ~ZAKON TEMPLARIUSZY: Paladyni tego zakonu s³u¿¹ królom-czarnoksiê¿nikom Athasu jako stró¿e prawa w miastach-pañstwach. Literê prawa stawiaj¹ ponad litoœæ.
+
+(Eksperymentalny zakon paladynów: test konwersji Dark Sun. Brak specjalnych zdolnoœci.)~
+@211 = ~Barbarzyñca~
+@212 = ~barbarzyñca atasyjski~
+@213 = ~Barbarzyñca atasyjski~
+@214 = ~BARBARZYÑCA ATASYJSKI: Urodzeni na pustkowiach poza miastami-pañstwami wojownicy, którzy sam¹ wytrwa³oœci¹ prze¿ywaj¹ pal¹ce s³oñce i burze py³owe Athasu.
+
+(Eksperymentalna podklasa barbarzyñcy: test konwersji Dark Sun. Brak specjalnych zdolnoœci.)~
+@221 = ~kap³an ziemi~
+@222 = ~Kap³an Ziemi~
+@223 = ~KAP£AN ZIEMI: Na Athasie bogowie milcz¹, a kap³ani czerpi¹ moc z planów ¿ywio³ów. Kap³ani Ziemi czcz¹ kamieñ i glebê - fundamenty, które trwaj¹ nawet pod umieraj¹cym s³oñcem.
+
+(Eksperymentalny patron kap³ana: test konwersji Dark Sun. Brak premii domen.)~
+
+// --- Polelf atasyjski (komponent 3). ---
+@111 = ~pó³elf atasyjski~
+@112 = ~Pó³elf atasyjski~
+@113 = ~PÓ£ELF ATASYJSKI: Na Athasie pó³elfy nie nale¿¹ do ¿adnego z ludów swoich rodziców. Odrzucane przez ludzi i elfy, zwykle ucz¹ siê ¿yæ samotnie na pustkowiach i polegaæ wy³¹cznie na sobie.
+
+Zalety:
++2 do Zrêcznoœci
++2 do Kondycji
+
+Wady:
+-2 do Inteligencji
+-2 do Charyzmy
+
+(Eksperymentalna podrasa: test konwersji Dark Sun.)~
+
+// --- Nowe podklasy (komponent 2). ---
+@230 = ~Wojownik~
+@231 = ~gladiator~
+@232 = ~Gladiator~
+@233 = ~GLADIATOR: Areny miast-pañstw to serce rozrywki Athasu. Gladiatorzy to niewolnicy i wolni wojownicy szkoleni, by wygrywaæ zarówno walki, jak i serca t³umu.
+
+(Eksperymentalna podklasa wojownika: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Maksymalne ataki.)~
+@240 = ~Tropiciel~
+@241 = ~tropiciel pustkowi~
+@242 = ~Tropiciel pustkowi~
+@243 = ~TROPICIEL PUSTKOWI: Tropiciele Athasu poluj¹ na kamienistych pustkowiach i równinach py³u, gdzie ka¿dy b³¹d kosztuje wodê.
+
+(Eksperymentalna podklasa tropiciela: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Celny strza³.)~
+@250 = ~Druid~
+@251 = ~druid stra¿nik~
+@252 = ~Druid stra¿nik~
+@253 = ~DRUID STRA¯NIK: Ka¿dy druid Athasu strze¿e jednego skrawka ziemi - oazy, grani albo wyschniêtej rzeki - i czerpie si³ê z ducha tego miejsca.
+
+(Eksperymentalna podklasa druida: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Postaæ ¿ywio³u - ¿ywio³ak ognia.)~
+@260 = ~Bard~
+@261 = ~bard atasyjski~
+@262 = ~Bard atasyjski~
+@263 = ~BARD ATASYJSKI: W miastach-pañstwach bardowie s¹ artystami, informatorami i trucicielami do wynajêcia - mile widziani przy stole ka¿dego szlachcica i przy ¿adnym niegodni zaufania.
+
+(Eksperymentalna podklasa barda: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Niewidzialnoœæ.)~
+@270 = ~Zaklinacz~
+@271 = ~psionik~
+@272 = ~Psionik~
+@273 = ~PSIONIK: Na Athasie moc umys³u jest tak powszechna, jak magia znienawidzona. Psionicy æwicz¹ Drogê, by sam¹ wol¹ naginaæ materiê i myœli.
+
+(Eksperymentalna podklasa zaklinacza: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+
+// --- Podklasy test25 (komponent 2): lotrzyk, czarodziej, drugi kaplan. ---
+@280 = ~£otrzyk~
+@281 = ~³otrzyk atasyjski~
+@282 = ~£otrzyk atasyjski~
+@283 = ~£OTRZYK ATASYJSKI: W miastach-pañstwach Athasu z³odzieje, przemytnicy i szpiedzy kwitn¹ w cieniu templariuszy, handluj¹c wod¹, metalem i tajemnicami.
+
+(Eksperymentalna podklasa ³otrzyka: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Niewidzialnoœæ.)~
+@291 = ~zachowawca~
+@292 = ~Zachowawca~
+@293 = ~ZACHOWAWCA: Magia tajemna na Athasie wysysa ¿ycie z samej ziemi. Zachowawcy bior¹ tylko tyle, ile ziemia mo¿e oddaæ, i s¹ œcigani zarówno przez templariuszy, jak i przez plugawców.
+
+(Eksperymentalna podklasa czarodzieja: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+@311 = ~barbarzyñski wojownik~
+@312 = ~Barbarzyñski wojownik~
+@313 = ~BARBARZYÑSKI WOJOWNIK: Barbarzyñca jako podklasa wojownika. Plemiona pustkowi i niewolnicze wioski wychowuj¹ wojowników, którzy walcz¹ furi¹, a nie musztr¹.
+
+(Eksperymentalna podklasa wojownika, test29: barbarzyñca przeniesiony z w³asnej klasy. Bez premiowych atutów wojownika (kolumna BARBARIAN_F w FEATCLAS), 4 punkty umiejêtnoœci na poziom (SKILLPTS), Nieprzewidywalny unik (DSKLASY), koœæ wytrzyma³oœci k12, sza³ i szybkie poruszanie siê z CLABDS12.)~
+@320 = ~Klasa presti¿owa~
+@324 = ~KLASA PRESTI¯OWA: wyspecjalizowane œcie¿ki dostêpne tylko dla doœwiadczonych postaci. Na nastêpnym ekranie wybierz jedn¹ z klas presti¿owych, których wymagania spe³nia twoja postaæ (poziom, premia do ataku, poziom klasy, rasa, atuty, umiejêtnoœci).
+
+Klasa presti¿owa ma najwy¿ej 10 poziomów i nie liczy siê do kary doœwiadczenia za wieloklasowoœæ.~
+@325 = ~Wiêcej klas presti¿owych...~
+@321 = ~czempion areny~
+@322 = ~Czempion areny~
+@323 = ~CZEMPION ARENY (klasa presti¿owa): Gladiatorzy, którzy prze¿yj¹ doœæ walk na arenach Tyru, Uriku czy Balic, zostaj¹ czempionami - idolami t³umu i cenn¹ w³asnoœci¹ swoich panów.
+
+Wymagania: poziom postaci 5, bazowa premia do ataku +5, Gladiator (podklasa wojownika) na 5. poziomie.
+
+(Eksperymentalna klasa presti¿owa, test30: k10, premia do ataku i rzuty obronne wojownika. Zdolnoœæ testowa na 1. poziomie: Celny strza³.)~
+@331 = ~arcyplugawca~
+@332 = ~Arcyplugawca~
+@333 = ~ARCYPLUGAWCA (klasa presti¿owa): Plugawcy, którzy dla swych czarów wysysaj¹ z ziemi coraz wiêcej ¿ycia - na œcie¿ce, która niegdyœ stworzy³a Królów-Czarnoksiê¿ników i Smoka.
+
+Wymagania: poziom postaci 7, Czarodziej na 7. poziomie.
+
+(Eksperymentalna klasa presti¿owa, test34: k4, premia do ataku i rzuty obronne czarodzieja. Ka¿dy poziom Arcyplugawcy liczy siê jak poziom czarodzieja przy komórkach czarów (+1 poziom rzucania czarów klasy czarodzieja). Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+@341 = ~krasnoludzki obroñca~
+@342 = ~Krasnoludzki obroñca~
+@343 = ~KRASNOLUDZKI OBROÑCA (klasa presti¿owa): Krasnoludy, które obronê swojego celu - wioski, studni, kopalni - czyni¹ sensem ca³ego ¿ycia. Szereg obroñców trzyma lepiej ni¿ mur.
+
+Wymagania: krasnolud, praworz¹dny charakter, bazowa premia do ataku +7, atuty Unik i Wytrzyma³oœæ.
+
+(Eksperymentalna klasa presti¿owa, test33: k12, premia do ataku wojownika, dobre rzuty na Wytrwa³oœæ i Wolê. +1 KP na poziomach 1, 4, 7 i 10, Postawa obronna na poziomach 1, 3, 5, 7 i 9 (ka¿da raz dziennie), Nieprzewidywalny unik na 2 i 6, redukcja obra¿eñ 3/- na 6 i 10.)~
+@344 = ~Postawa obronna~
+@351 = ~skrytobójca~
+@352 = ~Skrytobójca~
+@353 = ~SKRYTOBÓJCA (klasa presti¿owa): P³atni zabójcy domów kupieckich i templariuszy miast-pañstw, mistrzowie cichej œmierci.
+
+Wymagania: z³y charakter, Ukrywanie siê 8 rang, Ciche poruszanie siê 8 rang.
+
+(Eksperymentalna klasa presti¿owa, test33: k6, œrednia premia do ataku, dobry rzut na Refleks. Atak z zaskoczenia jak ³otrzyk tego samego poziomu, Nieprzewidywalny unik na 2 i 5, Niewidzialnoœæ na 4 i 8. Atak œmierci i trucizny - w kolejnych testach.)~
+@361 = ~adept ¿ywio³ów~
+@362 = ~Adept ¿ywio³ów~
+@363 = ~ADEPT ¯YWIO£ÓW (klasa presti¿owa, test): zaklinacze, którzy wi¹¿¹ sw¹ moc z jednym z czterech planów ¿ywio³ów czczonych na Athasie.
+
+Wymagania: Zaklinacz na 3. poziomie.
+
+(Eksperymentalna klasa presti¿owa, test36 - test rzucania czarów: k4, premia do ataku i rzuty obronne czarodzieja; ka¿dy poziom liczy siê jak poziom zaklinacza przy komórkach czarów, poziomie czaruj¹cego i nowych znanych czarach (okno wyboru czarów przy awansie). Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+@301 = ~kap³an ognia~
+@302 = ~Kap³an Ognia~
+@303 = ~KAP£AN OGNIA: Kap³ani Ognia s³u¿¹ planowi ¿ywio³u p³omieni, najbardziej niszczycielskiemu z czterech ¿ywio³ów pod szkar³atnym s³oñcem Athasu.
+
+(Eksperymentalny patron kap³ana: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Wytrzyma³oœæ Ilmatera.)~
+
+// karta postaci (test28): cechy rasy pod nazwa rasy
+@121 = ~Broñ miotana i procy, trafienie~
+@122 = ~Trafienie przeciw~
+@123 = ~aberracjom~
+@124 = ~KP przeciw olbrzymom i ograom~
+
+// test41: nowe klasy bazowe jako podklasy - opisy wlasne, zdolnosci przyblizone do mechaniki IWD2
+@401 = ~samuraj~
+@402 = ~Samuraj~
+@403 = ~SAMURAJ (podklasa wojownika): Zaprzysiê¿eni szermierze zwi¹zani surowym kodeksem honoru, walcz¹cy jednoczeœnie d³ugim i krótkim ostrzem. Na Athasie s³u¿¹ rodom szlacheckim i miastom-pañstwom jako pojedynkowicze i stra¿ przyboczna.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: jak wojownik. Dobry rzut obronny: Wytrwa³oœæ. Punkty umiejêtnoœci: 2 na poziom. Charakter: dowolny praworz¹dny.
+
+Zdolnoœci klasowe:
+- Dwa miecze jak jeden (poziom 2): dwa premiowe atuty naraz - weŸ Oburêcznoœæ i Walkê dwiema broñmi.
+- Cios kiai (poziom 3, kolejne u¿ycia na 8 i 14): okrzyk bojowy daj¹cy +3 do trafienia i obra¿eñ przez jedn¹ rundê.
+- Premiowe atuty na poziomach 6, 10, 15 i 20.
+- GroŸne spojrzenie (poziom 6) i Zbiorowe groŸne spojrzenie (poziom 14): przera¿aj¹ce spojrzenie (Strach).
+- Mistrz iaijutsu (poziom 11): tylko opis na karcie postaci.
+
+W odró¿nieniu od wojownika samuraj nie dostaje premiowych atutów na poziomach 1, 4, 8, 12...~
+@404 = ~Dwa miecze jak jeden: premiowe atuty Oburêcznoœæ i Walka dwiema broñmi (wybierane na 2. poziomie).~
+@405 = ~Cios kiai: raz dziennie na u¿ycie, +3 do trafienia i obra¿eñ przez jedn¹ rundê.~
+@406 = ~GroŸne spojrzenie: spojrzenie, które przera¿a wrogów (Strach).~
+@407 = ~Mistrz iaijutsu: samuraj dobywa broni i uderza jednym ruchem (tylko opis - brak mechaniki w IWD2).~
+@408 = ~Cios kiai~
+
+@411 = ~zawadiaka~
+@412 = ~Zawadiaka~
+@413 = ~ZAWADIAKA (podklasa wojownika): Pojedynkowicze, którzy bardziej ni¿ ciê¿kiej zbroi ufaj¹ szybkoœci, sprytowi i lekkiemu ostrzu. Ulubieñcy aren i stra¿nicy karawan wolnych miast.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: jak wojownik. Dobry rzut obronny: Wytrwa³oœæ. Punkty umiejêtnoœci: 4 na poziom. Charakter: dowolny.
+
+Zdolnoœci klasowe:
+- Finezja w walce broni¹ (poziom 1): jeden premiowy atut - weŸ Finezjê w walce broni¹.
+- Gracja (poziom 2): +1 do rzutów na Refleks; +2 na poziomie 11, +3 na poziomie 20.
+- Przenikliwy cios (poziom 3): +2 do obra¿eñ ka¿dym atakiem (w zasadach: premia z Inteligencji; tu sta³a premia).
+- Premia uniku (poziom 5): +1 do KP; kolejne +1 na poziomach 10, 15 i 20.
+- Akrobatyczna szar¿a (7), Lepsze flankowanie (8), Szczêœciarz (11), Mistrzostwo akrobatyki (13), Os³abiaj¹ce trafienie krytyczne (14), Œliski umys³ (17), Rani¹ce trafienie krytyczne (19): tylko opis na karcie postaci.
+
+Zawadiaka nie dostaje innych premiowych atutów.~
+@414 = ~Gracja: +1 do rzutów obronnych na Refleks.~
+@415 = ~Przenikliwy cios: +2 do obra¿eñ.~
+@416 = ~Premia uniku: +1 do KP.~
+@417 = ~Akrobata, szczêœciarz i spryciarz: akrobatyczna szar¿a, lepsze flankowanie, szczêœcie, œliski umys³ i okaleczaj¹ce trafienia krytyczne (tylko opis).~
+
+@421 = ~rycerz~
+@422 = ~Rycerz~
+@423 = ~RYCERZ (podklasa wojownika): Opancerzeni czempioni ¿yj¹cy wed³ug kodeksu rycerskiego, chroni¹cy s³abych i wyzywaj¹cy najsilniejszego wroga na polu bitwy. Na Athasie - rzadkie wzory cnót w s³u¿bie rodu szlacheckiego lub wolnej wioski.
+
+Koœæ wytrzyma³oœci: k12. Bazowa premia do ataku: jak wojownik. Dobry rzut obronny: Wola. Punkty umiejêtnoœci: 2 na poziom. Charakter: dowolny praworz¹dny.
+
+Zdolnoœci klasowe:
+- Wyzwanie do walki (poziom 1, kolejne u¿ycia na 4, 8, 12, 16 i 20): +1 do trafienia, obra¿eñ i rzutów na Wolê przez minutê.
+- Blok tarcz¹ (poziom 2): +1 do KP; kolejne +1 na poziomach 6 i 11 (w zasadach tylko z tarcz¹).
+- Bastion obrony (3), Mistrzostwo zbroi (4 i 9), Próba hartu (5), Czujny obroñca (7): tylko opis na karcie postaci.
+- Onieœmielaj¹ce wyzwanie (poziom 11): wyzwanie, które przera¿a s³abszych wrogów (Strach).
+
+Rycerz nie dostaje premiowych atutów; zdolnoœci konne klasy nie istniej¹ w IWD2.~
+@424 = ~Wyzwanie do walki: +1 do trafienia, obra¿eñ i rzutów obronnych na Wolê przez minutê.~
+@425 = ~Blok tarcz¹: +1 do KP.~
+@426 = ~Kodeks rycerza: bastion obrony, mistrzostwo zbroi, próba hartu i czujny obroñca (tylko opis).~
+@427 = ~Onieœmielaj¹ce wyzwanie: wyzwanie, które przera¿a wrogów (Strach).~
+@428 = ~Wyzwanie do walki~
+
+@431 = ~ninja~
+@432 = ~Ninja~
+@433 = ~NINJA (podklasa mnicha): Szpiedzy i zabójcy ³¹cz¹cy sztuki walki ze sztuczkami ki. Na Athasie s³u¿¹ domom kupieckim i tajemniczemu Zawoalowanemu Przymierzu.
+
+Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: jak kap³an. Dobry rzut obronny: Refleks. Punkty umiejêtnoœci: 6 na poziom. Charakter: dowolny.
+
+Ninja korzysta z obrony bez zbroi mnicha (M¹droœæ i poziom do KP, tracone w zbroi) i jego szybkoœci, ale nie z walki bez broni i innych zdolnoœci mnicha.
+
+Zdolnoœci klasowe:
+- Nag³y cios (poziom 1): atak z zaskoczenia, +1k6 co dwa poziomy.
+- Krok ducha (poziom 2, kolejne u¿ycia na 6, 10 i 14): niewidzialnoœæ.
+- U¿ycie trucizn (poziom 3): zatruta broñ.
+- Unik (poziom 8).
+- Wielki skok, Akrobatyka, Unik ki, Cios ducha, Chód ducha: tylko opis na karcie postaci.
+
+Umiejêtnoœci klasowe: jak ³otrzyk, a tak¿e Koncentracja; bez U¿ywania magicznych przedmiotów.~
+@434 = ~Nag³y cios: koœci ataku z zaskoczenia jak u ³otrzyka.~
+@435 = ~Krok ducha: ninja staje siê niewidzialny.~
+@436 = ~Moc ki: wielki skok, akrobatyka, unik ki, cios ducha i chód ducha (tylko opis).~
+
+@441 = ~zwiadowca~
+@442 = ~Zwiadowca~
+@443 = ~ZWIADOWCA (podklasa ³otrzyka): Forpoczty i przewodnicy, którzy uderzaj¹ i ruszaj¹ dalej, nigdy nie stoj¹c w miejscu. Na Athasie prowadz¹ karawany przez pustkowia.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobry rzut obronny: Refleks. Punkty umiejêtnoœci: 8 na poziom. Charakter: dowolny.
+
+Zdolnoœci klasowe:
+- Harcownictwo (poziom 1; silniejsze na 5, 9, 13 i 17): +1 do KP i +1 do obra¿eñ na stopieñ (w zasadach tylko po ruchu; tu zawsze).
+- Nieprzewidywalny unik (poziom 2), Lepszy nieprzewidywalny unik (poziom 11), Unik (poziom 5).
+- Bojowa wytrwa³oœæ (poziom 2): +1 do rzutów na Wytrwa³oœæ; +2 na poziomie 11.
+- Szybkie poruszanie siê (poziom 3): szybszy ruch; wiêcej na poziomie 11.
+- Premiowe atuty na poziomach 4, 8, 12, 16 i 20.
+- Znajdowanie pu³apek, Bezb³êdny krok, Kamufla¿, Œlepowidzenie, Ukrycie na widoku, Swoboda ruchów: tylko opis na karcie postaci.
+
+Zwiadowca nie ma ataku z zaskoczenia. Umiejêtnoœci klasowe: Wiedza o naturze zamiast Blefu, Dyplomacji, Zastraszania, Otwierania zamków, Kradzie¿y kieszonkowej i U¿ywania magicznych przedmiotów.~
+@444 = ~Harcownictwo: +1 do KP i +1 do obra¿eñ.~
+@445 = ~Bojowa wytrwa³oœæ: +1 do rzutów obronnych na Wytrwa³oœæ.~
+@446 = ~Szybkie poruszanie siê: szybszy ruch.~
+@447 = ~Sztuka pustkowi: znajdowanie pu³apek, bezb³êdny krok, kamufla¿, œlepowidzenie, ukrycie na widoku, swoboda ruchów (tylko opis).~
+
+@451 = ~wu jen~
+@452 = ~Wu Jen~
+@453 = ~WU JEN (podklasa czarodzieja): Mistycy badaj¹cy duchy ¿ywio³ów i wi¹¿¹cy siê dziwnymi tabu. Na Athasie to pustelnicy pustkowi, bliscy mocom ¿ywio³ów.
+
+Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: jak czarodziej. Dobry rzut obronny: Wola. Punkty umiejêtnoœci: 2 na poziom. Charakter: dowolny niepraworz¹dny.
+
+Zdolnoœci klasowe (ta wersja testowa korzysta z listy czarów czarodzieja; ¿ywio³owa lista wu jen pojawi siê póŸniej):
+- Mistrzostwo ¿ywio³ów i Sekrety czarów (poziomy 6, 12, 18): tylko opis na karcie postaci.
+- Czujny duch (poziom 9): +1 do rzutów na Refleks.
+- Tabu: w zasadach osobisty zakaz; brak mechaniki w IWD2.~
+@454 = ~Sekrety czarów i mistrzostwo ¿ywio³ów (tylko opis).~
+@455 = ~Czujny duch: +1 do rzutów obronnych na Refleks.~
+
+@461 = ~szaman duchów~
+@462 = ~Szaman duchów~
+@463 = ~SZAMAN DUCHÓW (podklasa druida): Poœrednicy miêdzy ¿ywymi a duchami ziemi. Na Athasie przemawiaj¹ w imieniu niespokojnych duchów martwych krain.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobre rzuty obronne: Wytrwa³oœæ i Wola. Punkty umiejêtnoœci: 4 na poziom. Charakter: dowolny.
+
+Rzuca czary druida (w zasadach wybierane ka¿dego dnia - tu przygotowywane jak u druida). Bez dzikiej postaci.
+
+Zdolnoœci klasowe:
+- Duchowy przewodnik (poziom 1): tylko opis na karcie postaci.
+- Karcenie duchów (poziom 2, kolejne u¿ycia na 6, 10, 14): odpêdzanie nieumar³ych.
+- B³ogos³awieñstwo duchów (poziom 4): ochrona przed z³em.
+- Duchowy wojownik (poziom 9): tylko opis na karcie postaci.
+- Postaæ ducha (poziom 11): rozmycie.~
+@464 = ~Duchowy przewodnik: duch towarzysz¹cy szamanowi ostrzega go i prowadzi (tylko opis).~
+@465 = ~Karcenie duchów: odpêdza nieumar³ych (Odpêdzanie nieumar³ych).~
+@466 = ~Duchowy wojownik: ciosy szamana trafiaj¹ bezcielesnych wrogów (tylko opis).~
+
+@471 = ~wybraniec bóstwa~
+@472 = ~Wybraniec bóstwa~
+@473 = ~WYBRANIEC BÓSTWA (podklasa zaklinacza): Wybrañcy boskiej mocy, którzy rzucaj¹ jej czary z instynktu, a nie z modlitwy. Na Athasie - œmiertelnicy dotkniêci przez plan ¿ywio³u.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobre rzuty obronne: Wytrwa³oœæ, Refleks i Wola. Punkty umiejêtnoœci: 2 na poziom. Charakter: dowolny.
+
+Rzuca czary kap³añskie spontanicznie, jak zaklinacz (znane czary i czary dziennie zaklinacza, Charyzma).
+
+Zdolnoœci klasowe:
+- Skupienie na broni bóstwa (poziom 3): tylko opis na karcie postaci.
+- Odpornoœæ na energiê 10 (poziomy 5, 10, 15): ogieñ, potem elektrycznoœæ, potem kwas.
+- Skrzyd³a (poziom 12): tylko opis na karcie postaci.
+- Redukcja obra¿eñ 3/- (poziom 17).
+
+TEST: czary kap³añskie w ksiêdze zaklinacza - sprawdŸ rzucanie, poziom czaruj¹cego i ryzyko niepowodzenia w zbroi.~
+@474 = ~Broñ wybrana i skrzyd³a patrona (tylko opis).~

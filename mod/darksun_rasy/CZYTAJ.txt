@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test41: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test42: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -219,3 +219,18 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - Favored Soul: okno wyboru znanych czarow z czarami KAPLANA, rzucanie, poziom rzucajacego (czas trwania,
        obrazenia), kara za zbroje, odpornosc na ogien 10 (5).
      Efekty +atak (opcode 54) i +obrazenia (opcode 73) uzyte pierwszy raz - sprawdzic na karcie postaci.
+ test42: umiejetnosci klasowe osobno dla podklas + polskie teksty moda.
+     Exe zmienione (koszt umiejetnosci 0x764310 bierze kolumne podklasy z SKILCOST.2DA) - paczka 2 wymaga
+     reinstalacji: 0 i potem 1-5. Instalator pyta o jezyk: wybierz "Polski (cp1250)" (polska wersja gry).
+     SKILCOST - nowe kolumny (1 = klasowa, 2 = poza klasa, 0 = niedostepna):
+     Samurai: wojownik + Koncentracja, Dyplomacja; Swashbuckler: wojownik + Blef, Dyplomacja; Knight: jak wojownik;
+     Ninja: lotrzyk + Koncentracja, bez Zastraszania (poza klasa) i bez Uzywania magicznych przedmiotow;
+     Scout: lotrzyk + Wiedza o naturze, bez Blefu, Dyplomacji, Zastraszania, Otwierania zamkow, Kradziezy (poza klasa)
+     i bez Uzywania magicznych przedmiotow; Wu Jen = czarodziej; Spirit Shaman = druid;
+     Favored Soul: zaklinacz, ale Blef i Wiedza tajemna poza klasa.
+     Sprawdzic:
+     - kreator i awans: Scout - Wiedza o naturze za 1 punkt, Otwieranie zamkow za 2, Uzywanie magicznych przedmiotow
+       niedostepne; Ninja - Koncentracja za 1; zwykly lotrzyk/mnich bez zmian,
+     - postac wieloklasowa (np. wojownik/Scout) - umiejetnosc klasowa jednej z klas kosztuje 1,
+     - polskie nazwy i opisy ras, podklas i klas prestizowych, polskie znaki (CharSet 238),
+     - przycisk "Klasa prestizowa" i "Wiecej klas prestizowych..." po polsku.

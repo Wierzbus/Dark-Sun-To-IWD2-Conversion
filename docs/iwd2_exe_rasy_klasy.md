@@ -528,3 +528,19 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   Wniosek: kopie czarów z innymi flagami i nazwami nie są potrzebne; do sprawdzenia w grze: kara za zbroję i opisy.
 - Nowe SPL: AP_ DSSWREF (opcode 34), DSSWDMG (73), DSSCSK (0 + 73), DSSCFRT (33), DSFSRFI/REL/RAC (30/29/27);
   GA_ DSKIAI, DSKNCH (54, 73, 35 na czas; nazwa @408/@428 wpisywana przez instalator, ikony SPIN152B / SPWI402B).
+
+## 34. Umiejętności klasowe podklas i polskie teksty (test42)
+- SKILLS.2DA: kolumny klas/bóstw/ras to **premiowe rangi** (kreator 0x60C843 → 0x764270, sprite+0x7B4+umiejętność),
+  nie znaczniki klasowości.
+- Klasowość i koszt: **0x764310(umiejętność, klasa)**, thiscall, ecx = sprite (zapisany w [esp+0x18] po prologu).
+  Tabela **SkilCost** (CResRef 0x8DF2B8, nazwa 0x8AD17C) w regułach +0xD78 (dane +0xD90, domyślna +0xD94, szerokość
+  +0xD98, wysokość +0xD9A); komórka [umiejętność][klasa−1]: 1 = klasowa, 2 = poza klasą, 0 = niedostępna.
+  Pętla 1 (0x764371, esi = klasa) szuka najtańszej klasy postaci (0x447A70 = ma poziomy), pętla 2 (0x76445E,
+  edi = klasa, esi = kolumna) liczy limit rang z poziomów klas (0x447990). Wywołania: awans 0x5F797B…0x5F87EA,
+  kreator 0x60C8F6/0x60C940, 0x60EC72/0x60EDCB, 0x61AB26/0x61AB9A.
+- Hak test42 (kity.asm `skc_cell`, `skc_a`, `skc_b`): oba odczyty komórki zastąpione wywołaniem `kol_kitu` na SkilCost
+  — kolumna o nazwie podklasy DS postaci, a bez niej kolumna klasy (jak FEATCLAS/SKILLPTS). Instalator dodaje kolumny
+  SAMURAI…FAVORED_SOUL (`ds_kolumna_kitu` + `ds_kol_wart`, wiersze 0–15 w kolejności SKILCOST).
+- Teksty: `tra/polish.tra` w cp1250 (polska wersja gry, CharSet 238), `LANGUAGE ~Polski (cp1250)~`. Klucze
+  identyczne z english.tra.
+
