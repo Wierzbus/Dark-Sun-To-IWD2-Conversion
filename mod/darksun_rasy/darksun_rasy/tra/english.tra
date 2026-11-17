@@ -147,3 +147,149 @@ Requirements: Sorcerer level 3.
 @122 = ~To hit against~
 @123 = ~aberrations~
 @124 = ~AC against giants and ogres~
+
+// test41: nowe klasy bazowe jako podklasy (Complete Warrior, Player's Handbook II, Complete Adventurer,
+// Complete Arcane, Complete Divine) - opisy wlasne, zdolnosci przyblizone do mechaniki IWD2
+@401 = ~samurai~
+@402 = ~Samurai~
+@403 = ~SAMURAI (fighter subclass): Sworn swordsmen bound by a strict code of honour, the samurai fight with a long and a short blade at once. On Athas they serve noble houses and city-states as duellists and bodyguards.
+
+Hit Die: d10. Base attack bonus: as fighter. Good saving throw: Fortitude. Skill points: 2 per level. Alignment: any lawful.
+
+Class features:
+- Two Swords as One (level 2): two bonus feats at once - take Ambidexterity and Two-Weapon Fighting.
+- Kiai Smite (level 3, more uses at 8 and 14): a war cry that adds +3 to attack and damage rolls for one round.
+- Bonus feats at levels 6, 10, 15 and 20.
+- Staredown (level 6) and Mass Staredown (level 14): terrifying glare (Fear).
+- Iaijutsu Master (level 11): described on the character sheet only.
+
+Unlike the fighter, the samurai receives no bonus feat at levels 1, 4, 8, 12...~
+@404 = ~Two Swords as One: bonus feats Ambidexterity and Two-Weapon Fighting (chosen at level 2).~
+@405 = ~Kiai Smite: once per day per use, +3 to attack and damage rolls for one round.~
+@406 = ~Staredown: a glare that frightens enemies (Fear).~
+@407 = ~Iaijutsu Master: the samurai draws and strikes in one motion (description only - no IWD2 mechanic).~
+@408 = ~Kiai Smite~
+
+@411 = ~swashbuckler~
+@412 = ~Swashbuckler~
+@413 = ~SWASHBUCKLER (fighter subclass): Duellists who trust speed, wit and a light blade more than heavy armour. Arena favourites and caravan guards of the free cities.
+
+Hit Die: d10. Base attack bonus: as fighter. Good saving throw: Fortitude. Skill points: 4 per level. Alignment: any.
+
+Class features:
+- Weapon Finesse (level 1): one bonus feat - take Weapon Finesse.
+- Grace (level 2): +1 Reflex save; +2 at level 11, +3 at level 20.
+- Insightful Strike (level 3): +2 damage with every attack (in the rules: Intelligence bonus; here a fixed bonus).
+- Dodge Bonus (level 5): +1 Armor Class; +1 more at levels 10, 15 and 20.
+- Acrobatic Charge (7), Improved Flanking (8), Lucky (11), Acrobatic Skill Mastery (13), Weakening Critical (14), Slippery Mind (17), Wounding Critical (19): described on the character sheet only.
+
+The swashbuckler receives no other bonus feats.~
+@414 = ~Grace: +1 to Reflex saving throws.~
+@415 = ~Insightful Strike: +2 to damage rolls.~
+@416 = ~Dodge Bonus: +1 to Armor Class.~
+@417 = ~Acrobatic, lucky and quick-witted: acrobatic charge, improved flanking, luck, slippery mind and crippling criticals (description only).~
+
+@421 = ~knight~
+@422 = ~Knight~
+@423 = ~KNIGHT (fighter subclass): Armoured champions who live by a code of chivalry, protect the weak and challenge the strongest enemy on the field. On Athas, rare paragons serving a noble house or a free village.
+
+Hit Die: d12. Base attack bonus: as fighter. Good saving throw: Will. Skill points: 2 per level. Alignment: any lawful.
+
+Class features:
+- Fighting Challenge (level 1, more uses at 4, 8, 12, 16 and 20): +1 to attack, damage and Will saves for one minute.
+- Shield Block (level 2): +1 Armor Class; +1 more at levels 6 and 11 (in the rules only with a shield).
+- Bulwark of Defense (3), Armor Mastery (4 and 9), Test of Mettle (5), Vigilant Defender (7): described on the character sheet only.
+- Daunting Challenge (level 11): a challenge that frightens weaker foes (Fear).
+
+Knights get no bonus feats; mounted abilities of the class do not exist in IWD2.~
+@424 = ~Fighting Challenge: +1 to attack, damage and Will saving throws for one minute.~
+@425 = ~Shield Block: +1 to Armor Class.~
+@426 = ~Knight's code: bulwark of defense, armor mastery, test of mettle and vigilant defender (description only).~
+@427 = ~Daunting Challenge: a challenge that frightens enemies (Fear).~
+@428 = ~Fighting Challenge~
+
+@431 = ~ninja~
+@432 = ~Ninja~
+@433 = ~NINJA (monk subclass): Spies and assassins who mix martial arts with ki tricks. On Athas they serve merchant houses and the shadowy Veiled Alliance.
+
+Hit Die: d6. Base attack bonus: as cleric. Good saving throw: Reflex. Skill points: 6 per level. Alignment: any.
+
+The ninja uses the monk's unarmored defence (Wisdom and level to Armor Class, lost in armour) and speed, but not the monk's unarmed strikes and other monk abilities.
+
+Class features:
+- Sudden Strike (level 1): sneak attack, +1d6 every two levels.
+- Ghost Step (level 2, more uses at 6, 10 and 14): invisibility.
+- Poison Use (level 3): poison weapon.
+- Evasion (level 8).
+- Great Leap, Acrobatics, Ki Dodge, Ghost Strike, Ghost Walk: described on the character sheet only.~
+@434 = ~Sudden Strike: sneak attack dice like a rogue.~
+@435 = ~Ghost Step: the ninja becomes invisible.~
+@436 = ~Ki power: great leap, acrobatics, ki dodge, ghost strike and ghost walk (description only).~
+
+@441 = ~scout~
+@442 = ~Scout~
+@443 = ~SCOUT (rogue subclass): Outriders and pathfinders who strike and move, never staying in one place. On Athas they guide caravans through the wastes.
+
+Hit Die: d8. Base attack bonus: as cleric. Good saving throw: Reflex. Skill points: 8 per level. Alignment: any.
+
+Class features:
+- Skirmish (level 1; stronger at 5, 9, 13 and 17): +1 Armor Class and +1 damage per step (in the rules only after moving; here always).
+- Uncanny Dodge (level 2), Improved Uncanny Dodge (level 11), Evasion (level 5).
+- Battle Fortitude (level 2): +1 Fortitude save; +2 at level 11.
+- Fast Movement (level 3): faster movement; more at level 11.
+- Bonus feats at levels 4, 8, 12, 16 and 20.
+- Trapfinding, Flawless Stride, Camouflage, Blindsense, Hide in Plain Sight, Free Movement: described on the character sheet only.
+
+The scout has no sneak attack.~
+@444 = ~Skirmish: +1 to Armor Class and +1 to damage rolls.~
+@445 = ~Battle Fortitude: +1 to Fortitude saving throws.~
+@446 = ~Fast Movement: faster movement.~
+@447 = ~Wilderness craft: trapfinding, flawless stride, camouflage, blindsense, hide in plain sight, free movement (description only).~
+
+@451 = ~wu jen~
+@452 = ~Wu Jen~
+@453 = ~WU JEN (wizard subclass): Mystics who study the spirits of the elements and bind themselves with strange taboos. On Athas they are hermits of the wastes, close to the elemental powers.
+
+Hit Die: d4. Base attack bonus: as wizard. Good saving throw: Will. Skill points: 2 per level. Alignment: any non-lawful.
+
+Class features (this test version uses the wizard spell list; the wu jen elemental list will come later):
+- Elemental Mastery and Spell Secrets (levels 6, 12, 18): described on the character sheet only.
+- Watchful Spirit (level 9): +1 to Reflex saving throws.
+- Taboo: in the rules a personal prohibition; no mechanic in IWD2.~
+@454 = ~Spell secrets and elemental mastery (description only).~
+@455 = ~Watchful Spirit: +1 to Reflex saving throws.~
+
+@461 = ~spirit shaman~
+@462 = ~Spirit Shaman~
+@463 = ~SPIRIT SHAMAN (druid subclass): Mediators between the living and the spirits of the land. On Athas they speak for the restless spirits of dead lands.
+
+Hit Die: d8. Base attack bonus: as cleric. Good saving throws: Fortitude and Will. Skill points: 4 per level. Alignment: any.
+
+Casts druid spells (in the rules chosen each day - here prepared as a druid). No wild shape.
+
+Class features:
+- Spirit Guide (level 1): described on the character sheet only.
+- Chastise Spirits (level 2, more uses at 6, 10, 14): turn undead.
+- Blessing of the Spirits (level 4): protection from evil.
+- Ghost Warrior (level 9): described on the character sheet only.
+- Spirit Form (level 11): blur.~
+@464 = ~Spirit Guide: the shaman's companion spirit warns and guides her (description only).~
+@465 = ~Chastise Spirits: drives off undead (Turn Undead).~
+@466 = ~Ghost Warrior: the shaman's blows strike incorporeal foes (description only).~
+
+@471 = ~favored soul~
+@472 = ~Favored Soul~
+@473 = ~FAVORED SOUL (sorcerer subclass): Chosen of a divine power who cast its spells by instinct, not by prayer. On Athas - mortals touched by an elemental plane.
+
+Hit Die: d8. Base attack bonus: as cleric. Good saving throws: Fortitude, Reflex and Will. Skill points: 2 per level. Alignment: any.
+
+Casts cleric spells spontaneously, as a sorcerer (spells known and spells per day of a sorcerer, Charisma).
+
+Class features:
+- Deity's Weapon Focus (level 3): described on the character sheet only.
+- Energy Resistance 10 (levels 5, 10, 15): fire, then electricity, then acid.
+- Wings (level 12): described on the character sheet only.
+- Damage Reduction 3/- (level 17).
+
+TEST: cleric spells in a sorcerer's spellbook - check casting, caster level and spell failure in armour.~
+@474 = ~Chosen weapon and wings of the patron (description only).~

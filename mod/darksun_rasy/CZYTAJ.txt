@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test40: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test41: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -202,3 +202,20 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - okno podklas: 2 klasy + "More prestige classes...", klikniecie -> nastepne 2, potem 1, potem znowu pierwsze 2,
      - wybor klasy z 2. albo 3. strony, opis po kliknieciu, "Gotowe", awans zapisuje te klase (karta postaci),
      - bez komponentu 7: tylko spelnione klasy, bez przycisku "More..." (mniej niz 9 klas).
+ test41: osiem nowych klas bazowych jako podklasy (opisy w oknie podklasy, zdolnosci na karcie postaci):
+     wojownik - Samurai, Swashbuckler, Knight; mnich - Ninja; lotrzyk - Scout; czarodziej - Wu Jen;
+     druid - Spirit Shaman; zaklinacz - Favored Soul (test czarow kaplanskich w ksiedze zaklinacza).
+     Exe bez zmian (test40). Reinstall: 0 i potem 1-5.
+     Sprawdzic:
+     - kreator: kazda klasa w oknie podklas (mnich, czarodziej, druid, zaklinacz, lotrzyk, wojownik), opis po kliknieciu,
+     - Samurai: 2 atuty na 2. poziomie, Kiai Smite (3) w zdolnosciach, Strach (6),
+     - Swashbuckler: 1 atut na 1. poziomie, +1 Refleks (2), +2 obrazen (3), +1 KP (5),
+     - Knight: Fighting Challenge (1), +1 KP (2), k12,
+     - Ninja: KP z Madrosci jak mnich, sneak attack od 1. poziomu, Niewidzialnosc (2), Zatrucie broni (3),
+       czy praworzadnosc nie jest wymagana i czy mnich nie "upada" przy innym charakterze,
+     - Scout: brak sneak attacku, uncanny dodge (2), +1 KP i +1 obrazen, szybszy ruch (3), atut na 4.,
+     - Wu Jen: czary czarodzieja, +1 Refleks (9),
+     - Spirit Shaman: czary druida bez dzikiego ksztaltu, Odpedzanie (2), Ochrona przed zlem (4),
+     - Favored Soul: okno wyboru znanych czarow z czarami KAPLANA, rzucanie, poziom rzucajacego (czas trwania,
+       obrazenia), kara za zbroje, odpornosc na ogien 10 (5).
+     Efekty +atak (opcode 54) i +obrazenia (opcode 73) uzyte pierwszy raz - sprawdzic na karcie postaci.

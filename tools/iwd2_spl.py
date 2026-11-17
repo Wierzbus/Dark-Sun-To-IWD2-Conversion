@@ -21,15 +21,17 @@ def efekt(op, *, p1=0, p2=0, timing=9, res=b"", cel=1, czas=0):
     return bytes(e)
 
 
-def spl(efekty: list[bytes], typ=4) -> bytes:
+def spl(efekty: list[bytes], typ=4, ikona=b"") -> bytes:
     h = bytearray(0x82)
     h[0:8] = b"SPL V2.0"
     struct.pack_into("<II", h, 0x08, NONE, NONE)    # nazwa: brak (zdolnosc nie pokazywana w menu)
     struct.pack_into("<H", h, 0x1C, typ)           # 4 = zdolnosc wrodzona
     struct.pack_into("<I", h, 0x34, 1)             # poziom
     struct.pack_into("<II", h, 0x50, NONE, NONE)   # opis
+    h[0x3A:0x42] = ikona.ljust(8, b"\0")          # ikona w menu (zdolnosc GA_; nazwe wpisuje instalator pod 0x08)
     ext = bytearray(0x28)
     ext[0], ext[2] = 1, 4                          # forma, miejsce: wrodzona
+    ext[4:12] = ikona.ljust(8, b"\0")
     ext[0x0C] = 5                                  # cel: rzucajacy
     struct.pack_into("<HH", ext, 0x0E, 0, 1)       # zasieg, poziom
     struct.pack_into("<HH", ext, 0x1E, len(efekty), 0)
@@ -52,6 +54,25 @@ ZDOLNOSCI = {
     "DSDDAC": [efekt(0, p1=1, p2=0)],
     # test33 Dwarven Defender: redukcja obrazen 3/- (opcode 436, p1 = wartosc; CLAB na 6 i 10) - do sprawdzenia w grze
     "DSDDDR": [efekt(436, p1=3, p2=0)],
+    # test41 Swashbuckler: Grace +1 Refleks (34; CLAB na 2/11/20), Insightful Strike +2 obrazen (73), unik: DSDDAC
+    "DSSWREF": [efekt(34, p1=1, p2=0)],
+    "DSSWDMG": [efekt(73, p1=2, p2=0)],
+    # test41 Scout: Skirmish +1 KP i +1 obrazen (CLAB na 1/5/9/13/17), Battle Fortitude +1 Wytrwalosc (33)
+    "DSSCSK": [efekt(0, p1=1, p2=0), efekt(73, p1=1, p2=0)],
+    "DSSCFRT": [efekt(33, p1=1, p2=0)],
+    # test41 Favored Soul: odpornosc 10 na ogien (30), elektrycznosc (29), kwas (27)
+    "DSFSRFI": [efekt(30, p1=10, p2=0)],
+    "DSFSREL": [efekt(29, p1=10, p2=0)],
+    "DSFSRAC": [efekt(27, p1=10, p2=0)],
+}
+
+# Zdolnosci do uzycia (GA_ w CLAB): czas w sekundach (runda = 6 s), nazwe wpisuje instalator (strref pod 0x08).
+UZYWANE = {
+    # test41 Samurai: Kiai Smite - +3 do ataku (54) i obrazen (73) na 1 runde
+    "DSKIAI": (b"SPIN152B", [efekt(54, p1=3, timing=0, czas=6), efekt(73, p1=3, timing=0, czas=6)]),
+    # test41 Knight: Fighting Challenge - +1 do ataku, obrazen i Woli (35) na 1 minute
+    "DSKNCH": (b"SPWI402B", [efekt(54, p1=1, timing=0, czas=60), efekt(73, p1=1, timing=0, czas=60),
+                             efekt(35, p1=1, timing=0, czas=60)]),
 }
 
 
@@ -77,6 +98,9 @@ def main():
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
+    for n, (ik, ef) in UZYWANE.items():
+        with open(os.path.join(a.out, n + ".SPL"), "wb") as f:
+            f.write(spl(ef, ikona=ik))
     for n, ef in ZDOLNOSCI.items():
         open(os.path.join(a.out, n + ".SPL"), "wb").write(spl(ef))
         print(n, len(ef), "efekt(y)")

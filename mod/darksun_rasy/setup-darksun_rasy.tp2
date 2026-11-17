@@ -3,9 +3,47 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test40-2026-11-16~
+VERSION ~test41-2026-11-17~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
+
+// test41: funkcja wspolna komponentow 2 i 5 (kolumna podklasy w tabeli 2DA = kopia kolumny %wzor%)
+ALWAYS
+  DEFINE_PATCH_FUNCTION ds_kolumna_kitu
+    STR_VAR kol = ~~ wzor = ~~
+  BEGIN
+    COUNT_2DA_COLS ds_nc
+    READ_2DA_ENTRIES_NOW ds_h (ds_nc - 1)
+    SET ds_jest = 0
+    SET ds_j = 0 - 1
+    FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+      READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_v
+      PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%kol%~) BEGIN SET ds_jest = 1 END
+      PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%wzor%~) BEGIN SET ds_j = ds_c + 1 END
+    END
+    PATCH_IF (ds_jest = 0) AND (ds_j > 0) BEGIN
+      TEXT_SPRINT ds_out ~2DA V1.0%WNL%0%WNL%~
+      FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+        READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_v
+        TEXT_SPRINT ds_out ~%ds_out%	%ds_v%~
+      END
+      TEXT_SPRINT ds_out ~%ds_out%	%kol%%WNL%~
+      READ_2DA_ENTRIES_NOW ds_r ds_nc
+      FOR (ds_i = 0; ds_i < ds_r; ++ds_i) BEGIN
+        TEXT_SPRINT ds_l ~~
+        FOR (ds_c = 0; ds_c < ds_nc; ++ds_c) BEGIN
+          READ_2DA_ENTRY_FORMER ds_r ds_i ds_c ds_v
+          TEXT_SPRINT ds_l ~%ds_l%%ds_v%	~
+        END
+        READ_2DA_ENTRY_FORMER ds_r ds_i ds_j ds_v
+        TEXT_SPRINT ds_out ~%ds_out%%ds_l%%ds_v%%WNL%~
+      END
+      DELETE_BYTES 0 BUFFER_LENGTH
+      INSERT_BYTES 0 (STRING_LENGTH ~%ds_out%~)
+      WRITE_ASCIIE 0 ~%ds_out%~
+    END
+  END
+END
 
 BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe (z IWD2_<W>.exe z paczki 1, jesli jest)~ DESIGNATED 0
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
@@ -225,8 +263,17 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     13, 1, DWARVEN_DEF,  CLABDS14, 0E => 341
     14, 1, ASSASSIN,     CLABDS15, 0F => 351
     15, 1, ELEM_ADEPT,   CLABDS13, 10 => 361
+    // test41: nowe klasy bazowe jako podklasy
+    16, 5, SAMURAI,       CLABDS16, 11 => 401
+    17, 5, SWASHBUCKLER,  CLABDS17, 12 => 411
+    18, 5, KNIGHT,        CLABDS18, 13 => 421
+    19, 6, NINJA,         CLABDS19, 14 => 431
+    20, 9, SCOUT,         CLABDS20, 15 => 441
+    21, 11, WU_JEN,       CLABDS21, 16 => 451
+    22, 4, SPIRIT_SHAMAN, CLABDS22, 17 => 461
+    23, 10, FAVORED_SOUL, CLABDS23, 18 => 471
   END
-  OUTER_SET ds_n_kitow = 16
+  OUTER_SET ds_n_kitow = 24
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 320
@@ -299,6 +346,31 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~361~) = RESOLVE_STR_REF(@361)
   OUTER_SET $ds_str(~362~) = RESOLVE_STR_REF(@362)
   OUTER_SET $ds_str(~363~) = RESOLVE_STR_REF(@363)
+  // test41
+  OUTER_SET $ds_str(~401~) = RESOLVE_STR_REF(@401)
+  OUTER_SET $ds_str(~402~) = RESOLVE_STR_REF(@402)
+  OUTER_SET $ds_str(~403~) = RESOLVE_STR_REF(@403)
+  OUTER_SET $ds_str(~411~) = RESOLVE_STR_REF(@411)
+  OUTER_SET $ds_str(~412~) = RESOLVE_STR_REF(@412)
+  OUTER_SET $ds_str(~413~) = RESOLVE_STR_REF(@413)
+  OUTER_SET $ds_str(~421~) = RESOLVE_STR_REF(@421)
+  OUTER_SET $ds_str(~422~) = RESOLVE_STR_REF(@422)
+  OUTER_SET $ds_str(~423~) = RESOLVE_STR_REF(@423)
+  OUTER_SET $ds_str(~431~) = RESOLVE_STR_REF(@431)
+  OUTER_SET $ds_str(~432~) = RESOLVE_STR_REF(@432)
+  OUTER_SET $ds_str(~433~) = RESOLVE_STR_REF(@433)
+  OUTER_SET $ds_str(~441~) = RESOLVE_STR_REF(@441)
+  OUTER_SET $ds_str(~442~) = RESOLVE_STR_REF(@442)
+  OUTER_SET $ds_str(~443~) = RESOLVE_STR_REF(@443)
+  OUTER_SET $ds_str(~451~) = RESOLVE_STR_REF(@451)
+  OUTER_SET $ds_str(~452~) = RESOLVE_STR_REF(@452)
+  OUTER_SET $ds_str(~453~) = RESOLVE_STR_REF(@453)
+  OUTER_SET $ds_str(~461~) = RESOLVE_STR_REF(@461)
+  OUTER_SET $ds_str(~462~) = RESOLVE_STR_REF(@462)
+  OUTER_SET $ds_str(~463~) = RESOLVE_STR_REF(@463)
+  OUTER_SET $ds_str(~471~) = RESOLVE_STR_REF(@471)
+  OUTER_SET $ds_str(~472~) = RESOLVE_STR_REF(@472)
+  OUTER_SET $ds_str(~473~) = RESOLVE_STR_REF(@473)
   // UWAGA: COPY - zapamietuje bufor jako plik "inlined" pod nazwa CELU i kazdy pozniejszy COPY tej nazwy czyta go
   // z pamieci, nie z dysku (az do konca instalacji). Dlatego cel sprawdzenia to *_spr.tmp, nigdy sam exe -
   // inaczej nastepne komponenty nadpisywaly exe stara kopia (pusta tabela podklas w test26).
@@ -400,6 +472,15 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ARENA_CHAMP~ wzor = ~FIGHTER~   END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCH_DEFILER~ wzor = ~WIZARD~   END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ELEM_ADEPT~  wzor = ~SORCERER~ END
+  // test41: samuraj i rycerz - praworzadni, wu jen - niepraworzadny, reszta - dowolny charakter
+  APPEND ~ALIGNMNT.2DA~ ~SAMURAI	1	1	1	0	0	0	0	0	0~ UNLESS ~SAMURAI~
+  APPEND ~ALIGNMNT.2DA~ ~KNIGHT	1	1	1	0	0	0	0	0	0~ UNLESS ~KNIGHT~
+  APPEND ~ALIGNMNT.2DA~ ~WU_JEN	0	0	0	1	1	1	1	1	1~ UNLESS ~WU_JEN~
+  APPEND ~ALIGNMNT.2DA~ ~SWASHBUCKLER	1	1	1	1	1	1	1	1	1~ UNLESS ~SWASHBUCKLER~
+  APPEND ~ALIGNMNT.2DA~ ~NINJA	1	1	1	1	1	1	1	1	1~ UNLESS ~NINJA~
+  APPEND ~ALIGNMNT.2DA~ ~SCOUT	1	1	1	1	1	1	1	1	1~ UNLESS ~SCOUT~
+  APPEND ~ALIGNMNT.2DA~ ~SPIRIT_SHAMAN	1	1	1	1	1	1	1	1	1~ UNLESS ~SPIRIT_SHAMAN~
+  APPEND ~ALIGNMNT.2DA~ ~FAVORED_SOUL	1	1	1	1	1	1	1	1	1~ UNLESS ~FAVORED_SOUL~
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -427,6 +508,14 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~DWARVEN_DEF~  wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ASSASSIN~     wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ELEM_ADEPT~   wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SAMURAI~       wzor = ~FIGHTER~  END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SWASHBUCKLER~  wzor = ~FIGHTER~  END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~KNIGHT~        wzor = ~FIGHTER~  END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~NINJA~         wzor = ~MONK~     END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SCOUT~         wzor = ~ROGUE~    END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~WU_JEN~        wzor = ~WIZARD~   END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SPIRIT_SHAMAN~ wzor = ~DRUID~    END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~FAVORED_SOUL~  wzor = ~SORCERER~ END
     END
   END
 
@@ -589,6 +678,49 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
       PATCH_IF (ds_op = 288) BEGIN WRITE_SHORT ds_o 34 WRITE_LONG (ds_o + 4) 2 WRITE_LONG (ds_o + 8) 0 END
     END
   BUT_ONLY
+  // test41: nowe klasy bazowe (podklasy) - CLAB w paczce; teksty FA_ (karta postaci) z tra przez EVALUATE_BUFFER
+  OUTER_SET fa_404 = RESOLVE_STR_REF(@404)
+  OUTER_SET fa_405 = RESOLVE_STR_REF(@405)
+  OUTER_SET fa_406 = RESOLVE_STR_REF(@406)
+  OUTER_SET fa_407 = RESOLVE_STR_REF(@407)
+  OUTER_SET fa_414 = RESOLVE_STR_REF(@414)
+  OUTER_SET fa_415 = RESOLVE_STR_REF(@415)
+  OUTER_SET fa_416 = RESOLVE_STR_REF(@416)
+  OUTER_SET fa_417 = RESOLVE_STR_REF(@417)
+  OUTER_SET fa_424 = RESOLVE_STR_REF(@424)
+  OUTER_SET fa_425 = RESOLVE_STR_REF(@425)
+  OUTER_SET fa_426 = RESOLVE_STR_REF(@426)
+  OUTER_SET fa_427 = RESOLVE_STR_REF(@427)
+  OUTER_SET fa_434 = RESOLVE_STR_REF(@434)
+  OUTER_SET fa_435 = RESOLVE_STR_REF(@435)
+  OUTER_SET fa_436 = RESOLVE_STR_REF(@436)
+  OUTER_SET fa_444 = RESOLVE_STR_REF(@444)
+  OUTER_SET fa_445 = RESOLVE_STR_REF(@445)
+  OUTER_SET fa_446 = RESOLVE_STR_REF(@446)
+  OUTER_SET fa_447 = RESOLVE_STR_REF(@447)
+  OUTER_SET fa_454 = RESOLVE_STR_REF(@454)
+  OUTER_SET fa_455 = RESOLVE_STR_REF(@455)
+  OUTER_SET fa_464 = RESOLVE_STR_REF(@464)
+  OUTER_SET fa_465 = RESOLVE_STR_REF(@465)
+  OUTER_SET fa_466 = RESOLVE_STR_REF(@466)
+  OUTER_SET fa_474 = RESOLVE_STR_REF(@474)
+  ACTION_FOR_EACH t IN ~CLABDS16~ ~CLABDS17~ ~CLABDS18~ ~CLABDS19~ ~CLABDS20~ ~CLABDS21~ ~CLABDS22~ ~CLABDS23~ BEGIN
+    COPY ~darksun_rasy/2da/%t%.2DA~ ~override~ EVALUATE_BUFFER
+  END
+  COPY ~darksun_rasy/spl/DSSWREF.SPL~ ~override~
+       ~darksun_rasy/spl/DSSWDMG.SPL~ ~override~
+       ~darksun_rasy/spl/DSSCSK.SPL~  ~override~
+       ~darksun_rasy/spl/DSSCFRT.SPL~ ~override~
+       ~darksun_rasy/spl/DSFSRFI.SPL~ ~override~
+       ~darksun_rasy/spl/DSFSREL.SPL~ ~override~
+       ~darksun_rasy/spl/DSFSRAC.SPL~ ~override~
+       ~darksun_rasy/spl/DSBBNMV.SPL~ ~override~
+  OUTER_SET ds_n1 = RESOLVE_STR_REF(@408)
+  OUTER_SET ds_n2 = RESOLVE_STR_REF(@428)
+  COPY ~darksun_rasy/spl/DSKIAI.SPL~ ~override~
+    WRITE_LONG 0x08 ds_n1
+  COPY ~darksun_rasy/spl/DSKNCH.SPL~ ~override~
+    WRITE_LONG 0x08 ds_n2
   // DSPREST.2DA: wiersz = podklasa klasy 1 (klasa prestizowa); LEVEL - poziom postaci, BAB - suma premii do ataku klas,
   // CLASS / CLASS_LEVEL - wymagana klasa (1..11) i jej poziom, SUBCLASS - wymagana podklasa DS (wiersz z tabeli podklas).
   // MAX_LEVEL - najwyzszy poziom klasy prestizowej (0 / brak = 10): po nim przycisk klasy 1 przy awansie nieaktywny.
@@ -606,47 +738,63 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   // podklasy DS postaci, gra uzywa jej zamiast kolumny klasy. Kolumna dopisana na koncu - gra czyta kolumny klas po
   // indeksie, dalsze pomija. DSKLASY (progi Unik / Uncanny Dodge / ...) - kolumny podklas w pliku paczki.
   // BARBARIAN_F (barbarzynca jako wojownik): bez premiowych atutow wojownika, punkty umiejetnosci barbarzyncy.
-  DEFINE_PATCH_FUNCTION ds_kolumna_kitu
-    STR_VAR kol = ~~ wzor = ~~
+  // test41: wartosc w ostatniej kolumnie (dopisanej) w wierszu danych nr %wiersz% (0 = pierwszy wiersz danych)
+  DEFINE_PATCH_FUNCTION ds_kol_wart
+    INT_VAR wiersz = 0 wart = 0
   BEGIN
     COUNT_2DA_COLS ds_nc
-    READ_2DA_ENTRIES_NOW ds_h (ds_nc - 1)
-    SET ds_jest = 0
-    SET ds_j = 0 - 1
-    FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
-      READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_v
-      PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%kol%~) BEGIN SET ds_jest = 1 END
-      PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%wzor%~) BEGIN SET ds_j = ds_c + 1 END
-    END
-    PATCH_IF (ds_jest = 0) AND (ds_j > 0) BEGIN
-      TEXT_SPRINT ds_out ~2DA V1.0%WNL%0%WNL%~
-      FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
-        READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_v
-        TEXT_SPRINT ds_out ~%ds_out%	%ds_v%~
-      END
-      TEXT_SPRINT ds_out ~%ds_out%	%kol%%WNL%~
-      READ_2DA_ENTRIES_NOW ds_r ds_nc
-      FOR (ds_i = 0; ds_i < ds_r; ++ds_i) BEGIN
-        TEXT_SPRINT ds_l ~~
-        FOR (ds_c = 0; ds_c < ds_nc; ++ds_c) BEGIN
-          READ_2DA_ENTRY_FORMER ds_r ds_i ds_c ds_v
-          TEXT_SPRINT ds_l ~%ds_l%%ds_v%	~
-        END
-        READ_2DA_ENTRY_FORMER ds_r ds_i ds_j ds_v
-        TEXT_SPRINT ds_out ~%ds_out%%ds_l%%ds_v%%WNL%~
-      END
-      DELETE_BYTES 0 BUFFER_LENGTH
-      INSERT_BYTES 0 (STRING_LENGTH ~%ds_out%~)
-      WRITE_ASCIIE 0 ~%ds_out%~
+    SET_2DA_ENTRY wiersz (ds_nc - 1) ds_nc ~%wart%~
+  END
+  // test41: kolumna = kopia %wzor%, potem same zera (nowe klasy bez premiowych atutow klasy glownej)
+  DEFINE_PATCH_FUNCTION ds_kolumna_zera
+    STR_VAR kol = ~~ wzor = ~~
+  BEGIN
+    COUNT_2DA_COLS ds_nc0
+    LPF ds_kolumna_kitu STR_VAR kol = EVAL ~%kol%~ wzor = EVAL ~%wzor%~ END
+    COUNT_2DA_COLS ds_nc
+    PATCH_IF (ds_nc > ds_nc0) BEGIN
+      COUNT_2DA_ROWS ds_nc ds_nr
+      FOR (ds_i = 0; ds_i < ds_nr; ++ds_i) BEGIN SET_2DA_ENTRY ds_i (ds_nc - 1) ds_nc ~0~ END
     END
   END
   COPY_EXISTING ~FEATCLAS.2DA~ ~override~
     LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BARBARIAN~ END
+    // test41 (wiersz = poziom - 1): samuraj 2 atuty na 2. poziomie (Ambidexterity + Two-Weapon Fighting) i po
+    // jednym na 6/10/15/20; swashbuckler 1 na 1. (Weapon Finesse); zwiadowca na 4/8/12/16/20; wu jen jak czarodziej
+    LPF ds_kolumna_zera STR_VAR kol = ~SAMURAI~ wzor = ~FIGHTER~ END
+    LPF ds_kol_wart INT_VAR wiersz = 1  wart = 2 END
+    LPF ds_kol_wart INT_VAR wiersz = 5  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 9  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 14 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 19 wart = 1 END
+    LPF ds_kolumna_zera STR_VAR kol = ~SWASHBUCKLER~ wzor = ~FIGHTER~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0  wart = 1 END
+    LPF ds_kolumna_zera STR_VAR kol = ~KNIGHT~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~NINJA~ wzor = ~MONK~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SCOUT~ wzor = ~ROGUE~ END
+    LPF ds_kol_wart INT_VAR wiersz = 3  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 7  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 11 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 15 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 19 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~WU_JEN~ wzor = ~WIZARD~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SPIRIT_SHAMAN~ wzor = ~DRUID~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~FAVORED_SOUL~ wzor = ~SORCERER~ END
   BUT_ONLY
   COPY_EXISTING ~SKILLPTS.2DA~ ~override~
     LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BBN~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~DWARVEN_DEF~ wzor = ~FTR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~ASSASSIN~    wzor = ~ROG~ END
+    // test41: wartosc = punkty na poziom / 2 (wojownik 1 = 2 pkt, lotrzyk 4 = 8 pkt)
+    LPF ds_kolumna_kitu STR_VAR kol = ~SAMURAI~       wzor = ~FTR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SWASHBUCKLER~  wzor = ~BBN~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~KNIGHT~        wzor = ~FTR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~NINJA~         wzor = ~ROG~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SCOUT~         wzor = ~ROG~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~WU_JEN~        wzor = ~WIZ~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SPIRIT_SHAMAN~ wzor = ~DRD~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~FAVORED_SOUL~  wzor = ~SOR~ END
   BUT_ONLY
 
   // GUICG.CHU: przyciski 14, 15, ... w oknie 12 (podklasy DS kaplana i czarodzieja) - kopie przycisku 9, kazdy
@@ -839,6 +987,14 @@ BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do atak
       DELETE_BYTES 0 BUFFER_LENGTH
       INSERT_BYTES 0 (STRING_LENGTH ~%ds_out%~)
       WRITE_ASCIIE 0 ~%ds_out%~
+    END
+  BUT_ONLY
+  // test41: kolumna FAV_SOUL (Favored Soul - podklasa zaklinacza) = lista kaplana (CLR). Czary kaplanskie trafiaja
+  // do ksiegi zaklinacza; exe liczy poziom rzucajacego z klasy ksiegi (0x75E940, klasa z akcji rzucania), wiec kopie
+  // czarow z innymi flagami nie sa potrzebne - do sprawdzenia w grze.
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    PATCH_IF (INDEX_BUFFER (~FAV_SOUL~) < 0) BEGIN
+      LPF ds_kolumna_kitu STR_VAR kol = ~FAV_SOUL~ wzor = ~CLR~ END
     END
   BUT_ONLY
 

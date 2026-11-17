@@ -516,3 +516,15 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Kliknięcie 0x5ED780 `klik6`: klasa 1, przycisk 2 → `pr_str` += strona, odświeżenie okna 0x5ED94E (0x5E0B20) bez zmiany
   wyboru. `prest54` (okno 54) zeruje `pr_str`.
 - Strona = `[0xA25F04]` (plik 0x4D0F04): komponent 2 wpisuje 8, testowy komponent 7 – 2 (i DSPREST bez warunków).
+
+## 33. Nowe klasy bazowe jako podklasy (test41)
+- Samurai, Swashbuckler, Knight (wojownik), Ninja (mnich), Scout (łotrzyk), Wu Jen (czarodziej), Spirit Shaman (druid),
+  Favored Soul (zaklinacz): wpisy 16–23 tabeli podklas, CLABDS16–23 w paczce (teksty `FA_` z tra przez EVALUATE_BUFFER),
+  wiersze DSKLPROG, kolumny FEATCLAS/SKILLPTS (funkcje `ds_kolumna_zera`, `ds_kol_wart`), DSKLASY (NINJA, SCOUT).
+- **Czary kapłańskie w księdze zaklinacza**: lista podklasy to kolumna LISTSPLL (`FAV_SOUL` = kopia CLR), czary trafiają do
+  księgi klasy (CRE: księga 5). Poziom rzucającego liczy 0x75E940(czar, klasa, …): klasę podaje akcja rzucania
+  (np. 0x716A36 `mov al, [edx+0x36]`), a dla klasy ≠ 0 pętla bierze tylko tę klasę (0x5CA5D0 → indeks listy, 0x5CA730 →
+  klasa, 0x447990 poziom). Typ SPL (kapłański = 2) sprawdzany jest tylko dla zdolności wrodzonych (0x54AD90, typ 4).
+  Wniosek: kopie czarów z innymi flagami i nazwami nie są potrzebne; do sprawdzenia w grze: kara za zbroję i opisy.
+- Nowe SPL: AP_ DSSWREF (opcode 34), DSSWDMG (73), DSSCSK (0 + 73), DSSCFRT (33), DSFSRFI/REL/RAC (30/29/27);
+  GA_ DSKIAI, DSKNCH (54, 73, 35 na czas; nazwa @408/@428 wpisywana przez instalator, ikony SPIN152B / SPWI402B).

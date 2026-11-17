@@ -1,11 +1,11 @@
 2DA V1.0
 0
-               BBN  BRD  CLR  DRD  FTR  MNK  PAL  RGR  ROG  SOR  WIZ  BARBARIAN_F  DWARVEN_DEF  ASSASSIN
-EVASION        0    0    0    0    0    1    0    0    2    0    0    0    0            0
-UNCANNY_DEX    0    0    0    0    0    0    0    0    3    0    0    2    2            2
-UNCANNY_FLANK  0    0    0    0    0    0    0    0    6    0    0    5    6            5
-SNEAK_ATTACK   0    0    0    0    0    0    0    0    1    0    0    0    0            1
-FAVORED_ENEMY  0    0    0    0    0    0    0    1    0    0    0    0    0            0
-AURA_COURAGE   0    0    0    0    0    0    2    0    0    0    0    0    0            0
-GREATER_RAGE   0    0    0    0    0    0    0    0    0    0    0    15    0            0
-TIRELESS_RAGE  0    0    0    0    0    0    0    0    0    0    0    20    0            0
+               BBN  BRD  CLR  DRD  FTR  MNK  PAL  RGR  ROG  SOR  WIZ  BARBARIAN_F  DWARVEN_DEF  ASSASSIN  NINJA  SCOUT
+EVASION        0    0    0    0    0    1    0    0    2    0    0    0    0            0  8      5    
+UNCANNY_DEX    0    0    0    0    0    0    0    0    3    0    0    2    2            2  0      2    
+UNCANNY_FLANK  0    0    0    0    0    0    0    0    6    0    0    5    6            5  0      11   
+SNEAK_ATTACK   0    0    0    0    0    0    0    0    1    0    0    0    0            1  1      0    
+FAVORED_ENEMY  0    0    0    0    0    0    0    1    0    0    0    0    0            0  0      0    
+AURA_COURAGE   0    0    0    0    0    0    2    0    0    0    0    0    0            0  0      0    
+GREATER_RAGE   0    0    0    0    0    0    0    0    0    0    0    15    0            0  0      0    
+TIRELESS_RAGE  0    0    0    0    0    0    0    0    0    0    0    20    0            0  0      0    
