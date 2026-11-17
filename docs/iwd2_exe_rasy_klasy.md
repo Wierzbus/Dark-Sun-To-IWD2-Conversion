@@ -610,3 +610,16 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   największe reszty), reszta na szablon. Nazwy → szablon: skeleton/boneguard/cold bones/demon knight → szkielet;
   zombie/dread warrior → zombie; Ghost, Hunter's/Kyosti's Ghost, Mother Egenia's Spirit → duch; half-dragon → półsmok;
   werewolf/wererat → likantrop. Mumie, upiory, wighty – stworzenia, nie szablony (MON_UNDEAD).
+
+## 40. Test48: nieumarły wojownik, szablony bez podziału poziomów, cechy z MM
+- Podział poziomu na klasę i szablon (test47) wycofany. Wpisy 50–51: MON_UNDEAD_W (wojownik; HPBARB, BAATFGT,
+  SAVEPRS – dobra Wytrwałość i Wola, AP_DSMNUND) i SZ_LYCANTHROPE (klasa 1: kości zwierzęcia – wilk 2, szczur 1,
+  wielki wilkołak 6; reszta poziomu = wojownik NPC). Klasy szablonów szkieletu, zombie, ducha i półsmoka usunięte.
+- Zwykłe szkielety i zombie – MON_UNDEAD jak w D&D (szablon odbiera poziomy klasy). Uzbrojeni nieumarli (Boneguard,
+  Armored Skeleton, Skeleton Archer, Cold Bones, Demon Knight, Dread Warrior) – MON_UNDEAD_W z pełnym poziomem CRE.
+  Wight Lord i Black Archer (wighty) – MON_UNDEAD.
+- Szablony zachowujące klasy (duch, półsmok; później wampir, lisz, rycerz śmierci, kaisharga): klasy CRE bez zmian,
+  PW z kości szablonu (duch k12 bez KON, półsmok – kość klasy o stopień większa), cechy z przedmiotu stworzenia w slocie 4
+  (kolumna CECHA, funkcja `ds_cre_cecha` – tylko gdy slot pusty). W grze cechy ma już prawie każdy taki CRE
+  (00CIDRG1 półsmoków, 00CIWWLF wilkołaków, 00CITRN1/11VEIRA* duchów); dopisanie: 67HADR (00CIDRG1).
+- Ogólni humanoidzi z MM (ork, goblin, hobgoblin, bugbear, gnoll, jaszczuroczłek, duergar, drow): cecha = max(CRE, MM I).

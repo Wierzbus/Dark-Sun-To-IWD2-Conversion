@@ -549,7 +549,7 @@ Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Reflek
 
 Cechy typu: brak.~
 @744 = ~Cechy typu (Istota baœniowa): brak.~
-// test47: klasy NPC i klasy szablonow
+// test47/48: klasy NPC, nieumarly wojownik, likantrop
 @751 = ~wojownik NPC~
 @752 = ~Wojownik NPC~
 @753 = ~WOJOWNIK NPC (klasa NPC, DMG): ukryta podklasa wojownika dla wyszkolonych humanoidalnych ¿o³nierzy, stra¿ników i wojowników plemiennych bez klasy postaci gracza. Niedostêpna dla gracza.
@@ -568,43 +568,19 @@ Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wola. 
 
 Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 2 na poziom. Czary: lista adepta (czary boskie i tajemne, krêgi 1-5).~
 @774 = ~Klasa NPC (adept): rzuca czary z listy adepta.~
-@781 = ~szkielet (szablon)~
-@782 = ~Szkielet~
-@783 = ~SZKIELET (klasa szablonu): ukryta klasa stworzeñ o¿ywionych jako szkielety. Po³owa poziomu istoty przypada na jej pierwotn¹ klasê, druga po³owa na ten szablon. Niedostêpna dla gracza.
+@781 = ~nieumar³y wojownik (potwór)~
+@782 = ~Nieumar³y wojownik~
+@783 = ~NIEUMAR£Y WOJOWNIK (klasa potwora): ukryta podklasa wojownika dla uzbrojonych, wyszkolonych w walce nieumar³ych (boneguardy, szkielety-wojownicy i ³ucznicy, rycerze demonów, straszliwi wojownicy). Niedostêpna dla gracza.
 
-Koœæ wytrzyma³oœci: k12, bez Kondycji. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Brak punktów umiejêtnoœci.
-
-Cechy: odpornoœci nieumar³ych.~
-@784 = ~Szablon (szkielet): odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
-@791 = ~zombie (szablon)~
-@792 = ~Zombie~
-@793 = ~ZOMBIE (klasa szablonu): ukryta klasa stworzeñ o¿ywionych jako zombie i straszliwi wojownicy. Po³owa poziomu istoty przypada na jej pierwotn¹ klasê, druga po³owa na ten szablon. Niedostêpna dla gracza.
-
-Koœæ wytrzyma³oœci: k12, bez Kondycji. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Brak punktów umiejêtnoœci.
+Koœæ wytrzyma³oœci: k12, bez Kondycji. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ, Wola. Punkty umiejêtnoœci: 4 na poziom. Bez premiowych atutów wojownika.
 
 Cechy: odpornoœci nieumar³ych.~
-@794 = ~Szablon (zombie): odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
-@801 = ~duch (szablon)~
-@802 = ~Duch~
-@803 = ~DUCH (klasa szablonu): ukryta klasa niespokojnych dusz zmar³ych. Po³owa poziomu istoty przypada na jej pierwotn¹ klasê, druga po³owa na ten szablon. Niedostêpna dla gracza.
-
-Koœæ wytrzyma³oœci: k12, bez Kondycji. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 4 na poziom.
-
-Cechy: odpornoœci nieumar³ych.~
-@804 = ~Szablon (duch): odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
-@811 = ~pó³smok (szablon)~
-@812 = ~Pó³smok~
-@813 = ~PÓ£SMOK (klasa szablonu): ukryta klasa potomków smoków. Po³owa poziomu istoty przypada na jej pierwotne klasy, druga po³owa na ten szablon. Niedostêpna dla gracza.
-
-Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ, Refleks, Wola. Punkty umiejêtnoœci: 6 na poziom.
-
-Cechy: odpornoœæ na sen i parali¿; widzenie w ciemnoœci.~
-@814 = ~Szablon (pó³smok): odpornoœæ na sen i parali¿; widzenie w ciemnoœci.~
-@821 = ~likantrop (szablon)~
-@822 = ~Likantrop~
-@823 = ~LIKANTROP (klasa szablonu): ukryta klasa wilko³aków, szczuro³aków i innych likantropów. Po³owa poziomu istoty przypada na jej pierwotn¹ klasê, druga po³owa na ten szablon (koœci wytrzyma³oœci zwierzêcia). Niedostêpna dla gracza.
+@784 = ~Cechy typu (nieumar³y wojownik): odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
+@791 = ~likantrop (szablon)~
+@792 = ~Likantrop~
+@793 = ~LIKANTROP (klasa szablonu): ukryta klasa koœci wytrzyma³oœci zwierzêcia wilko³aków i szczuro³aków (wilk 2, szczur 1, straszliwy wilk 6); reszta poziomu istoty to jej klasa humanoida. Niedostêpna dla gracza.
 
 Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Refleks. Punkty umiejêtnoœci: 2 na poziom.
 
 Cechy: widzenie w pó³mroku.~
-@824 = ~Szablon (likantrop): widzenie w pó³mroku.~
+@794 = ~Szablon (likantrop): widzenie w pó³mroku.~

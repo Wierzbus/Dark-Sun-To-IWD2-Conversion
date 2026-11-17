@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test47: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test48: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -314,3 +314,21 @@ test47: klasy NPC (adept, ekspert, wojownik NPC) i klasy szablonow; komponent 8 
        prestizowa = szablon), PW, BAB i rzuty; czy gra nie zglasza bledu przy wczytaniu obszaru,
      - straznik w Targos (wojownik NPC) i robotnik/zeglarz (ekspert): karta postaci i walka,
      - czy skrypty potworow dzialaja jak dotad (np. szkielety lucznicy, wilkolaki).
+test48: klasy potworow wracaja w miejsce dzielenia poziomu; nieumarly wojownik; cechy humanoidow z MM.
+     Exe bez zmian (test45). Reinstall: 0, 1-5 i 8.
+     - Wycofane z test47: dzielenie poziomu na klase i szablon oraz klasy szablonow szkieletu, zombie, ducha i polsmoka.
+     - Nowa ukryta klasa MON_UNDEAD_W (nieumarly wojownik, podklasa wojownika): k12 bez KON, pelny BAB, dobra
+       Wytrwalosc i Wola, odpornosci nieumarlych. 56 CRE: Boneguard (wszystkie), Armored Skeleton, Skeleton Archer,
+       Cold Bones, Demon Knight, elfi i orkowi Dread Warrior - z pelnym poziomem z CRE.
+     - Zwykle szkielety i zombie: znow MON_UNDEAD (jak w D&D i test46).
+     - Duchy i polsmoki zachowuja swoje klasy w calosci; PW: duch k12 bez KON, polsmok kosc klasy o stopien wieksza.
+       Cechy szablonu z przedmiotu stworzenia w slocie 4 (jak gra robi to przedmiotami 00CIDEAD/00CIDRG1) - dopisywany
+       tylko, gdy slot jest pusty (teraz jeden CRE: polsmok 67HADR). Tak beda traktowane tez wampiry, lisze i kaisharga.
+     - Likantrop: wojownik NPC + kosci zwierzecia (wilk 2, szczur 1, wielki wilkolak 6) na klasie 1.
+     - Ogolni przedstawiciele ras z MM (ork, goblin, hobgoblin, bugbear, gnoll, jaszczuroczlek, duergar, drow): cechy =
+       wieksza z wartosci CRE i Monster Manuala (np. goblin KON 9 -> 12). Postaci z imionami bez zmian.
+     Sprawdzic:
+     - Boneguard Skeleton / Apocalyptic Boneguard: karta - BAB rowny poziomowi, PW, odpornosci na sen i strach,
+     - Half-Dragon 67HADR: przedmiot 00CIDRG1 w ekwipunku (sen, paraliz), czy CRE wczytuje sie bez bledu,
+     - goblin i ork: cechy i PW, walka w Targos/Shaengarne,
+     - wilkolak: dwie klasy na karcie (klasa prestizowa = likantrop).

@@ -86,15 +86,12 @@ KLASY = {
     "CLABDS44": [(1, "AP_DSMNOOZ")],   # MON_OOZE
     "CLABDS45": [(1, "AP_DSMNOOZ")],   # MON_PLANT
     "CLABDS46": [(1, "FA_%fa_744%")],  # MON_FEY
-    # --- test47: klasy NPC z DMG (ukryte) i klasy szablonow (ukryte podklasy klasy 1) ---
+    # --- test47: klasy NPC z DMG (ukryte) nieumarly wojownik, likantrop (ukryta podklasa klasy 1) ---
     "CLABDS47": [(1, "FA_%fa_754%")],                       # NPC_WARRIOR
     "CLABDS48": [(1, "FA_%fa_764%")],                       # NPC_EXPERT
     "CLABDS49": [(1, "FA_%fa_774%")],                       # NPC_ADEPT
-    "CLABDS50": [(1, "AP_DSMNUND"), (1, "FA_%fa_784%")],    # SZ_SKELETON
-    "CLABDS51": [(1, "AP_DSMNUND"), (1, "FA_%fa_794%")],    # SZ_ZOMBIE
-    "CLABDS52": [(1, "AP_DSMNUND"), (1, "FA_%fa_804%")],    # SZ_GHOST
-    "CLABDS53": [(1, "AP_DSMNDRA"), (1, "FA_%fa_814%")],    # SZ_HALFDRAGON
-    "CLABDS54": [(1, "AP_DSMNDV"), (1, "FA_%fa_824%")],     # SZ_LYCANTHROPE (widzenie w polmroku)
+    "CLABDS50": [(1, "AP_DSMNUND"), (1, "FA_%fa_784%")],    # MON_UNDEAD_W (test48)
+    "CLABDS51": [(1, "AP_DSMNDV"), (1, "FA_%fa_794%")],     # SZ_LYCANTHROPE (widzenie w polmroku)
 }
 
 

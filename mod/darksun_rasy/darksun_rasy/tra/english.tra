@@ -550,7 +550,7 @@ Hit Die: d6. Base attack bonus: 1/2. Good saving throws: Reflex and Will. Skill 
 
 Type traits: none.~
 @744 = ~Type traits (Fey): none.~
-// test47: klasy NPC i klasy szablonow
+// test47/48: klasy NPC, nieumarly wojownik, likantrop
 @751 = ~npc warrior~
 @752 = ~NPC Warrior~
 @753 = ~NPC WARRIOR (NPC class, DMG): hidden fighter subclass for trained humanoid soldiers, guards and tribal warriors without a player class. Not available to players.
@@ -569,43 +569,19 @@ Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Will. Skill points: 6 p
 
 Hit Die: d6. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 per level. Spells: adept list (mix of divine and arcane spells, levels 1-5).~
 @774 = ~NPC class (Adept): casts spells from the adept list.~
-@781 = ~skeleton (template)~
-@782 = ~Skeleton~
-@783 = ~SKELETON (template class): hidden class for creatures raised as skeletons. Half of the creature's level goes to its original class, the other half to this template. Not available to players.
+@781 = ~undead warrior (monster)~
+@782 = ~Undead Warrior~
+@783 = ~UNDEAD WARRIOR (monster class): hidden fighter subclass for armed, battle-trained undead (boneguards, skeleton warriors and archers, demon knights, dread warriors). Not available to players.
 
-Hit Die: d12, no Constitution. Base attack bonus: 1/2. Good saving throws: Will. No skill points.
-
-Traits: undead immunities.~
-@784 = ~Template (Skeleton): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
-@791 = ~zombie (template)~
-@792 = ~Zombie~
-@793 = ~ZOMBIE (template class): hidden class for creatures raised as zombies and dread warriors. Half of the creature's level goes to its original class, the other half to this template. Not available to players.
-
-Hit Die: d12, no Constitution. Base attack bonus: 1/2. Good saving throws: Will. No skill points.
+Hit Die: d12, no Constitution. Base attack bonus: full. Good saving throws: Fortitude, Will. Skill points: 4 per level. No fighter bonus feats.
 
 Traits: undead immunities.~
-@794 = ~Template (Zombie): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
-@801 = ~ghost (template)~
-@802 = ~Ghost~
-@803 = ~GHOST (template class): hidden class for the restless spirits of the dead. Half of the creature's level goes to its original class, the other half to this template. Not available to players.
-
-Hit Die: d12, no Constitution. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 4 per level.
-
-Traits: undead immunities.~
-@804 = ~Template (Ghost): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
-@811 = ~half-dragon (template)~
-@812 = ~Half-Dragon~
-@813 = ~HALF-DRAGON (template class): hidden class for the offspring of dragons. Half of the creature's level goes to its original classes, the other half to this template. Not available to players.
-
-Hit Die: d10. Base attack bonus: full. Good saving throws: Fortitude, Reflex, Will. Skill points: 6 per level.
-
-Traits: immune to sleep and paralysis; darkvision.~
-@814 = ~Template (Half-Dragon): immune to sleep and paralysis; darkvision.~
-@821 = ~lycanthrope (template)~
-@822 = ~Lycanthrope~
-@823 = ~LYCANTHROPE (template class): hidden class for werewolves, wererats and other lycanthropes. Half of the creature's level goes to its original class, the other half to this template (animal Hit Dice). Not available to players.
+@784 = ~Type traits (Undead Warrior): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@791 = ~lycanthrope (template)~
+@792 = ~Lycanthrope~
+@793 = ~LYCANTHROPE (template class): hidden class for the animal Hit Dice of werewolves and wererats (wolf 2, rat 1, dire wolf 6); the rest of the creature's level is its humanoid class. Not available to players.
 
 Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude, Reflex. Skill points: 2 per level.
 
 Traits: low-light vision.~
-@824 = ~Template (Lycanthrope): low-light vision.~
+@794 = ~Template (Lycanthrope): low-light vision.~
