@@ -1,569 +1,991 @@
 2DA V1.0
 *
-               KIT             HP    STR   INT   WIS   DEX   CON   CHA   CR
-00BASHSH       MON_OUTSIDER    45    *     *     *     *     *     *     *
-00DOG          MON_ANIMAL      6     13    2     12    17    15    6     *
-00DOGDED       MON_ANIMAL      6     13    2     12    17    15    6     *
-00OCHX         MON_OOZE        69    15    *     1     1     22    1     *
-00OGR          MON_GIANT       26    21    6     10    8     15    7     *
-00RAT          MON_ANIMAL      5     10    1     12    17    12    4     2
-00SABGD        MON_UNDEAD      110   *     *     *     *     *     *     *
-00SABOR        MON_ANIMAL      22    15    2     13    10    17    4     *
-00SAIR04       MON_ELEM_FA     52    *     *     *     *     *     *     *
-00SAIR12       MON_ELEM_FA     90    *     *     *     *     *     *     *
-00SAIR16       MON_ELEM_FA     136   *     *     *     *     *     *     *
-00SAIR20       MON_ELEM_FA     170   *     *     *     *     *     *     *
-00SAIR24       MON_ELEM_FA     204   *     *     *     *     *     *     *
-00SARSKL       MON_UNDEAD      32    *     *     *     *     *     *     *
-00SASERV       MON_ELEM_FA     97    *     *     *     *     *     *     *
-00SBBER        MON_ANIMAL      19    *     *     *     *     *     *     *
-00SBEETL       MON_VERMIN      9     *     *     *     *     *     *     *
-00SBGD         MON_UNDEAD      45    *     *     *     *     *     *     *
-00SBSC         MON_DRAGON      127   *     *     *     *     *     *     *
-00SBTL11       MON_VERMIN      38    14    *     13    10    13    11    *
-00SBTL13       MON_VERMIN      84    *     *     *     *     *     *     *
-00SBTL15       MON_ANIMAL      142   26    2     13    10    21    2     *
-00SBTL7        MON_VERMIN      45    *     *     *     *     *     *     *
-00SBTL9        MON_VERMIN      58    *     *     *     *     *     *     *
-00SBWHT        MON_UNDEAD      97    12    11    13    12    *     15    *
-00SCAT         MON_ANIMAL      4     3     2     12    15    10    7     *
-00SCBER        MON_ANIMAL      42    31    2     12    13    19    10    *
-00SCBNS        MON_UNDEAD      71    *     *     *     *     *     *     *
-00SCCR         MON_ABERRATION  19    14    1     15    15    14    6     *
-00SCHZMB       MON_UNDEAD      32    8     *     10    11    *     1     *
-00SCYC         MON_GIANT       136   *     *     *     *     *     *     *
-00SDBER        MON_ANIMAL      102   31    2     12    13    19    10    *
-00SDCYC        MON_GIANT       102   *     *     *     *     *     *     *
-00SDFGNT       MON_GIANT       161   *     *     *     *     *     *     *
-00SDGWLF       MON_ANIMAL      127   *     *     *     *     *     *     *
-00SDJI         MON_OUTSIDER    45    18    14    15    19    14    15    *
-00SDND         MON_UNDEAD      97    *     *     *     *     *     *     *
-00SDOG         MON_ANIMAL      6     13    2     12    17    15    6     *
-00SDRABA       MON_OUTSIDER    127   17    12    14    17    17    16    *
-00SDRAT        MON_ANIMAL      5     10    1     12    17    12    4     *
-00SDREM        MON_MAGBEAST    231   26    5     12    13    21    10    *
-00SDSAL        MON_OUTSIDER    38    *     *     *     *     *     *     *
-00SDSCG        MON_GIANT       126   23    6     9     14    23    6     *
-00SDUHK        MON_ABERRATION  102   23    11    11    13    19    13    *
-00SDWLF        MON_ANIMAL      45    25    2     12    15    17    10    *
-00SDYET        MON_MAGBEAST    59    *     *     *     *     *     *     *
-00SEAR04       MON_ELEM_FW     60    *     *     *     *     *     *     *
-00SEAR12       MON_ELEM_FW     51    *     *     *     *     *     *     *
-00SEAR16       MON_ELEM_FW     104   *     *     *     *     *     *     *
-00SEAR20       MON_ELEM_FW     190   *     *     *     *     *     *     *
-00SEAR24       MON_ELEM_FW     152   *     *     *     *     *     *     *
-00SEFRET       MON_OUTSIDER    52    23    12    15    17    14    15    *
-00SEGBGD       MON_UNDEAD      84    *     *     *     *     *     *     *
-00SETN         MON_GIANT       39    *     *     *     *     *     *     *
-00SFDND        MON_UNDEAD      110   *     *     *     *     *     *     *
-00SFIR04       MON_ELEM_FA     52    *     *     *     *     *     *     *
-00SFIR12       MON_ELEM_FA     90    *     *     *     *     *     *     *
-00SFIR16       MON_ELEM_FA     136   *     *     *     *     *     *     *
-00SFIR20       MON_ELEM_FA     170   *     *     *     *     *     *     *
-00SFIR24       MON_ELEM_FA     204   *     *     *     *     *     *     *
-00SFRGNT       MON_GIANT       171   *     *     *     *     *     *     *
-00SFSAL        MON_OUTSIDER    27    *     *     *     *     *     *     *
-00SGDND        MON_UNDEAD      84    *     *     *     *     *     *     *
-00SGMUM        MON_UNDEAD      91    24    6     14    10    *     15    *
-00SGRBGD       MON_UNDEAD      58    *     *     *     *     *     *     *
-00SGSPI        MON_VERMIN      38    15    *     10    17    12    2     *
-00SGWWLF       MON_ANIMAL      135   *     *     *     *     *     *     *
-00SINV         MON_ELEM_FA     39    18    14    15    19    14    11    *
-00SLAIR        MON_ELEM_FA     75    *     *     *     *     *     *     *
-00SLEAR        MON_ELEM_FW     85    *     *     *     *     *     *     *
-00SLFIRE       MON_ELEM_FA     60    *     *     *     *     *     *     *
-00SLMR         MON_OUTSIDER    13    *     *     *     *     *     *     *
-00SLWAT        MON_ELEM_FW     51    *     *     *     *     *     *     *
-00SMBER        MON_ANIMAL      51    *     *     *     *     *     *     *
-00SMIN         MON_MONHUMAN    26    *     *     *     *     *     *     *
-00SMUM         MON_UNDEAD      26    24    6     14    10    *     15    *
-00SMUMK        MON_UNDEAD      97    24    6     14    10    *     15    *
-00SOTY         MON_ABERRATION  33    11    5     12    10    13    6     *
-00SPBER        MON_ANIMAL      68    *     *     *     *     *     *     *
-00SPNT         MON_ANIMAL      32    16    2     12    19    15    6     *
-00SPOZMB       MON_UNDEAD      45    8     *     10    11    *     1     *
-00SPSPI        MON_MAGBEAST    76    17    7     13    17    16    10    *
-00SRABA        MON_OUTSIDER    60    17    12    14    17    17    16    *
-00SREM         MON_MAGBEAST    178   26    5     12    13    21    10    *
-00SRMYC        MON_PLANT       26    *     *     *     *     *     *     *
-00SSAL         MON_OUTSIDER    27    *     *     *     *     *     *     *
-00SSCG         MON_GIANT       136   23    6     9     14    23    6     *
-00SSCYC        MON_GIANT       102   *     *     *     *     *     *     *
-00SSDW12       MON_UNDEAD      78    *     6     12    14    *     13    *
-00SSDW15       MON_UNDEAD      97    *     6     12    14    *     13    *
-00SSDW19       MON_UNDEAD      123   *     6     12    14    *     13    *
-00SSDW21       MON_UNDEAD      136   *     6     12    14    *     13    *
-00SSDW9        MON_UNDEAD      26    *     6     12    14    *     13    *
-00SSFGNT       MON_GIANT       161   *     *     *     *     *     *     *
-00SSGWLF       MON_ANIMAL      135   *     *     *     *     *     *     *
-00SSHCYC       MON_GIANT       102   *     *     *     *     *     *     *
-00SSHFGT       MON_GIANT       161   *     *     *     *     *     *     *
-00SSHGWF       MON_ANIMAL      135   *     *     *     *     *     *     *
-00SSHM         MON_PLANT       90    21    7     10    10    17    9     *
-00SSHRAB       MON_OUTSIDER    127   17    12    14    17    17    16    *
-00SSHREM       MON_MAGBEAST    231   26    5     12    13    21    10    *
-00SSHSAL       MON_OUTSIDER    38    *     *     *     *     *     *     *
-00SSHSCG       MON_GIANT       126   23    6     9     14    23    6     *
-00SSHUHK       MON_ABERRATION  102   23    11    11    13    19    13    *
-00SSHYET       MON_MAGBEAST    59    *     *     *     *     *     *     *
-00SSKL         MON_UNDEAD      19    *     *     *     *     *     *     *
-00SSKLAR       MON_UNDEAD      19    *     *     *     *     *     *     *
-00SSPIDR       MON_VERMIN      11    11    *     10    17    12    2     *
-00SSRABA       MON_OUTSIDER    127   17    12    14    17    17    16    *
-00SSREM        MON_MAGBEAST    231   26    5     12    13    21    10    *
-00SSSAL        MON_OUTSIDER    38    *     *     *     *     *     *     *
-00SSSCG        MON_GIANT       126   23    6     9     14    23    6     *
-00SSSPI        MON_VERMIN      66    15    *     10    17    12    2     *
-00SSUHK        MON_ABERRATION  102   23    11    11    13    19    13    *
-00SSYET        MON_MAGBEAST    59    *     *     *     *     *     *     *
-00SUHK         MON_ABERRATION  51    23    11    11    13    19    13    *
-00SWAT04       MON_ELEM_FW     60    *     *     *     *     *     *     *
-00SWAT12       MON_ELEM_FW     102   *     *     *     *     *     *     *
-00SWAT16       MON_ELEM_FW     152   *     *     *     *     *     *     *
-00SWAT20       MON_ELEM_FW     190   *     *     *     *     *     *     *
-00SWAT24       MON_ELEM_FW     228   *     *     *     *     *     *     *
-00SWLF         MON_ANIMAL      13    *     *     *     *     *     *     *
-00SWOLF        MON_ANIMAL      13    *     *     *     *     *     *     *
-00SWRG         MON_MAGBEAST    37    17    6     14    15    15    10    *
-00SWTWLF       MON_MAGBEAST    51    18    9     13    13    16    10    *
-00SWYV         MON_DRAGON      76    *     *     *     *     *     *     *
-00SYETI        MON_MAGBEAST    37    *     *     *     *     *     *     *
-00SZMB         MON_UNDEAD      13    8     *     10    11    *     1     *
-00SZMBL2       MON_UNDEAD      65    8     *     10    11    *     1     *
-00SZMBLO       MON_UNDEAD      65    8     *     10    11    *     1     *
-00WELP         MON_OUTSIDER    27    *     *     *     *     *     *     *
-00WORGBD       MON_MAGBEAST    22    17    6     14    15    15    10    *
-10CATF         MON_ANIMAL      4     3     2     12    15    10    7     *
-10CATW         MON_ANIMAL      4     3     2     12    15    10    7     *
-10DOP          MON_MONHUMAN    22    *     *     *     *     *     *     *
-10KEG0         MON_ABERRATION  67    19    10    13    12    17    10    *
-10KEG5         MON_ABERRATION  150   19    10    13    12    17    10    10
-11DOGL         MON_ANIMAL      13    13    2     12    17    15    6     2
-11DOGS         MON_ANIMAL      13    13    2     12    17    15    6     2
-12OGR          MON_GIANT       26    21    6     10    8     15    7     *
-12WOLF         MON_ANIMAL      13    *     *     *     *     *     *     *
-12WOLFD        MON_ANIMAL      13    *     *     *     *     *     *     *
-20BORARC       MON_ANIMAL      22    15    2     13    10    17    4     *
-20CARCWL       MON_ABERRATION  19    14    1     15    15    14    6     *
-20GRNSLM       MON_OOZE        11    *     *     *     *     *     *     *
-20OCRJEL       MON_OOZE        69    15    *     1     1     22    1     *
-20OLVSLM       MON_OOZE        22    *     *     *     *     *     *     *
-20RNDHRP       MON_MONHUMAN    31    10    7     12    15    10    17    *
-20SABCAT       MON_ANIMAL      19    16    2     12    19    15    6     *
-20SLMZMB       MON_UNDEAD      32    8     *     10    11    *     1     *
-20SNOLEP       MON_ANIMAL      19    16    2     12    19    15    6     *
-20STRLEP       MON_ANIMAL      26    16    2     12    19    15    6     *
-20TROICE       MON_GIANT       31    23    6     9     14    23    6     5
-20VREK         MON_GIANT       63    *     *     *     *     *     *     *
-21ANIVIL       MON_UNDEAD      6     *     *     *     *     *     *     2
-21CYCLPS       MON_GIANT       102   *     *     *     *     *     *     *
-21GAERNT       MON_MONHUMAN    39    *     *     *     *     *     *     *
-21HRP          MON_MONHUMAN    31    10    7     12    15    10    17    *
-21OGR          MON_GIANT       26    21    6     10    8     15    7     *
-21SPDQN        MON_VERMIN      33    11    *     10    17    12    2     *
-21SPDSML       MON_VERMIN      11    11    *     10    17    12    2     *
-21VERB         MON_GIANT       32    *     *     *     *     *     *     *
-21WERBGR       MON_MONHUMAN    16    *     *     *     *     *     *     *
-21WERRAT       MON_MONHUMAN    16    *     *     *     *     *     *     *
-21WTRWRD       MON_ELEM_FW     13    *     *     *     *     *     *     3
-30BAT          MON_ANIMAL      6     19    2     12    13    15    6     *
-30BEETQ        MON_VERMIN      52    *     *     *     *     *     *     6
-30DFDND        MON_UNDEAD      110   *     *     *     *     *     *     *
-30DSKEL        MON_UNDEAD      19    *     *     *     *     *     *     *
-30DTSKEL       MON_UNDEAD      19    *     *     *     *     *     *     *
-30DWORG        MON_MAGBEAST    22    17    6     14    15    15    10    4
-30FBEET        MON_VERMIN      6     *     *     *     *     *     *     *
-30FIRTLG       MON_GIANT       63    23    6     9     14    23    6     7
-30FIRTRL       MON_GIANT       63    23    6     9     14    23    6     6
-30FRGNT        MON_GIANT       76    *     *     *     *     *     *     6
-30GOBWR        MON_MAGBEAST    30    17    6     14    15    15    10    *
-30GOBWR1       MON_MAGBEAST    30    17    6     14    15    15    10    *
-30GOBWR2       MON_MAGBEAST    37    17    6     14    15    15    10    *
-30GOBWR3       MON_MAGBEAST    30    17    6     14    15    15    10    *
-30GOBWR4       MON_MAGBEAST    37    17    6     14    15    15    10    *
-30GOBWR5       MON_MAGBEAST    30    17    6     14    15    15    10    *
-30GOBWR6       MON_MAGBEAST    37    17    6     14    15    15    10    *
-30GOBWRC       MON_MAGBEAST    37    17    6     14    15    15    10    *
-30GOBWRS       MON_MAGBEAST    30    17    6     14    15    15    10    *
-30ICETRL       MON_GIANT       63    23    6     9     14    23    6     7
-30OGR          MON_GIANT       26    21    6     10    8     15    7     *
-30OGRCH        MON_GIANT       32    21    6     10    8     15    7     *
-30OGRGA2       MON_GIANT       3     *     *     *     *     *     *     *
-30OGRGA3       MON_GIANT       26    21    6     10    8     15    7     *
-30OGRGAR       MON_GIANT       51    *     *     *     *     *     *     *
-30OGRS         MON_GIANT       26    21    6     10    8     15    7     *
-30OTY          MON_ABERRATION  33    11    5     12    10    13    6     *
-30SPIWO        MON_VERMIN      22    11    *     10    17    12    2     *
-30SPIWOD       MON_VERMIN      22    11    *     10    17    12    2     *
-30SPIWOQ       MON_VERMIN      33    11    *     10    17    12    2     *
-30TROLL        MON_GIANT       63    23    6     9     14    23    6     7
-30WOLWOR       MON_MAGBEAST    30    17    6     14    15    15    10    *
-30WOLWOS       MON_MAGBEAST    30    17    6     14    15    15    10    *
-30WWLF         MON_MAGBEAST    51    18    9     13    13    16    10    *
-31GIAVER       MON_GIANT       42    *     *     *     *     *     *     *
-31GOBWRB       MON_MAGBEAST    30    17    6     14    15    15    10    *
-31OGRCOO       MON_GIANT       26    21    6     10    8     15    7     *
-40BCULTC       MON_ANIMAL      14    *     *     *     *     *     *     4
-40BDAWN        MON_ANIMAL      39    *     *     *     *     *     *     *
-40BETBOR       MON_VERMIN      32    *     *     *     *     *     *     *
-40CULTWW       MON_ANIMAL      26    *     *     *     *     *     *     6
-40DOGWLD       MON_ANIMAL      13    *     *     *     *     *     *     *
-40GBLKA        MON_GIANT       37    *     *     *     *     *     *     *
-40GIAFOM       MON_GIANT       123   *     *     *     *     *     *     9
-40RBETBO       MON_VERMIN      32    *     *     *     *     *     *     *
-40RGIAFO       MON_GIANT       123   *     *     *     *     *     *     9
-40RSPIPH       MON_MAGBEAST    42    17    7     13    17    16    10    *
-40RWOLFW       MON_MAGBEAST    51    18    9     13    13    16    10    *
-40RYETIT       MON_MAGBEAST    39    *     *     *     *     *     *     *
-40SPIFR        MON_VERMIN      55    11    *     10    17    12    2     *
-40SPIFRH       MON_VERMIN      55    11    *     10    17    12    2     *
-40SPIPHS       MON_MAGBEAST    42    17    7     13    17    16    10    *
-40SPIPHZ       MON_MAGBEAST    42    17    7     13    17    16    10    *
-40WOLFWI       MON_MAGBEAST    51    18    9     13    13    16    10    *
-40YETITU       MON_MAGBEAST    39    *     *     *     *     *     *     *
-41AOCHA        MON_VERMIN      55    *     *     *     *     *     *     *
-41BEARPO       MON_ANIMAL      68    *     *     *     *     *     *     7
-41DOOMGD       MON_CONSTRUCT   27    *     *     *     *     *     *     *
-41GBLKA        MON_GIANT       37    *     *     *     *     *     *     *
-41GIAFOM       MON_GIANT       123   *     *     *     *     *     *     9
-41GOLEIC       MON_CONSTRUCT   88    *     *     *     *     *     *     *
-41GOLEMC       MON_CONSTRUCT   88    *     *     *     *     *     *     *
-41INGRAT       MON_MONHUMAN    22    *     *     *     *     *     *     *
-41LEMURE       MON_OUTSIDER    13    *     *     *     *     *     *     *
-41NWSOLD       MON_MONHUMAN    22    *     *     *     *     *     *     *
-41RABISH       MON_OUTSIDER    60    17    12    14    17    17    16    10
-41REMHZA       MON_MAGBEAST    73    26    5     12    13    21    10    10
-41REMHZQ       MON_MAGBEAST    105   26    5     12    13    21    10    12
-41REMHZR       MON_MAGBEAST    42    26    5     12    13    21    10    7
-41REMHZZ       MON_MAGBEAST    73    26    5     12    13    21    10    10
-41RTROIC       MON_GIANT       21    23    6     9     14    23    6     *
-41RWYVER       MON_DRAGON      59    *     *     *     *     *     *     *
-41SABGD        MON_UNDEAD      110   *     *     *     *     *     *     *
-41SAIR16       MON_ELEM_FA     136   *     *     *     *     *     *     *
-41SAIR24       MON_ELEM_FA     204   *     *     *     *     *     *     *
-41SARSKL       MON_UNDEAD      32    *     *     *     *     *     *     *
-41SASERV       MON_ELEM_FA     97    *     *     *     *     *     *     *
-41SBBER        MON_ANIMAL      19    *     *     *     *     *     *     *
-41SBEETL       MON_VERMIN      9     *     *     *     *     *     *     *
-41SBGD         MON_UNDEAD      45    *     *     *     *     *     *     *
-41SBGD2        MON_UNDEAD      45    *     *     *     *     *     *     *
-41SBSC         MON_DRAGON      127   *     *     *     *     *     *     *
-41SBTL11       MON_VERMIN      38    14    *     13    10    13    11    *
-41SBTL15       MON_ANIMAL      142   26    2     13    10    21    2     *
-41SBTL9        MON_VERMIN      58    *     *     *     *     *     *     *
-41SBWHT        MON_UNDEAD      97    12    11    13    12    *     15    *
-41SCBER        MON_ANIMAL      42    31    2     12    13    19    10    *
-41SCBNS        MON_UNDEAD      71    *     *     *     *     *     *     *
-41SCCR         MON_ABERRATION  19    14    1     15    15    14    6     *
-41SCHZMB       MON_UNDEAD      32    8     *     10    11    *     1     *
-41SCYC         MON_GIANT       136   *     *     *     *     *     *     *
-41SDCYC        MON_GIANT       102   *     *     *     *     *     *     *
-41SDFGNT       MON_GIANT       161   *     *     *     *     *     *     *
-41SDGWLF       MON_ANIMAL      127   *     *     *     *     *     *     *
-41SDJI         MON_OUTSIDER    45    18    14    15    19    14    15    *
-41SDND         MON_UNDEAD      97    *     *     *     *     *     *     *
-41SDRABA       MON_OUTSIDER    127   17    12    14    17    17    16    *
-41SDREM        MON_MAGBEAST    231   26    5     12    13    21    10    *
-41SDSAL        MON_OUTSIDER    38    *     *     *     *     *     *     *
-41SDSCG        MON_GIANT       126   23    6     9     14    23    6     *
-41SDUHK        MON_ABERRATION  102   23    11    11    13    19    13    *
-41SDWLF        MON_ANIMAL      45    25    2     12    15    17    10    *
-41SDYET        MON_MAGBEAST    59    *     *     *     *     *     *     *
-41SEAR16       MON_ELEM_FW     104   *     *     *     *     *     *     *
-41SEAR20       MON_ELEM_FW     190   *     *     *     *     *     *     *
-41SEAR24       MON_ELEM_FW     152   *     *     *     *     *     *     *
-41SEFRET       MON_OUTSIDER    52    23    12    15    17    14    15    *
-41SEGBGD       MON_UNDEAD      84    *     *     *     *     *     *     *
-41SFDND        MON_UNDEAD      110   *     *     *     *     *     *     *
-41SFIR16       MON_ELEM_FA     136   *     *     *     *     *     *     *
-41SFIR24       MON_ELEM_FA     204   *     *     *     *     *     *     *
-41SFRGNT       MON_GIANT       171   *     *     *     *     *     *     *
-41SGDND        MON_UNDEAD      84    *     *     *     *     *     *     *
-41SGMUM        MON_UNDEAD      91    24    6     14    10    *     15    *
-41SGRBGD       MON_UNDEAD      58    *     *     *     *     *     *     *
-41SGSPI        MON_VERMIN      38    15    *     10    17    12    2     *
-41SGWWLF       MON_ANIMAL      135   *     *     *     *     *     *     *
-41SHADOW       MON_UNDEAD      19    *     6     12    14    *     13    4
-41SHERI        MON_DRAGON      68    *     *     *     *     *     *     *
-41SHERI2       MON_DRAGON      102   *     *     *     *     *     *     *
-41SHERI3       MON_DRAGON      136   *     *     *     *     *     *     *
-41SINV         MON_ELEM_FA     39    18    14    15    19    14    11    *
-41SLAIR        MON_ELEM_FA     75    *     *     *     *     *     *     *
-41SLEAR        MON_ELEM_FW     85    *     *     *     *     *     *     *
-41SLFIRE       MON_ELEM_FA     60    *     *     *     *     *     *     *
-41SLWAT        MON_ELEM_FW     51    *     *     *     *     *     *     *
-41SMBER        MON_ANIMAL      51    *     *     *     *     *     *     *
-41SMUMK        MON_UNDEAD      97    24    6     14    10    *     15    *
-41SOTY         MON_ABERRATION  33    11    5     12    10    13    6     *
-41SPNT         MON_ANIMAL      32    16    2     12    19    15    6     *
-41SPOZM2       MON_UNDEAD      45    8     *     10    11    *     1     *
-41SPOZMB       MON_UNDEAD      45    8     *     10    11    *     1     *
-41SPSPI        MON_MAGBEAST    76    17    7     13    17    16    10    *
-41SRABA        MON_OUTSIDER    60    17    12    14    17    17    16    *
-41SREM         MON_MAGBEAST    178   26    5     12    13    21    10    *
-41SSCG         MON_GIANT       136   23    6     9     14    23    6     *
-41SSCYC        MON_GIANT       102   *     *     *     *     *     *     *
-41SSDW15       MON_UNDEAD      97    *     6     12    14    *     13    *
-41SSDW19       MON_UNDEAD      123   *     6     12    14    *     13    *
-41SSDW21       MON_UNDEAD      136   *     6     12    14    *     13    *
-41SSDW9        MON_UNDEAD      26    *     6     12    14    *     13    *
-41SSFGNT       MON_GIANT       161   *     *     *     *     *     *     *
-41SSGWLF       MON_ANIMAL      135   *     *     *     *     *     *     *
-41SSHFGT       MON_GIANT       161   *     *     *     *     *     *     *
-41SSHGWF       MON_ANIMAL      135   *     *     *     *     *     *     *
-41SSHM         MON_PLANT       90    21    7     10    10    17    9     *
-41SSHRAB       MON_OUTSIDER    127   17    12    14    17    17    16    *
-41SSHREM       MON_MAGBEAST    231   26    5     12    13    21    10    *
-41SSKL         MON_UNDEAD      19    *     *     *     *     *     *     *
-41SSKLAR       MON_UNDEAD      19    *     *     *     *     *     *     *
-41SSPIDR       MON_VERMIN      11    11    *     10    17    12    2     *
-41SSRABA       MON_OUTSIDER    127   17    12    14    17    17    16    *
-41SSREM        MON_MAGBEAST    231   26    5     12    13    21    10    *
-41SSSAL        MON_OUTSIDER    38    *     *     *     *     *     *     *
-41SSSCG        MON_GIANT       126   23    6     9     14    23    6     *
-41SSSPI        MON_VERMIN      66    15    *     10    17    12    2     *
-41SSUHK        MON_ABERRATION  102   23    11    11    13    19    13    *
-41SWAT16       MON_ELEM_FW     152   *     *     *     *     *     *     *
-41SWAT24       MON_ELEM_FW     228   *     *     *     *     *     *     *
-41SWLF         MON_ANIMAL      13    *     *     *     *     *     *     *
-41SWOLF        MON_ANIMAL      13    *     *     *     *     *     *     *
-41SWRG         MON_MAGBEAST    37    17    6     14    15    15    10    *
-41SWTWLF       MON_MAGBEAST    51    18    9     13    13    16    10    *
-41SWYV         MON_DRAGON      76    *     *     *     *     *     *     *
-41SZMB         MON_UNDEAD      13    8     *     10    11    *     1     *
-41SZMBL2       MON_UNDEAD      65    8     *     10    11    *     1     *
-41SZMBLO       MON_UNDEAD      65    8     *     10    11    *     1     *
-41TROICE       MON_GIANT       21    23    6     9     14    23    6     *
-41TROSNO       MON_GIANT       63    23    6     9     14    23    6     8
-41VRASSI       MON_CONSTRUCT   55    *     *     *     *     *     *     *
-41WYVERN       MON_DRAGON      59    *     *     *     *     *     *     *
-50ABOMIN       MON_MAGBEAST    102   *     *     *     *     *     *     *
-50AGOG         MON_CONSTRUCT   49    *     *     *     *     *     *     *
-50AGOGH        MON_CONSTRUCT   49    *     *     *     *     *     *     *
-50CARYNA       MON_FEY         7     10    14    15    19    11    18    5
-50DOP          MON_MONHUMAN    22    *     *     *     *     *     *     *
-50DRAWY        MON_DRAGON      142   *     *     *     *     *     *     *
-50ELEEA        MON_ELEM_FW     152   *     *     *     *     *     *     *
-50ETR          MON_ABERRATION  27    14    6     15    17    13    8     5
-50GNTFO        MON_GIANT       123   *     *     *     *     *     *     *
-50NWSOLD       MON_MONHUMAN    22    *     *     *     *     *     *     *
-50RDEAR        MON_UNDEAD      32    *     *     *     *     *     *     6
-50RDEBA        MON_UNDEAD      32    *     *     *     *     *     *     6
-50RDEHU        MON_UNDEAD      32    *     *     *     *     *     *     6
-50SPIFH        MON_VERMIN      55    11    *     10    17    12    2     *
-50SPIFH2       MON_VERMIN      55    11    *     10    17    12    2     *
-50SPIFR        MON_VERMIN      55    11    *     10    17    12    2     *
-50SPIFR2       MON_VERMIN      55    11    *     10    17    12    2     *
-50SPIFRR       MON_VERMIN      55    11    *     10    17    12    2     *
-50TREDA        MON_PLANT       44    12    13    13    10    12    11    *
-50TREDE        MON_PLANT       66    12    13    13    10    12    11    *
-50TREDG        MON_PLANT       55    12    13    13    10    12    11    *
-50WFDFH        MON_ANIMAL      60    25    2     12    15    17    10    *
-50WFDH         MON_ANIMAL      45    25    2     12    15    17    10    *
-50WFWGH        MON_MAGBEAST    68    18    9     13    13    16    10    *
-50WFWH         MON_MAGBEAST    51    18    9     13    13    16    10    *
-50WIL          MON_ABERRATION  40    *     *     *     *     *     *     7
-50WIL2         MON_ABERRATION  49    *     *     *     *     *     *     8
-50WIL3         MON_ABERRATION  58    *     *     *     *     *     *     9
-50WILH         MON_ABERRATION  40    *     *     *     *     *     *     7
-50WILX         MON_ABERRATION  40    *     *     *     *     *     *     *
-50WIT          MON_UNDEAD      26    12    11    13    12    *     15    4
-50WLFDF        MON_ANIMAL      60    25    2     12    15    17    10    *
-50WLFDFR       MON_ANIMAL      60    25    2     12    15    17    10    *
-50WLFDI        MON_ANIMAL      45    25    2     12    15    17    10    *
-50WLFDIR       MON_ANIMAL      45    25    2     12    15    17    10    *
-50WLFWG        MON_MAGBEAST    68    18    9     13    13    16    10    *
-50WLFWGR       MON_MAGBEAST    68    18    9     13    13    16    10    *
-50WLFWI        MON_MAGBEAST    51    18    9     13    13    16    10    *
-50WLFWIR       MON_MAGBEAST    51    18    9     13    13    16    10    *
-50WYRWH        MON_DRAGON      85    *     *     *     *     *     *     *
-50WYV          MON_DRAGON      59    *     *     *     *     *     *     *
-50WYVH         MON_DRAGON      59    *     *     *     *     *     *     *
-50WYVR         MON_DRAGON      59    *     *     *     *     *     *     *
-50ZOM          MON_UNDEAD      39    *     *     *     *     *     *     *
-50ZOM1         MON_UNDEAD      39    *     *     *     *     *     *     *
-50ZOM2         MON_UNDEAD      39    *     *     *     *     *     *     *
-50ZOM3         MON_UNDEAD      39    *     *     *     *     *     *     *
-50ZOM4         MON_UNDEAD      39    *     *     *     *     *     *     *
-50ZOM5         MON_UNDEAD      39    *     *     *     *     *     *     *
-51BEAWA        MON_ANIMAL      68    *     *     *     *     *     *     *
-51BEEFD        MON_VERMIN      4     *     *     *     *     *     *     *
-51BEEFI        MON_VERMIN      6     *     *     *     *     *     *     *
-51CATBA        MON_ANIMAL      45    *     *     *     *     *     *     *
-51DRAWY        MON_DRAGON      142   *     *     *     *     *     *     *
-51OCH          MON_OOZE        69    15    *     1     1     22    1     *
-51OCHH         MON_OOZE        69    15    *     1     1     22    1     *
-51OCHX         MON_OOZE        69    15    *     1     1     22    1     *
-51SHA          MON_PLANT       152   *     *     *     *     *     *     *
-51SPE          MON_UNDEAD      45    *     14    14    16    *     15    8
-51UMB          MON_ABERRATION  68    23    11    11    13    19    13    *
-51UMBR         MON_ABERRATION  68    23    11    11    13    19    13    *
-51WYRWH        MON_DRAGON      85    *     *     *     *     *     *     *
-52GOLIR        MON_CONSTRUCT   99    *     *     *     *     *     *     *
-52MNKSA        MON_CONSTRUCT   49    *     *     *     *     *     *     *
-52PORTAL       MON_CONSTRUCT   99    *     *     *     *     *     *     *
-52SPIPW        MON_VERMIN      11    11    *     10    17    12    2     *
-52SPIPWR       MON_VERMIN      11    11    *     10    17    12    2     *
-52WYRWH        MON_DRAGON      85    *     *     *     *     *     *     *
-52WYRWHR       MON_DRAGON      85    *     *     *     *     *     *     *
-52YETGH        MON_MAGBEAST    52    *     *     *     *     *     *     *
-52YETTG        MON_MAGBEAST    52    *     *     *     *     *     *     *
-52YETTGR       MON_MAGBEAST    52    *     *     *     *     *     *     *
-52YETTU        MON_MAGBEAST    39    *     *     *     *     *     *     *
-52YETTUR       MON_MAGBEAST    39    *     *     *     *     *     *     *
-52YETUH        MON_MAGBEAST    39    *     *     *     *     *     *     *
-53CELEDR       MON_ABERRATION  114   *     *     *     *     *     *     *
-53DRACAH       MON_UNDEAD      65    *     6     12    14    *     13    9
-53DRIDFI       MON_ABERRATION  90    15    15    16    15    16    16    *
-53DRIFIH       MON_ABERRATION  90    15    15    16    15    16    16    *
-53EAELEM       MON_ELEM_FW     102   *     *     *     *     *     *     *
-53FGOLEM       MON_CONSTRUCT   49    21    *     11    9     *     1     *
-53FOMOTH       MON_GIANT       123   *     *     *     *     *     *     *
-53GOLIM        MON_CONSTRUCT   49    21    *     11    9     *     1     7
-53GOLIMH       MON_CONSTRUCT   49    21    *     11    9     *     1     7
-53GOLIMX       MON_CONSTRUCT   49    21    *     11    9     *     1     *
-53HARPY        MON_MONHUMAN    31    10    7     12    15    10    17    5
-53LIGGEN       MON_CONSTRUCT   66    *     *     *     *     *     *     *
-53MGOLEM       MON_CONSTRUCT   99    *     *     *     *     *     *     *
-53MINOTH       MON_MONHUMAN    39    *     *     *     *     *     *     *
-53NADAL        MON_ABERRATION  67    *     *     *     *     *     *     *
-53SPICRA       MON_VERMIN      55    *     *     *     *     *     *     *
-53SPIGIN       MON_VERMIN      55    11    *     10    17    12    2     *
-53SPISW        MON_VERMIN      55    15    *     10    17    12    2     *
-53SPISWH       MON_VERMIN      55    15    *     10    17    12    2     *
-53SPITDR       MON_VERMIN      90    *     *     *     *     *     *     *
-53VIDRF2       MON_ABERRATION  90    15    15    16    15    16    16    *
-53VIDRFI       MON_ABERRATION  90    15    15    16    15    16    16    *
-60CHEAP        MON_ELEM_FA     90    *     *     *     *     *     *     *
-60HARPY        MON_MONHUMAN    31    10    7     12    15    10    17    5
-60HEDEAD       MON_UNDEAD      52    *     *     *     *     *     *     *
-60JAIGER       MON_UNDEAD      130   *     *     *     *     *     *     *
-60JESZRA       MON_MONHUMAN    75    *     *     *     *     *     *     *
-60KAERVA       MON_UNDEAD      130   *     *     *     *     *     *     *
-60KAIRN        MON_UNDEAD      130   *     *     *     *     *     *     *
-60KHAV         MON_UNDEAD      78    *     *     *     *     *     *     *
-60KHAVH        MON_UNDEAD      71    *     *     *     *     *     *     *
-60PBFIGT       MON_MONHUMAN    52    *     *     *     *     *     *     *
-60PITTRP       MON_UNDEAD      52    *     *     *     *     *     *     *
-60RANYT        MON_MONHUMAN    90    19    20    20    13    17    18    *
-60RANYTA       MON_MONHUMAN    97    *     *     *     *     *     *     *
-60WEEDIA       MON_ELEM_FW     90    *     *     *     *     *     *     *
-60WIGARC       MON_UNDEAD      39    *     *     *     *     *     *     *
-60WIGHT        MON_UNDEAD      39    12    11    13    12    *     15    *
-60WIGHTH       MON_UNDEAD      39    12    11    13    12    *     15    *
-60WIGHTL       MON_UNDEAD      52    12    11    13    12    *     15    *
-60WRAITH       MON_UNDEAD      58    *     14    14    16    *     15    *
-60WRAITN       MON_UNDEAD      58    *     14    14    16    *     15    *
-60YTARCH       MON_MONHUMAN    97    *     *     *     *     *     *     *
-60YTCOOK       MON_MONHUMAN    54    *     *     *     *     *     *     *
-60YTELIT       MON_MONHUMAN    97    *     *     *     *     *     *     *
-60YUANTI       MON_MONHUMAN    97    19    20    20    13    17    18    7
-61AWYVER       MON_DRAGON      247   *     *     *     *     *     *     *
-61DAWYVE       MON_DRAGON      247   *     *     *     *     *     *     *
-61DFIRPE       MON_ELEM_FA     52    *     *     *     *     *     *     *
-61DHELHO       MON_ANIMAL      38    *     *     *     *     *     *     *
-61DTROLL       MON_GIANT       84    23    6     9     14    23    6     *
-61DYASEN       MON_MONHUMAN    85    *     *     *     *     *     *     *
-61DYPFIG       MON_MONHUMAN    44    *     *     *     *     *     *     *
-61FIRPEO       MON_ELEM_FA     52    *     *     *     *     *     *     *
-61GOLIRO       MON_CONSTRUCT   99    *     *     *     *     *     *     *
-61GRISHU       MON_MONHUMAN    105   *     *     *     *     *     *     *
-61HELHOU       MON_ANIMAL      38    *     *     *     *     *     *     *
-61HISTAC       MON_MONHUMAN    60    *     *     *     *     *     *     *
-61HISTAR       MON_MONHUMAN    60    *     *     *     *     *     *     *
-61JASPER       MON_OUTSIDER    55    *     *     *     *     *     *     *
-61MUSJEL       MON_OOZE        60    *     *     *     *     *     *     *
-61PRISTR       MON_GIANT       63    *     *     *     *     *     *     *
-61PYROS        MON_ELEM_FA     108   *     *     *     *     *     *     18
-61PYROSD       MON_ELEM_FA     56    *     *     *     *     *     *     *
-61SALFRO       MON_OUTSIDER    38    *     *     *     *     *     *     *
-61SKEARM       MON_UNDEAD      52    *     *     *     *     *     *     *
-61SLIOLI       MON_OOZE        22    *     *     *     *     *     *     8
-61SPIGIA       MON_VERMIN      44    15    *     10    17    12    2     *
-61SPISWD       MON_VERMIN      55    15    *     10    17    12    2     *
-61TROLL        MON_GIANT       84    23    6     9     14    23    6     11
-61WYVERN       MON_DRAGON      59    *     *     *     *     *     *     *
-61WYVERR       MON_DRAGON      59    *     *     *     *     *     *     *
-61XFIRPE       MON_ELEM_FA     52    *     *     *     *     *     *     *
-61XHELHO       MON_ANIMAL      38    *     *     *     *     *     *     *
-61XTROLL       MON_GIANT       84    23    6     9     14    23    6     11
-61YASENT       MON_MONHUMAN    85    *     *     *     *     *     *     *
-61YPFIGH       MON_MONHUMAN    44    *     *     *     *     *     *     *
-61YPFIGR       MON_MONHUMAN    44    *     *     *     *     *     *     *
-62BWHT         MON_UNDEAD      97    12    11    13    12    *     15    *
-62CBNS         MON_UNDEAD      65    *     *     *     *     *     *     *
-62CBNS3        MON_UNDEAD      65    *     *     *     *     *     *     *
-62CBNS4        MON_UNDEAD      65    *     *     *     *     *     *     *
-62CBNS5        MON_UNDEAD      65    *     *     *     *     *     *     *
-62CBNS6        MON_UNDEAD      65    *     *     *     *     *     *     *
-62CBNS7        MON_UNDEAD      65    *     *     *     *     *     *     *
-62DRDOR4       MON_UNDEAD      71    17    8     7     11    12    6     *
-62ELFIG3       MON_UNDEAD      110   *     *     *     *     *     *     *
-62FDND         MON_UNDEAD      110   *     *     *     *     *     *     *
-62FDND2        MON_UNDEAD      110   *     *     *     *     *     *     *
-62FDND3        MON_UNDEAD      110   *     *     *     *     *     *     *
-62FDND4        MON_UNDEAD      110   *     *     *     *     *     *     *
-62HAYUA        MON_MONHUMAN    77    15    18    18    13    13    16    *
-62HAYUA1       MON_MONHUMAN    77    15    18    18    13    13    16    *
-62HAYUA2       MON_MONHUMAN    77    15    18    18    13    13    16    *
-62HAYUA3       MON_MONHUMAN    77    15    18    18    13    13    16    *
-62HAYUA4       MON_MONHUMAN    77    15    18    18    13    13    16    *
-62HAYUA5       MON_MONHUMAN    77    15    18    18    13    13    16    *
-62ICEZOM       MON_UNDEAD      52    8     *     10    11    *     1     *
-63ABASH        MON_OUTSIDER    90    17    12    14    17    17    16    *
-63ABGD         MON_UNDEAD      110   *     *     *     *     *     *     *
-63ABGDEN       MON_UNDEAD      110   *     *     *     *     *     *     *
-63ABGDN        MON_UNDEAD      110   *     *     *     *     *     *     *
-63BHDR         MON_DRAGON      126   *     *     *     *     *     *     *
-63CHIM         MON_MAGBEAST    153   19    4     13    13    17    10    *
-63CHIMH        MON_MAGBEAST    153   19    4     13    13    17    10    *
-63DMNGEM       MON_OUTSIDER    127   *     *     *     *     *     *     *
-63DRDEL        MON_UNDEAD      97    *     *     *     *     *     *     *
-63EELE         MON_ELEM_FW     152   *     *     *     *     *     *     *
-63EELE2        MON_ELEM_FW     199   *     *     *     *     *     *     *
-63EELE3        MON_ELEM_FW     228   *     *     *     *     *     *     *
-63GLBNXP       MON_OUTSIDER    145   31    16    16    10    31    20    13
-63GLBXP        MON_OUTSIDER    145   31    16    16    10    31    20    13
-63INSTRC       MON_OUTSIDER    67    *     *     *     *     *     *     *
-63INVSTK       MON_ELEM_FA     52    18    14    15    19    14    11    *
-63PREC         MON_MAGBEAST    76    *     *     *     *     *     *     *
-63SABASH       MON_OUTSIDER    60    17    12    14    17    17    16    7
-63SPLMR        MON_UNDEAD      65    *     *     *     *     *     *     *
-63SSPLMR       MON_OUTSIDER    65    *     *     *     *     *     *     *
-63TUTU         MON_OUTSIDER    90    *     *     *     *     *     *     *
-63TUTUH        MON_OUTSIDER    120   *     *     *     *     *     *     *
-63TUTUN        MON_OUTSIDER    105   *     *     *     *     *     *     *
-63WLMR         MON_UNDEAD      65    12    11    13    12    *     15    *
-64IGOLEM       MON_CONSTRUCT   99    *     *     *     *     *     *     *
-65SARSKL       MON_UNDEAD      32    *     *     *     *     *     *     *
-65SBWHT        MON_UNDEAD      78    12    11    13    12    *     15    *
-65WELP         MON_OUTSIDER    65    *     *     *     *     *     *     *
-65WLMR         MON_UNDEAD      65    12    11    13    12    *     15    *
-66CHIM         MON_MAGBEAST    153   19    4     13    13    17    10    *
-66CHIM1        MON_MAGBEAST    153   19    4     13    13    17    10    *
-66HAYUA        MON_MONHUMAN    66    15    18    18    13    13    16    *
-66HAYUA1       MON_MONHUMAN    66    15    18    18    13    13    16    *
-66HAYUA2       MON_MONHUMAN    66    15    18    18    13    13    16    *
-66HAYUA3       MON_MONHUMAN    66    15    18    18    13    13    16    *
-67ABGD         MON_UNDEAD      110   *     *     *     *     *     *     *
-67CHIM         MON_MAGBEAST    153   19    4     13    13    17    10    *
-67CHIM2        MON_MAGBEAST    153   19    4     13    13    17    10    *
-67DEKNT        MON_UNDEAD      91    *     *     *     *     *     *     *
-67DEKNT2       MON_UNDEAD      91    *     *     *     *     *     *     *
-67DEKNT3       MON_UNDEAD      91    *     *     *     *     *     *     *
-67GRBGD        MON_UNDEAD      91    *     *     *     *     *     *     *
-67GRBGD2       MON_UNDEAD      91    *     *     *     *     *     *     *
-67SPLMRS       MON_UNDEAD      65    *     *     *     *     *     *     *
-DRUIDAB        MON_ANIMAL      60    15    2     13    10    17    4     *
-DRUIDAE        MON_ELEM_FA     127   *     *     *     *     *     *     *
-DRUIDBB        MON_VERMIN      22    *     *     *     *     *     *     *
-DRUIDBP        MON_ANIMAL      52    16    2     12    19    15    6     *
-DRUIDDB        MON_ANIMAL      102   31    2     12    13    19    10    *
-DRUIDDP        MON_ANIMAL      91    16    2     12    19    15    6     *
-DRUIDEE        MON_ELEM_FW     58    *     *     *     *     *     *     *
-DRUIDFE        MON_ELEM_FA     49    *     *     *     *     *     *     *
-DRUIDPB        MON_ANIMAL      76    *     *     *     *     *     *     *
-DRUIDSM        MON_PLANT       60    21    7     10    10    17    9     *
-DRUIDWE        MON_ELEM_FW     67    *     *     *     *     *     *     *
-DRUIDWW        MON_MAGBEAST    51    18    9     13    13    16    10    *
-SCHISTAC       MON_MONHUMAN    60    *     *     *     *     *     *     *
+               KIT             SZAB            L1    L2    L3    L4    L5    L6    L7    L8    L9    L10   L11   HP    STR   INT   WIS   DEX   CON   CHA   CR
+00ARIF         NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     65    *     *     *     *     *     *     *
+00BASHSH       MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     45    *     *     *     *     *     *     *
+00BUG          NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+00DOG          MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     6     13    2     12    17    15    6     *
+00DOGDED       MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     6     13    2     12    17    15    6     *
+00GOB          NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+00GOBAR        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+00GOBARE       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+00GOBE         NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+00HAGOB        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+00HOB          NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+00HOBAR        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+00OCHX         MON_OOZE        *               0     0     0     0     6     0     0     0     0     0     0     69    15    *     1     1     22    1     *
+00OGR          MON_GIANT       *               0     0     0     0     4     0     0     0     0     0     0     26    21    6     10    8     15    7     *
+00ORCAR        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+00ORCARE       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+00OROBLA       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+00RAT          MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     5     10    1     12    17    12    4     2
+00SABGD        NPC_WARRIOR     SZ_SKELETON     8     0     0     0     9     0     0     0     0     0     0     93    *     *     *     *     *     *     *
+00SABOR        MON_ANIMAL      *               0     0     0     0     3     0     0     0     0     0     0     22    15    2     13    10    17    4     *
+00SAIR04       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+00SAIR12       MON_ELEM_FA     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+00SAIR16       MON_ELEM_FA     *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+00SAIR20       MON_ELEM_FA     *               0     0     0     0     20    0     0     0     0     0     0     170   *     *     *     *     *     *     *
+00SAIR24       MON_ELEM_FA     *               0     0     0     0     24    0     0     0     0     0     0     204   *     *     *     *     *     *     *
+00SARSKL       NPC_WARRIOR     SZ_SKELETON     2     0     0     0     3     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+00SASERV       MON_ELEM_FA     *               0     0     0     0     15    0     0     0     0     0     0     97    *     *     *     *     *     *     *
+00SBBER        MON_ANIMAL      *               0     0     0     0     3     0     0     0     0     0     0     19    *     *     *     *     *     *     *
+00SBEETL       MON_VERMIN      *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+00SBGD         NPC_WARRIOR     SZ_SKELETON     3     0     0     0     4     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+00SBRSK1       NPC_WARRIOR     *               0     0     0     0     7     0     0     0     0     0     0     53    *     *     *     *     *     *     *
+00SBRSK2       NPC_WARRIOR     *               0     0     0     0     7     0     0     0     0     0     0     53    *     *     *     *     *     *     *
+00SBRSK3       NPC_WARRIOR     *               0     0     0     0     7     0     0     0     0     0     0     53    *     *     *     *     *     *     *
+00SBRSKR       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     30    *     *     *     *     *     *     *
+00SBSC         MON_DRAGON      *               0     0     0     0     15    0     0     0     0     0     0     127   *     *     *     *     *     *     *
+00SBTL11       MON_VERMIN      *               0     0     0     0     7     0     0     0     0     0     0     38    14    *     13    10    13    11    *
+00SBTL13       MON_VERMIN      *               0     0     0     0     13    0     0     0     0     0     0     84    *     *     *     *     *     *     *
+00SBTL15       MON_ANIMAL      *               0     0     0     0     15    0     0     0     0     0     0     142   26    2     13    10    21    2     *
+00SBTL7        MON_VERMIN      *               0     0     0     0     7     0     0     0     0     0     0     45    *     *     *     *     *     *     *
+00SBTL9        MON_VERMIN      *               0     0     0     0     9     0     0     0     0     0     0     58    *     *     *     *     *     *     *
+00SBWHT        MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    12    11    13    12    *     15    *
+00SCAT         MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     4     3     2     12    15    10    7     *
+00SCBER        MON_ANIMAL      *               0     0     0     0     5     0     0     0     0     0     0     42    31    2     12    13    19    10    *
+00SCBNS        NPC_WARRIOR     SZ_SKELETON     5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+00SCCR         MON_ABERRATION  *               0     0     0     0     3     0     0     0     0     0     0     19    14    1     15    15    14    6     *
+00SCHZMB       NPC_WARRIOR     SZ_ZOMBIE       2     0     0     0     3     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+00SCYC         MON_GIANT       *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+00SDBER        MON_ANIMAL      *               0     0     0     0     12    0     0     0     0     0     0     102   31    2     12    13    19    10    *
+00SDCYC        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+00SDFGNT       MON_GIANT       *               0     0     0     0     17    0     0     0     0     0     0     161   *     *     *     *     *     *     *
+00SDGWLF       NPC_WARRIOR     SZ_LYCANTHROPE  8     0     0     0     9     0     0     0     0     0     0     128   *     *     *     *     *     *     *
+00SDJI         MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     45    18    14    15    19    14    15    *
+00SDND         MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    *     *     *     *     *     *     *
+00SDOG         MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     6     13    2     12    17    15    6     *
+00SDRABA       MON_OUTSIDER    *               0     0     0     0     17    0     0     0     0     0     0     127   17    12    14    17    17    16    *
+00SDRAT        MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     5     10    1     12    17    12    4     *
+00SDREM        MON_MAGBEAST    *               0     0     0     0     22    0     0     0     0     0     0     231   26    5     12    13    21    10    *
+00SDSAL        MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+00SDSCG        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     126   23    6     9     14    23    6     *
+00SDUHK        MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     102   23    11    11    13    19    13    *
+00SDWLF        MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     45    25    2     12    15    17    10    *
+00SDYET        MON_MAGBEAST    *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+00SEAR04       MON_ELEM_FW     *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+00SEAR12       MON_ELEM_FW     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+00SEAR16       MON_ELEM_FW     *               0     0     0     0     11    0     0     0     0     0     0     104   *     *     *     *     *     *     *
+00SEAR20       MON_ELEM_FW     *               0     0     0     0     20    0     0     0     0     0     0     190   *     *     *     *     *     *     *
+00SEAR24       MON_ELEM_FW     *               0     0     0     0     16    0     0     0     0     0     0     152   *     *     *     *     *     *     *
+00SEFRET       MON_OUTSIDER    *               0     0     0     0     8     0     0     0     0     0     0     52    23    12    15    17    14    15    *
+00SEGBGD       NPC_WARRIOR     SZ_SKELETON     6     0     0     0     7     0     0     0     0     0     0     71    *     *     *     *     *     *     *
+00SELZDS       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+00SENORO       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     20    *     *     *     *     *     *     *
+00SETN         MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+00SFDND        MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+00SFIR04       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+00SFIR12       MON_ELEM_FA     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+00SFIR16       MON_ELEM_FA     *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+00SFIR20       MON_ELEM_FA     *               0     0     0     0     20    0     0     0     0     0     0     170   *     *     *     *     *     *     *
+00SFIR24       MON_ELEM_FA     *               0     0     0     0     24    0     0     0     0     0     0     204   *     *     *     *     *     *     *
+00SFRGNT       MON_GIANT       *               0     0     0     0     18    0     0     0     0     0     0     171   *     *     *     *     *     *     *
+00SFSAL        MON_OUTSIDER    *               0     0     0     0     5     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+00SGDND        MON_UNDEAD      *               0     0     0     0     13    0     0     0     0     0     0     84    *     *     *     *     *     *     *
+00SGMUM        MON_UNDEAD      *               0     0     0     0     14    0     0     0     0     0     0     91    24    6     14    10    *     15    *
+00SGRBGD       NPC_WARRIOR     SZ_SKELETON     4     0     0     0     5     0     0     0     0     0     0     49    *     *     *     *     *     *     *
+00SGSPI        MON_VERMIN      *               0     0     0     0     7     0     0     0     0     0     0     38    15    *     10    17    12    2     *
+00SGWWLF       NPC_WARRIOR     SZ_LYCANTHROPE  9     0     0     0     9     0     0     0     0     0     0     135   *     *     *     *     *     *     *
+00SINV         MON_ELEM_FA     *               0     0     0     0     6     0     0     0     0     0     0     39    18    14    15    19    14    11    *
+00SLAIR        MON_ELEM_FA     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+00SLEAR        MON_ELEM_FW     *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+00SLFIRE       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+00SLMR         MON_OUTSIDER    *               0     0     0     0     3     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+00SLWAT        MON_ELEM_FW     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+00SMBER        MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+00SMIN         MON_MONHUMAN    *               0     0     0     0     4     0     0     0     0     0     0     26    *     *     *     *     *     *     *
+00SMUM         MON_UNDEAD      *               0     0     0     0     4     0     0     0     0     0     0     26    24    6     14    10    *     15    *
+00SMUMK        MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    24    6     14    10    *     15    *
+00SOLBAS       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     45    *     *     *     *     *     *     *
+00SOTY         MON_ABERRATION  *               0     0     0     0     6     0     0     0     0     0     0     33    11    5     12    10    13    6     *
+00SPBER        MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     68    *     *     *     *     *     *     *
+00SPNT         MON_ANIMAL      *               0     0     0     0     5     0     0     0     0     0     0     32    16    2     12    19    15    6     *
+00SPOZMB       NPC_WARRIOR     SZ_ZOMBIE       3     0     0     0     4     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+00SPSPI        MON_MAGBEAST    *               0     0     0     0     9     0     0     0     0     0     0     76    17    7     13    17    16    10    *
+00SRABA        MON_OUTSIDER    *               0     0     0     0     8     0     0     0     0     0     0     60    17    12    14    17    17    16    *
+00SREM         MON_MAGBEAST    *               0     0     0     0     17    0     0     0     0     0     0     178   26    5     12    13    21    10    *
+00SRMYC        MON_PLANT       *               0     0     0     0     4     0     0     0     0     0     0     26    *     *     *     *     *     *     *
+00SSAL         MON_OUTSIDER    *               0     0     0     0     5     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+00SSCG         MON_GIANT       *               0     0     0     0     13    0     0     0     0     0     0     136   23    6     9     14    23    6     *
+00SSCYC        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+00SSDW12       MON_UNDEAD      *               0     0     0     0     12    0     0     0     0     0     0     78    *     6     12    14    *     13    *
+00SSDW15       MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    *     6     12    14    *     13    *
+00SSDW19       MON_UNDEAD      *               0     0     0     0     19    0     0     0     0     0     0     123   *     6     12    14    *     13    *
+00SSDW21       MON_UNDEAD      *               0     0     0     0     21    0     0     0     0     0     0     136   *     6     12    14    *     13    *
+00SSDW9        MON_UNDEAD      *               0     0     0     0     4     0     0     0     0     0     0     26    *     6     12    14    *     13    *
+00SSFGNT       MON_GIANT       *               0     0     0     0     17    0     0     0     0     0     0     161   *     *     *     *     *     *     *
+00SSGWLF       NPC_WARRIOR     SZ_LYCANTHROPE  9     0     0     0     9     0     0     0     0     0     0     135   *     *     *     *     *     *     *
+00SSHCYC       MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+00SSHFGT       MON_GIANT       *               0     0     0     0     17    0     0     0     0     0     0     161   *     *     *     *     *     *     *
+00SSHGWF       NPC_WARRIOR     SZ_LYCANTHROPE  9     0     0     0     9     0     0     0     0     0     0     135   *     *     *     *     *     *     *
+00SSHM         MON_PLANT       *               0     0     0     0     12    0     0     0     0     0     0     90    21    7     10    10    17    9     *
+00SSHRAB       MON_OUTSIDER    *               0     0     0     0     17    0     0     0     0     0     0     127   17    12    14    17    17    16    *
+00SSHREM       MON_MAGBEAST    *               0     0     0     0     22    0     0     0     0     0     0     231   26    5     12    13    21    10    *
+00SSHSAL       MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+00SSHSCG       MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     126   23    6     9     14    23    6     *
+00SSHUHK       MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     102   23    11    11    13    19    13    *
+00SSHYET       MON_MAGBEAST    *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+00SSKL         NPC_WARRIOR     SZ_SKELETON     1     0     0     0     2     0     0     0     0     0     0     16    *     *     *     *     *     *     *
+00SSKLAR       NPC_WARRIOR     SZ_SKELETON     1     0     0     0     2     0     0     0     0     0     0     16    *     *     *     *     *     *     *
+00SSPIDR       MON_VERMIN      *               0     0     0     0     2     0     0     0     0     0     0     11    11    *     10    17    12    2     *
+00SSRABA       MON_OUTSIDER    *               0     0     0     0     17    0     0     0     0     0     0     127   17    12    14    17    17    16    *
+00SSREM        MON_MAGBEAST    *               0     0     0     0     22    0     0     0     0     0     0     231   26    5     12    13    21    10    *
+00SSSAL        MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+00SSSCG        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     126   23    6     9     14    23    6     *
+00SSSPI        MON_VERMIN      *               0     0     0     0     12    0     0     0     0     0     0     66    15    *     10    17    12    2     *
+00SSUHK        MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     102   23    11    11    13    19    13    *
+00SSYET        MON_MAGBEAST    *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+00SUHK         MON_ABERRATION  *               0     0     0     0     6     0     0     0     0     0     0     51    23    11    11    13    19    13    *
+00SWAT04       MON_ELEM_FW     *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+00SWAT12       MON_ELEM_FW     *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+00SWAT16       MON_ELEM_FW     *               0     0     0     0     16    0     0     0     0     0     0     152   *     *     *     *     *     *     *
+00SWAT20       MON_ELEM_FW     *               0     0     0     0     20    0     0     0     0     0     0     190   *     *     *     *     *     *     *
+00SWAT24       MON_ELEM_FW     *               0     0     0     0     24    0     0     0     0     0     0     228   *     *     *     *     *     *     *
+00SWLF         MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+00SWOLF        MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+00SWRG         MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     37    17    6     14    15    15    10    *
+00SWTWLF       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+00SWWLF        NPC_WARRIOR     SZ_LYCANTHROPE  1     0     0     0     2     0     0     0     0     0     0     20    *     *     *     *     *     *     *
+00SWYV         MON_DRAGON      *               0     0     0     0     9     0     0     0     0     0     0     76    *     *     *     *     *     *     *
+00SYETI        MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     37    *     *     *     *     *     *     *
+00SZMB         NPC_WARRIOR     SZ_ZOMBIE       1     0     0     0     1     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+00SZMBL2       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+00SZMBLO       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+00WELP         MON_OUTSIDER    *               0     0     0     0     5     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+00WORGBD       MON_MAGBEAST    *               0     0     0     0     3     0     0     0     0     0     0     22    17    6     14    15    15    10    *
+00WORGRA       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+00WORGRD       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+10ARCHER       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10BLACK        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+10BLANC        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+10BROGAN       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+10CATF         MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     4     3     2     12    15    10    7     *
+10CATW         MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     4     3     2     12    15    10    7     *
+10CRANDA       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+10DOCK1        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10DOCK2        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10DOP          MON_MONHUMAN    *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+10ELDGUL       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+10FEM1         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     2
+10FEM2         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     2
+10FEM3         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     2
+10FIRTH        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     2
+10FIRTHH       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     2
+10GOB          NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBAR        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBARC       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBARD       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBARW       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBC         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBD         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBEC        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+10GOBF         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBH         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOBSC        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+10GOBW         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10GOHAR        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     1
+10HEDRON       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+10JON          NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+10JORUN        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+10KEG0         MON_ABERRATION  *               0     0     0     0     9     0     0     0     0     0     0     67    19    10    13    12    17    10    *
+10KEG5         MON_ABERRATION  *               0     0     0     0     20    0     0     0     0     0     0     150   19    10    13    12    17    10    10
+10KIDBOY       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+10KIDGRL       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+10LABOR1       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10LABOR2       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10MAGDR        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     20    *     *     *     *     *     *     *
+10MALE1        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10MALE2        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10MALE3        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10MALED        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10MERC         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+10REIG         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+10RUKWU        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+10SAILR1       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10SAILR2       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10SAILRD       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     *
+10SCREED       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+10SOLDR1       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+10SOLDRD       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+10ULEK         NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+11CAHLHY       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+11DOGL         MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    13    2     12    17    15    6     2
+11DOGS         MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    13    2     12    17    15    6     2
+11GHILLE       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+11GOB          NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+11GOBS         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+11JEMEL        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+11LOMAN        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+11LUMBAR       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+11RHAEK        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+11ULBREC       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+11URBEKS       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+12ANSON        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12ARCHD        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     2
+12ARCHER       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     2
+12ARCHSP       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     2
+12BLACK        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     2
+12BLANC        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+12CAULDE       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12CRANDA       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12DRILL        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12DRILLD       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12GABLE        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+12GHOTRA       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+12GOB          NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+12GOBAR        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+12GOBARE       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+12GOBD         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+12GOBE         NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+12HARLES       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12ILLIGM       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12ISHER        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+12ISHERD       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+12JON          NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12KADENC       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+12MENON        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12MERC         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12MERCD        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12MERCSP       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12MESS         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12NILES        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+12OGR          MON_GIANT       *               0     0     0     0     4     0     0     0     0     0     0     26    21    6     10    8     15    7     *
+12OLAP         NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+12RECRUD       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     2
+12RECRUI       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     2
+12REIG         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+12SHAWFO       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+12SOLDRD       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12SOLDSP       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12SOLHSP       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12SWIFT        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+12SWIFTH       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+12TABARD       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12TARRAN       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+12TARSOL       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+12TRAIND       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     5     *     *     *     *     *     *     2
+12TRAINE       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+12VGHOTA       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     28    *     *     *     *     *     *     *
+12WEAPON       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+12WOLF         MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+12WOLFD        MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+20ARTE         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+20BORARC       MON_ANIMAL      *               0     0     0     0     3     0     0     0     0     0     0     22    15    2     13    10    17    4     *
+20CARCWL       MON_ABERRATION  *               0     0     0     0     3     0     0     0     0     0     0     19    14    1     15    15    14    6     *
+20DEDVF        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20DEDVM        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20GRNSLM       MON_OOZE        *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+20KAITLN       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+20MYSON        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20OCRJEL       MON_OOZE        *               0     0     0     0     6     0     0     0     0     0     0     69    15    *     1     1     22    1     *
+20OLVSLM       MON_OOZE        *               0     0     0     0     3     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+20ORCA3        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+20ORCA4        NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+20ORCACH       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+20ORCAV        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+20ORCAV3       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+20ORCAV4       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+20ORCFIR       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+20ORCW3        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+20ORCW4        NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+20ORCWAR       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+20ORCWV        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+20ORCWV3       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+20ORCWV4       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+20PESF1        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20PESF2        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20PESF3        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20PESM1        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20PESM2        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20PESM3        NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+20RNDHRP       MON_MONHUMAN    *               0     0     0     0     7     0     0     0     0     0     0     31    10    7     12    15    10    17    *
+20RNDORA       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+20RNDORW       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+20SABCAT       MON_ANIMAL      *               0     0     0     0     3     0     0     0     0     0     0     19    16    2     12    19    15    6     *
+20SLMZMB       NPC_WARRIOR     SZ_ZOMBIE       2     0     0     0     3     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+20SNOLEP       MON_ANIMAL      *               0     0     0     0     3     0     0     0     0     0     0     19    16    2     12    19    15    6     *
+20STRLEP       MON_ANIMAL      *               0     0     0     0     4     0     0     0     0     0     0     26    16    2     12    19    15    6     *
+20TROICE       MON_GIANT       *               0     0     0     0     3     0     0     0     0     0     0     31    23    6     9     14    23    6     5
+20VREK         MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     63    *     *     *     *     *     *     *
+21ANIVIL       MON_UNDEAD      *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     2
+21CYCLPS       MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+21GAERNT       MON_MONHUMAN    *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+21HRP          MON_MONHUMAN    *               0     0     0     0     7     0     0     0     0     0     0     31    10    7     12    15    10    17    *
+21OGR          MON_GIANT       *               0     0     0     0     4     0     0     0     0     0     0     26    21    6     10    8     15    7     *
+21ORCACE       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+21SPDQN        MON_VERMIN      *               0     0     0     0     6     0     0     0     0     0     0     33    11    *     10    17    12    2     *
+21SPDSML       MON_VERMIN      *               0     0     0     0     2     0     0     0     0     0     0     11    11    *     10    17    12    2     *
+21VERB         MON_GIANT       *               0     0     0     0     5     0     0     0     0     0     0     32    *     *     *     *     *     *     *
+21WERBGR       MON_MONHUMAN    *               0     0     0     0     3     0     0     0     0     0     0     16    *     *     *     *     *     *     *
+21WERRAT       NPC_WARRIOR     SZ_LYCANTHROPE  1     0     0     0     2     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+21WTRWRD       MON_ELEM_FW     *               0     0     0     0     3     0     0     0     0     0     0     13    *     *     *     *     *     *     3
+30BAT          MON_ANIMAL      *               0     0     0     0     1     0     0     0     0     0     0     6     19    2     12    13    15    6     *
+30BEETQ        MON_VERMIN      *               0     0     0     0     7     0     0     0     0     0     0     52    *     *     *     *     *     *     6
+30BUGBR        NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     3
+30DEKGOB       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     20    *     *     *     *     *     *     *
+30DFDND        MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+30DGOB         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     2
+30DGOBE        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+30DHAGOB       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     17    *     *     *     *     *     *     2
+30DSKEL        NPC_WARRIOR     SZ_SKELETON     1     0     0     0     2     0     0     0     0     0     0     16    *     *     *     *     *     *     *
+30DTSKEL       NPC_WARRIOR     SZ_SKELETON     1     0     0     0     2     0     0     0     0     0     0     16    *     *     *     *     *     *     *
+30DWORG        MON_MAGBEAST    *               0     0     0     0     3     0     0     0     0     0     0     22    17    6     14    15    15    10    4
+30FBEET        MON_VERMIN      *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+30FIRTLG       MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     63    23    6     9     14    23    6     7
+30FIRTRL       MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     63    23    6     9     14    23    6     6
+30FRGNT        MON_GIANT       *               0     0     0     0     9     0     0     0     0     0     0     76    *     *     *     *     *     *     6
+30GBWLPR       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+30GOBAES       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+30GOBARS       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30GOBDED       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30GOBES        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+30GOBHO        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     15    *     *     *     *     *     *     *
+30GOBHOE       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30GOBHOS       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+30GOBKRU       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+30GOBMOK       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     28    *     *     *     *     *     *     *
+30GOBOGR       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+30GOBOV1       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+30GOBPOH       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+30GOBPON       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+30GOBS         NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30GOBVUN       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     28    *     *     *     *     *     *     *
+30GOBWLP       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+30GOBWR        MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+30GOBWR1       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+30GOBWR2       MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     37    17    6     14    15    15    10    *
+30GOBWR3       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+30GOBWR4       MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     37    17    6     14    15    15    10    *
+30GOBWR5       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+30GOBWR6       MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     37    17    6     14    15    15    10    *
+30GOBWRC       MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     37    17    6     14    15    15    10    *
+30GOBWRS       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+30HAGOB        NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     30    *     *     *     *     *     *     *
+30HOBCA        NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+30HOBDG2       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     14    *     *     *     *     *     *     4
+30HOBDGU       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+30HOBGU        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+30HOBGUM       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     28    *     *     *     *     *     *     *
+30ICETRL       MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     63    23    6     9     14    23    6     7
+30ILQUAG       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     28    *     *     *     *     *     *     *
+30OGR          MON_GIANT       *               0     0     0     0     4     0     0     0     0     0     0     26    21    6     10    8     15    7     *
+30OGRCH        MON_GIANT       *               0     0     0     0     5     0     0     0     0     0     0     32    21    6     10    8     15    7     *
+30OGRGA2       MON_GIANT       *               0     0     0     0     1     0     0     0     0     0     0     3     *     *     *     *     *     *     *
+30OGRGA3       MON_GIANT       *               0     0     0     0     4     0     0     0     0     0     0     26    21    6     10    8     15    7     *
+30OGRGAR       MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+30OGRS         MON_GIANT       *               0     0     0     0     4     0     0     0     0     0     0     26    21    6     10    8     15    7     *
+30ORCARS       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     26    *     *     *     *     *     *     4
+30ORCGOT       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     30    *     *     *     *     *     *     *
+30ORCRU        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30ORCRU2       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30ORCRUH       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30ORCWA        NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     1
+30ORCWAE       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+30ORCWAS       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+30OROBLS       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+30OROCA        NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+30OROPUS       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+30OROTAS       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+30OTY          MON_ABERRATION  *               0     0     0     0     6     0     0     0     0     0     0     33    11    5     12    10    13    6     *
+30SPIWO        MON_VERMIN      *               0     0     0     0     4     0     0     0     0     0     0     22    11    *     10    17    12    2     *
+30SPIWOD       MON_VERMIN      *               0     0     0     0     4     0     0     0     0     0     0     22    11    *     10    17    12    2     *
+30SPIWOQ       MON_VERMIN      *               0     0     0     0     6     0     0     0     0     0     0     33    11    *     10    17    12    2     *
+30TEQUAG       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     28    *     *     *     *     *     *     *
+30TROLL        MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     63    23    6     9     14    23    6     7
+30WOLWOR       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+30WOLWOS       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+30WWLF         MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+31BUGB00       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+31BUGB01       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+31GIAVER       MON_GIANT       *               0     0     0     0     5     0     0     0     0     0     0     42    *     *     *     *     *     *     *
+31GOBHC        NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+31GOBHO        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     14    *     *     *     *     *     *     *
+31GOBHOE       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+31GOBOV1       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+31GOBWRB       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     30    17    6     14    15    15    10    *
+31HOBAR        NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+31HOBCH        NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+31HOBE         NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+31HOBSER       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+31MADAE        NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     44    *     *     *     *     *     *     *
+31OGRCOO       MON_GIANT       *               0     0     0     0     4     0     0     0     0     0     0     26    21    6     10    8     15    7     *
+31ORCARE       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     7     *     *     *     *     *     *     2
+31ORCHC        NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     33    *     *     *     *     *     *     *
+31ORCWA        NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     33    *     *     *     *     *     *     4
+31OROBRA       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     26    *     *     *     *     *     *     *
+31OROCH        NPC_WARRIOR     *               0     0     0     0     7     0     0     0     0     0     0     46    *     *     *     *     *     *     *
+31OROCO        NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+31SHERIN       NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     44    *     *     *     *     *     *     *
+40BCULTC       MON_ANIMAL      *               0     0     0     0     4     0     0     0     0     0     0     14    *     *     *     *     *     *     4
+40BDAWN        MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+40BETBOR       MON_VERMIN      *               0     0     0     0     5     0     0     0     0     0     0     32    *     *     *     *     *     *     *
+40CULTWW       NPC_WARRIOR     SZ_LYCANTHROPE  2     0     0     0     2     0     0     0     0     0     0     26    *     *     *     *     *     *     6
+40DOGWLD       MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+40GBLKA        MON_GIANT       *               0     0     0     0     5     0     0     0     0     0     0     37    *     *     *     *     *     *     *
+40GIAFOM       MON_GIANT       *               0     0     0     0     13    0     0     0     0     0     0     123   *     *     *     *     *     *     9
+40RBETBO       MON_VERMIN      *               0     0     0     0     5     0     0     0     0     0     0     32    *     *     *     *     *     *     *
+40RGIAFO       MON_GIANT       *               0     0     0     0     13    0     0     0     0     0     0     123   *     *     *     *     *     *     9
+40RIPMOM       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+40RIPPOP       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+40RSPIPH       MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     42    17    7     13    17    16    10    *
+40RWOLFW       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+40RYETIT       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+40SPIFR        MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+40SPIFRH       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+40SPIPHS       MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     42    17    7     13    17    16    10    *
+40SPIPHZ       MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     42    17    7     13    17    16    10    *
+40WOLFWI       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+40YETITU       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+40YURST        NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     5
+41AOCHA        MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    *     *     *     *     *     *     *
+41BEARPO       MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     68    *     *     *     *     *     *     7
+41DOOMGD       MON_CONSTRUCT   *               0     0     0     0     5     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+41GBLKA        MON_GIANT       *               0     0     0     0     5     0     0     0     0     0     0     37    *     *     *     *     *     *     *
+41GIAFOM       MON_GIANT       *               0     0     0     0     13    0     0     0     0     0     0     123   *     *     *     *     *     *     9
+41GOLEIC       MON_CONSTRUCT   *               0     0     0     0     16    0     0     0     0     0     0     88    *     *     *     *     *     *     *
+41GOLEMC       MON_CONSTRUCT   *               0     0     0     0     16    0     0     0     0     0     0     88    *     *     *     *     *     *     *
+41HENCHM       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     7     *     *     *     *     *     *     *
+41HENCHX       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     7     *     *     *     *     *     *     *
+41INGRAT       MON_MONHUMAN    *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+41LEMURE       MON_OUTSIDER    *               0     0     0     0     3     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+41LUSOLD       NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     26    *     *     *     *     *     *     *
+41NWSOLD       MON_MONHUMAN    *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+41RABISH       MON_OUTSIDER    *               0     0     0     0     8     0     0     0     0     0     0     60    17    12    14    17    17    16    10
+41RAHM         NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     44    *     *     *     *     *     *     5
+41REMHZA       MON_MAGBEAST    *               0     0     0     0     7     0     0     0     0     0     0     73    26    5     12    13    21    10    10
+41REMHZQ       MON_MAGBEAST    *               0     0     0     0     10    0     0     0     0     0     0     105   26    5     12    13    21    10    12
+41REMHZR       MON_MAGBEAST    *               0     0     0     0     4     0     0     0     0     0     0     42    26    5     12    13    21    10    7
+41REMHZZ       MON_MAGBEAST    *               0     0     0     0     7     0     0     0     0     0     0     73    26    5     12    13    21    10    10
+41RTROIC       MON_GIANT       *               0     0     0     0     2     0     0     0     0     0     0     21    23    6     9     14    23    6     *
+41RWYVER       MON_DRAGON      *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+41SABGD        NPC_WARRIOR     SZ_SKELETON     8     0     0     0     9     0     0     0     0     0     0     93    *     *     *     *     *     *     *
+41SAIR16       MON_ELEM_FA     *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+41SAIR24       MON_ELEM_FA     *               0     0     0     0     24    0     0     0     0     0     0     204   *     *     *     *     *     *     *
+41SARSKL       NPC_WARRIOR     SZ_SKELETON     2     0     0     0     3     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+41SASERV       MON_ELEM_FA     *               0     0     0     0     15    0     0     0     0     0     0     97    *     *     *     *     *     *     *
+41SBBER        MON_ANIMAL      *               0     0     0     0     3     0     0     0     0     0     0     19    *     *     *     *     *     *     *
+41SBEETL       MON_VERMIN      *               0     0     0     0     2     0     0     0     0     0     0     9     *     *     *     *     *     *     *
+41SBGD         NPC_WARRIOR     SZ_SKELETON     3     0     0     0     4     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+41SBGD2        NPC_WARRIOR     SZ_SKELETON     3     0     0     0     4     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+41SBSC         MON_DRAGON      *               0     0     0     0     15    0     0     0     0     0     0     127   *     *     *     *     *     *     *
+41SBTL11       MON_VERMIN      *               0     0     0     0     7     0     0     0     0     0     0     38    14    *     13    10    13    11    *
+41SBTL15       MON_ANIMAL      *               0     0     0     0     15    0     0     0     0     0     0     142   26    2     13    10    21    2     *
+41SBTL9        MON_VERMIN      *               0     0     0     0     9     0     0     0     0     0     0     58    *     *     *     *     *     *     *
+41SBWHT        MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    12    11    13    12    *     15    *
+41SCBER        MON_ANIMAL      *               0     0     0     0     5     0     0     0     0     0     0     42    31    2     12    13    19    10    *
+41SCBNS        NPC_WARRIOR     SZ_SKELETON     5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+41SCCR         MON_ABERRATION  *               0     0     0     0     3     0     0     0     0     0     0     19    14    1     15    15    14    6     *
+41SCHZMB       NPC_WARRIOR     SZ_ZOMBIE       2     0     0     0     3     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+41SCYC         MON_GIANT       *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+41SDCYC        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+41SDFGNT       MON_GIANT       *               0     0     0     0     17    0     0     0     0     0     0     161   *     *     *     *     *     *     *
+41SDGWLF       NPC_WARRIOR     SZ_LYCANTHROPE  8     0     0     0     9     0     0     0     0     0     0     128   *     *     *     *     *     *     *
+41SDJI         MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     45    18    14    15    19    14    15    *
+41SDND         MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    *     *     *     *     *     *     *
+41SDRABA       MON_OUTSIDER    *               0     0     0     0     17    0     0     0     0     0     0     127   17    12    14    17    17    16    *
+41SDREM        MON_MAGBEAST    *               0     0     0     0     22    0     0     0     0     0     0     231   26    5     12    13    21    10    *
+41SDSAL        MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+41SDSCG        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     126   23    6     9     14    23    6     *
+41SDUHK        MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     102   23    11    11    13    19    13    *
+41SDWLF        MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     45    25    2     12    15    17    10    *
+41SDYET        MON_MAGBEAST    *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+41SEAR16       MON_ELEM_FW     *               0     0     0     0     11    0     0     0     0     0     0     104   *     *     *     *     *     *     *
+41SEAR20       MON_ELEM_FW     *               0     0     0     0     20    0     0     0     0     0     0     190   *     *     *     *     *     *     *
+41SEAR24       MON_ELEM_FW     *               0     0     0     0     16    0     0     0     0     0     0     152   *     *     *     *     *     *     *
+41SEFRET       MON_OUTSIDER    *               0     0     0     0     8     0     0     0     0     0     0     52    23    12    15    17    14    15    *
+41SEGBGD       NPC_WARRIOR     SZ_SKELETON     6     0     0     0     7     0     0     0     0     0     0     71    *     *     *     *     *     *     *
+41SENORO       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     20    *     *     *     *     *     *     *
+41SFDND        MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+41SFIR16       MON_ELEM_FA     *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+41SFIR24       MON_ELEM_FA     *               0     0     0     0     24    0     0     0     0     0     0     204   *     *     *     *     *     *     *
+41SFRGNT       MON_GIANT       *               0     0     0     0     18    0     0     0     0     0     0     171   *     *     *     *     *     *     *
+41SGDND        MON_UNDEAD      *               0     0     0     0     13    0     0     0     0     0     0     84    *     *     *     *     *     *     *
+41SGMUM        MON_UNDEAD      *               0     0     0     0     14    0     0     0     0     0     0     91    24    6     14    10    *     15    *
+41SGRBGD       NPC_WARRIOR     SZ_SKELETON     4     0     0     0     5     0     0     0     0     0     0     49    *     *     *     *     *     *     *
+41SGSPI        MON_VERMIN      *               0     0     0     0     7     0     0     0     0     0     0     38    15    *     10    17    12    2     *
+41SGWWLF       NPC_WARRIOR     SZ_LYCANTHROPE  9     0     0     0     9     0     0     0     0     0     0     135   *     *     *     *     *     *     *
+41SHADOW       MON_UNDEAD      *               0     0     0     0     3     0     0     0     0     0     0     19    *     6     12    14    *     13    4
+41SHERI        MON_DRAGON      *               0     0     0     0     8     0     0     0     0     0     0     68    *     *     *     *     *     *     *
+41SHERI2       MON_DRAGON      *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+41SHERI3       MON_DRAGON      *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+41SINV         MON_ELEM_FA     *               0     0     0     0     6     0     0     0     0     0     0     39    18    14    15    19    14    11    *
+41SLAIR        MON_ELEM_FA     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+41SLEAR        MON_ELEM_FW     *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+41SLFIRE       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+41SLWAT        MON_ELEM_FW     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+41SMBER        MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+41SMUMK        MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    24    6     14    10    *     15    *
+41SOTY         MON_ABERRATION  *               0     0     0     0     6     0     0     0     0     0     0     33    11    5     12    10    13    6     *
+41SPNT         MON_ANIMAL      *               0     0     0     0     5     0     0     0     0     0     0     32    16    2     12    19    15    6     *
+41SPOZM2       NPC_WARRIOR     SZ_ZOMBIE       3     0     0     0     4     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+41SPOZMB       NPC_WARRIOR     SZ_ZOMBIE       3     0     0     0     4     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+41SPSPI        MON_MAGBEAST    *               0     0     0     0     9     0     0     0     0     0     0     76    17    7     13    17    16    10    *
+41SRABA        MON_OUTSIDER    *               0     0     0     0     8     0     0     0     0     0     0     60    17    12    14    17    17    16    *
+41SREM         MON_MAGBEAST    *               0     0     0     0     17    0     0     0     0     0     0     178   26    5     12    13    21    10    *
+41SSCG         MON_GIANT       *               0     0     0     0     13    0     0     0     0     0     0     136   23    6     9     14    23    6     *
+41SSCYC        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+41SSDW15       MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    *     6     12    14    *     13    *
+41SSDW19       MON_UNDEAD      *               0     0     0     0     19    0     0     0     0     0     0     123   *     6     12    14    *     13    *
+41SSDW21       MON_UNDEAD      *               0     0     0     0     21    0     0     0     0     0     0     136   *     6     12    14    *     13    *
+41SSDW9        MON_UNDEAD      *               0     0     0     0     4     0     0     0     0     0     0     26    *     6     12    14    *     13    *
+41SSFGNT       MON_GIANT       *               0     0     0     0     17    0     0     0     0     0     0     161   *     *     *     *     *     *     *
+41SSGWLF       NPC_WARRIOR     SZ_LYCANTHROPE  9     0     0     0     9     0     0     0     0     0     0     135   *     *     *     *     *     *     *
+41SSHFGT       MON_GIANT       *               0     0     0     0     17    0     0     0     0     0     0     161   *     *     *     *     *     *     *
+41SSHGWF       NPC_WARRIOR     SZ_LYCANTHROPE  9     0     0     0     9     0     0     0     0     0     0     135   *     *     *     *     *     *     *
+41SSHM         MON_PLANT       *               0     0     0     0     12    0     0     0     0     0     0     90    21    7     10    10    17    9     *
+41SSHRAB       MON_OUTSIDER    *               0     0     0     0     17    0     0     0     0     0     0     127   17    12    14    17    17    16    *
+41SSHREM       MON_MAGBEAST    *               0     0     0     0     22    0     0     0     0     0     0     231   26    5     12    13    21    10    *
+41SSKL         NPC_WARRIOR     SZ_SKELETON     1     0     0     0     2     0     0     0     0     0     0     16    *     *     *     *     *     *     *
+41SSKLAR       NPC_WARRIOR     SZ_SKELETON     1     0     0     0     2     0     0     0     0     0     0     16    *     *     *     *     *     *     *
+41SSPIDR       MON_VERMIN      *               0     0     0     0     2     0     0     0     0     0     0     11    11    *     10    17    12    2     *
+41SSRABA       MON_OUTSIDER    *               0     0     0     0     17    0     0     0     0     0     0     127   17    12    14    17    17    16    *
+41SSREM        MON_MAGBEAST    *               0     0     0     0     22    0     0     0     0     0     0     231   26    5     12    13    21    10    *
+41SSSAL        MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+41SSSCG        MON_GIANT       *               0     0     0     0     12    0     0     0     0     0     0     126   23    6     9     14    23    6     *
+41SSSPI        MON_VERMIN      *               0     0     0     0     12    0     0     0     0     0     0     66    15    *     10    17    12    2     *
+41SSUHK        MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     102   23    11    11    13    19    13    *
+41SWAT16       MON_ELEM_FW     *               0     0     0     0     16    0     0     0     0     0     0     152   *     *     *     *     *     *     *
+41SWAT24       MON_ELEM_FW     *               0     0     0     0     24    0     0     0     0     0     0     228   *     *     *     *     *     *     *
+41SWLF         MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+41SWOLF        MON_ANIMAL      *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+41SWRG         MON_MAGBEAST    *               0     0     0     0     5     0     0     0     0     0     0     37    17    6     14    15    15    10    *
+41SWTWLF       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+41SWYV         MON_DRAGON      *               0     0     0     0     9     0     0     0     0     0     0     76    *     *     *     *     *     *     *
+41SZMB         NPC_WARRIOR     SZ_ZOMBIE       1     0     0     0     1     0     0     0     0     0     0     11    *     *     *     *     *     *     *
+41SZMBL2       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+41SZMBLO       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+41TROICE       MON_GIANT       *               0     0     0     0     2     0     0     0     0     0     0     21    23    6     9     14    23    6     *
+41TROSNO       MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     63    23    6     9     14    23    6     8
+41VRASSI       MON_CONSTRUCT   *               0     0     0     0     10    0     0     0     0     0     0     55    *     *     *     *     *     *     *
+41WARRIO       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     54    *     *     *     *     *     *     6
+41WYVERN       MON_DRAGON      *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+50ABOMIN       MON_MAGBEAST    *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+50AGOG         MON_CONSTRUCT   *               0     0     0     0     9     0     0     0     0     0     0     49    *     *     *     *     *     *     *
+50AGOGH        MON_CONSTRUCT   *               0     0     0     0     9     0     0     0     0     0     0     49    *     *     *     *     *     *     *
+50BONES        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+50CARITA       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+50CARYNA       MON_FEY         *               0     0     0     0     2     0     0     0     0     0     0     7     10    14    15    19    11    18    5
+50CHILDF       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     2
+50CHILDM       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     2
+50CORPSE       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+50DOP          MON_MONHUMAN    *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+50DRAWY        MON_DRAGON      *               0     0     0     0     15    0     0     0     0     0     0     142   *     *     *     *     *     *     *
+50ELEEA        MON_ELEM_FW     *               0     0     0     0     16    0     0     0     0     0     0     152   *     *     *     *     *     *     *
+50ETR          MON_ABERRATION  *               0     0     0     0     5     0     0     0     0     0     0     27    14    6     15    17    13    8     5
+50GHOAR        *               SZ_GHOST        5     0     0     0     0     0     0     5     0     0     0     60    *     *     *     *     *     *     *
+50GHOBA        *               SZ_GHOST        5     0     0     0     0     0     0     5     0     0     0     60    *     *     *     *     *     *     *
+50GHOHU        *               SZ_GHOST        5     0     0     0     0     0     0     5     0     0     0     60    *     *     *     *     *     *     *
+50GNTFO        MON_GIANT       *               0     0     0     0     13    0     0     0     0     0     0     123   *     *     *     *     *     *     *
+50HANNU        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     2
+50HGHOST       *               SZ_GHOST        5     0     0     0     0     0     0     5     0     0     0     60    *     *     *     *     *     *     *
+50ISAIR        NPC_WARRIOR     *               0     0     0     0     30    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+50KURTTU       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+50KYOSTI       *               SZ_GHOST        4     0     0     0     0     0     0     4     0     0     0     48    *     *     *     *     *     *     9
+50MADAE        NPC_WARRIOR     *               0     0     0     0     30    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+50NWSOLD       MON_MONHUMAN    *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+50RDEAR        MON_UNDEAD      *               0     0     0     0     5     0     0     0     0     0     0     32    *     *     *     *     *     *     6
+50RDEBA        MON_UNDEAD      *               0     0     0     0     5     0     0     0     0     0     0     32    *     *     *     *     *     *     6
+50RDEHU        MON_UNDEAD      *               0     0     0     0     5     0     0     0     0     0     0     32    *     *     *     *     *     *     6
+50SPIFH        MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+50SPIFH2       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+50SPIFR        MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+50SPIFR2       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+50SPIFRR       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+50TREDA        MON_PLANT       *               0     0     0     0     8     0     0     0     0     0     0     44    12    13    13    10    12    11    *
+50TREDE        MON_PLANT       *               0     0     0     0     12    0     0     0     0     0     0     66    12    13    13    10    12    11    *
+50TREDG        MON_PLANT       *               0     0     0     0     10    0     0     0     0     0     0     55    12    13    13    10    12    11    *
+50VIL          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+50VIL2         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+50VIL3         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     4     *     *     *     *     *     *     *
+50WFDFH        MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     60    25    2     12    15    17    10    *
+50WFDH         MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     45    25    2     12    15    17    10    *
+50WFWGH        MON_MAGBEAST    *               0     0     0     0     8     0     0     0     0     0     0     68    18    9     13    13    16    10    *
+50WFWH         MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+50WIL          MON_ABERRATION  *               0     0     0     0     9     0     0     0     0     0     0     40    *     *     *     *     *     *     7
+50WIL2         MON_ABERRATION  *               0     0     0     0     11    0     0     0     0     0     0     49    *     *     *     *     *     *     8
+50WIL3         MON_ABERRATION  *               0     0     0     0     13    0     0     0     0     0     0     58    *     *     *     *     *     *     9
+50WILH         MON_ABERRATION  *               0     0     0     0     9     0     0     0     0     0     0     40    *     *     *     *     *     *     7
+50WILX         MON_ABERRATION  *               0     0     0     0     9     0     0     0     0     0     0     40    *     *     *     *     *     *     *
+50WIT          MON_UNDEAD      *               0     0     0     0     4     0     0     0     0     0     0     26    12    11    13    12    *     15    4
+50WLFDF        MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     60    25    2     12    15    17    10    *
+50WLFDFR       MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     60    25    2     12    15    17    10    *
+50WLFDI        MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     45    25    2     12    15    17    10    *
+50WLFDIR       MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     45    25    2     12    15    17    10    *
+50WLFWG        MON_MAGBEAST    *               0     0     0     0     8     0     0     0     0     0     0     68    18    9     13    13    16    10    *
+50WLFWGR       MON_MAGBEAST    *               0     0     0     0     8     0     0     0     0     0     0     68    18    9     13    13    16    10    *
+50WLFWI        MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+50WLFWIR       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+50WYRWH        MON_DRAGON      *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+50WYV          MON_DRAGON      *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+50WYVH         MON_DRAGON      *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+50WYVR         MON_DRAGON      *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+50ZOM          MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+50ZOM1         MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+50ZOM2         MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+50ZOM3         MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+50ZOM4         MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+50ZOM5         MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+51BEAWA        MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     68    *     *     *     *     *     *     *
+51BEEFD        MON_VERMIN      *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+51BEEFI        MON_VERMIN      *               0     0     0     0     1     0     0     0     0     0     0     6     *     *     *     *     *     *     *
+51CATBA        MON_ANIMAL      *               0     0     0     0     6     0     0     0     0     0     0     45    *     *     *     *     *     *     *
+51DARGAB       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+51DRAGU        NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+51DRAWY        MON_DRAGON      *               0     0     0     0     15    0     0     0     0     0     0     142   *     *     *     *     *     *     *
+51DUEBO        NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+51DUEWA        NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+51HARHOR       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+51HNTMN        NPC_EXPERT      *               0     0     0     0     0     0     0     0     6     0     0     33    *     *     *     *     *     *     5
+51OCH          MON_OOZE        *               0     0     0     0     6     0     0     0     0     0     0     69    15    *     1     1     22    1     *
+51OCHH         MON_OOZE        *               0     0     0     0     6     0     0     0     0     0     0     69    15    *     1     1     22    1     *
+51OCHX         MON_OOZE        *               0     0     0     0     6     0     0     0     0     0     0     69    15    *     1     1     22    1     *
+51ORCSS        NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     3
+51OTID         NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     *
+51SHA          MON_PLANT       *               0     0     0     0     16    0     0     0     0     0     0     152   *     *     *     *     *     *     *
+51SPE          MON_UNDEAD      *               0     0     0     0     7     0     0     0     0     0     0     45    *     14    14    16    *     15    8
+51UMB          MON_ABERRATION  *               0     0     0     0     8     0     0     0     0     0     0     68    23    11    11    13    19    13    *
+51UMBR         MON_ABERRATION  *               0     0     0     0     8     0     0     0     0     0     0     68    23    11    11    13    19    13    *
+51WYRWH        MON_DRAGON      *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+52DARGAB       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+52DUEBO        NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+52DUEBOX       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+52DUELE        NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+52DUEWA        NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+52DUEWAX       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+52GOLIR        MON_CONSTRUCT   *               0     0     0     0     18    0     0     0     0     0     0     99    *     *     *     *     *     *     *
+52HARHOR       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+52MNKSA        MON_CONSTRUCT   *               0     0     0     0     9     0     0     0     0     0     0     49    *     *     *     *     *     *     *
+52ORCSS        NPC_WARRIOR     *               0     0     0     0     4     0     0     0     0     0     0     18    *     *     *     *     *     *     3
+52PORTAL       MON_CONSTRUCT   *               0     0     0     0     18    0     0     0     0     0     0     99    *     *     *     *     *     *     *
+52SPIPW        MON_VERMIN      *               0     0     0     0     2     0     0     0     0     0     0     11    11    *     10    17    12    2     *
+52SPIPWR       MON_VERMIN      *               0     0     0     0     2     0     0     0     0     0     0     11    11    *     10    17    12    2     *
+52WYRWH        MON_DRAGON      *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+52WYRWHR       MON_DRAGON      *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+52YETGH        MON_MAGBEAST    *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+52YETTG        MON_MAGBEAST    *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+52YETTGR       MON_MAGBEAST    *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+52YETTU        MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+52YETTUR       MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+52YETUH        MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+53CELEDR       MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     114   *     *     *     *     *     *     *
+53DESPGU       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     27    *     *     *     *     *     *     6
+53DRACAH       MON_UNDEAD      *               0     0     0     0     10    0     0     0     0     0     0     65    *     6     12    14    *     13    9
+53DRFIT2       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     27    *     *     *     *     *     *     6
+53DRFITH       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     27    *     *     *     *     *     *     6
+53DRIDFI       MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     90    15    15    16    15    16    16    *
+53DRIFIH       MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     90    15    15    16    15    16    16    *
+53DUFIT2       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     51    *     *     *     *     *     *     *
+53EAELEM       MON_ELEM_FW     *               0     0     0     0     12    0     0     0     0     0     0     102   *     *     *     *     *     *     *
+53FGOLEM       MON_CONSTRUCT   *               0     0     0     0     9     0     0     0     0     0     0     49    21    *     11    9     *     1     *
+53FOMOTH       MON_GIANT       *               0     0     0     0     13    0     0     0     0     0     0     123   *     *     *     *     *     *     *
+53GOBFOD       NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+53GOLIM        MON_CONSTRUCT   *               0     0     0     0     9     0     0     0     0     0     0     49    21    *     11    9     *     1     7
+53GOLIMH       MON_CONSTRUCT   *               0     0     0     0     9     0     0     0     0     0     0     49    21    *     11    9     *     1     7
+53GOLIMX       MON_CONSTRUCT   *               0     0     0     0     9     0     0     0     0     0     0     49    21    *     11    9     *     1     *
+53HARPY        MON_MONHUMAN    *               0     0     0     0     7     0     0     0     0     0     0     31    10    7     12    15    10    17    5
+53LIGGEN       MON_CONSTRUCT   *               0     0     0     0     12    0     0     0     0     0     0     66    *     *     *     *     *     *     *
+53MGOLEM       MON_CONSTRUCT   *               0     0     0     0     18    0     0     0     0     0     0     99    *     *     *     *     *     *     *
+53MINOTH       MON_MONHUMAN    *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+53NADAL        MON_ABERRATION  *               0     0     0     0     9     0     0     0     0     0     0     67    *     *     *     *     *     *     *
+53SPICRA       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    *     *     *     *     *     *     *
+53SPIGIN       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    11    *     10    17    12    2     *
+53SPISW        MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    15    *     10    17    12    2     *
+53SPISWH       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    15    *     10    17    12    2     *
+53SPITDR       MON_VERMIN      *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+53VIDRF2       MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     90    15    15    16    15    16    16    *
+53VIDRFI       MON_ABERRATION  *               0     0     0     0     12    0     0     0     0     0     0     90    15    15    16    15    16    16    *
+60CHEAP        MON_ELEM_FA     *               0     0     0     0     20    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+60CONLAH       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+60CONLAN       NPC_WARRIOR     *               0     0     0     0     3     0     0     0     0     0     0     17    *     *     *     *     *     *     *
+60DRAY         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     5     *     *     *     *     *     *     *
+60HARPY        MON_MONHUMAN    *               0     0     0     0     7     0     0     0     0     0     0     31    10    7     12    15    10    17    5
+60HEDEAD       MON_UNDEAD      *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+60JAIGER       MON_UNDEAD      *               0     0     0     0     20    0     0     0     0     0     0     130   *     *     *     *     *     *     *
+60JESZRA       MON_MONHUMAN    *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+60KAERVA       MON_UNDEAD      *               0     0     0     0     20    0     0     0     0     0     0     130   *     *     *     *     *     *     *
+60KAIRN        MON_UNDEAD      *               0     0     0     0     20    0     0     0     0     0     0     130   *     *     *     *     *     *     *
+60KATCHM       NPC_WARRIOR     *               0     0     0     0     7     0     0     0     0     0     0     46    *     *     *     *     *     *     *
+60KHAV         MON_UNDEAD      *               0     0     0     0     12    0     0     0     0     0     0     78    *     *     *     *     *     *     *
+60KHAVH        MON_UNDEAD      *               0     0     0     0     11    0     0     0     0     0     0     71    *     *     *     *     *     *     *
+60MEZWAR       NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     28    *     *     *     *     *     *     *
+60MOTHER       NPC_WARRIOR     SZ_GHOST        10    0     0     0     10    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+60NEOORB       NPC_EXPERT      *               0     0     0     0     0     0     0     0     8     0     0     44    *     *     *     *     *     *     *
+60NEOORG       NPC_WARRIOR     *               0     0     0     0     13    0     0     0     0     0     0     98    *     *     *     *     *     *     *
+60NEOORN       NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+60NEOORO       NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+60PBFIGT       MON_MONHUMAN    *               0     0     0     0     7     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+60PITTRP       MON_UNDEAD      *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+60RANYT        MON_MONHUMAN    *               0     0     0     0     12    0     0     0     0     0     0     90    19    20    20    13    17    18    *
+60RANYTA       MON_MONHUMAN    *               0     0     0     0     13    0     0     0     0     0     0     97    *     *     *     *     *     *     *
+60SHEEMH       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+60SHEEMI       NPC_WARRIOR     *               0     0     0     0     2     0     0     0     0     0     0     13    *     *     *     *     *     *     *
+60WEEDIA       MON_ELEM_FW     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+60WIGARC       MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    *     *     *     *     *     *     *
+60WIGHT        MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    12    11    13    12    *     15    *
+60WIGHTH       MON_UNDEAD      *               0     0     0     0     6     0     0     0     0     0     0     39    12    11    13    12    *     15    *
+60WIGHTL       MON_UNDEAD      *               0     0     0     0     8     0     0     0     0     0     0     52    12    11    13    12    *     15    *
+60WRAITH       MON_UNDEAD      *               0     0     0     0     9     0     0     0     0     0     0     58    *     14    14    16    *     15    *
+60WRAITN       MON_UNDEAD      *               0     0     0     0     9     0     0     0     0     0     0     58    *     14    14    16    *     15    *
+60YTARCH       MON_MONHUMAN    *               0     0     0     0     13    0     0     0     0     0     0     97    *     *     *     *     *     *     *
+60YTCOOK       MON_MONHUMAN    *               0     0     0     0     12    0     0     0     0     0     0     54    *     *     *     *     *     *     *
+60YTELIT       MON_MONHUMAN    *               0     0     0     0     13    0     0     0     0     0     0     97    *     *     *     *     *     *     *
+60YUANTI       MON_MONHUMAN    *               0     0     0     0     13    0     0     0     0     0     0     97    19    20    20    13    17    18    7
+61AWYVER       MON_DRAGON      *               0     0     0     0     26    0     0     0     0     0     0     247   *     *     *     *     *     *     *
+61DAWYVE       MON_DRAGON      *               0     0     0     0     26    0     0     0     0     0     0     247   *     *     *     *     *     *     *
+61DFIRPE       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+61DHELHO       MON_ANIMAL      *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+61DTROLL       MON_GIANT       *               0     0     0     0     8     0     0     0     0     0     0     84    23    6     9     14    23    6     *
+61DYASEN       MON_MONHUMAN    *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+61DYPFIG       MON_MONHUMAN    *               0     0     0     0     8     0     0     0     0     0     0     44    *     *     *     *     *     *     *
+61FIRPEO       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+61GOLIRO       MON_CONSTRUCT   *               0     0     0     0     18    0     0     0     0     0     0     99    *     *     *     *     *     *     *
+61GRISHU       MON_MONHUMAN    *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+61HELHOU       MON_ANIMAL      *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+61HISTAC       MON_MONHUMAN    *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+61HISTAR       MON_MONHUMAN    *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+61JASPER       MON_OUTSIDER    *               0     0     0     0     10    0     0     0     0     0     0     55    *     *     *     *     *     *     *
+61MUSJEL       MON_OOZE        *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+61PRISF1       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+61PRISF3       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+61PRISTR       MON_GIANT       *               0     0     0     0     6     0     0     0     0     0     0     63    *     *     *     *     *     *     *
+61PRISU2       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+61PYROS        MON_ELEM_FA     *               0     0     0     0     24    0     0     0     0     0     0     108   *     *     *     *     *     *     18
+61PYROSD       MON_ELEM_FA     *               0     0     0     0     16    0     0     0     0     0     0     56    *     *     *     *     *     *     *
+61SALFRO       MON_OUTSIDER    *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+61SKEARM       NPC_WARRIOR     SZ_SKELETON     4     0     0     0     4     0     0     0     0     0     0     44    *     *     *     *     *     *     *
+61SLIOLI       MON_OOZE        *               0     0     0     0     4     0     0     0     0     0     0     22    *     *     *     *     *     *     8
+61SPIGIA       MON_VERMIN      *               0     0     0     0     8     0     0     0     0     0     0     44    15    *     10    17    12    2     *
+61SPISWD       MON_VERMIN      *               0     0     0     0     10    0     0     0     0     0     0     55    15    *     10    17    12    2     *
+61TROLL        MON_GIANT       *               0     0     0     0     8     0     0     0     0     0     0     84    23    6     9     14    23    6     11
+61WYVERN       MON_DRAGON      *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+61WYVERR       MON_DRAGON      *               0     0     0     0     7     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+61XFIRPE       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+61XHELHO       MON_ANIMAL      *               0     0     0     0     7     0     0     0     0     0     0     38    *     *     *     *     *     *     *
+61XTROLL       MON_GIANT       *               0     0     0     0     8     0     0     0     0     0     0     84    23    6     9     14    23    6     11
+61YASENT       MON_MONHUMAN    *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+61YPFIGH       MON_MONHUMAN    *               0     0     0     0     8     0     0     0     0     0     0     44    *     *     *     *     *     *     *
+61YPFIGR       MON_MONHUMAN    *               0     0     0     0     8     0     0     0     0     0     0     44    *     *     *     *     *     *     *
+62BWHT         MON_UNDEAD      *               0     0     0     0     15    0     0     0     0     0     0     97    12    11    13    12    *     15    *
+62CBNS         NPC_WARRIOR     SZ_SKELETON     5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+62CBNS2        *               SZ_SKELETON     5     5     0     0     0     0     0     0     0     0     0     50    *     *     *     *     *     *     *
+62CBNS3        NPC_WARRIOR     SZ_SKELETON     5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+62CBNS4        NPC_WARRIOR     SZ_SKELETON     5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+62CBNS5        NPC_WARRIOR     SZ_SKELETON     5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+62CBNS6        NPC_WARRIOR     SZ_SKELETON     5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+62CBNS7        NPC_WARRIOR     SZ_SKELETON     5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     *
+62DRDEL        NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     5     0     0     0     0     0     0     55    *     *     *     *     *     *     8
+62DRDEL2       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDEL3       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDEL4       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDEL5       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDEL6       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDEL7       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDEL8       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDEL9       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+62DRDOR2       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDOR3       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDOR4       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDOR5       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDOR6       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDOR7       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDOR8       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDOR9       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRDORE       NPC_WARRIOR     SZ_ZOMBIE       4     0     0     0     5     0     0     0     0     0     0     49    *     *     *     *     *     *     *
+62DREDEL       NPC_WARRIOR     SZ_ZOMBIE       6     0     0     0     6     0     0     0     0     0     0     66    *     *     *     *     *     *     *
+62DREDOR       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62DRGARD       NPC_WARRIOR     SZ_ZOMBIE       5     0     0     0     6     0     0     0     0     0     0     60    *     *     *     *     *     *     *
+62ELFIG        NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     91    *     *     *     *     *     *     *
+62ELFIG2       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     91    *     *     *     *     *     *     *
+62ELFIG3       MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+62EORO         NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+62EORO2        NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+62EORO3        NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+62FDND         MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+62FDND2        MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+62FDND3        MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+62FDND4        MON_UNDEAD      *               0     0     0     0     17    0     0     0     0     0     0     110   *     *     *     *     *     *     *
+62HADR         *               SZ_HALFDRAGON   8     2     0     0     4     0     0     0     0     0     2     142   *     *     *     *     *     *     *
+62HADR2        *               SZ_HALFDRAGON   10    3     0     0     6     0     0     0     0     0     2     188   *     *     *     *     *     *     *
+62HADRR        *               SZ_HALFDRAGON   9     2     0     0     8     0     0     0     0     0     0     177   *     *     *     *     *     *     *
+62HAGOB        NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+62HAGOB1       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+62HAGOB2       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+62HAGOB3       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+62HALFOR       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     68    *     *     *     *     *     *     *
+62HAYUA        MON_MONHUMAN    *               0     0     0     0     14    0     0     0     0     0     0     77    15    18    18    13    13    16    *
+62HAYUA1       MON_MONHUMAN    *               0     0     0     0     14    0     0     0     0     0     0     77    15    18    18    13    13    16    *
+62HAYUA2       MON_MONHUMAN    *               0     0     0     0     14    0     0     0     0     0     0     77    15    18    18    13    13    16    *
+62HAYUA3       MON_MONHUMAN    *               0     0     0     0     14    0     0     0     0     0     0     77    15    18    18    13    13    16    *
+62HAYUA4       MON_MONHUMAN    *               0     0     0     0     14    0     0     0     0     0     0     77    15    18    18    13    13    16    *
+62HAYUA5       MON_MONHUMAN    *               0     0     0     0     14    0     0     0     0     0     0     77    15    18    18    13    13    16    *
+62HORC         NPC_WARRIOR     *               0     0     0     0     11    0     0     0     0     0     0     83    *     *     *     *     *     *     *
+62HORC2        NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     68    *     *     *     *     *     *     *
+62HORC3        NPC_WARRIOR     *               0     0     0     0     11    0     0     0     0     0     0     83    *     *     *     *     *     *     *
+62ICEZOM       NPC_WARRIOR     SZ_ZOMBIE       4     0     0     0     4     0     0     0     0     0     0     44    *     *     *     *     *     *     *
+62NEOORG       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+62OROGR        NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     45    *     *     *     *     *     *     *
+62OROGR2       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62OROGR3       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62OROGR4       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62OROGR5       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62OROGR6       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62OROGR7       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62OROGR8       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62OROGR9       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+62TSOL         NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+62TSOLD        NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+62WANMOK       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     119   *     *     *     *     *     *     *
+633HORC2       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+63ABASH        MON_OUTSIDER    *               0     0     0     0     12    0     0     0     0     0     0     90    17    12    14    17    17    16    *
+63ABGD         NPC_WARRIOR     SZ_SKELETON     8     0     0     0     9     0     0     0     0     0     0     93    *     *     *     *     *     *     *
+63ABGDEN       NPC_WARRIOR     SZ_SKELETON     8     0     0     0     9     0     0     0     0     0     0     93    *     *     *     *     *     *     *
+63ABGDN        NPC_WARRIOR     SZ_SKELETON     8     0     0     0     9     0     0     0     0     0     0     93    *     *     *     *     *     *     *
+63BHDR         NPC_WARRIOR     SZ_HALFDRAGON   6     0     0     0     6     0     0     0     0     0     0     108   *     *     *     *     *     *     *
+63CHIM         MON_MAGBEAST    *               0     0     0     0     18    0     0     0     0     0     0     153   19    4     13    13    17    10    *
+63CHIMH        MON_MAGBEAST    *               0     0     0     0     18    0     0     0     0     0     0     153   19    4     13    13    17    10    *
+63COOK         NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63COOK2        NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+63DMNGEM       MON_OUTSIDER    *               0     0     0     0     15    0     0     0     0     0     0     127   *     *     *     *     *     *     *
+63DRDEL        NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+63EELE         MON_ELEM_FW     *               0     0     0     0     16    0     0     0     0     0     0     152   *     *     *     *     *     *     *
+63EELE2        MON_ELEM_FW     *               0     0     0     0     21    0     0     0     0     0     0     199   *     *     *     *     *     *     *
+63EELE3        MON_ELEM_FW     *               0     0     0     0     24    0     0     0     0     0     0     228   *     *     *     *     *     *     *
+63FW1          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63FW2          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63FW3          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63FW4          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63GLBNXP       MON_OUTSIDER    *               0     0     0     0     10    0     0     0     0     0     0     145   31    16    16    10    31    20    13
+63GLBXP        MON_OUTSIDER    *               0     0     0     0     10    0     0     0     0     0     0     145   31    16    16    10    31    20    13
+63GRDAR        NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDCOM       NPC_WARRIOR     *               0     0     0     0     18    0     0     0     0     0     0     135   *     *     *     *     *     *     *
+63GRDF         NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDFEA       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDFN        NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDFNA       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDLW1       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+63GRDLW2       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     78    *     *     *     *     *     *     *
+63GRDLW3       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+63GRDLW4       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     59    *     *     *     *     *     *     *
+63GRDLW5       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+63GRDLW6       NPC_WARRIOR     *               0     0     0     0     9     0     0     0     0     0     0     86    *     *     *     *     *     *     *
+63GRDM         NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDMD1       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     78    *     *     *     *     *     *     *
+63GRDMD2       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     78    *     *     *     *     *     *     *
+63GRDMD3       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     78    *     *     *     *     *     *     *
+63GRDMD4       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     133   *     *     *     *     *     *     12
+63GRDMD5       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     68    *     *     *     *     *     *     *
+63GRDMD6       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     133   *     *     *     *     *     *     12
+63GRDMEA       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDMN        NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63GRDMNA       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     113   *     *     *     *     *     *     *
+63INSTRC       MON_OUTSIDER    *               0     0     0     0     9     0     0     0     0     0     0     67    *     *     *     *     *     *     *
+63INVSTK       MON_ELEM_FA     *               0     0     0     0     8     0     0     0     0     0     0     52    18    14    15    19    14    11    *
+63JAE          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63JERRE        NPC_EXPERT      *               0     0     0     0     0     0     0     0     5     0     0     23    *     *     *     *     *     *     *
+63MW1          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63MW2          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63MW3          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63MW4          NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63PREC         MON_MAGBEAST    *               0     0     0     0     9     0     0     0     0     0     0     76    *     *     *     *     *     *     *
+63ROGA         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     8     *     *     *     *     *     *     *
+63SABASH       MON_OUTSIDER    *               0     0     0     0     8     0     0     0     0     0     0     60    17    12    14    17    17    16    7
+63SERAK        NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     85    *     *     *     *     *     *     *
+63SLAVEA       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     1     *     *     *     *     *     *     *
+63SLAVES       NPC_EXPERT      *               0     0     0     0     0     0     0     0     1     0     0     3     *     *     *     *     *     *     *
+63SPLMR        MON_UNDEAD      *               0     0     0     0     10    0     0     0     0     0     0     65    *     *     *     *     *     *     *
+63SSPLMR       MON_OUTSIDER    *               0     0     0     0     10    0     0     0     0     0     0     65    *     *     *     *     *     *     *
+63TUTU         MON_OUTSIDER    *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+63TUTUH        MON_OUTSIDER    *               0     0     0     0     16    0     0     0     0     0     0     120   *     *     *     *     *     *     *
+63TUTUN        MON_OUTSIDER    *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+63VASHTI       NPC_EXPERT      *               0     0     0     0     0     0     0     0     5     0     0     13    *     *     *     *     *     *     *
+63WLMR         MON_UNDEAD      *               0     0     0     0     10    0     0     0     0     0     0     65    12    11    13    12    *     15    *
+63XAVIER       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     45    *     *     *     *     *     *     *
+63YSHA         NPC_WARRIOR     *               0     0     0     0     1     0     0     0     0     0     0     4     *     *     *     *     *     *     *
+64IGOLEM       MON_CONSTRUCT   *               0     0     0     0     18    0     0     0     0     0     0     99    *     *     *     *     *     *     *
+65BHDR         *               SZ_HALFDRAGON   10    2     0     0     8     0     0     0     0     0     0     186   *     *     *     *     *     *     10
+65BHDR2        *               SZ_HALFDRAGON   8     2     0     0     6     0     0     0     0     0     0     148   *     *     *     *     *     *     *
+65DRDEL        NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+65DRDEL2       NPC_WARRIOR     SZ_ZOMBIE       7     0     0     0     8     0     0     0     0     0     0     82    *     *     *     *     *     *     *
+65GNLLIB       NPC_WARRIOR     *               0     0     0     0     6     0     0     0     0     0     0     21    *     *     *     *     *     *     *
+65GOBWLP       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     55    *     *     *     *     *     *     *
+65HAORC        NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+65HAORC2       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+65RHDR         *               SZ_HALFDRAGON   8     0     0     0     8     0     0     0     0     0     0     152   *     *     *     *     *     *     *
+65SARSKL       NPC_WARRIOR     SZ_SKELETON     2     0     0     0     3     0     0     0     0     0     0     27    *     *     *     *     *     *     *
+65SBWHT        MON_UNDEAD      *               0     0     0     0     12    0     0     0     0     0     0     78    12    11    13    12    *     15    *
+65WELP         MON_OUTSIDER    *               0     0     0     0     10    0     0     0     0     0     0     65    *     *     *     *     *     *     *
+65WLMR         MON_UNDEAD      *               0     0     0     0     10    0     0     0     0     0     0     65    12    11    13    12    *     15    *
+65WORSH2       NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     *
+65WORSH3       NPC_WARRIOR     *               0     0     0     0     8     0     0     0     0     0     0     52    *     *     *     *     *     *     4
+66BUGB         NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     78    *     *     *     *     *     *     *
+66BUGBC        NPC_WARRIOR     *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+66CHIM         MON_MAGBEAST    *               0     0     0     0     18    0     0     0     0     0     0     153   19    4     13    13    17    10    *
+66CHIM1        MON_MAGBEAST    *               0     0     0     0     18    0     0     0     0     0     0     153   19    4     13    13    17    10    *
+66EORO         NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+66EORO1        NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+66EORO2        NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+66HAGOB        NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     128   *     *     *     *     *     *     *
+66HAGOB1       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     128   *     *     *     *     *     *     *
+66HAGOB2       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     5
+66HAGOB3       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     119   *     *     *     *     *     *     *
+66HAORC        NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+66HAORC1       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+66HAORC2       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+66HAORC3       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+66HAYUA        MON_MONHUMAN    *               0     0     0     0     12    0     0     0     0     0     0     66    15    18    18    13    13    16    *
+66HAYUA1       MON_MONHUMAN    *               0     0     0     0     12    0     0     0     0     0     0     66    15    18    18    13    13    16    *
+66HAYUA2       MON_MONHUMAN    *               0     0     0     0     12    0     0     0     0     0     0     66    15    18    18    13    13    16    *
+66HAYUA3       MON_MONHUMAN    *               0     0     0     0     12    0     0     0     0     0     0     66    15    18    18    13    13    16    *
+66OROC         NPC_WARRIOR     *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+66OROGR7       NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+66RHDR         *               SZ_HALFDRAGON   11    3     0     0     5     0     0     0     0     0     3     194   *     *     *     *     *     *     *
+66STUB         NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+673RHDR        *               SZ_HALFDRAGON   7     0     0     0     4     0     0     0     0     3     0     124   *     *     *     *     *     *     *
+67ABGD         NPC_WARRIOR     SZ_SKELETON     8     0     0     0     9     0     0     0     0     0     0     93    *     *     *     *     *     *     *
+67BHDR         *               SZ_HALFDRAGON   9     2     0     0     6     0     0     0     0     0     1     164   *     *     *     *     *     *     9
+67BHDR2        *               SZ_HALFDRAGON   9     2     0     0     6     0     0     0     0     0     1     164   *     *     *     *     *     *     9
+67BHDR3        *               SZ_HALFDRAGON   9     2     0     0     6     0     0     0     0     0     1     164   *     *     *     *     *     *     9
+67BHDR4        *               SZ_HALFDRAGON   9     2     0     0     6     0     0     0     0     0     1     164   *     *     *     *     *     *     9
+67CHIM         MON_MAGBEAST    *               0     0     0     0     18    0     0     0     0     0     0     153   19    4     13    13    17    10    *
+67CHIM2        MON_MAGBEAST    *               0     0     0     0     18    0     0     0     0     0     0     153   19    4     13    13    17    10    *
+67DEKNT        NPC_WARRIOR     SZ_SKELETON     7     0     0     0     7     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+67DEKNT2       NPC_WARRIOR     SZ_SKELETON     7     0     0     0     7     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+67DEKNT3       NPC_WARRIOR     SZ_SKELETON     7     0     0     0     7     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+67EHAGOB       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     128   *     *     *     *     *     *     *
+67ENEOO        NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+67ENEOO2       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+67ENEOO3       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+67ENEOON       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     *
+67GRBGD        NPC_WARRIOR     SZ_SKELETON     7     0     0     0     7     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+67GRBGD2       NPC_WARRIOR     SZ_SKELETON     7     0     0     0     7     0     0     0     0     0     0     77    *     *     *     *     *     *     *
+67HADR         *               SZ_HALFDRAGON   5     0     0     0     2     0     0     0     0     3     0     86    *     *     *     *     *     *     8
+67HAGOBE       NPC_WARRIOR     *               0     0     0     0     15    0     0     0     0     0     0     128   *     *     *     *     *     *     *
+67HAORC        NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+67HAORC2       NPC_WARRIOR     *               0     0     0     0     12    0     0     0     0     0     0     90    *     *     *     *     *     *     *
+67KRAG         NPC_WARRIOR     *               0     0     0     0     18    0     0     0     0     0     0     153   *     *     *     *     *     *     *
+67OBBAK        NPC_WARRIOR     *               0     0     0     0     10    0     0     0     0     0     0     75    *     *     *     *     *     *     *
+67OROC         NPC_WARRIOR     *               0     0     0     0     16    0     0     0     0     0     0     136   *     *     *     *     *     *     *
+67OROGCO       NPC_WARRIOR     *               0     0     0     0     22    0     0     0     0     0     0     165   *     *     *     *     *     *     *
+67OROGCP       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     119   *     *     *     *     *     *     *
+67PUDDY        NPC_WARRIOR     *               0     0     0     0     5     0     0     0     0     0     0     23    *     *     *     *     *     *     *
+67PUSJU        NPC_WARRIOR     *               0     0     0     0     18    0     0     0     0     0     0     153   *     *     *     *     *     *     12
+67RHDR         *               SZ_HALFDRAGON   7     0     0     0     3     0     0     0     0     4     0     121   *     *     *     *     *     *     *
+67ROROG        NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     9
+67ROROG2       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     9
+67ROROG3       NPC_WARRIOR     *               0     0     0     0     14    0     0     0     0     0     0     105   *     *     *     *     *     *     9
+67SPLMRS       MON_UNDEAD      *               0     0     0     0     10    0     0     0     0     0     0     65    *     *     *     *     *     *     *
+67STUB         NPC_WARRIOR     *               0     0     0     0     18    0     0     0     0     0     0     153   *     *     *     *     *     *     *
+67TRMAL        NPC_WARRIOR     *               0     0     0     0     20    0     0     0     0     0     0     150   *     *     *     *     *     *     *
+DRUIDAB        MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     60    15    2     13    10    17    4     *
+DRUIDAE        MON_ELEM_FA     *               0     0     0     0     15    0     0     0     0     0     0     127   *     *     *     *     *     *     *
+DRUIDBB        MON_VERMIN      *               0     0     0     0     5     0     0     0     0     0     0     22    *     *     *     *     *     *     *
+DRUIDBP        MON_ANIMAL      *               0     0     0     0     8     0     0     0     0     0     0     52    16    2     12    19    15    6     *
+DRUIDDB        MON_ANIMAL      *               0     0     0     0     12    0     0     0     0     0     0     102   31    2     12    13    19    10    *
+DRUIDDP        MON_ANIMAL      *               0     0     0     0     14    0     0     0     0     0     0     91    16    2     12    19    15    6     *
+DRUIDEE        MON_ELEM_FW     *               0     0     0     0     13    0     0     0     0     0     0     58    *     *     *     *     *     *     *
+DRUIDFE        MON_ELEM_FA     *               0     0     0     0     11    0     0     0     0     0     0     49    *     *     *     *     *     *     *
+DRUIDPB        MON_ANIMAL      *               0     0     0     0     9     0     0     0     0     0     0     76    *     *     *     *     *     *     *
+DRUIDSM        MON_PLANT       *               0     0     0     0     8     0     0     0     0     0     0     60    21    7     10    10    17    9     *
+DRUIDWE        MON_ELEM_FW     *               0     0     0     0     15    0     0     0     0     0     0     67    *     *     *     *     *     *     *
+DRUIDWW        MON_MAGBEAST    *               0     0     0     0     6     0     0     0     0     0     0     51    18    9     13    13    16    10    *
+SCHISTAC       MON_MONHUMAN    *               0     0     0     0     8     0     0     0     0     0     0     60    *     *     *     *     *     *     *

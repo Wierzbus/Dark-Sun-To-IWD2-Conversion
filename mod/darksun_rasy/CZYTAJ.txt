@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test46: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test47: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -291,3 +291,26 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - Odpornosci klas potworow (nieumarly, konstrukt, szlam, roslina, zywiolak, robactwo, smok) przez opcode 261,
        jak przedmiot gry 00CIDEAD (sen, trucizna, paraliz, strach, zauroczenie, zamet, smierc, skamienienie...).
      Sprawdzic: doswiadczenie za zabicie np. trolla przed i po komponencie 8; nieumarly z klasa potwora - Sen, Strach.
+test47: klasy NPC (adept, ekspert, wojownik NPC) i klasy szablonow; komponent 8 rozszerzony.
+     Exe bez zmian (test45). Reinstall: 0, 1-5 i 8.
+     - Nowe ukryte podklasy (nie ma ich w kreatorze ani przy awansie): NPC_WARRIOR (wojownik: k8, pelny BAB, dobra
+       Wytrwalosc), NPC_EXPERT (lotrzyk: k6, BAB 3/4, dobra Wola, wszystkie umiejetnosci klasowe, bez ataku z zaskoczenia),
+       NPC_ADEPT (kaplan: k6, BAB 1/2, dobra Wola, lista czarow ADEPT w LISTSPLL, kregi 1-5).
+     - Klasy szablonow na klasie 1: SZ_SKELETON, SZ_ZOMBIE, SZ_GHOST (k12 bez KON, BAB 1/2, dobra Wola, odpornosci
+       nieumarlych), SZ_HALFDRAGON (k10, pelny BAB, wszystkie rzuty dobre, odpornosc na sen i paraliz),
+       SZ_LYCANTHROPE (k8, BAB 3/4, dobra Wytrwalosc i Refleks).
+     - Komponent 8 (DSPOTWOR.2DA, 988 CRE):
+       * 378 humanoidow (GENERAL = HUMANOID, same poziomy wojownika): 318 wojownik NPC, 60 ekspert (26 z animacja
+         PEASANT/COMMONER oraz robotnicy, zeglarze, dzieci, zwiadowcy, rekruci...); adepta nie dostal nikt - humanoidy
+         rzucajace czary maja w grze prawdziwe klasy;
+       * 106 istot z szablonu: poziom CRE / 2 na klase (w gore), reszta na szablon; jedyna klasa wojownika -> wojownik
+         NPC, kilka klas (polsmoki, duchy-tropiciele) - poziomy proporcjonalnie, bez podklasy;
+       * pozostale 504 CRE - klasy potworow jak w test46.
+       PW przeliczone (srednia kosc klasy x poziom + KON; nieumarli bez KON), CR -1/+1 jak w test46. Pole CLASS w CRE
+       (skrypty) bez zmian.
+     Sprawdzic:
+     - kreator i awans kaplana, lotrzyka, wojownika, klasy prestizowej: zadnej z nowych podklas,
+     - szkielet (np. Boneguard Skeleton), zombie, Greater Werewolf, polsmok: karta postaci - dwie klasy (klasa
+       prestizowa = szablon), PW, BAB i rzuty; czy gra nie zglasza bledu przy wczytaniu obszaru,
+     - straznik w Targos (wojownik NPC) i robotnik/zeglarz (ekspert): karta postaci i walka,
+     - czy skrypty potworow dzialaja jak dotad (np. szkielety lucznicy, wilkolaki).

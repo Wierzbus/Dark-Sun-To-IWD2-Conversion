@@ -590,3 +590,23 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   X/dobro|zło|prawo|chaos → +2 (z magią +3), X/adamantyt → +3, X/epickie → +5; X/obuchowe|cięte|kłute → bajty
   0x5C–0x5F; X/— → opcode 436 albo bajty 0x5C–0x5F po X. Odporność na energię i SR – bez zmian (wartości z MM).
 
+
+## 39. Klasy NPC i klasy szablonów (test47)
+- Wpisy 47–54 tabeli podklas, wszystkie ukryte (`+0 = 2`), CLABDS47–54, wiersze DSKLPROG, ALIGNMNT, kolumny FEATCLAS (zera)
+  i SKILLPTS; exe bez zmian.
+  - NPC_WARRIOR (wojownik, k8 HPPRS, BAATFGT, SAVEWAR), NPC_EXPERT (łotrzyk, k6, BAATNFG, SAVEWIZ; kolumna DSKLASY = same
+    zera, więc bez ataku z zaskoczenia, uniku i Uncanny Dodge; SKILCOST: wszystkie umiejętności klasowe),
+    NPC_ADEPT (kapłan, k6, BAATMAG, SAVEWIZ, SPELLS = kolumna `ADEPT` w LISTSPLL – lista adepta z DMG, kręgi 1–5).
+  - Szablony na klasie 1 (slot klas prestiżowych – kod barbarzyńcy jest już w tabelach, kara PD pomija klasę 1):
+    SZ_SKELETON, SZ_ZOMBIE, SZ_GHOST (HPBARB, BAATMAG, SAVEWIZ, AP_DSMNUND), SZ_HALFDRAGON (HPWAR, BAATFGT, SAVEMONK,
+    AP_DSMNDRA), SZ_LYCANTHROPE (HPPRS, BAATNFG, SAVEDSFR, AP_DSMNDV).
+- Dwie ukryte podklasy na jednej postaci wymagają różnych klas bazowych (jeden bajt podklasy na klasę: CRE 0x30C + klasa − 1),
+  stąd szablon zawsze na klasie 1, a klasa NPC na wojowniku, łotrzyku albo kapłanie.
+- Pole CLASS w CRE (0x387, CLASS.IDS) – żaden z 1618 CRE gry nie ma NO_CLASS (255): 1251 ma FIGHTER. Kryterium
+  „humanoid bez klasy” w komponencie 8: GENERAL (0x385) = HUMANOID, same poziomy wojownika; animacja PEASANT/COMMONER → ekspert (decyzja właściciela).
+- DSPOTWOR.2DA (generator `tools/iwd2_npc_szablony.py` na danych CRE): kolumny KIT SZAB L1..L11 HP STR..CHA CR.
+  Komponent 8 sprawdza, czy suma L1..L11 = bajt 0x8A CRE, zeruje bajty podklas 0x30C–0x316, wpisuje poziomy 0x8B–0x95,
+  podklasę KIT w bajcie jej klasy i szablon w 0x30C. Szablon: poziom CRE / 2 w górę na klasy (kilka klas – proporcjonalnie,
+  największe reszty), reszta na szablon. Nazwy → szablon: skeleton/boneguard/cold bones/demon knight → szkielet;
+  zombie/dread warrior → zombie; Ghost, Hunter's/Kyosti's Ghost, Mother Egenia's Spirit → duch; half-dragon → półsmok;
+  werewolf/wererat → likantrop. Mumie, upiory, wighty – stworzenia, nie szablony (MON_UNDEAD).

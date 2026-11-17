@@ -550,3 +550,62 @@ Hit Die: d6. Base attack bonus: 1/2. Good saving throws: Reflex and Will. Skill 
 
 Type traits: none.~
 @744 = ~Type traits (Fey): none.~
+// test47: klasy NPC i klasy szablonow
+@751 = ~npc warrior~
+@752 = ~NPC Warrior~
+@753 = ~NPC WARRIOR (NPC class, DMG): hidden fighter subclass for trained humanoid soldiers, guards and tribal warriors without a player class. Not available to players.
+
+Hit Die: d8. Base attack bonus: full. Good saving throws: Fortitude. Skill points: 2 per level. No fighter bonus feats.~
+@754 = ~NPC class (Warrior): trained fighter without the bonus feats of a fighter.~
+@761 = ~expert~
+@762 = ~Expert~
+@763 = ~EXPERT (NPC class, DMG): hidden rogue subclass for craftsmen, workers, sailors, scouts and other skilled humanoids. Not available to players.
+
+Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Will. Skill points: 6 per level, all skills are class skills. No sneak attack, evasion or uncanny dodge.~
+@764 = ~NPC class (Expert): skilled specialist; all skills are class skills.~
+@771 = ~adept~
+@772 = ~Adept~
+@773 = ~ADEPT (NPC class, DMG): hidden cleric subclass for village shamans, hedge priests and tribal spellcasters. Not available to players.
+
+Hit Die: d6. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 per level. Spells: adept list (mix of divine and arcane spells, levels 1-5).~
+@774 = ~NPC class (Adept): casts spells from the adept list.~
+@781 = ~skeleton (template)~
+@782 = ~Skeleton~
+@783 = ~SKELETON (template class): hidden class for creatures raised as skeletons. Half of the creature's level goes to its original class, the other half to this template. Not available to players.
+
+Hit Die: d12, no Constitution. Base attack bonus: 1/2. Good saving throws: Will. No skill points.
+
+Traits: undead immunities.~
+@784 = ~Template (Skeleton): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@791 = ~zombie (template)~
+@792 = ~Zombie~
+@793 = ~ZOMBIE (template class): hidden class for creatures raised as zombies and dread warriors. Half of the creature's level goes to its original class, the other half to this template. Not available to players.
+
+Hit Die: d12, no Constitution. Base attack bonus: 1/2. Good saving throws: Will. No skill points.
+
+Traits: undead immunities.~
+@794 = ~Template (Zombie): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@801 = ~ghost (template)~
+@802 = ~Ghost~
+@803 = ~GHOST (template class): hidden class for the restless spirits of the dead. Half of the creature's level goes to its original class, the other half to this template. Not available to players.
+
+Hit Die: d12, no Constitution. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 4 per level.
+
+Traits: undead immunities.~
+@804 = ~Template (Ghost): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@811 = ~half-dragon (template)~
+@812 = ~Half-Dragon~
+@813 = ~HALF-DRAGON (template class): hidden class for the offspring of dragons. Half of the creature's level goes to its original classes, the other half to this template. Not available to players.
+
+Hit Die: d10. Base attack bonus: full. Good saving throws: Fortitude, Reflex, Will. Skill points: 6 per level.
+
+Traits: immune to sleep and paralysis; darkvision.~
+@814 = ~Template (Half-Dragon): immune to sleep and paralysis; darkvision.~
+@821 = ~lycanthrope (template)~
+@822 = ~Lycanthrope~
+@823 = ~LYCANTHROPE (template class): hidden class for werewolves, wererats and other lycanthropes. Half of the creature's level goes to its original class, the other half to this template (animal Hit Dice). Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude, Reflex. Skill points: 2 per level.
+
+Traits: low-light vision.~
+@824 = ~Template (Lycanthrope): low-light vision.~

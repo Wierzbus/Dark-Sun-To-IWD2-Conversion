@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test46-2026-11-17~
+VERSION ~test47-2026-11-17~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -298,8 +298,17 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     44, 5, MON_OOZE       , CLABDS44, 2D => 721
     45, 5, MON_PLANT      , CLABDS45, 2E => 731
     46, 5, MON_FEY        , CLABDS46, 2F => 741
+    // test47: klasy NPC z DMG (ukryte podklasy wojownika, lotrzyka, kaplana) i klasy szablonow (ukryte podklasy klasy 1)
+    47, 5, NPC_WARRIOR    , CLABDS47, 30 => 751
+    48, 9, NPC_EXPERT     , CLABDS48, 31 => 761
+    49, 3, NPC_ADEPT      , CLABDS49, 32 => 771
+    50, 1, SZ_SKELETON    , CLABDS50, 33 => 781
+    51, 1, SZ_ZOMBIE      , CLABDS51, 34 => 791
+    52, 1, SZ_GHOST       , CLABDS52, 35 => 801
+    53, 1, SZ_HALFDRAGON  , CLABDS53, 36 => 811
+    54, 1, SZ_LYCANTHROPE , CLABDS54, 37 => 821
   END
-  OUTER_SET ds_n_kitow = 47
+  OUTER_SET ds_n_kitow = 55
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 320
@@ -443,6 +452,31 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~741~) = RESOLVE_STR_REF(@741)
   OUTER_SET $ds_str(~742~) = RESOLVE_STR_REF(@742)
   OUTER_SET $ds_str(~743~) = RESOLVE_STR_REF(@743)
+  // test47
+  OUTER_SET $ds_str(~751~) = RESOLVE_STR_REF(@751)
+  OUTER_SET $ds_str(~752~) = RESOLVE_STR_REF(@752)
+  OUTER_SET $ds_str(~753~) = RESOLVE_STR_REF(@753)
+  OUTER_SET $ds_str(~761~) = RESOLVE_STR_REF(@761)
+  OUTER_SET $ds_str(~762~) = RESOLVE_STR_REF(@762)
+  OUTER_SET $ds_str(~763~) = RESOLVE_STR_REF(@763)
+  OUTER_SET $ds_str(~771~) = RESOLVE_STR_REF(@771)
+  OUTER_SET $ds_str(~772~) = RESOLVE_STR_REF(@772)
+  OUTER_SET $ds_str(~773~) = RESOLVE_STR_REF(@773)
+  OUTER_SET $ds_str(~781~) = RESOLVE_STR_REF(@781)
+  OUTER_SET $ds_str(~782~) = RESOLVE_STR_REF(@782)
+  OUTER_SET $ds_str(~783~) = RESOLVE_STR_REF(@783)
+  OUTER_SET $ds_str(~791~) = RESOLVE_STR_REF(@791)
+  OUTER_SET $ds_str(~792~) = RESOLVE_STR_REF(@792)
+  OUTER_SET $ds_str(~793~) = RESOLVE_STR_REF(@793)
+  OUTER_SET $ds_str(~801~) = RESOLVE_STR_REF(@801)
+  OUTER_SET $ds_str(~802~) = RESOLVE_STR_REF(@802)
+  OUTER_SET $ds_str(~803~) = RESOLVE_STR_REF(@803)
+  OUTER_SET $ds_str(~811~) = RESOLVE_STR_REF(@811)
+  OUTER_SET $ds_str(~812~) = RESOLVE_STR_REF(@812)
+  OUTER_SET $ds_str(~813~) = RESOLVE_STR_REF(@813)
+  OUTER_SET $ds_str(~821~) = RESOLVE_STR_REF(@821)
+  OUTER_SET $ds_str(~822~) = RESOLVE_STR_REF(@822)
+  OUTER_SET $ds_str(~823~) = RESOLVE_STR_REF(@823)
   // test43
   OUTER_SET $ds_str(~481~) = RESOLVE_STR_REF(@481)
   OUTER_SET $ds_str(~482~) = RESOLVE_STR_REF(@482)
@@ -602,6 +636,14 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   APPEND ~ALIGNMNT.2DA~ ~MON_OOZE	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_OOZE~
   APPEND ~ALIGNMNT.2DA~ ~MON_PLANT	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_PLANT~
   APPEND ~ALIGNMNT.2DA~ ~MON_FEY	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_FEY~
+  APPEND ~ALIGNMNT.2DA~ ~NPC_WARRIOR	1	1	1	1	1	1	1	1	1~ UNLESS ~NPC_WARRIOR~
+  APPEND ~ALIGNMNT.2DA~ ~NPC_EXPERT	1	1	1	1	1	1	1	1	1~ UNLESS ~NPC_EXPERT~
+  APPEND ~ALIGNMNT.2DA~ ~NPC_ADEPT	1	1	1	1	1	1	1	1	1~ UNLESS ~NPC_ADEPT~
+  APPEND ~ALIGNMNT.2DA~ ~SZ_SKELETON	1	1	1	1	1	1	1	1	1~ UNLESS ~SZ_SKELETON~
+  APPEND ~ALIGNMNT.2DA~ ~SZ_ZOMBIE	1	1	1	1	1	1	1	1	1~ UNLESS ~SZ_ZOMBIE~
+  APPEND ~ALIGNMNT.2DA~ ~SZ_GHOST	1	1	1	1	1	1	1	1	1~ UNLESS ~SZ_GHOST~
+  APPEND ~ALIGNMNT.2DA~ ~SZ_HALFDRAGON	1	1	1	1	1	1	1	1	1~ UNLESS ~SZ_HALFDRAGON~
+  APPEND ~ALIGNMNT.2DA~ ~SZ_LYCANTHROPE	1	1	1	1	1	1	1	1	1~ UNLESS ~SZ_LYCANTHROPE~
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -660,6 +702,14 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_OOZE~ wzor = ~FIGHTER~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_PLANT~ wzor = ~FIGHTER~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_FEY~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~NPC_WARRIOR~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~NPC_EXPERT~ wzor = ~ROGUE~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~NPC_ADEPT~ wzor = ~CLERIC~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SZ_SKELETON~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SZ_ZOMBIE~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SZ_GHOST~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SZ_HALFDRAGON~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SZ_LYCANTHROPE~ wzor = ~BARBARIAN~ END
     END
   END
 
@@ -907,6 +957,14 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET fa_644 = RESOLVE_STR_REF(@644)
   OUTER_SET fa_664 = RESOLVE_STR_REF(@664)
   OUTER_SET fa_744 = RESOLVE_STR_REF(@744)
+  OUTER_SET fa_754 = RESOLVE_STR_REF(@754)
+  OUTER_SET fa_764 = RESOLVE_STR_REF(@764)
+  OUTER_SET fa_774 = RESOLVE_STR_REF(@774)
+  OUTER_SET fa_784 = RESOLVE_STR_REF(@784)
+  OUTER_SET fa_794 = RESOLVE_STR_REF(@794)
+  OUTER_SET fa_804 = RESOLVE_STR_REF(@804)
+  OUTER_SET fa_814 = RESOLVE_STR_REF(@814)
+  OUTER_SET fa_824 = RESOLVE_STR_REF(@824)
   COPY ~darksun_rasy/spl/DSMNUND.SPL~ ~override~
        ~darksun_rasy/spl/DSMNCON.SPL~ ~override~
        ~darksun_rasy/spl/DSMNOOZ.SPL~ ~override~
@@ -924,7 +982,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET fa_554 = RESOLVE_STR_REF(@554)
   ACTION_FOR_EACH t IN ~CLABDS16~ ~CLABDS17~ ~CLABDS18~ ~CLABDS19~ ~CLABDS20~ ~CLABDS21~ ~CLABDS22~ ~CLABDS23~
                        ~CLABDS24~ ~CLABDS25~ ~CLABDS26~ ~CLABDS27~ ~CLABDS28~ ~CLABDS29~ ~CLABDS30~ ~CLABDS31~
-                       ~CLABDS32~ ~CLABDS33~ ~CLABDS34~ ~CLABDS35~ ~CLABDS36~ ~CLABDS37~ ~CLABDS38~ ~CLABDS39~ ~CLABDS40~ ~CLABDS41~ ~CLABDS42~ ~CLABDS43~ ~CLABDS44~ ~CLABDS45~ ~CLABDS46~ BEGIN
+                       ~CLABDS32~ ~CLABDS33~ ~CLABDS34~ ~CLABDS35~ ~CLABDS36~ ~CLABDS37~ ~CLABDS38~ ~CLABDS39~ ~CLABDS40~ ~CLABDS41~ ~CLABDS42~ ~CLABDS43~ ~CLABDS44~ ~CLABDS45~ ~CLABDS46~
+                       ~CLABDS47~ ~CLABDS48~ ~CLABDS49~ ~CLABDS50~ ~CLABDS51~ ~CLABDS52~ ~CLABDS53~ ~CLABDS54~ BEGIN
     COPY ~darksun_rasy/2da/%t%.2DA~ ~override~ EVALUATE_BUFFER
   END
   COPY ~darksun_rasy/spl/DSSWREF.SPL~ ~override~
@@ -1041,6 +1100,15 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_zera STR_VAR kol = ~MON_OOZE~ wzor = ~FIGHTER~ END
     LPF ds_kolumna_zera STR_VAR kol = ~MON_PLANT~ wzor = ~FIGHTER~ END
     LPF ds_kolumna_zera STR_VAR kol = ~MON_FEY~ wzor = ~FIGHTER~ END
+    // test47: klasy NPC i szablonow bez premiowych atutow
+    LPF ds_kolumna_zera STR_VAR kol = ~NPC_WARRIOR~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~NPC_EXPERT~ wzor = ~ROGUE~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~NPC_ADEPT~ wzor = ~CLERIC~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SZ_SKELETON~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SZ_ZOMBIE~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SZ_GHOST~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SZ_HALFDRAGON~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SZ_LYCANTHROPE~ wzor = ~BARBARIAN~ END
   BUT_ONLY
   COPY_EXISTING ~SKILLPTS.2DA~ ~override~
     LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BBN~ END
@@ -1087,6 +1155,23 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 0 END
     LPF ds_kolumna_kitu STR_VAR kol = ~MON_FEY~ wzor = ~FTR~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    // test47: klasy NPC (DMG) i szablonow
+    LPF ds_kolumna_kitu STR_VAR kol = ~NPC_WARRIOR~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~NPC_EXPERT~ wzor = ~ROG~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~NPC_ADEPT~ wzor = ~CLR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SZ_SKELETON~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 0 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SZ_ZOMBIE~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 0 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SZ_GHOST~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SZ_HALFDRAGON~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SZ_LYCANTHROPE~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
   BUT_ONLY
   // test42: umiejetnosci klasowe podklas - SKILCOST.2DA (wiersz = umiejetnosc 0..15, 1 = klasowa, 2 = poza klasa,
   // 0 = niedostepna). Exe (kity.asm skc_cell, 0x764310) bierze kolumne o nazwie podklasy DS postaci, a bez niej kolumne klasy.
@@ -1134,6 +1219,25 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~PURPLE_DRAGON~ wzor = ~FTR~ END
     LPF ds_kol_wart INT_VAR wiersz = 4  wart = 1 END
     LPF ds_kolumna_kitu STR_VAR kol = ~WARPRIEST~     wzor = ~CLR~ END
+    // test47: ekspert (DMG: dowolne 10 umiejetnosci klasowych) - wszystkie klasowe; wojownik NPC, adept i szablony
+    // korzystaja z kolumn klas (FTR, CLR, BBN)
+    LPF ds_kolumna_kitu STR_VAR kol = ~NPC_EXPERT~ wzor = ~ROG~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 1  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 2  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 3  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 4  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 5  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 6  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 7  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 8  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 9  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 10 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 11 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 12 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 13 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 14 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 15 wart = 1 END
   BUT_ONLY
 
   // GUICG.CHU: przyciski 14, 15, ... w oknie 12 (podklasy DS kaplana i czarodzieja) - kopie przycisku 9, kazdy
@@ -1403,7 +1507,27 @@ REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~2~ ~Wymaga komponentu 2 (podklasy).~
       END
     END
 
-BEGIN ~TEST: klasy potworow w CRE gry (podklasa typu D&D 3.5, PW i cechy z Monster Manuala)~ DESIGNATED 8
+  // test47: kolumna ADEPT (adept - klasa NPC z DMG 3.5, podklasa kaplana NPC_ADEPT) - lista adepta z DMG: kregi 1..5,
+  // dopasowanie po nazwach angielskich (Cause Fear -> Emotion: Fear, Scorching Ray -> Aganazzar's Scorcher, Bestow Curse ->
+  // Malison). Czary spoza IWD2 (Endure Elements, Darkness, Resist Energy, Polymorph, True Seeing...) pominiete.
+  OUTER_TEXT_SPRINT ds_adept ~ SPPR101:1 SPWI103:1 SPPR102:1 SPPR103:1 SPPR107:1 SPWI116:1 SPWI420:1 SPPR201:2 SPWI214:2 SPWI223:2 SPPR214:2 SPPR212:2 SPWI206:2 SPWI212:2 SPWI217:2 SPWI203:2 SPWI215:2 SPWI501:3 SPWI425:3 SPPR401:3 SPWI308:3 SPPR404:3 SPWI410:3 SPPR314:3 SPWI412:3 SPPR502:4 SPPR426:4 SPWI408:4 SPPR427:4 SPPR607:5 SPPR504:5 ~
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    PATCH_IF (INDEX_BUFFER (~ADEPT~) < 0) BEGIN
+      LPF ds_kolumna_kitu STR_VAR kol = ~ADEPT~ wzor = ~CLR~ END
+      COUNT_2DA_COLS ds_nc
+      COUNT_2DA_ROWS ds_nc ds_nr
+      FOR (ds_i = 0; ds_i < ds_nr; ++ds_i) BEGIN
+        READ_2DA_ENTRY ds_i 8 ds_nc ds_res
+        SET ds_lv = 0
+        FOR (ds_k = 1; ds_k < 6; ++ds_k) BEGIN
+          PATCH_IF (INDEX (~ %ds_res%:%ds_k% ~ ~%ds_adept%~) >= 0) BEGIN SET ds_lv = ds_k END
+        END
+        SET_2DA_ENTRY ds_i (ds_nc - 1) ds_nc ~%ds_lv%~
+      END
+    END
+  BUT_ONLY
+
+BEGIN ~TEST: klasy potworow, klasy NPC i szablony w CRE gry (podklasy typu D&D 3.5, PW i cechy z Monster Manuala)~ DESIGNATED 8
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~2~ ~Wymaga komponentu 2 (podklasy, w tym klasy potworow).~
   REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~5~ ~Wymaga komponentu 5 (DSKLPROG - progresja klas potworow).~
@@ -1413,6 +1537,15 @@ BEGIN ~TEST: klasy potworow w CRE gry (podklasa typu D&D 3.5, PW i cechy z Monst
   // (DSKLPROG). Tylko CRE z samymi poziomami wojownika; humanoidy z klasami, NO_RACE i wieloklasowe - bez zmian.
   // CRE: bajt podklasy wojownika 0x310 (0x30C + klasa - 1) = nr wpisu + 1, PW 0x24 (obecne) i 0x26 (maks.),
   // cechy 0x266 SIL, 0x267 INT, 0x268 MDR, 0x269 ZR, 0x26A KON, 0x26B CHA.
+  // test47: DSPOTWOR.2DA ma kolumny KIT SZAB L1..L11 HP STR INT WIS DEX CON CHA CR.
+  //  - KIT: ukryta podklasa klasy podstawowej (MON_* i NPC_WARRIOR na wojowniku, NPC_EXPERT na lotrzyku, NPC_ADEPT na
+  //    kaplanie) albo * (klasy z CRE bez podklasy, np. polsmoki z wieloma klasami);
+  //  - SZAB: klasa szablonu (SZ_*, ukryta podklasa klasy 1) albo *;
+  //  - L1..L11: poziomy klas BAR..WIZ po zmianie. Istoty z szablonu: poziom CRE / 2 na klasy (zaokraglenie w gore,
+  //    kilka klas - proporcjonalnie), reszta na szablon. Suma = dotychczasowy poziom CRE (bajt 0x8A) - inaczej CRE pomijany.
+  //  - humanoidy (GENERAL = HUMANOID) z samymi poziomami wojownika: klasa NPC (animacja PEASANT/COMMONER: ekspert).
+  // CRE: poziomy 0x8B..0x95, bajty podklas 0x30C..0x316 (zerowane, potem podklasa klasy KIT i szablonu w 0x30C).
+  // Pole CLASS (0x387, CLASS.IDS dla skryptow) zostaje bez zmian.
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_potw_nr BEGIN
     MON_UNDEAD => 33
     MON_OUTSIDER => 34
@@ -1429,38 +1562,83 @@ BEGIN ~TEST: klasy potworow w CRE gry (podklasa typu D&D 3.5, PW i cechy z Monst
     MON_OOZE => 45
     MON_PLANT => 46
     MON_FEY => 47
+    NPC_WARRIOR => 48
+    NPC_EXPERT => 49
+    NPC_ADEPT => 50
+    SZ_SKELETON => 51
+    SZ_ZOMBIE => 52
+    SZ_GHOST => 53
+    SZ_HALFDRAGON => 54
+    SZ_LYCANTHROPE => 55
+  END
+  // klasa podstawowa podklasy KIT (szablony: zawsze klasa 1)
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_potw_kl BEGIN
+    MON_UNDEAD => 5
+    MON_OUTSIDER => 5
+    MON_ELEM_FW => 5
+    MON_ELEM_FA => 5
+    MON_GIANT => 5
+    MON_MONHUMAN => 5
+    MON_ANIMAL => 5
+    MON_VERMIN => 5
+    MON_DRAGON => 5
+    MON_ABERRATION => 5
+    MON_CONSTRUCT => 5
+    MON_MAGBEAST => 5
+    MON_OOZE => 5
+    MON_PLANT => 5
+    MON_FEY => 5
+    NPC_WARRIOR => 5
+    NPC_EXPERT => 9
+    NPC_ADEPT => 3
   END
   COPY ~darksun_rasy/2da/DSPOTWOR.2DA~ ~override~
   COPY_EXISTING ~DSPOTWOR.2DA~ ~override~
-    COUNT_2DA_ROWS 10 ds_np
-    READ_2DA_ENTRIES_NOW ds_pt 10
+    COUNT_2DA_ROWS 22 ds_np
+    READ_2DA_ENTRIES_NOW ds_pt 22
   BUT_ONLY
   OUTER_SET ds_zmien = 0
   OUTER_FOR (ds_w = 0; ds_w < ds_np; ++ds_w) BEGIN
     OUTER_TEXT_SPRINT ds_cre $ds_pt(~%ds_w%~ ~0~)
     OUTER_TEXT_SPRINT ds_kit $ds_pt(~%ds_w%~ ~1~)
-    OUTER_SET ds_hp = $ds_pt(~%ds_w%~ ~2~)
-    OUTER_SET ds_nr = $ds_potw_nr(~%ds_kit%~)
+    OUTER_TEXT_SPRINT ds_sz $ds_pt(~%ds_w%~ ~2~)
+    OUTER_SET ds_hp = $ds_pt(~%ds_w%~ ~14~)
+    OUTER_SET ds_nr = 0
+    OUTER_SET ds_kl = 5
+    ACTION_IF NOT (~%ds_kit%~ STRING_EQUAL ~*~) BEGIN
+      OUTER_SET ds_nr = $ds_potw_nr(~%ds_kit%~)
+      OUTER_SET ds_kl = $ds_potw_kl(~%ds_kit%~)
+    END
+    OUTER_SET ds_snr = 0
+    ACTION_IF NOT (~%ds_sz%~ STRING_EQUAL ~*~) BEGIN OUTER_SET ds_snr = $ds_potw_nr(~%ds_sz%~) END
+    OUTER_SET ds_suma = 0
+    OUTER_FOR (ds_c = 3; ds_c < 14; ++ds_c) BEGIN OUTER_SET ds_suma = ds_suma + $ds_pt(~%ds_w%~ ~%ds_c%~) END
     ACTION_IF FILE_EXISTS_IN_GAME ~%ds_cre%.cre~ BEGIN
       COPY_EXISTING ~%ds_cre%.cre~ ~override~
         READ_ASCII 0 ds_sig (8)
-        PATCH_IF (~%ds_sig%~ STRING_EQUAL ~CRE V2.2~) AND (BUFFER_LENGTH > 0x390) AND (BYTE_AT 0x8F > 0) BEGIN
-          WRITE_BYTE 0x310 ds_nr
+        PATCH_IF (~%ds_sig%~ STRING_EQUAL ~CRE V2.2~) AND (BUFFER_LENGTH > 0x390) AND (BYTE_AT 0x8A = ds_suma) BEGIN
+          FOR (ds_c = 0; ds_c < 11; ++ds_c) BEGIN
+            SET ds_k = ds_c + 3
+            WRITE_BYTE (0x8B + ds_c) $ds_pt(~%ds_w%~ ~%ds_k%~)
+            WRITE_BYTE (0x30C + ds_c) 0
+          END
+          PATCH_IF (ds_nr > 0) BEGIN WRITE_BYTE (0x30C + ds_kl - 1) ds_nr END
+          PATCH_IF (ds_snr > 0) BEGIN WRITE_BYTE 0x30C ds_snr END
           WRITE_SHORT 0x24 ds_hp
           WRITE_SHORT 0x26 ds_hp
           FOR (ds_c = 0; ds_c < 6; ++ds_c) BEGIN
-            SET ds_k = ds_c + 3
+            SET ds_k = ds_c + 15
             TEXT_SPRINT ds_v $ds_pt(~%ds_w%~ ~%ds_k%~)
             PATCH_IF IS_AN_INT ds_v BEGIN WRITE_BYTE (0x266 + ds_c) ds_v END
           END
           // test46: CR (0x25A, kolumna MONCRATE.2DA: 1 = CR 1/4, 2 = 1/2, 3 = CR 1, n = CR n-2) +1 / -1, gdy PW
           // wzrosly co najmniej 1,6 raza / spadly do 0,6; * = bez zmian. Gra daje za zabicie MONCRATE[sredni poziom
           // druzyny][CR] / 2, dzielone na czlonkow druzyny; pole XP 0x14 nie sluzy do tego.
-          TEXT_SPRINT ds_v $ds_pt(~%ds_w%~ ~9~)
+          TEXT_SPRINT ds_v $ds_pt(~%ds_w%~ ~21~)
           PATCH_IF IS_AN_INT ds_v BEGIN WRITE_BYTE 0x25A ds_v END
           SET ds_zmien = ds_zmien + 1
         END
       BUT_ONLY
     END
   END
-  PRINT ~Klasy potworow: zmienione pliki CRE: %ds_zmien% z %ds_np%.~
+  PRINT ~Klasy potworow, NPC i szablonow: zmienione pliki CRE: %ds_zmien% z %ds_np%.~
