@@ -544,3 +544,12 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Teksty: `tra/polish.tra` w cp1250 (polska wersja gry, CharSet 238), `LANGUAGE ~Polski (cp1250)~`. Klucze
   identyczne z english.tra.
 
+## 35. Zdolności GA_ z LISTINNT, nowe klasy prestiżowe i lista wu jen (test43)
+- CLAB `GA_<res>` (0x722F7F → 0x71B9C0): exe szuka resrefu w listach zdolności (0x5CA160 na regułach +0x4C08 itd.,
+  budowanych z LISTINNT.2DA i pokrewnych); zdolność spoza listy nie trafia do postaci. Instalator dopisuje DSKIAI,
+  DSKNCH, DSDDSTN, DSDERW, DSSWLCK na końcu LISTINNT (etykieta = ostatnia + 1).
+- Klasy prestiżowe 24–31: INQUISITOR, BLIGHTER, STORMLORD, RAVAGER, HUNTER_DEAD, DERVISH, PURPLE_DRAGON, WARPRIEST
+  (CLABDS24–31 z `tools/iwd2_clab.py`, wiersze DSPREST/DSKLPROG/ALIGNMNT, kolumny SKILCOST).
+- LISTSPLL `WU_JEN`: kopia WIZ, potem 0 dla czarów spoza listy wu jen (Complete Arcane, dopasowanie nazw), Fire Seeds 6
+  i Whirlwind 8 z listy druida.
+

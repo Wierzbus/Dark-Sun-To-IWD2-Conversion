@@ -34,6 +34,14 @@ SWASHBUCKLER  HPWAR     BAATFGT   SAVEWAR   *         *
 KNIGHT        HPBARB    BAATFGT   SAVEWIZ   *         *
 NINJA         HPROG     BAATNFG   SAVEROG   *         *
 SCOUT         HPPRS     BAATNFG   SAVEROG   *         *
-WU_JEN        HPWIZ     BAATMAG   SAVEWIZ   *         *
+WU_JEN        HPWIZ     BAATMAG   SAVEWIZ   *         WU_JEN
 SPIRIT_SHAMAN HPPRS     BAATNFG   SAVEPRS   *         *
 FAVORED_SOUL  HPPRS     BAATNFG   SAVEMONK  *         FAV_SOUL
+INQUISITOR    HPPRS     BAATNFG   SAVEWIZ   *         *
+BLIGHTER      HPPRS     BAATNFG   SAVEPRS   *         *
+STORMLORD     HPPRS     BAATNFG   SAVEPRS   *         *
+RAVAGER       HPWAR     BAATFGT   SAVEWAR   *         *
+HUNTER_DEAD   HPWAR     BAATFGT   SAVEWAR   *         *
+DERVISH       HPWAR     BAATFGT   SAVEBRD   *         *
+PURPLE_DRAGON HPWAR     BAATFGT   SAVEWAR   *         *
+WARPRIEST     HPPRS     BAATFGT   SAVEWAR   *         *

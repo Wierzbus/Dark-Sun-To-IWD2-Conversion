@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test42: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test43: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -234,3 +234,30 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - postac wieloklasowa (np. wojownik/Scout) - umiejetnosc klasowa jednej z klas kosztuje 1,
      - polskie nazwy i opisy ras, podklas i klas prestizowych, polskie znaki (CharSet 238),
      - przycisk "Klasa prestizowa" i "Wiecej klas prestizowych..." po polsku.
+ test43: nowe klasy prestizowe, zdolnosci nowych klas, lista czarow wu jen, naprawa zdolnosci GA_.
+     Exe bez zmian (test42). Reinstall: 0 i potem 1-5 (jezyk: Polski).
+     NAPRAWA: wlasne zdolnosci do uzycia (Kiai samuraja, Wyzwanie rycerza, Postawa obronna krasnoludzkiego obroncy)
+     nie pojawialy sie, bo nie bylo ich w LISTINNT.2DA (gra szuka tam zdolnosci po nazwie). Teraz sa dopisywane.
+     Klasy prestizowe (8 nowych, razem 13 - lista ma 2 strony po 8):
+     - Inkwizytor (LG/LN, kaplan 3, Czarostwo 4, Wiedza tajemna 4): czary kaplana, Wykrycie zla, odpornosc na zauroczenie,
+       Widzenie niewidzialnego (3, 7, 10),
+     - Plugawy druid (nie dobry, BAB +4, druid 5): czary druida, Sloneczny zar (1, 4, 7, 10), Zadanie powaznych ran (6, 10),
+     - Wladca burz (kaplan 5): czary kaplana, odpornosc na elektrycznosc 10/20/30, Niszczacy cios Talosa (2, 5, 8),
+     - Pustoszyciel (zly, BAB +5, Zastraszanie 4): Dotyk bolu, Plaszcz strachu, +2 obrazen (5),
+     - Lowca nieumarlych (dobry, BAB +5): Kara zla, Odpedzanie, odpornosc na wysysanie poziomow (4), Swiete porazenie,
+     - Derwisz (BAB +5, atuty Unik i Expertise): +1 KP (1/4/7/10), Taniec derwisza (+2 atak/obrazenia/KP na minute),
+       szybszy ruch (3),
+     - Rycerz Purpurowego Smoka (Faerun, BAB +4, Dyplomacja 2, Zastraszanie 2, 5 poziomow): Okrzyk wojenny, Modlitwa, Strach,
+     - Kaplan wojny (BAB +5, kaplan 1, Rzucanie w walce, Dyplomacja 8): czary kaplana, Usuniecie strachu, Modlitwa,
+       Leczenie srednich ran, Plaszcz strachu.
+     Nowe zdolnosci klas bazowych: Samurai +1 atak/obrazenia (11); Swashbuckler Szczesciarz (11, +4 do rzutow na runde)
+     i +2 Wola (17); Ninja Rozmycie (6, 12) i Lepsza niewidzialnosc (14); Scout Widzenie niewidzialnego (10)
+     i Niewidzialnosc (14, 18); Favored Soul +1 atak (3).
+     Wu Jen: wlasna lista czarow (kolumna WU_JEN w LISTSPLL) - czary czarodzieja z listy wu jen + Ogniste nasiona
+     i Traba powietrzna.
+     Sprawdzic:
+     - Kiai / Wyzwanie / Postawa obronna / Taniec derwisza / Szczesciarz na pasku zdolnosci,
+     - przycisk "Wiecej klas prestizowych..." przy 13 klasach (np. komponent 7 bez warunkow),
+     - wymagania (np. Inkwizytor tylko dla kaplana 3+ z rangami, Derwisz z atutami Unik i Expertise),
+     - czary inkwizytora / wladcy burz / kaplana wojny / plugawego druida rosna z poziomem klasy prestizowej,
+     - Wu Jen: w ksiedze nie ma Blyskawicy ani Plonacych dloni, sa Kula ognia i Ogniste nasiona (6. krag).

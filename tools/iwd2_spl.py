@@ -64,6 +64,15 @@ ZDOLNOSCI = {
     "DSFSRFI": [efekt(30, p1=10, p2=0)],
     "DSFSREL": [efekt(29, p1=10, p2=0)],
     "DSFSRAC": [efekt(27, p1=10, p2=0)],
+    # test43 Samurai: Iaijutsu Master (11) +1 do ataku (54) i obrazen (73); Swashbuckler: Slippery Mind (17) +2 Wola (35)
+    "DSSAIJ": [efekt(54, p1=1, p2=0), efekt(73, p1=1, p2=0)],
+    "DSSWWIL": [efekt(35, p1=2, p2=0)],
+    # test43 Favored Soul: Deity's Weapon Focus (3) +1 do ataku
+    "DSFSWF": [efekt(54, p1=1, p2=0)],
+    # test43 Inquisitor: odpornosc na zauroczenie i dominacje (opcode 101 Immunity to effect, 5 Charm)
+    "DSINCHM": [efekt(101, p2=5)],
+    # test43 Hunter of the Dead: Spurn Death's Touch - odpornosc na wysysanie poziomow (101, 216 Level drain)
+    "DSHDLD": [efekt(101, p2=216)],
 }
 
 # Zdolnosci do uzycia (GA_ w CLAB): czas w sekundach (runda = 6 s), nazwe wpisuje instalator (strref pod 0x08).
@@ -73,6 +82,12 @@ UZYWANE = {
     # test41 Knight: Fighting Challenge - +1 do ataku, obrazen i Woli (35) na 1 minute
     "DSKNCH": (b"SPWI402B", [efekt(54, p1=1, timing=0, czas=60), efekt(73, p1=1, timing=0, czas=60),
                              efekt(35, p1=1, timing=0, czas=60)]),
+    # test43 Dervish: Dervish Dance - +2 do ataku, obrazen i KP (0) na 1 minute
+    "DSDERW": (b"SPIN234B", [efekt(54, p1=2, timing=0, czas=60), efekt(73, p1=2, timing=0, czas=60),
+                             efekt(0, p1=2, timing=0, czas=60)]),
+    # test43 Swashbuckler: Lucky - +4 do wszystkich rzutow obronnych (33/34/35) na 1 runde
+    "DSSWLCK": (b"SPWI209B", [efekt(33, p1=4, timing=0, czas=6), efekt(34, p1=4, timing=0, czas=6),
+                              efekt(35, p1=4, timing=0, czas=6)]),
 }
 
 

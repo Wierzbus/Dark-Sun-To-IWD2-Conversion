@@ -160,13 +160,13 @@ Zdolnoœci klasowe:
 - Cios kiai (poziom 3, kolejne u¿ycia na 8 i 14): okrzyk bojowy daj¹cy +3 do trafienia i obra¿eñ przez jedn¹ rundê.
 - Premiowe atuty na poziomach 6, 10, 15 i 20.
 - GroŸne spojrzenie (poziom 6) i Zbiorowe groŸne spojrzenie (poziom 14): przera¿aj¹ce spojrzenie (Strach).
-- Mistrz iaijutsu (poziom 11): tylko opis na karcie postaci.
+- Mistrz iaijutsu (poziom 11): +1 do trafienia i obra¿eñ.
 
 W odró¿nieniu od wojownika samuraj nie dostaje premiowych atutów na poziomach 1, 4, 8, 12...~
 @404 = ~Dwa miecze jak jeden: premiowe atuty Oburêcznoœæ i Walka dwiema broñmi (wybierane na 2. poziomie).~
 @405 = ~Cios kiai: raz dziennie na u¿ycie, +3 do trafienia i obra¿eñ przez jedn¹ rundê.~
 @406 = ~GroŸne spojrzenie: spojrzenie, które przera¿a wrogów (Strach).~
-@407 = ~Mistrz iaijutsu: samuraj dobywa broni i uderza jednym ruchem (tylko opis - brak mechaniki w IWD2).~
+@407 = ~Mistrz iaijutsu: +1 do trafienia i obra¿eñ (w zasadach b³yskawiczne dobycie broni; IWD2 nie ma inicjatywy).~
 @408 = ~Cios kiai~
 
 @411 = ~zawadiaka~
@@ -180,13 +180,15 @@ Zdolnoœci klasowe:
 - Gracja (poziom 2): +1 do rzutów na Refleks; +2 na poziomie 11, +3 na poziomie 20.
 - Przenikliwy cios (poziom 3): +2 do obra¿eñ ka¿dym atakiem (w zasadach: premia z Inteligencji; tu sta³a premia).
 - Premia uniku (poziom 5): +1 do KP; kolejne +1 na poziomach 10, 15 i 20.
-- Akrobatyczna szar¿a (7), Lepsze flankowanie (8), Szczêœciarz (11), Mistrzostwo akrobatyki (13), Os³abiaj¹ce trafienie krytyczne (14), Œliski umys³ (17), Rani¹ce trafienie krytyczne (19): tylko opis na karcie postaci.
+- Szczêœciarz (poziom 11): raz dziennie +4 do wszystkich rzutów obronnych przez rundê.
+- Œliski umys³ (poziom 17): +2 do rzutów na Wolê.
+- Akrobatyczna szar¿a (7), Lepsze flankowanie (8), Mistrzostwo akrobatyki (13), Os³abiaj¹ce trafienie krytyczne (14), Rani¹ce trafienie krytyczne (19): tylko opis na karcie postaci.
 
 Zawadiaka nie dostaje innych premiowych atutów.~
 @414 = ~Gracja: +1 do rzutów obronnych na Refleks.~
 @415 = ~Przenikliwy cios: +2 do obra¿eñ.~
 @416 = ~Premia uniku: +1 do KP.~
-@417 = ~Akrobata, szczêœciarz i spryciarz: akrobatyczna szar¿a, lepsze flankowanie, szczêœcie, œliski umys³ i okaleczaj¹ce trafienia krytyczne (tylko opis).~
+@417 = ~Akrobata i spryciarz: akrobatyczna szar¿a, lepsze flankowanie, mistrzostwo akrobatyki, os³abiaj¹ce i rani¹ce trafienia krytyczne (tylko opis). Szczêœciarz (poziom 11): raz dziennie +4 do wszystkich rzutów obronnych przez rundê. Œliski umys³ (poziom 17): +2 do rzutów na Wolê.~
 
 @421 = ~rycerz~
 @422 = ~Rycerz~
@@ -220,12 +222,14 @@ Zdolnoœci klasowe:
 - Krok ducha (poziom 2, kolejne u¿ycia na 6, 10 i 14): niewidzialnoœæ.
 - U¿ycie trucizn (poziom 3): zatruta broñ.
 - Unik (poziom 8).
-- Wielki skok, Akrobatyka, Unik ki, Cios ducha, Chód ducha: tylko opis na karcie postaci.
+- Unik ki (poziom 6, ponownie 12): rozmycie.
+- Chód ducha (poziom 14): lepsza niewidzialnoœæ.
+- Wielki skok, Akrobatyka, Cios ducha: tylko opis na karcie postaci.
 
 Umiejêtnoœci klasowe: jak ³otrzyk, a tak¿e Koncentracja; bez U¿ywania magicznych przedmiotów.~
 @434 = ~Nag³y cios: koœci ataku z zaskoczenia jak u ³otrzyka.~
 @435 = ~Krok ducha: ninja staje siê niewidzialny.~
-@436 = ~Moc ki: wielki skok, akrobatyka, unik ki, cios ducha i chód ducha (tylko opis).~
+@436 = ~Moc ki: wielki skok, akrobatyka i cios ducha (tylko opis). Unik ki (poziom 6, ponownie 12): rozmycie. Chód ducha (poziom 14): lepsza niewidzialnoœæ.~
 
 @441 = ~zwiadowca~
 @442 = ~Zwiadowca~
@@ -239,13 +243,15 @@ Zdolnoœci klasowe:
 - Bojowa wytrwa³oœæ (poziom 2): +1 do rzutów na Wytrwa³oœæ; +2 na poziomie 11.
 - Szybkie poruszanie siê (poziom 3): szybszy ruch; wiêcej na poziomie 11.
 - Premiowe atuty na poziomach 4, 8, 12, 16 i 20.
-- Znajdowanie pu³apek, Bezb³êdny krok, Kamufla¿, Œlepowidzenie, Ukrycie na widoku, Swoboda ruchów: tylko opis na karcie postaci.
+- Œlepowidzenie (poziom 10): widzenie niewidzialnego.
+- Ukrycie na widoku (poziomy 14 i 18): niewidzialnoœæ.
+- Znajdowanie pu³apek, Bezb³êdny krok, Kamufla¿, Swoboda ruchów: tylko opis na karcie postaci.
 
 Zwiadowca nie ma ataku z zaskoczenia. Umiejêtnoœci klasowe: Wiedza o naturze zamiast Blefu, Dyplomacji, Zastraszania, Otwierania zamków, Kradzie¿y kieszonkowej i U¿ywania magicznych przedmiotów.~
 @444 = ~Harcownictwo: +1 do KP i +1 do obra¿eñ.~
 @445 = ~Bojowa wytrwa³oœæ: +1 do rzutów obronnych na Wytrwa³oœæ.~
 @446 = ~Szybkie poruszanie siê: szybszy ruch.~
-@447 = ~Sztuka pustkowi: znajdowanie pu³apek, bezb³êdny krok, kamufla¿, œlepowidzenie, ukrycie na widoku, swoboda ruchów (tylko opis).~
+@447 = ~Sztuka pustkowi: znajdowanie pu³apek, bezb³êdny krok, kamufla¿, swoboda ruchów (tylko opis). Œlepowidzenie (poziom 10): widzenie niewidzialnego. Ukrycie na widoku (poziomy 14 i 18): niewidzialnoœæ.~
 
 @451 = ~wu jen~
 @452 = ~Wu Jen~
@@ -253,7 +259,9 @@ Zwiadowca nie ma ataku z zaskoczenia. Umiejêtnoœci klasowe: Wiedza o naturze zam
 
 Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: jak czarodziej. Dobry rzut obronny: Wola. Punkty umiejêtnoœci: 2 na poziom. Charakter: dowolny niepraworz¹dny.
 
-Zdolnoœci klasowe (ta wersja testowa korzysta z listy czarów czarodzieja; ¿ywio³owa lista wu jen pojawi siê póŸniej):
+Czary: lista wu jen z Complete Arcane, na ile IWD2 ma te czary - czary czarodzieja bez wiêkszoœci wywo³añ, nekromancji i przywo³añ (bez B³yskawicy, P³on¹cych d³oni, Sieci i Lustrzanego odbicia), a do tego Ogniste nasiona i Tr¹ba powietrzna.
+
+Zdolnoœci klasowe:
 - Mistrzostwo ¿ywio³ów i Sekrety czarów (poziomy 6, 12, 18): tylko opis na karcie postaci.
 - Czujny duch (poziom 9): +1 do rzutów na Refleks.
 - Tabu: w zasadach osobisty zakaz; brak mechaniki w IWD2.~
@@ -287,10 +295,135 @@ Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobre rzuty obronne:
 Rzuca czary kap³añskie spontanicznie, jak zaklinacz (znane czary i czary dziennie zaklinacza, Charyzma).
 
 Zdolnoœci klasowe:
-- Skupienie na broni bóstwa (poziom 3): tylko opis na karcie postaci.
+- Skupienie na broni bóstwa (poziom 3): +1 do trafienia.
 - Odpornoœæ na energiê 10 (poziomy 5, 10, 15): ogieñ, potem elektrycznoœæ, potem kwas.
 - Skrzyd³a (poziom 12): tylko opis na karcie postaci.
 - Redukcja obra¿eñ 3/- (poziom 17).
 
 TEST: czary kap³añskie w ksiêdze zaklinacza - sprawdŸ rzucanie, poziom czaruj¹cego i ryzyko niepowodzenia w zbroi.~
-@474 = ~Broñ wybrana i skrzyd³a patrona (tylko opis).~
+@474 = ~Skupienie na broni bóstwa: +1 do trafienia. Skrzyd³a patrona (tylko opis).~
+
+// test43: klasy prestizowe z podrecznikow (Complete Divine, Complete Warrior) - opisy wlasne, mechanika przyblizona
+@481 = ~inkwizytor~
+@482 = ~Inkwizytor~
+@483 = ~INKWIZYTOR (klasa presti¿owa): Kap³ani, którzy wykorzeniaj¹ zepsucie, herezjê i k³amstwo we w³asnej wierze. Na Athasie s³u¿¹ biurokracji templariuszy miast-pañstw, w Krainach - wielkim œwi¹tyniom.
+
+Wymagania: praworz¹dny dobry albo praworz¹dny neutralny, Kap³an na 3. poziomie, Czarostwo 4 rangi, Wiedza tajemna 4 rangi.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobry rzut obronny: Wola. Ka¿dy poziom liczy siê jak poziom kap³ana przy czarach.
+
+Zdolnoœci klasowe:
+- Wykrycie z³a (poziom 1, ponownie 5).
+- Odpornoœæ na opêtanie i zauroczenie (poziom 1): odpornoœæ na zauroczenie i dominacjê.
+- Przejrzenie iluzji (poziomy 3, 7 i 10): widzenie niewidzialnego.
+- Wykrywanie k³amstw i Poznanie prawdy: tylko opis na karcie postaci.~
+@484 = ~Wykrywanie k³amstw i poznanie prawdy: inkwizytor wie, kiedy ktoœ go ok³amuje (tylko opis).~
+
+@491 = ~plugawy druid~
+@492 = ~Plugawy druid~
+@493 = ~PLUGAWY DRUID (klasa presti¿owa, Blighter): Druidzi, którzy odwrócili siê od ziemi i zamiast j¹ chroniæ, pij¹ jej ¿ycie. Na Athasie to druidzka odpowiedŸ na plugawców - kap³ani pustkowi i martwej ziemi.
+
+Wymagania: charakter inny ni¿ dobry, bazowa premia do ataku +4, Druid na 5. poziomie.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobre rzuty obronne: Wytrwa³oœæ i Wola. Ka¿dy poziom liczy siê jak poziom druida przy czarach.
+
+Zdolnoœci klasowe:
+- Plugawy ogieñ (poziom 1, kolejne u¿ycia na 4, 7 i 10): s³oneczny ¿ar.
+- ZaraŸliwy dotyk (poziomy 6 i 10): zadanie powa¿nych ran.
+- Wylesienie, Nieumar³a dzika postaæ, Samowystarczalnoœæ: tylko opis na karcie postaci.~
+@494 = ~Wylesienie: ziemia wokó³ plugawego druida usycha (tylko opis).~
+
+@501 = ~w³adca burz~
+@502 = ~W³adca burz~
+@503 = ~W£ADCA BURZ (klasa presti¿owa, Stormlord): Kap³ani burzy - Talosa w Krainach, planu ¿ywio³u Powietrza na Athasie - którzy w³adaj¹ piorunem i gromem jak broni¹.
+
+Wymagania: Kap³an na 5. poziomie.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak kap³an. Dobre rzuty obronne: Wytrwa³oœæ i Wola. Ka¿dy poziom liczy siê jak poziom kap³ana przy czarach.
+
+Zdolnoœci klasowe:
+- Odpornoœæ na elektrycznoœæ 10 (poziom 1), 20 (poziom 5), 30 (poziom 9).
+- Pora¿aj¹ca broñ (poziom 2, kolejne u¿ycia na 5 i 8): niszcz¹cy cios.
+- Chód przez burzê, Gromowa broñ, Burza ¿ywio³owej furii: tylko opis na karcie postaci.~
+@504 = ~Wêdrowiec burzy: w³adca burz swobodnie przechodzi przez nawa³nice, a jego broñ grzmi (tylko opis).~
+
+@511 = ~pustoszyciel~
+@512 = ~Pustoszyciel~
+@513 = ~PUSTOSZYCIEL (klasa presti¿owa, Ravager): Wojownicy boga rzezi, którzy siej¹ grozê i ból. Na Athasie - najeŸdŸcy elfich plemion i ³owcy niewolników królów-czarnoksiê¿ników.
+
+Wymagania: z³y charakter, bazowa premia do ataku +5, Zastraszanie 4 rangi.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: jak wojownik. Dobry rzut obronny: Wytrwa³oœæ. Zastraszanie jest umiejêtnoœci¹ klasow¹.
+
+Zdolnoœci klasowe:
+- Dotyk bólu (poziom 1, kolejne u¿ycia na 4, 7 i 10).
+- Aura strachu (poziomy 3, 6 i 9): p³aszcz strachu.
+- Okrutny cios (poziom 5): +2 do obra¿eñ.
+- Okrucieñstwo: tylko opis na karcie postaci.~
+@514 = ~Okrucieñstwo: ofiary pustoszyciela trac¹ ducha (tylko opis).~
+
+@521 = ~³owca nieumar³ych~
+@522 = ~£owca nieumar³ych~
+@523 = ~£OWCA NIEUMAR£YCH (klasa presti¿owa, Hunter of the Dead): Wojownicy zaprzysiê¿eni zniszczeniu nieumar³ych. Na Athasie - niespokojnych umar³ych dawnych epok, w Krainach - s³ug Myrkula i Velsharoona.
+
+Wymagania: dobry charakter, bazowa premia do ataku +5.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: jak wojownik. Dobry rzut obronny: Wytrwa³oœæ.
+
+Zdolnoœci klasowe:
+- Kara na nieumar³ych (poziomy 1, 3, 5, 7 i 9): kara z³a.
+- Odpêdzanie nieumar³ych (poziomy 2 i 6).
+- Odtr¹cenie dotyku œmierci (poziom 4): odpornoœæ na wysysanie poziomów.
+- Wybuch pozytywnej energii (poziomy 5 i 9): œwiête pora¿enie.
+- Prawdziwa œmieræ (poziom 10): tylko opis na karcie postaci.~
+@524 = ~Prawdziwa œmieræ: nieumarli zabici przez ³owcê nigdy nie powstaj¹ (tylko opis).~
+
+@531 = ~derwisz~
+@532 = ~Derwisz~
+@533 = ~DERWISZ (klasa presti¿owa, Dervish): Tancerze ostrzy pustynnych plemion, wiruj¹cy w bitwie z zakrzywion¹ kling¹. Athas jest ich domem tak samo jak piaski Calimshanu.
+
+Wymagania: bazowa premia do ataku +5, atuty Unik i Fechtunek obronny (Expertise).
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: jak wojownik. Dobre rzuty obronne: Refleks i Wola.
+
+Zdolnoœci klasowe:
+- Premia do KP: +1 do KP na poziomach 1, 4, 7 i 10.
+- Taniec derwisza (poziom 1, kolejne u¿ycia na 3, 5, 7 i 9): +2 do trafienia, obra¿eñ i KP przez minutê.
+- Szybkie poruszanie siê (poziom 3).
+- Mistrzostwo ruchu, Wyszukana parada, Niestrudzony taniec, Tysi¹c ciêæ: tylko opis na karcie postaci.~
+@534 = ~Mistrzostwo ruchu, wyszukana parada, niestrudzony taniec i tysi¹c ciêæ (tylko opis).~
+
+@541 = ~rycerz purpurowego smoka~
+@542 = ~Rycerz Purpurowego Smoka~
+@543 = ~RYCERZ PURPUROWEGO SMOKA (klasa presti¿owa, Purple Dragon Knight): Oficerowie królewskiej armii Cormyru w Zapomnianych Krainach, którzy prowadz¹ w³asnym przyk³adem i porywaj¹ ¿o³nierzy g³osem.
+
+Wymagania: bazowa premia do ataku +4, Dyplomacja 2 rangi, Zastraszanie 2 rangi.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: jak wojownik. Dobry rzut obronny: Wytrwa³oœæ. Najwy¿ej 5 poziomów.
+
+Zdolnoœci klasowe:
+- Zawo³anie (poziomy 1, 3 i 5): okrzyk wojenny.
+- Natchnienie odwagi (poziomy 2 i 4): modlitwa.
+- Strach (poziom 4).
+- Przysiêga gniewu, Ostatni bastion: tylko opis na karcie postaci.~
+@544 = ~Przysiêga gniewu i ostatni bastion (tylko opis).~
+
+@551 = ~kap³an wojny~
+@552 = ~Kap³an wojny~
+@553 = ~KAP£AN WOJNY (klasa presti¿owa, Warpriest): Kap³ani, którzy prowadz¹ armie, porywaj¹ wiernych i ³ami¹ wolê wroga. W Krainach - kap³ani wojny Tempusa, na Athasie - bojowi kap³ani ¿ywio³ów.
+
+Wymagania: bazowa premia do ataku +5, Kap³an na 1. poziomie, atut Rzucanie w walce, Dyplomacja 8 rang.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: jak wojownik. Dobry rzut obronny: Wytrwa³oœæ. Ka¿dy poziom liczy siê jak poziom kap³ana przy czarach.
+
+Zdolnoœci klasowe:
+- Zebranie si³ (poziomy 1 i 3): usuniêcie strachu.
+- Zagrzewanie (poziomy 2 i 6): modlitwa.
+- Masowe leczenie (poziomy 4, 7 i 10): leczenie œrednich ran.
+- Aura strachu (poziomy 5 i 9): p³aszcz strachu.
+- Uczta bohaterów, Przyspieszenie, Masowe uzdrowienie, Nieub³agany wróg: tylko opis na karcie postaci.~
+@554 = ~Uczta bohaterów, przyspieszenie, masowe uzdrowienie i nieub³agany wróg (tylko opis).~
+
+// test43: nazwy nowych zdolnosci GA_
+@561 = ~Taniec derwisza~
+@562 = ~Szczêœciarz~

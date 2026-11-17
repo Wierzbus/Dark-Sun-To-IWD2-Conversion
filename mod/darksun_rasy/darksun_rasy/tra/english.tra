@@ -161,13 +161,13 @@ Class features:
 - Kiai Smite (level 3, more uses at 8 and 14): a war cry that adds +3 to attack and damage rolls for one round.
 - Bonus feats at levels 6, 10, 15 and 20.
 - Staredown (level 6) and Mass Staredown (level 14): terrifying glare (Fear).
-- Iaijutsu Master (level 11): described on the character sheet only.
+- Iaijutsu Master (level 11): +1 to attack and damage rolls.
 
 Unlike the fighter, the samurai receives no bonus feat at levels 1, 4, 8, 12...~
 @404 = ~Two Swords as One: bonus feats Ambidexterity and Two-Weapon Fighting (chosen at level 2).~
 @405 = ~Kiai Smite: once per day per use, +3 to attack and damage rolls for one round.~
 @406 = ~Staredown: a glare that frightens enemies (Fear).~
-@407 = ~Iaijutsu Master: the samurai draws and strikes in one motion (description only - no IWD2 mechanic).~
+@407 = ~Iaijutsu Master: +1 to attack and damage rolls (in the rules a quick-draw strike; IWD2 has no initiative).~
 @408 = ~Kiai Smite~
 
 @411 = ~swashbuckler~
@@ -181,13 +181,15 @@ Class features:
 - Grace (level 2): +1 Reflex save; +2 at level 11, +3 at level 20.
 - Insightful Strike (level 3): +2 damage with every attack (in the rules: Intelligence bonus; here a fixed bonus).
 - Dodge Bonus (level 5): +1 Armor Class; +1 more at levels 10, 15 and 20.
-- Acrobatic Charge (7), Improved Flanking (8), Lucky (11), Acrobatic Skill Mastery (13), Weakening Critical (14), Slippery Mind (17), Wounding Critical (19): described on the character sheet only.
+- Lucky (level 11): once per day +4 to all saving throws for one round.
+- Slippery Mind (level 17): +2 to Will saves.
+- Acrobatic Charge (7), Improved Flanking (8), Acrobatic Skill Mastery (13), Weakening Critical (14), Wounding Critical (19): described on the character sheet only.
 
 The swashbuckler receives no other bonus feats.~
 @414 = ~Grace: +1 to Reflex saving throws.~
 @415 = ~Insightful Strike: +2 to damage rolls.~
 @416 = ~Dodge Bonus: +1 to Armor Class.~
-@417 = ~Acrobatic, lucky and quick-witted: acrobatic charge, improved flanking, luck, slippery mind and crippling criticals (description only).~
+@417 = ~Acrobatic and quick-witted: acrobatic charge, improved flanking, acrobatic skill mastery, weakening and wounding criticals (description only). Lucky (level 11): once per day +4 to all saves for one round. Slippery Mind (level 17): +2 to Will saves.~
 
 @421 = ~knight~
 @422 = ~Knight~
@@ -221,12 +223,14 @@ Class features:
 - Ghost Step (level 2, more uses at 6, 10 and 14): invisibility.
 - Poison Use (level 3): poison weapon.
 - Evasion (level 8).
-- Great Leap, Acrobatics, Ki Dodge, Ghost Strike, Ghost Walk: described on the character sheet only.
+- Ki Dodge (level 6, again at 12): blur.
+- Ghost Walk (level 14): improved invisibility.
+- Great Leap, Acrobatics, Ghost Strike: described on the character sheet only.
 
 Class skills: as a rogue, plus Concentration; no Use Magic Device.~
 @434 = ~Sudden Strike: sneak attack dice like a rogue.~
 @435 = ~Ghost Step: the ninja becomes invisible.~
-@436 = ~Ki power: great leap, acrobatics, ki dodge, ghost strike and ghost walk (description only).~
+@436 = ~Ki power: great leap, acrobatics and ghost strike (description only). Ki Dodge (level 6, again at 12): blur. Ghost Walk (level 14): improved invisibility.~
 
 @441 = ~scout~
 @442 = ~Scout~
@@ -240,13 +244,15 @@ Class features:
 - Battle Fortitude (level 2): +1 Fortitude save; +2 at level 11.
 - Fast Movement (level 3): faster movement; more at level 11.
 - Bonus feats at levels 4, 8, 12, 16 and 20.
-- Trapfinding, Flawless Stride, Camouflage, Blindsense, Hide in Plain Sight, Free Movement: described on the character sheet only.
+- Blindsense (level 10): see invisibility.
+- Hide in Plain Sight (levels 14 and 18): invisibility.
+- Trapfinding, Flawless Stride, Camouflage, Free Movement: described on the character sheet only.
 
 The scout has no sneak attack. Class skills: Wilderness Lore instead of Bluff, Diplomacy, Intimidate, Open Lock, Pick Pocket and Use Magic Device.~
 @444 = ~Skirmish: +1 to Armor Class and +1 to damage rolls.~
 @445 = ~Battle Fortitude: +1 to Fortitude saving throws.~
 @446 = ~Fast Movement: faster movement.~
-@447 = ~Wilderness craft: trapfinding, flawless stride, camouflage, blindsense, hide in plain sight, free movement (description only).~
+@447 = ~Wilderness craft: trapfinding, flawless stride, camouflage, free movement (description only). Blindsense (level 10): see invisibility. Hide in Plain Sight (levels 14 and 18): invisibility.~
 
 @451 = ~wu jen~
 @452 = ~Wu Jen~
@@ -254,7 +260,9 @@ The scout has no sneak attack. Class skills: Wilderness Lore instead of Bluff, D
 
 Hit Die: d4. Base attack bonus: as wizard. Good saving throw: Will. Skill points: 2 per level. Alignment: any non-lawful.
 
-Class features (this test version uses the wizard spell list; the wu jen elemental list will come later):
+Spells: the wu jen list from Complete Arcane, as far as IWD2 has those spells - wizard spells without most evocation, necromancy and conjuration (no Lightning Bolt, Burning Hands, Web or Mirror Image), plus Fire Seeds and Whirlwind.
+
+Class features:
 - Elemental Mastery and Spell Secrets (levels 6, 12, 18): described on the character sheet only.
 - Watchful Spirit (level 9): +1 to Reflex saving throws.
 - Taboo: in the rules a personal prohibition; no mechanic in IWD2.~
@@ -288,10 +296,135 @@ Hit Die: d8. Base attack bonus: as cleric. Good saving throws: Fortitude, Reflex
 Casts cleric spells spontaneously, as a sorcerer (spells known and spells per day of a sorcerer, Charisma).
 
 Class features:
-- Deity's Weapon Focus (level 3): described on the character sheet only.
+- Deity's Weapon Focus (level 3): +1 to attack rolls.
 - Energy Resistance 10 (levels 5, 10, 15): fire, then electricity, then acid.
 - Wings (level 12): described on the character sheet only.
 - Damage Reduction 3/- (level 17).
 
 TEST: cleric spells in a sorcerer's spellbook - check casting, caster level and spell failure in armour.~
-@474 = ~Chosen weapon and wings of the patron (description only).~
+@474 = ~Deity's Weapon Focus: +1 to attack rolls. Wings of the patron (description only).~
+
+// test43: klasy prestizowe z podrecznikow (Complete Divine, Complete Warrior) - opisy wlasne, mechanika przyblizona
+@481 = ~inquisitor~
+@482 = ~Inquisitor~
+@483 = ~INQUISITOR (prestige class, Church Inquisitor): Priests who root out corruption, heresy and lies within their own faith. On Athas they serve the templar bureaucracy of the city-states; in the Realms, the great churches.
+
+Requirements: lawful good or lawful neutral, Cleric level 3, Spellcraft 4 ranks, Knowledge (Arcana) 4 ranks.
+
+Hit Die: d8. Base attack bonus: as cleric. Good saving throw: Will. Every level counts as a cleric level for spells.
+
+Class features:
+- Detect Evil (level 1, again at 5).
+- Immunity to Possession and Charms (level 1): immune to charm and domination.
+- Pierce Illusion (levels 3, 7 and 10): see invisibility.
+- Discern Lies and Learn the Truth: described on the character sheet only.~
+@484 = ~Discern lies and learn the truth: the inquisitor knows when he is being lied to (description only).~
+
+@491 = ~blighter~
+@492 = ~Blighter~
+@493 = ~BLIGHTER (prestige class): Druids who turned their backs on the land and drink its life instead. On Athas they are the druids' answer to defilers - priests of the wastes and the dead earth.
+
+Requirements: any non-good alignment, base attack bonus +4, Druid level 5.
+
+Hit Die: d8. Base attack bonus: as cleric. Good saving throws: Fortitude and Will. Every level counts as a druid level for spells.
+
+Class features:
+- Blightfire (level 1, more uses at 4, 7 and 10): sunscorch.
+- Contagious Touch (levels 6 and 10): inflict serious wounds.
+- Deforestation, Undead Wild Shape, Sustenance: described on the character sheet only.~
+@494 = ~Deforestation: the land around the blighter withers (description only).~
+
+@501 = ~stormlord~
+@502 = ~Stormlord~
+@503 = ~STORMLORD (prestige class): Priests of the storm - of Talos in the Realms, of the elemental plane of Air on Athas - who wield lightning and thunder as weapons.
+
+Requirements: Cleric level 5.
+
+Hit Die: d8. Base attack bonus: as cleric. Good saving throws: Fortitude and Will. Every level counts as a cleric level for spells.
+
+Class features:
+- Resistance to Electricity 10 (level 1), 20 (level 5), 30 (level 9).
+- Shock Weapon (level 2, more uses at 5 and 8): destructive blow.
+- Storm Walk, Thundering Weapon, Storm of Elemental Fury: described on the character sheet only.~
+@504 = ~Storm walker: the stormlord moves freely through storms; his weapons thunder (description only).~
+
+@511 = ~ravager~
+@512 = ~Ravager~
+@513 = ~RAVAGER (prestige class): Warriors of the god of slaughter, who spread terror and pain. On Athas, raiders of the elven tribes and slave-hunters of the sorcerer-kings.
+
+Requirements: evil alignment, base attack bonus +5, Intimidate 4 ranks.
+
+Hit Die: d10. Base attack bonus: as fighter. Good saving throw: Fortitude. Intimidate is a class skill.
+
+Class features:
+- Pain Touch (level 1, more uses at 4, 7 and 10).
+- Aura of Fear (levels 3, 6 and 9): cloak of fear.
+- Cruel Strike (level 5): +2 to damage rolls.
+- Cruelty: described on the character sheet only.~
+@514 = ~Cruelty: the ravager's victims lose heart (description only).~
+
+@521 = ~hunter of the dead~
+@522 = ~Hunter of the Dead~
+@523 = ~HUNTER OF THE DEAD (prestige class): Warriors sworn to destroy the undead. On Athas, the restless dead of the ruined ages; in the Realms, the servants of Myrkul and Velsharoon.
+
+Requirements: good alignment, base attack bonus +5.
+
+Hit Die: d10. Base attack bonus: as fighter. Good saving throw: Fortitude.
+
+Class features:
+- Smite Undead (levels 1, 3, 5, 7 and 9): smite evil.
+- Turn Undead (levels 2 and 6).
+- Spurn Death's Touch (level 4): immunity to level drain.
+- Positive Energy Burst (levels 5 and 9): holy smite.
+- True Death (level 10): described on the character sheet only.~
+@524 = ~True Death: undead slain by the hunter never rise again (description only).~
+
+@531 = ~dervish~
+@532 = ~Dervish~
+@533 = ~DERVISH (prestige class): Blade dancers of the desert tribes, whirling through battle with a curved blade. Athas is their home as much as the sands of Calimshan.
+
+Requirements: base attack bonus +5, feats Dodge and Expertise.
+
+Hit Die: d10. Base attack bonus: as fighter. Good saving throws: Reflex and Will.
+
+Class features:
+- AC Bonus: +1 to Armor Class at levels 1, 4, 7 and 10.
+- Dervish Dance (level 1, more uses at 3, 5, 7 and 9): +2 to attack, damage and Armor Class for one minute.
+- Fast Movement (level 3).
+- Movement Mastery, Elaborate Parry, Tireless Dance, A Thousand Cuts: described on the character sheet only.~
+@534 = ~Movement mastery, elaborate parry, tireless dance and a thousand cuts (description only).~
+
+@541 = ~purple dragon knight~
+@542 = ~Purple Dragon Knight~
+@543 = ~PURPLE DRAGON KNIGHT (prestige class): Officers of the royal army of Cormyr in the Forgotten Realms, who lead by example and rally soldiers with their voice.
+
+Requirements: base attack bonus +4, Diplomacy 2 ranks, Intimidate 2 ranks.
+
+Hit Die: d10. Base attack bonus: as fighter. Good saving throw: Fortitude. At most 5 levels.
+
+Class features:
+- Rallying Cry (levels 1, 3 and 5): war cry.
+- Inspire Courage (levels 2 and 4): prayer.
+- Fear (level 4).
+- Oath of Wrath, Final Stand: described on the character sheet only.~
+@544 = ~Oath of wrath and final stand (description only).~
+
+@551 = ~warpriest~
+@552 = ~Warpriest~
+@553 = ~WARPRIEST (prestige class): Priests who lead armies, rally the faithful and break the enemy's will. In the Realms, war-priests of Tempus; on Athas, battle-priests of the elements.
+
+Requirements: base attack bonus +5, Cleric level 1, feat Combat Casting, Diplomacy 8 ranks.
+
+Hit Die: d8. Base attack bonus: as fighter. Good saving throw: Fortitude. Every level counts as a cleric level for spells.
+
+Class features:
+- Rally (levels 1 and 3): remove fear.
+- Inflame (levels 2 and 6): prayer.
+- Mass Cure (levels 4, 7 and 10): cure moderate wounds.
+- Fear Aura (levels 5 and 9): cloak of fear.
+- Heroes' Feast, Haste, Mass Heal, Implacable Foe: described on the character sheet only.~
+@554 = ~Heroes' feast, haste, mass heal and implacable foe (description only).~
+
+// test43: nazwy nowych zdolnosci GA_
+@561 = ~Dervish Dance~
+@562 = ~Lucky~
