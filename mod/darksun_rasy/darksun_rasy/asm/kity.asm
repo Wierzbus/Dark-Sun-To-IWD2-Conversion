@@ -118,6 +118,8 @@ kit_nty:
     mov edx, KITY
 .p: cmp dword [edx], 0
     je .brak
+    cmp dword [edx], 1          ; test45: wpis +0 = 2 - podklasa ukryta (klasy potworow): nie ma jej na listach
+    jne .n
     cmp cl, [edx+0x17]
     jne .n
     test eax, eax

@@ -428,3 +428,125 @@ Class features:
 // test43: nazwy nowych zdolnosci GA_
 @561 = ~Dervish Dance~
 @562 = ~Lucky~
+
+// test45: klasy potworow (ukryte podklasy wojownika, nadawane CRE potworow przez komponent 8)
+@601 = ~undead (monster)~
+@602 = ~Undead~
+@603 = ~UNDEAD (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d12. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 4 per level. No fighter bonus feats.
+
+Type traits: immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@604 = ~Type traits (Undead): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@611 = ~outsider (monster)~
+@612 = ~Outsider~
+@613 = ~OUTSIDER (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: full. Good saving throws: Fortitude, Reflex and Will. Skill points: 8 per level. No fighter bonus feats.
+
+Type traits: darkvision.~
+@614 = ~Type traits (Outsider): darkvision.~
+@621 = ~earth or water elemental (monster)~
+@622 = ~Elemental (Earth, Water)~
+@623 = ~ELEMENTAL (EARTH, WATER) (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude. Skill points: 2 per level. No fighter bonus feats.
+
+Type traits: immune to poison, sleep, paralysis and stunning; darkvision.~
+@624 = ~Type traits (Elemental (Earth, Water)): immune to poison, sleep, paralysis and stunning; darkvision.~
+@631 = ~fire or air elemental (monster)~
+@632 = ~Elemental (Fire, Air)~
+@633 = ~ELEMENTAL (FIRE, AIR) (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Reflex. Skill points: 2 per level. No fighter bonus feats.
+
+Type traits: immune to poison, sleep, paralysis and stunning; darkvision.~
+@634 = ~Type traits (Elemental (Fire, Air)): immune to poison, sleep, paralysis and stunning; darkvision.~
+@641 = ~giant (monster)~
+@642 = ~Giant~
+@643 = ~GIANT (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude. Skill points: 2 per level. No fighter bonus feats.
+
+Type traits: none.~
+@644 = ~Type traits (Giant): none.~
+@651 = ~monstrous humanoid (monster)~
+@652 = ~Monstrous Humanoid~
+@653 = ~MONSTROUS HUMANOID (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: full. Good saving throws: Reflex and Will. Skill points: 2 per level. No fighter bonus feats.
+
+Type traits: darkvision.~
+@654 = ~Type traits (Monstrous Humanoid): darkvision.~
+@661 = ~animal (monster)~
+@662 = ~Animal~
+@663 = ~ANIMAL (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude and Reflex. Skill points: 2 per level. No fighter bonus feats.
+
+Type traits: none.~
+@664 = ~Type traits (Animal): none.~
+@671 = ~vermin (monster)~
+@672 = ~Vermin~
+@673 = ~VERMIN (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude. Skill points: 0 per level. No fighter bonus feats.
+
+Type traits: immune to charm, fear and confusion; darkvision.~
+@674 = ~Type traits (Vermin): immune to charm, fear and confusion; darkvision.~
+@681 = ~dragon (monster)~
+@682 = ~Dragon~
+@683 = ~DRAGON (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d12. Base attack bonus: full. Good saving throws: Fortitude, Reflex and Will. Skill points: 6 per level. No fighter bonus feats.
+
+Type traits: immune to sleep and paralysis; darkvision.~
+@684 = ~Type traits (Dragon): immune to sleep and paralysis; darkvision.~
+@691 = ~aberration (monster)~
+@692 = ~Aberration~
+@693 = ~ABERRATION (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Will. Skill points: 2 per level. No fighter bonus feats.
+
+Type traits: darkvision.~
+@694 = ~Type traits (Aberration): darkvision.~
+@701 = ~construct (monster)~
+@702 = ~Construct~
+@703 = ~CONSTRUCT (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d10. Base attack bonus: 3/4. Good saving throws: none. Skill points: 0 per level. No fighter bonus feats.
+
+Type traits: immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@704 = ~Type traits (Construct): immune to poison, sleep, paralysis, stunning, disease, charm, fear and confusion; darkvision.~
+@711 = ~magical beast (monster)~
+@712 = ~Magical Beast~
+@713 = ~MAGICAL BEAST (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d10. Base attack bonus: full. Good saving throws: Fortitude and Reflex. Skill points: 2 per level. No fighter bonus feats.
+
+Type traits: darkvision.~
+@714 = ~Type traits (Magical Beast): darkvision.~
+@721 = ~ooze (monster)~
+@722 = ~Ooze~
+@723 = ~OOZE (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d10. Base attack bonus: 3/4. Good saving throws: none. Skill points: 0 per level. No fighter bonus feats.
+
+Type traits: immune to poison, sleep, paralysis, stunning, charm, fear and confusion.~
+@724 = ~Type traits (Ooze): immune to poison, sleep, paralysis, stunning, charm, fear and confusion.~
+@731 = ~plant (monster)~
+@732 = ~Plant~
+@733 = ~PLANT (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude. Skill points: 0 per level. No fighter bonus feats.
+
+Type traits: immune to poison, sleep, paralysis, stunning, charm, fear and confusion.~
+@734 = ~Type traits (Plant): immune to poison, sleep, paralysis, stunning, charm, fear and confusion.~
+@741 = ~fey (monster)~
+@742 = ~Fey~
+@743 = ~FEY (monster class): hidden fighter subclass for creatures of this D&D 3.5 type. Not available to players.
+
+Hit Die: d6. Base attack bonus: 1/2. Good saving throws: Reflex and Will. Skill points: 6 per level. No fighter bonus feats.
+
+Type traits: none.~
+@744 = ~Type traits (Fey): none.~

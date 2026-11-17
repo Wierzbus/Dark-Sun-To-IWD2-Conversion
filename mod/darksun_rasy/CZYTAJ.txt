@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test44: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test45: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -269,3 +269,18 @@ Przewodnik: dodawanie_ras_i_klas.md (co dopisac i do ktorej tabeli przy nowej ra
      - zwiadowca w skorzni / kolczudze: KP i obrazenia jak dotad; w zbroi plytowej: KP i obrazenia nizsze
        o liczbe stopni (np. na 5. poziomie o 2), po zdjeciu wraca,
      - zwykly lotrzyk i inne klasy w zbroi plytowej - bez zmian.
+ test45: klasy potworow (typy z D&D 3.5) jako ukryte podklasy wojownika + komponent 8, ktory nadaje je CRE gry.
+     Exe zmienione (podklasy oznaczone jako ukryte nie pokazuja sie w kreatorze ani przy awansie) - reinstall:
+     0, potem 1-5 i nowy komponent 8.
+     15 klas: MON_UNDEAD, MON_OUTSIDER, MON_ELEM_FW (ziemia/woda), MON_ELEM_FA (ogien/powietrze), MON_GIANT, MON_MONHUMAN,
+     MON_ANIMAL, MON_VERMIN, MON_DRAGON, MON_ABERRATION, MON_CONSTRUCT, MON_MAGBEAST, MON_OOZE, MON_PLANT, MON_FEY:
+     kosc PW, BAB i rzuty jak typ w D&D 3.5 (DSKLPROG; nowe tabele SAVEDSFR i SAVEDS0), punkty umiejetnosci typu,
+     bez premiowych atutow wojownika, cechy typu na 1. poziomie (odpornosci, widzenie w ciemnosci).
+     Komponent 8 (DSPOTWOR.2DA): 566 plikow CRE z samymi poziomami wojownika dostaje klase potwora, PW przeliczone
+     (srednia kosc x poziom + KON) i cechy z Monster Manuala. Poziomy CRE bez zmian.
+     Sprawdzic:
+     - kreator i awans wojownika: tylko dotychczasowe podklasy (gladiator, barbarzynca, samuraj, zawadiaka, rycerz),
+       zadnej klasy potwora,
+     - po komponencie 8: potwor (np. Ghoul, Umber Hulk, Troll) - karta postaci przez Ctrl+Q / konsole: PW, BAB,
+       rzuty i cechy jak w zakladce "Poprawki CRE"; nieumarli odporni na sen i trucizne,
+     - walki w znanych miejscach - czy balans nie jest zbyt latwy / trudny.

@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test44-2026-11-17~
+VERSION ~test45-2026-11-17~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -282,8 +282,24 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     29, 1, DERVISH,       CLABDS29, 1E => 531
     30, 1, PURPLE_DRAGON, CLABDS30, 1F => 541
     31, 1, WARPRIEST,     CLABDS31, 20 => 551
+    // test45: klasy potworow - ukryte podklasy wojownika (wpis +0 = 2: kity.asm kit_nty pomija je na listach)
+    32, 5, MON_UNDEAD     , CLABDS32, 21 => 601
+    33, 5, MON_OUTSIDER   , CLABDS33, 22 => 611
+    34, 5, MON_ELEM_FW    , CLABDS34, 23 => 621
+    35, 5, MON_ELEM_FA    , CLABDS35, 24 => 631
+    36, 5, MON_GIANT      , CLABDS36, 25 => 641
+    37, 5, MON_MONHUMAN   , CLABDS37, 26 => 651
+    38, 5, MON_ANIMAL     , CLABDS38, 27 => 661
+    39, 5, MON_VERMIN     , CLABDS39, 28 => 671
+    40, 5, MON_DRAGON     , CLABDS40, 29 => 681
+    41, 5, MON_ABERRATION , CLABDS41, 2A => 691
+    42, 5, MON_CONSTRUCT  , CLABDS42, 2B => 701
+    43, 5, MON_MAGBEAST   , CLABDS43, 2C => 711
+    44, 5, MON_OOZE       , CLABDS44, 2D => 721
+    45, 5, MON_PLANT      , CLABDS45, 2E => 731
+    46, 5, MON_FEY        , CLABDS46, 2F => 741
   END
-  OUTER_SET ds_n_kitow = 32
+  OUTER_SET ds_n_kitow = 47
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 320
@@ -381,6 +397,52 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~471~) = RESOLVE_STR_REF(@471)
   OUTER_SET $ds_str(~472~) = RESOLVE_STR_REF(@472)
   OUTER_SET $ds_str(~473~) = RESOLVE_STR_REF(@473)
+  // test45
+  OUTER_SET $ds_str(~601~) = RESOLVE_STR_REF(@601)
+  OUTER_SET $ds_str(~602~) = RESOLVE_STR_REF(@602)
+  OUTER_SET $ds_str(~603~) = RESOLVE_STR_REF(@603)
+  OUTER_SET $ds_str(~611~) = RESOLVE_STR_REF(@611)
+  OUTER_SET $ds_str(~612~) = RESOLVE_STR_REF(@612)
+  OUTER_SET $ds_str(~613~) = RESOLVE_STR_REF(@613)
+  OUTER_SET $ds_str(~621~) = RESOLVE_STR_REF(@621)
+  OUTER_SET $ds_str(~622~) = RESOLVE_STR_REF(@622)
+  OUTER_SET $ds_str(~623~) = RESOLVE_STR_REF(@623)
+  OUTER_SET $ds_str(~631~) = RESOLVE_STR_REF(@631)
+  OUTER_SET $ds_str(~632~) = RESOLVE_STR_REF(@632)
+  OUTER_SET $ds_str(~633~) = RESOLVE_STR_REF(@633)
+  OUTER_SET $ds_str(~641~) = RESOLVE_STR_REF(@641)
+  OUTER_SET $ds_str(~642~) = RESOLVE_STR_REF(@642)
+  OUTER_SET $ds_str(~643~) = RESOLVE_STR_REF(@643)
+  OUTER_SET $ds_str(~651~) = RESOLVE_STR_REF(@651)
+  OUTER_SET $ds_str(~652~) = RESOLVE_STR_REF(@652)
+  OUTER_SET $ds_str(~653~) = RESOLVE_STR_REF(@653)
+  OUTER_SET $ds_str(~661~) = RESOLVE_STR_REF(@661)
+  OUTER_SET $ds_str(~662~) = RESOLVE_STR_REF(@662)
+  OUTER_SET $ds_str(~663~) = RESOLVE_STR_REF(@663)
+  OUTER_SET $ds_str(~671~) = RESOLVE_STR_REF(@671)
+  OUTER_SET $ds_str(~672~) = RESOLVE_STR_REF(@672)
+  OUTER_SET $ds_str(~673~) = RESOLVE_STR_REF(@673)
+  OUTER_SET $ds_str(~681~) = RESOLVE_STR_REF(@681)
+  OUTER_SET $ds_str(~682~) = RESOLVE_STR_REF(@682)
+  OUTER_SET $ds_str(~683~) = RESOLVE_STR_REF(@683)
+  OUTER_SET $ds_str(~691~) = RESOLVE_STR_REF(@691)
+  OUTER_SET $ds_str(~692~) = RESOLVE_STR_REF(@692)
+  OUTER_SET $ds_str(~693~) = RESOLVE_STR_REF(@693)
+  OUTER_SET $ds_str(~701~) = RESOLVE_STR_REF(@701)
+  OUTER_SET $ds_str(~702~) = RESOLVE_STR_REF(@702)
+  OUTER_SET $ds_str(~703~) = RESOLVE_STR_REF(@703)
+  OUTER_SET $ds_str(~711~) = RESOLVE_STR_REF(@711)
+  OUTER_SET $ds_str(~712~) = RESOLVE_STR_REF(@712)
+  OUTER_SET $ds_str(~713~) = RESOLVE_STR_REF(@713)
+  OUTER_SET $ds_str(~721~) = RESOLVE_STR_REF(@721)
+  OUTER_SET $ds_str(~722~) = RESOLVE_STR_REF(@722)
+  OUTER_SET $ds_str(~723~) = RESOLVE_STR_REF(@723)
+  OUTER_SET $ds_str(~731~) = RESOLVE_STR_REF(@731)
+  OUTER_SET $ds_str(~732~) = RESOLVE_STR_REF(@732)
+  OUTER_SET $ds_str(~733~) = RESOLVE_STR_REF(@733)
+  OUTER_SET $ds_str(~741~) = RESOLVE_STR_REF(@741)
+  OUTER_SET $ds_str(~742~) = RESOLVE_STR_REF(@742)
+  OUTER_SET $ds_str(~743~) = RESOLVE_STR_REF(@743)
   // test43
   OUTER_SET $ds_str(~481~) = RESOLVE_STR_REF(@481)
   OUTER_SET $ds_str(~482~) = RESOLVE_STR_REF(@482)
@@ -427,7 +489,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
             SET mixed = $ds_str(~%t1%~)
             SET help = $ds_str(~%t2%~)
             SET o = 0x4CE000 + 32 * k_0
-            WRITE_LONG o 1
+            WRITE_LONG o (k_0 >= 32 ? 2 : 1)    // test45: 2 = ukryta (klasy potworow)
             WRITE_LONG (o + 4) mixed
             FOR (z = 8; z < 0x20; ++z) BEGIN WRITE_BYTE (o + z) 0 END
             WRITE_ASCIIE (o + 8) ~%k_2%~
@@ -525,6 +587,21 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   APPEND ~ALIGNMNT.2DA~ ~DERVISH	1	1	1	1	1	1	1	1	1~ UNLESS ~DERVISH~
   APPEND ~ALIGNMNT.2DA~ ~PURPLE_DRAGON	1	1	1	1	1	1	1	1	1~ UNLESS ~PURPLE_DRAGON~
   APPEND ~ALIGNMNT.2DA~ ~WARPRIEST	1	1	1	1	1	1	1	1	1~ UNLESS ~WARPRIEST~
+  APPEND ~ALIGNMNT.2DA~ ~MON_UNDEAD	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_UNDEAD~
+  APPEND ~ALIGNMNT.2DA~ ~MON_OUTSIDER	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_OUTSIDER~
+  APPEND ~ALIGNMNT.2DA~ ~MON_ELEM_FW	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_ELEM_FW~
+  APPEND ~ALIGNMNT.2DA~ ~MON_ELEM_FA	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_ELEM_FA~
+  APPEND ~ALIGNMNT.2DA~ ~MON_GIANT	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_GIANT~
+  APPEND ~ALIGNMNT.2DA~ ~MON_MONHUMAN	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_MONHUMAN~
+  APPEND ~ALIGNMNT.2DA~ ~MON_ANIMAL	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_ANIMAL~
+  APPEND ~ALIGNMNT.2DA~ ~MON_VERMIN	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_VERMIN~
+  APPEND ~ALIGNMNT.2DA~ ~MON_DRAGON	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_DRAGON~
+  APPEND ~ALIGNMNT.2DA~ ~MON_ABERRATION	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_ABERRATION~
+  APPEND ~ALIGNMNT.2DA~ ~MON_CONSTRUCT	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_CONSTRUCT~
+  APPEND ~ALIGNMNT.2DA~ ~MON_MAGBEAST	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_MAGBEAST~
+  APPEND ~ALIGNMNT.2DA~ ~MON_OOZE	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_OOZE~
+  APPEND ~ALIGNMNT.2DA~ ~MON_PLANT	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_PLANT~
+  APPEND ~ALIGNMNT.2DA~ ~MON_FEY	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_FEY~
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -568,6 +645,21 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~DERVISH~       wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~PURPLE_DRAGON~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~WARPRIEST~     wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_UNDEAD~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_OUTSIDER~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_ELEM_FW~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_ELEM_FA~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_GIANT~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_MONHUMAN~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_ANIMAL~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_VERMIN~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_DRAGON~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_ABERRATION~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_CONSTRUCT~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_MAGBEAST~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_OOZE~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_PLANT~ wzor = ~FIGHTER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_FEY~ wzor = ~FIGHTER~ END
     END
   END
 
@@ -811,7 +903,17 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET fa_465 = RESOLVE_STR_REF(@465)
   OUTER_SET fa_466 = RESOLVE_STR_REF(@466)
   OUTER_SET fa_474 = RESOLVE_STR_REF(@474)
-  // test43: klasy prestizowe CLABDS24..31 (tools/iwd2_clab.py)
+  // test43: klasy prestizowe CLABDS24..31 (tools/iwd2_clab.py); test45: klasy potworow CLABDS32..46
+  OUTER_SET fa_644 = RESOLVE_STR_REF(@644)
+  OUTER_SET fa_664 = RESOLVE_STR_REF(@664)
+  OUTER_SET fa_744 = RESOLVE_STR_REF(@744)
+  COPY ~darksun_rasy/spl/DSMNUND.SPL~ ~override~
+       ~darksun_rasy/spl/DSMNCON.SPL~ ~override~
+       ~darksun_rasy/spl/DSMNOOZ.SPL~ ~override~
+       ~darksun_rasy/spl/DSMNELE.SPL~ ~override~
+       ~darksun_rasy/spl/DSMNVER.SPL~ ~override~
+       ~darksun_rasy/spl/DSMNDRA.SPL~ ~override~
+       ~darksun_rasy/spl/DSMNDV.SPL~  ~override~
   OUTER_SET fa_484 = RESOLVE_STR_REF(@484)
   OUTER_SET fa_494 = RESOLVE_STR_REF(@494)
   OUTER_SET fa_504 = RESOLVE_STR_REF(@504)
@@ -821,7 +923,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET fa_544 = RESOLVE_STR_REF(@544)
   OUTER_SET fa_554 = RESOLVE_STR_REF(@554)
   ACTION_FOR_EACH t IN ~CLABDS16~ ~CLABDS17~ ~CLABDS18~ ~CLABDS19~ ~CLABDS20~ ~CLABDS21~ ~CLABDS22~ ~CLABDS23~
-                       ~CLABDS24~ ~CLABDS25~ ~CLABDS26~ ~CLABDS27~ ~CLABDS28~ ~CLABDS29~ ~CLABDS30~ ~CLABDS31~ BEGIN
+                       ~CLABDS24~ ~CLABDS25~ ~CLABDS26~ ~CLABDS27~ ~CLABDS28~ ~CLABDS29~ ~CLABDS30~ ~CLABDS31~
+                       ~CLABDS32~ ~CLABDS33~ ~CLABDS34~ ~CLABDS35~ ~CLABDS36~ ~CLABDS37~ ~CLABDS38~ ~CLABDS39~ ~CLABDS40~ ~CLABDS41~ ~CLABDS42~ ~CLABDS43~ ~CLABDS44~ ~CLABDS45~ ~CLABDS46~ BEGIN
     COPY ~darksun_rasy/2da/%t%.2DA~ ~override~ EVALUATE_BUFFER
   END
   COPY ~darksun_rasy/spl/DSSWREF.SPL~ ~override~
@@ -922,6 +1025,22 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~WU_JEN~ wzor = ~WIZARD~ END
     LPF ds_kolumna_zera STR_VAR kol = ~SPIRIT_SHAMAN~ wzor = ~DRUID~ END
     LPF ds_kolumna_zera STR_VAR kol = ~FAVORED_SOUL~ wzor = ~SORCERER~ END
+    // test45: klasy potworow bez premiowych atutow wojownika
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_UNDEAD~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_OUTSIDER~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_ELEM_FW~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_ELEM_FA~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_GIANT~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_MONHUMAN~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_ANIMAL~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_VERMIN~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_DRAGON~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_ABERRATION~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_CONSTRUCT~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_MAGBEAST~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_OOZE~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_PLANT~ wzor = ~FIGHTER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MON_FEY~ wzor = ~FIGHTER~ END
   BUT_ONLY
   COPY_EXISTING ~SKILLPTS.2DA~ ~override~
     LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BBN~ END
@@ -937,6 +1056,37 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~WU_JEN~        wzor = ~WIZ~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~SPIRIT_SHAMAN~ wzor = ~DRD~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~FAVORED_SOUL~  wzor = ~SOR~ END
+    // test45: klasy potworow - punkty umiejetnosci typu z D&D 3.5 (wartosc = punkty / 2)
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_UNDEAD~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_OUTSIDER~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 4 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_ELEM_FW~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_ELEM_FA~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_GIANT~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_MONHUMAN~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_ANIMAL~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_VERMIN~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 0 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_DRAGON~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_ABERRATION~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_CONSTRUCT~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 0 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_MAGBEAST~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_OOZE~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 0 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_PLANT~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 0 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MON_FEY~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
   BUT_ONLY
   // test42: umiejetnosci klasowe podklas - SKILCOST.2DA (wiersz = umiejetnosc 0..15, 1 = klasowa, 2 = poza klasa,
   // 0 = niedostepna). Exe (kity.asm skc_cell, 0x764310) bierze kolumne o nazwie podklasy DS postaci, a bez niej kolumne klasy.
@@ -1137,6 +1287,9 @@ BEGIN ~TEST: progresja klas i podklas z tabeli DSKLPROG (kosc PW, premia do atak
   // barda/zaklinacza, nauka czarodzieja) i przy zwoju. * = lista klasy bazowej.
   // Tabela jest czytana raz na uruchomienie gry.
   COPY ~darksun_rasy/2da/DSKLPROG.2DA~ ~override~
+  // test45: rzuty klas potworow - dobre Wytrwalosc i Refleks (zwierze, magiczna bestia) i bez dobrych (konstrukt, szlam)
+  COPY ~darksun_rasy/2da/SAVEDSFR.2DA~ ~override~
+       ~darksun_rasy/2da/SAVEDS0.2DA~  ~override~
   // LISTDOMN: kolumna CDS (domeny kaplana DS, CLERIC_DS) dopisana za DOMAIN_RESREF - gra czyta tylko kolumny 0..9.
   // Na poczatek kopia domen Tempusa (CTE) - do decyzji wlasciciela (wpisz poziom czaru 1..9 albo 0 w kolumnie CDS).
   COPY_EXISTING ~LISTDOMN.2DA~ ~override~
@@ -1250,3 +1403,59 @@ REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~2~ ~Wymaga komponentu 2 (podklasy).~
       END
     END
 
+BEGIN ~TEST: klasy potworow w CRE gry (podklasa typu D&D 3.5, PW i cechy z Monster Manuala)~ DESIGNATED 8
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~2~ ~Wymaga komponentu 2 (podklasy, w tym klasy potworow).~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~5~ ~Wymaga komponentu 5 (DSKLPROG - progresja klas potworow).~
+  // test45: DSPOTWOR.2DA (wiersz = CRE): KIT - klasa potwora (ukryta podklasa wojownika, typ z Monster Manuala albo
+  // z rasy w CRE), HP - PW = srednia kosc typu x poziom + modyfikator KON x poziom (nieumarly, konstrukt: bez KON),
+  // STR..CHA - cechy z Monster Manuala (* = bez zmian). Poziom CRE zostaje; BAB i rzuty gra liczy z klasy potwora
+  // (DSKLPROG). Tylko CRE z samymi poziomami wojownika; humanoidy z klasami, NO_RACE i wieloklasowe - bez zmian.
+  // CRE: bajt podklasy wojownika 0x310 (0x30C + klasa - 1) = nr wpisu + 1, PW 0x24 (obecne) i 0x26 (maks.),
+  // cechy 0x266 SIL, 0x267 INT, 0x268 MDR, 0x269 ZR, 0x26A KON, 0x26B CHA.
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_potw_nr BEGIN
+    MON_UNDEAD => 33
+    MON_OUTSIDER => 34
+    MON_ELEM_FW => 35
+    MON_ELEM_FA => 36
+    MON_GIANT => 37
+    MON_MONHUMAN => 38
+    MON_ANIMAL => 39
+    MON_VERMIN => 40
+    MON_DRAGON => 41
+    MON_ABERRATION => 42
+    MON_CONSTRUCT => 43
+    MON_MAGBEAST => 44
+    MON_OOZE => 45
+    MON_PLANT => 46
+    MON_FEY => 47
+  END
+  COPY ~darksun_rasy/2da/DSPOTWOR.2DA~ ~override~
+  COPY_EXISTING ~DSPOTWOR.2DA~ ~override~
+    COUNT_2DA_ROWS 9 ds_np
+    READ_2DA_ENTRIES_NOW ds_pt 9
+  BUT_ONLY
+  OUTER_SET ds_zmien = 0
+  OUTER_FOR (ds_w = 0; ds_w < ds_np; ++ds_w) BEGIN
+    OUTER_TEXT_SPRINT ds_cre $ds_pt(~%ds_w%~ ~0~)
+    OUTER_TEXT_SPRINT ds_kit $ds_pt(~%ds_w%~ ~1~)
+    OUTER_SET ds_hp = $ds_pt(~%ds_w%~ ~2~)
+    OUTER_SET ds_nr = $ds_potw_nr(~%ds_kit%~)
+    ACTION_IF FILE_EXISTS_IN_GAME ~%ds_cre%.cre~ BEGIN
+      COPY_EXISTING ~%ds_cre%.cre~ ~override~
+        READ_ASCII 0 ds_sig (8)
+        PATCH_IF (~%ds_sig%~ STRING_EQUAL ~CRE V2.2~) AND (BUFFER_LENGTH > 0x390) AND (BYTE_AT 0x8F > 0) BEGIN
+          WRITE_BYTE 0x310 ds_nr
+          WRITE_SHORT 0x24 ds_hp
+          WRITE_SHORT 0x26 ds_hp
+          FOR (ds_c = 0; ds_c < 6; ++ds_c) BEGIN
+            SET ds_k = ds_c + 3
+            TEXT_SPRINT ds_v $ds_pt(~%ds_w%~ ~%ds_k%~)
+            PATCH_IF IS_AN_INT ds_v BEGIN WRITE_BYTE (0x266 + ds_c) ds_v END
+          END
+          SET ds_zmien = ds_zmien + 1
+        END
+      BUT_ONLY
+    END
+  END
+  PRINT ~Klasy potworow: zmienione pliki CRE: %ds_zmien% z %ds_np%.~

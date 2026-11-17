@@ -427,3 +427,125 @@ Zdolnoœci klasowe:
 // test43: nazwy nowych zdolnosci GA_
 @561 = ~Taniec derwisza~
 @562 = ~Szczêœciarz~
+
+// test45: klasy potworow (ukryte podklasy wojownika, nadawane CRE potworow przez komponent 8)
+@601 = ~nieumar³y (potwór)~
+@602 = ~Nieumar³y~
+@603 = ~NIEUMAR£Y (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k12. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 4 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
+@604 = ~Cechy typu (Nieumar³y): odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
+@611 = ~istota pozaplanarna (potwór)~
+@612 = ~Istota pozaplanarna~
+@613 = ~ISTOTA POZAPLANARNA (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ, Refleks i Wola. Punkty umiejêtnoœci: 8 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: widzenie w ciemnoœci.~
+@614 = ~Cechy typu (Istota pozaplanarna): widzenie w ciemnoœci.~
+@621 = ~¿ywio³ak ziemi lub wody (potwór)~
+@622 = ~¯ywio³ak (ziemia, woda)~
+@623 = ~¯YWIO£AK (ZIEMIA, WODA) (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ. Punkty umiejêtnoœci: 2 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na truciznê, sen, parali¿ i og³uszenie; widzenie w ciemnoœci.~
+@624 = ~Cechy typu (¯ywio³ak (ziemia, woda)): odpornoœæ na truciznê, sen, parali¿ i og³uszenie; widzenie w ciemnoœci.~
+@631 = ~¿ywio³ak ognia lub powietrza (potwór)~
+@632 = ~¯ywio³ak (ogieñ, powietrze)~
+@633 = ~¯YWIO£AK (OGIEÑ, POWIETRZE) (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Refleks. Punkty umiejêtnoœci: 2 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na truciznê, sen, parali¿ i og³uszenie; widzenie w ciemnoœci.~
+@634 = ~Cechy typu (¯ywio³ak (ogieñ, powietrze)): odpornoœæ na truciznê, sen, parali¿ i og³uszenie; widzenie w ciemnoœci.~
+@641 = ~olbrzym (potwór)~
+@642 = ~Olbrzym~
+@643 = ~OLBRZYM (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ. Punkty umiejêtnoœci: 2 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: brak.~
+@644 = ~Cechy typu (Olbrzym): brak.~
+@651 = ~potwór humanoidalny (potwór)~
+@652 = ~Potwór humanoidalny~
+@653 = ~POTWÓR HUMANOIDALNY (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Refleks i Wola. Punkty umiejêtnoœci: 2 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: widzenie w ciemnoœci.~
+@654 = ~Cechy typu (Potwór humanoidalny): widzenie w ciemnoœci.~
+@661 = ~zwierzê (potwór)~
+@662 = ~Zwierzê~
+@663 = ~ZWIERZÊ (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ i Refleks. Punkty umiejêtnoœci: 2 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: brak.~
+@664 = ~Cechy typu (Zwierzê): brak.~
+@671 = ~robactwo (potwór)~
+@672 = ~Robactwo~
+@673 = ~ROBACTWO (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ. Punkty umiejêtnoœci: 0 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
+@674 = ~Cechy typu (Robactwo): odpornoœæ na zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
+@681 = ~smok (potwór)~
+@682 = ~Smok~
+@683 = ~SMOK (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k12. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ, Refleks i Wola. Punkty umiejêtnoœci: 6 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na sen i parali¿; widzenie w ciemnoœci.~
+@684 = ~Cechy typu (Smok): odpornoœæ na sen i parali¿; widzenie w ciemnoœci.~
+@691 = ~aberracja (potwór)~
+@692 = ~Aberracja~
+@693 = ~ABERRACJA (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 2 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: widzenie w ciemnoœci.~
+@694 = ~Cechy typu (Aberracja): widzenie w ciemnoœci.~
+@701 = ~konstrukt (potwór)~
+@702 = ~Konstrukt~
+@703 = ~KONSTRUKT (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: brak. Punkty umiejêtnoœci: 0 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
+@704 = ~Cechy typu (Konstrukt): odpornoœæ na truciznê, sen, parali¿, og³uszenie, choroby, zauroczenie, strach i zamêt; widzenie w ciemnoœci.~
+@711 = ~magiczna bestia (potwór)~
+@712 = ~Magiczna bestia~
+@713 = ~MAGICZNA BESTIA (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ i Refleks. Punkty umiejêtnoœci: 2 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: widzenie w ciemnoœci.~
+@714 = ~Cechy typu (Magiczna bestia): widzenie w ciemnoœci.~
+@721 = ~szlam (potwór)~
+@722 = ~Szlam~
+@723 = ~SZLAM (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: brak. Punkty umiejêtnoœci: 0 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na truciznê, sen, parali¿, og³uszenie, zauroczenie, strach i zamêt.~
+@724 = ~Cechy typu (Szlam): odpornoœæ na truciznê, sen, parali¿, og³uszenie, zauroczenie, strach i zamêt.~
+@731 = ~roœlina (potwór)~
+@732 = ~Roœlina~
+@733 = ~ROŒLINA (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ. Punkty umiejêtnoœci: 0 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: odpornoœæ na truciznê, sen, parali¿, og³uszenie, zauroczenie, strach i zamêt.~
+@734 = ~Cechy typu (Roœlina): odpornoœæ na truciznê, sen, parali¿, og³uszenie, zauroczenie, strach i zamêt.~
+@741 = ~istota baœniowa (potwór)~
+@742 = ~Istota baœniowa~
+@743 = ~ISTOTA BAŒNIOWA (klasa potwora): ukryta podklasa wojownika dla stworzeñ tego typu z D&D 3.5. Niedostêpna dla gracza.
+
+Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Refleks i Wola. Punkty umiejêtnoœci: 6 na poziom. Bez premiowych atutów wojownika.
+
+Cechy typu: brak.~
+@744 = ~Cechy typu (Istota baœniowa): brak.~

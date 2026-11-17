@@ -70,6 +70,22 @@ KLASY = {
         (1, "GA_SPIN198"), (2, "GA_SPIN209"), (3, "GA_SPIN198"), (4, "GA_SPIN208"), (5, "GA_SPIN217"),
         (6, "GA_SPIN209"), (7, "GA_SPIN208"), (8, "FA_%fa_554%"), (9, "GA_SPIN217"), (10, "GA_SPIN208"),
     ],
+    # --- klasy potworow test45 (podklasy wojownika ukryte przed graczem), cechy typu na 1. poziomie ---
+    "CLABDS32": [(1, "AP_DSMNUND")],   # MON_UNDEAD
+    "CLABDS33": [(1, "AP_DSMNDV")],    # MON_OUTSIDER
+    "CLABDS34": [(1, "AP_DSMNELE")],   # MON_ELEM_FW
+    "CLABDS35": [(1, "AP_DSMNELE")],   # MON_ELEM_FA
+    "CLABDS36": [(1, "FA_%fa_644%")],  # MON_GIANT
+    "CLABDS37": [(1, "AP_DSMNDV")],    # MON_MONHUMAN
+    "CLABDS38": [(1, "FA_%fa_664%")],  # MON_ANIMAL
+    "CLABDS39": [(1, "AP_DSMNVER")],   # MON_VERMIN
+    "CLABDS40": [(1, "AP_DSMNDRA")],   # MON_DRAGON
+    "CLABDS41": [(1, "AP_DSMNDV")],    # MON_ABERRATION
+    "CLABDS42": [(1, "AP_DSMNCON")],   # MON_CONSTRUCT
+    "CLABDS43": [(1, "AP_DSMNDV")],    # MON_MAGBEAST
+    "CLABDS44": [(1, "AP_DSMNOOZ")],   # MON_OOZE
+    "CLABDS45": [(1, "AP_DSMNOOZ")],   # MON_PLANT
+    "CLABDS46": [(1, "FA_%fa_744%")],  # MON_FEY
 }
 
 

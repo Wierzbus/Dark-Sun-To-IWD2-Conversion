@@ -561,3 +561,11 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Kategorie zbroi w 0x724690: lekka 0x3C–0x3D, średnia 0x3E/0x42/0x44, ciężka 0x3F–0x41. Skirmish zwiadowcy znoszą
   efekty zbroi ciężkich (DSSCAC −1 KP, DSSCDM −1 obrażeń, po parze na stopień 1/5/9/13/17).
 
+## 37. Klasy potworów jako ukryte podklasy (test45)
+- Wpis tabeli podklas z `+0 = 2` jest ukryty: `kit_nty` (lista podklas klasy – kreator, awans, okna 52/12/6) go pomija,
+  a wyszukiwanie po numerze (`kit_wpis`, bajty podklas postaci 0x8A8) działa jak dla zwykłego wpisu.
+- Wpisy 32–46: MON_* na wojowniku (klasa 5), CLABDS32–46 z cechami typu (DSMN*.SPL: opcode 101 + 63),
+  DSKLPROG z progresją typu D&D 3.5, FEATCLAS wyzerowane, SKILLPTS według typu.
+- Komponent 8 zapisuje CRE: 0x310 (bajt podklasy wojownika) = nr + 1, PW 0x24/0x26, cechy 0x266–0x26B z DSPOTWOR.2DA
+  (wygenerowana z porównania CRE gry z Monster Manualami; przypisanie typu: wzorzec MM albo RACE w CRE).
+
