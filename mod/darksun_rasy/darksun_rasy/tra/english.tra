@@ -14,11 +14,14 @@ Disadvantages:
 (Experimental subrace: Dark Sun conversion test.)~
 
 // --- Podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
-@201 = ~templar order~
-@202 = ~Templar Order~
-@203 = ~TEMPLAR ORDER: Paladins of this order serve the sorcerer-kings of Athas as enforcers of law in the city-states. They hold to the letter of the law above mercy.
+@201 = ~templar~
+@202 = ~Templar~
+@203 = ~TEMPLAR: Priest-bureaucrats of the sorcerer-kings: judges, tax collectors and secret police of the city-states. A templar draws divine spells from the sorcerer-king through his sigil and casts them spontaneously, like a sorcerer.
 
-(Experimental paladin order: Dark Sun conversion test. No special abilities yet.)~
+Sorcerer subclass (Dark Sun 3.5e). Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude, Will. Skill points: 4 per level. Class skills: Bluff, Concentration, Diplomacy, Intimidate, Knowledge, Spellcraft.
+
+Spells: templar spell list (divine, cast with Charisma). Not possible: turning undead, domain spells and the secular authority powers of the Dark Sun rules.~
+@204 = ~Templar: Secular Aptitude and Assume Domain (powers of the sorcerer-king's city) - description only.~
 @211 = ~Barbarian~
 @212 = ~athasian barbarian~
 @213 = ~Athasian Barbarian~
@@ -52,7 +55,12 @@ Disadvantages:
 @232 = ~Gladiator~
 @233 = ~GLADIATOR: The arenas of the city-states are the heart of Athasian entertainment. Gladiators are slaves and free fighters trained to win crowds as much as fights.
 
-(Experimental fighter subclass: Dark Sun conversion test. Test ability at level 1: Maximized Attacks.)~
+Fighter subclass (Dark Sun 3.5e). Hit Die: d12. Base attack bonus: full. Good saving throws: Fortitude, Reflex. Skill points: 4 per level; Bluff and Intimidate are class skills. Instead of fighter bonus feats: a bonus feat at levels 1, 5, 9, 13 and 17 (exotic weapons).
+
+Combat Stance (1st, more uses at 3rd, 6th, 12th and 18th level): +2 AC for 5 rounds.
+Uncanny Dodge (4th) and Improved Uncanny Dodge (8th).
+Armor Optimization (5th, 10th, 15th, 20th) and Parry (14th): +1 AC each.~
+@234 = ~Gladiator: Gladiatorial Performance, Mercy, Arena Guile and Improved Feint - description only.~
 @240 = ~Ranger~
 @241 = ~waste ranger~
 @242 = ~Waste Ranger~
@@ -70,7 +78,10 @@ Disadvantages:
 @262 = ~Athasian Bard~
 @263 = ~ATHASIAN BARD: In the city-states bards are entertainers, informants and poisoners for hire, welcome at every noble's table and trusted at none.
 
-(Experimental bard subclass: Dark Sun conversion test. Test ability at level 1: Invisibility.)~
+Bard subclass (Dark Sun 3.5e). Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Fortitude, Reflex, Will. Skill points: 6 per level. Mental Resistance (5th level): +2 to Will saves.
+
+The Athasian bard of the rules casts no spells; in this test the bard keeps the spells of the game, because the level-up window requires spell choices.~
+@264 = ~Athasian Bard: Smuggler, Poison Use, Streetsmart and Trade Secrets - description only.~
 @270 = ~Sorcerer~
 @271 = ~psionicist~
 @272 = ~Psionicist~
@@ -129,13 +140,11 @@ Requirements: dwarf, lawful alignment, base attack bonus +7, feats Dodge and Tou
 Requirements: evil alignment, Hide 8 ranks, Move Silently 8 ranks.
 
 (Experimental prestige class, test33: d6, medium attack bonus, good Reflex. Sneak attack like a rogue of the same level, Uncanny Dodge at 2 and 5, Invisibility at 4 and 8. Death attack and poison use - next tests.)~
-@361 = ~elemental adept~
-@362 = ~Elemental Adept~
-@363 = ~ELEMENTAL ADEPT (prestige class, test): sorcerers who bind their power to one of the four elemental planes worshipped on Athas.
+@361 = ~elementalist~
+@362 = ~Elementalist~
+@363 = ~ELEMENTALIST (prestige class): Clerics who devote themselves entirely to their patron element and gain mastery over it unrivalled by any other being.
 
-Requirements: Sorcerer level 3.
-
-(Experimental prestige class, test36 - spellcasting test: d4, wizard attack bonus and saves; each level counts as a sorcerer level for spell slots, caster level and new known spells (spell choice window at level-up). Test ability at level 1: Spell Shield.)~
+Requirements: cleric level 5 (able to cast 3rd-level divine spells). Hit Die: d8. Base attack bonus: 1/2. Good saving throws: Will. Each level adds +1 level of cleric spellcasting (Dark Sun 3.5e).~
 @301 = ~fire cleric~
 @302 = ~Fire Cleric~
 @303 = ~FIRE CLERIC: Clerics of Fire serve the elemental plane of flame, the most destructive of the four elements under the crimson sun of Athas.
@@ -428,6 +437,7 @@ Class features:
 // test43: nazwy nowych zdolnosci GA_
 @561 = ~Dervish Dance~
 @562 = ~Lucky~
+@563 = ~Combat Stance~
 
 // test45: klasy potworow (ukryte podklasy wojownika, nadawane CRE potworow przez komponent 8)
 @601 = ~undead (monster)~

@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test49: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test50: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -341,3 +341,16 @@ test49: wighty, upiory i mumie jako humanoidy z szablonem (Savage Species); PW p
      - Polsmoki: PW z kosci klas bez zmian (Savage Species / MM 3.5: szablon zmienia tylko kosci rasowe).
      Sprawdzic: Barrow Wight i Mummy King - BAB rowny poziomowi, PW, odpornosc na sen; Wight (50WIT) - 00CIDEAD
      w ekwipunku, CRE wczytuje sie bez bledu.
+test50: podklasy Dark Sun wg Dark Sun 3.5e Core Rulebook (Athas.org, v8).
+     Exe bez zmian (test45). Reinstall: 0, 1-5 i 8.
+     - Templariusz: dawny "zakon templariuszy" paladyna jest teraz podklasa ZAKLINACZA (w zasadach templariusz rzuca
+       czary boskie spontanicznie z Charyzmy, od 1. poziomu). k8, BAB 3/4, dobra Wytrwalosc i Wola, 4 pkt umiejetnosci,
+       lista czarow TEMPLAR (33 czary gry dopasowane do listy templariusza), charakter dowolny poza CG.
+     - Gladiator (podklasa wojownika): k12, pelny BAB, dobra Wytrwalosc i Refleks, 4 pkt, Blef i Zastraszanie klasowe,
+       atut na 1/5/9/13/17 zamiast premiowych atutow wojownika; Postawa bojowa (+2 KP na 5 rund, GA_DSGLSTN),
+       niesamowity unik 4./8. poziom, +1 KP na 5/10/14/15/20.
+     - Bard atasyjski: wszystkie rzuty dobre, 6 pkt, +2 do Woli od 5. poziomu. Czary barda zostaja (okno awansu
+       wymaga wyboru czarow) - do decyzji.
+     - Arena Champion: k12. Elemental Adept -> Elementalista (kaplan 5. poziomu, k8, +1 poziom czarow kaplana).
+     Sprawdzic: kreator - zaklinacz ma podklase Templariusz (i nie ma jej juz paladyn), lista czarow templariusza;
+     gladiator - Postawa bojowa w zdolnosciach, KP po 5. poziomie; elementalista dostepny dla kaplana 5. poziomu.

@@ -10,6 +10,13 @@ import argparse
 import os
 
 KLASY = {
+    # --- test50: podklasy DS wg Dark Sun 3.5e Core Rulebook (Athas.org) ---
+    "CLABDS01": [(1, "FA_%fa_204%")],  # Templar (podklasa zaklinacza): Secular Aptitude, Assume Domain - tekst
+    "CLABDS04": [  # Gladiator: Gladiatorial Performance (Combat Stance), Armor Optimization (+1 KP), Parry
+        (1, "GA_DSGLSTN"), (1, "FA_%fa_234%"), (3, "GA_DSGLSTN"), (5, "AP_DSDDAC"), (6, "GA_DSGLSTN"),
+        (10, "AP_DSDDAC"), (12, "GA_DSGLSTN"), (14, "AP_DSDDAC"), (15, "AP_DSDDAC"), (18, "GA_DSGLSTN"),
+        (20, "AP_DSDDAC"),
+    ],
     # --- nowe klasy bazowe (test41, zdolnosci dodane w test43) ---
     "CLABDS16": [  # Samurai
         (2, "FA_%fa_404%"), (3, "GA_DSKIAI"), (3, "FA_%fa_405%"), (6, "GA_SPIN172"), (6, "FA_%fa_406%"),

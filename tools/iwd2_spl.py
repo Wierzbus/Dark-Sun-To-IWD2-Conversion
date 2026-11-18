@@ -96,6 +96,8 @@ UZYWANE = {
     "DSDERW": (b"SPIN234B", [efekt(54, p1=2, timing=0, czas=60), efekt(73, p1=2, timing=0, czas=60),
                              efekt(0, p1=2, timing=0, czas=60)]),
     # test43 Swashbuckler: Lucky - +4 do wszystkich rzutow obronnych (33/34/35) na 1 runde
+    # test50 Gladiator (DS 3.5): Combat Stance - +2 KP na 5 rund (30 s)
+    "DSGLSTN": (b"SPIN234B", [efekt(0, p1=2, p2=0, timing=0, czas=30)]),
     "DSSWLCK": (b"SPWI209B", [efekt(33, p1=4, timing=0, czas=6), efekt(34, p1=4, timing=0, czas=6),
                               efekt(35, p1=4, timing=0, czas=6)]),
 }

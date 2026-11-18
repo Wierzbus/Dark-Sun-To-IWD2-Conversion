@@ -631,3 +631,12 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   umbral, ghost brute). Klasy szablonów (template classes) są dopiero w artykułach „Savage Progressions” (3.5).
 - Wighty, upiory i mumie z IWD2 (decyzja właściciela): humanoid z szablonem – wojownik NPC na pełnym poziomie CRE,
   PW k12 bez KON, cechy 00CIDEAD (dopisywany do pustego slotu 4). Półsmoki: PW z kości klas bez zmian.
+
+## 42. Test50: podklasy DS według Dark Sun 3.5e (Athas.org)
+- Wpis 0 tabeli podklas: PALADIN_DS → TEMPLAR na klasie 10 (zaklinacz): spontaniczne czary boskie z CHA jak Favored
+  Soul; kolumna LISTSPLL `TEMPLAR`; DSKLPROG HPPRS/BAATNFG/SAVEPRS. Tablica podklas w exe ma jeszcze w podklasy.asm
+  starą nazwę – instalator nadpisuje wpis (klasa, nazwa, CLAB).
+- FIGHTER_DS (gladiator): HPBARB/BAATFGT/SAVEDSFR, FEATCLAS 1/5/9/13/17, DSKLASY UNCANNY_DEX 4, UNCANNY_FLANK 8,
+  CLABDS04 z paczki (GA_DSGLSTN, AP_DSDDAC). BARD_DS: SAVEMONK, SKILLPTS 3, AP_DSSWWIL na 5. ARENA_CHAMP: HPBARB.
+  ELEM_ADEPT = Elementalist: DSPREST klasa 3 poziom 5, SPELLCLASS 3, HPPRS.
+- Bard atasyjski bez czarów wymaga zmian okna 8 awansu (wybór czarów przy pustej liście) – nie zrobione.

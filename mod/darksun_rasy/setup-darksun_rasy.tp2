@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test49-2026-11-18~
+VERSION ~test50-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -248,7 +248,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   // i mnich: do 6), kaplan i czarodziej: przyciski 14 i 15 (najwyzej 2 podklasy).
   // kity: (nr wpisu, klasa, wiersz, CLAB, cyfry szesnastkowe nr + 1 dla KIT.IDS) => tra lower (mixed = +1, help = +2)
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_kity BEGIN
-    0, 7,  PALADIN_DS,   CLABDS01, 01 => 201
+    0, 10, TEMPLAR,      CLABDS01, 01 => 201   // test50: templariusz DS 3.5 - podklasa zaklinacza (czary boskie z CHA)
     1, 1,  ARENA_CHAMP,  CLABDS02, 02 => 321
     2, 3,  CLERIC_DS,    CLABDS03, 03 => 221
     3, 5,  FIGHTER_DS,   CLABDS04, 04 => 231
@@ -575,7 +575,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
 
   // ALIGNMNT: dozwolone charaktery (L_G L_N L_E N_G N_N N_E C_G C_N C_E) - propozycja do decyzji wlasciciela;
   // nowe kity wojownika, tropiciela, druida, barda i zaklinacza: jak klasa bazowa.
-  APPEND ~ALIGNMNT.2DA~ ~PALADIN_DS	1	0	0	0	0	0	0	0	0~ UNLESS ~PALADIN_DS~
+  APPEND ~ALIGNMNT.2DA~ ~TEMPLAR	1	1	1	1	1	1	0	1	1~ UNLESS ~TEMPLAR~   // test50: o krok od krola-czarnoksieznika (bez CG)
   APPEND ~ALIGNMNT.2DA~ ~BARBARIAN_DS	0	0	0	1	1	1	1	1	1~ UNLESS ~BARBARIAN_DS~
   APPEND ~ALIGNMNT.2DA~ ~CLERIC_DS	1	1	1	1	1	1	1	1	1~ UNLESS ~CLERIC_DS~
   APPEND ~ALIGNMNT.2DA~ ~DWARVEN_DEF	1	1	1	0	0	0	0	0	0~ UNLESS ~DWARVEN_DEF~
@@ -592,7 +592,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_F~ wzor = ~BARBARIAN~ END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ARENA_CHAMP~ wzor = ~FIGHTER~   END
     LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCH_DEFILER~ wzor = ~WIZARD~   END
-    LPF ds_wiersz_kitu STR_VAR wiersz = ~ELEM_ADEPT~  wzor = ~SORCERER~ END
+    LPF ds_wiersz_kitu STR_VAR wiersz = ~ELEM_ADEPT~  wzor = ~CLERIC~   END
   // test41: samuraj i rycerz - praworzadni, wu jen - niepraworzadny, reszta - dowolny charakter
   APPEND ~ALIGNMNT.2DA~ ~SAMURAI	1	1	1	0	0	0	0	0	0~ UNLESS ~SAMURAI~
   APPEND ~ALIGNMNT.2DA~ ~KNIGHT	1	1	1	0	0	0	0	0	0~ UNLESS ~KNIGHT~
@@ -641,7 +641,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
                          ~QSLOTS~ ~SKILLCLS~ ~STRTGOLD~ ~THAC0~ ~XPLEVEL~ BEGIN
     ACTION_IF FILE_EXISTS_IN_GAME ~%tab%.2da~ BEGIN
       COPY_EXISTING ~%tab%.2da~ ~override~
-        LPF ds_wiersz_kitu STR_VAR wiersz = ~PALADIN_DS~   wzor = ~PALADIN~   END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~TEMPLAR~      wzor = ~SORCERER~  END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~BARBARIAN_DS~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~CLERIC_DS~    wzor = ~CLERIC~    END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~FIGHTER_DS~   wzor = ~FIGHTER~   END
@@ -849,20 +849,26 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
 
   // --- 4. Tablice zdolnosci CLAB (exe wybiera je po kicie i klasie, nazwa w tabeli podklas +0x18) ---
   // Kopia tablicy klasy bazowej + testowa zdolnosc na 1. poziomie (wolny wiersz ABILITYn, kolumna 1).
-  COPY_EXISTING ~CLABPA01.2da~ ~override/CLABDS01.2da~   // zakon templariuszy: Prayer
-    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN209~ END
+  // test50: templariusz (CLABDS01) i gladiator (CLABDS04) wg Dark Sun 3.5e - tablice paczki (tools/iwd2_clab.py)
+  OUTER_SET fa_204 = RESOLVE_STR_REF(@204)
+  OUTER_SET fa_234 = RESOLVE_STR_REF(@234)
+  OUTER_SET fa_264 = RESOLVE_STR_REF(@264)
+  COPY ~darksun_rasy/2da/CLABDS01.2DA~ ~override~ EVALUATE_BUFFER
   // CLABDS02 (od test30): klasa prestizowa Arena Champion (dawniej barbarzynca atasyjski) - plik paczki
   COPY ~darksun_rasy/2da/CLABDS02.2DA~ ~override~
   COPY_EXISTING ~CLABPR01.2da~ ~override/CLABDS03.2da~   // kaplan ziemi: Tempus' Strength
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN264~ END
-  COPY_EXISTING ~CLABFI01.2da~ ~override/CLABDS04.2da~   // gladiator: Maximized Attacks
-    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN197~ END
+  COPY ~darksun_rasy/2da/CLABDS04.2DA~ ~override~ EVALUATE_BUFFER   // gladiator: Combat Stance, Armor Optimization
+  OUTER_SET ds_n5 = RESOLVE_STR_REF(@563)
+  COPY ~darksun_rasy/spl/DSGLSTN.SPL~ ~override~
+    WRITE_LONG 0x08 ds_n5
   COPY_EXISTING ~CLABRN01.2da~ ~override/CLABDS05.2da~   // tropiciel pustkowi: Called Shot
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN204~ END
   COPY_EXISTING ~CLABDR01.2da~ ~override/CLABDS06.2da~   // druid ziem strzezonych: Elemental Shape - Fire Elemental
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN141~ END
-  COPY_EXISTING ~CLABBA01.2da~ ~override/CLABDS07.2da~   // bard Athasu: Invisibility
-    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN191~ END
+  COPY_EXISTING ~CLABBA01.2da~ ~override/CLABDS07.2da~   // bard Athasu (test50, DS 3.5): piesni barda + opis, Mental Resistance
+    LPF ds_clab_poziom1 STR_VAR zdolnosc = ~FA_%fa_264%~ END
+    LPF ds_clab_poziom INT_VAR poziom = 5 STR_VAR zdolnosc = ~AP_DSSWWIL~ END
   // Zaklinacz nie ma w grze tablicy CLAB (CLABSR01 nie istnieje - exe dostaje pusta tablice), wiec CLABDS08 jest
   // w paczce: tylko testowa zdolnosc na 1. poziomie.
   COPY ~darksun_rasy/2da/CLABDS08.2DA~ ~override~        // psionik: Spell Shield (GA_SPIN243)
@@ -997,7 +1003,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   // (0x71B9C0 -> 0x5CA160, regu+0x4C08); bez wiersza CLAB nie dodaje zdolnosci (Kiai, Wyzwanie i Postawa obronna
   // nie dzialaly w test33-42). Nowy wiersz: etykieta = ostatnia + 1.
   COPY_EXISTING ~LISTINNT.2DA~ ~override~
-    PATCH_FOR_EACH ds_r IN ~DSKIAI~ ~DSKNCH~ ~DSDDSTN~ ~DSDERW~ ~DSSWLCK~ BEGIN
+    PATCH_FOR_EACH ds_r IN ~DSKIAI~ ~DSKNCH~ ~DSDDSTN~ ~DSDERW~ ~DSSWLCK~ ~DSGLSTN~ BEGIN
       PATCH_IF (INDEX_BUFFER (~%ds_r%~) < 0) BEGIN
         COUNT_2DA_ROWS 2 ds_nr
         READ_2DA_ENTRY (ds_nr - 1) 0 2 ds_ost
@@ -1052,6 +1058,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kol_wart INT_VAR wiersz = 9  wart = 1 END
     LPF ds_kol_wart INT_VAR wiersz = 14 wart = 1 END
     LPF ds_kol_wart INT_VAR wiersz = 19 wart = 1 END
+    // test50 gladiator (DS 3.5): zamiast premiowych atutow wojownika - atut na 1/5/9/13/17 (Exotic Weapon)
+    LPF ds_kolumna_zera STR_VAR kol = ~FIGHTER_DS~ wzor = ~FIGHTER~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 4  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 8  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 12 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 16 wart = 1 END
     LPF ds_kolumna_zera STR_VAR kol = ~SWASHBUCKLER~ wzor = ~FIGHTER~ END
     LPF ds_kol_wart INT_VAR wiersz = 0  wart = 1 END
     LPF ds_kolumna_zera STR_VAR kol = ~KNIGHT~ wzor = ~FIGHTER~ END
@@ -1093,6 +1106,13 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~DWARVEN_DEF~ wzor = ~FTR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~ASSASSIN~    wzor = ~ROG~ END
     // test41: wartosc = punkty na poziom / 2 (wojownik 1 = 2 pkt, lotrzyk 4 = 8 pkt)
+    // test50 (DS 3.5): gladiator 4 pkt, bard Athasu 6 pkt, templariusz 4 pkt
+    LPF ds_kolumna_kitu STR_VAR kol = ~FIGHTER_DS~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~BARD_DS~ wzor = ~BRD~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~TEMPLAR~ wzor = ~SOR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
     LPF ds_kolumna_kitu STR_VAR kol = ~SAMURAI~       wzor = ~FTR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~SWASHBUCKLER~  wzor = ~BBN~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~KNIGHT~        wzor = ~FTR~ END
@@ -1151,6 +1171,17 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   // 8 Knowledge (Arcana), 9 Move Silently, 10 Open Lock, 11 Pick Pocket, 12 Search, 13 Spellcraft, 14 Use Magic Device,
   // 15 Wilderness Lore. Wartosci - przyblizenie list umiejetnosci klas z podrecznikow.
   COPY_EXISTING ~SKILCOST.2DA~ ~override~
+    // test50 gladiator: + Bluff, Intimidate; templariusz: Bluff, Concentration, Diplomacy, Intimidate, Knowledge, Spellcraft
+    LPF ds_kolumna_kitu STR_VAR kol = ~FIGHTER_DS~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 2  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 7  wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~TEMPLAR~ wzor = ~SOR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 2  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 3  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 4  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 7  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 8  wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 13 wart = 1 END
     LPF ds_kolumna_kitu STR_VAR kol = ~SAMURAI~ wzor = ~FTR~ END
     LPF ds_kol_wart INT_VAR wiersz = 3  wart = 1 END
     LPF ds_kol_wart INT_VAR wiersz = 4  wart = 1 END
@@ -1180,7 +1211,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~ARCH_DEFILER~  wzor = ~WIZ~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~DWARVEN_DEF~   wzor = ~FTR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~ASSASSIN~      wzor = ~ROG~ END
-    LPF ds_kolumna_kitu STR_VAR kol = ~ELEM_ADEPT~    wzor = ~SOR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~ELEM_ADEPT~    wzor = ~CLR~ END   // test50: elementalista (kaplan)
     LPF ds_kolumna_kitu STR_VAR kol = ~INQUISITOR~    wzor = ~CLR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~BLIGHTER~      wzor = ~DRD~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~STORMLORD~     wzor = ~CLR~ END
@@ -1479,6 +1510,25 @@ REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~2~ ~Wymaga komponentu 2 (podklasy).~
       END
     END
 
+  // test50: kolumna TEMPLAR (templariusz DS 3.5, podklasa zaklinacza) - lista templariusza (Dark Sun 3.5e, s. 138),
+  // dopasowanie po nazwach angielskich; czary bez odpowiednika w IWD2 pominiete; + Armor of Faith i Draw Upon Holy
+  // Might (Shield of Faith / Divine Favor). Kregi wg listy templariusza.
+  OUTER_TEXT_SPRINT ds_templ ~ SPPR102:1 SPPR103:1 SPPR114:1 SPPR112:1 SPPR108:1 SPPR107:1 SPPR214:2 SPPR212:2 SPWI306:2 SPPR218:2 SPPR308:2 SPPR306:2 SPPR426:2 SPPR211:2 SPPR401:3 SPWI302:3 SPPR304:3 SPPR416:3 SPWI308:3 SPPR408:3 SPPR314:3 SPPR518:4 SPPR502:4 SPPR403:4 SPPR513:4 SPPR404:4 SPPR714:5 SPPR504:6 SPPR727:6 SPPR728:7 SPWI702:8 SPPR726:8 SPWI808:9 SPPR115:1 SPPR215:1 ~
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    PATCH_IF (INDEX_BUFFER (~TEMPLAR~) < 0) BEGIN
+      LPF ds_kolumna_kitu STR_VAR kol = ~TEMPLAR~ wzor = ~CLR~ END
+      COUNT_2DA_COLS ds_nc
+      COUNT_2DA_ROWS ds_nc ds_nr
+      FOR (ds_i = 0; ds_i < ds_nr; ++ds_i) BEGIN
+        READ_2DA_ENTRY ds_i 8 ds_nc ds_res
+        SET ds_lv = 0
+        FOR (ds_k = 1; ds_k < 10; ++ds_k) BEGIN
+          PATCH_IF (INDEX (~ %ds_res%:%ds_k% ~ ~%ds_templ%~) >= 0) BEGIN SET ds_lv = ds_k END
+        END
+        SET_2DA_ENTRY ds_i (ds_nc - 1) ds_nc ~%ds_lv%~
+      END
+    END
+  BUT_ONLY
   // test47: kolumna ADEPT (adept - klasa NPC z DMG 3.5, podklasa kaplana NPC_ADEPT) - lista adepta z DMG: kregi 1..5,
   // dopasowanie po nazwach angielskich (Cause Fear -> Emotion: Fear, Scorching Ray -> Aganazzar's Scorcher, Bestow Curse ->
   // Malison). Czary spoza IWD2 (Endure Elements, Darkness, Resist Energy, Polymorph, True Seeing...) pominiete.

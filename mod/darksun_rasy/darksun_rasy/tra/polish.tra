@@ -14,11 +14,14 @@ Wady:
 (Eksperymentalna podrasa: test konwersji Dark Sun.)~
 
 // --- Podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
-@201 = ~zakon templariuszy~
-@202 = ~Zakon Templariuszy~
-@203 = ~ZAKON TEMPLARIUSZY: Paladyni tego zakonu s³u¿¹ królom-czarnoksiê¿nikom Athasu jako stró¿e prawa w miastach-pañstwach. Literê prawa stawiaj¹ ponad litoœæ.
+@201 = ~templariusz~
+@202 = ~Templariusz~
+@203 = ~TEMPLARIUSZ: Kap³ani-urzêdnicy królów-czarnoksiê¿ników: sêdziowie, poborcy podatków i tajna policja miast-pañstw. Templariusz czerpie czary boskie od króla-czarnoksiê¿nika przez jego pieczêæ i rzuca je spontanicznie, jak zaklinacz.
 
-(Eksperymentalny zakon paladynów: test konwersji Dark Sun. Brak specjalnych zdolnoœci.)~
+Podklasa zaklinacza (Dark Sun 3.5e). Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Wola. Punkty umiejêtnoœci: 4 na poziom. Umiejêtnoœci klasowe: Blef, Koncentracja, Dyplomacja, Zastraszanie, Wiedza, Czaroznawstwo.
+
+Czary: lista templariusza (boskie, rzucane z Charyzm¹). Niemo¿liwe: odpêdzanie nieumar³ych, czary domen i w³adza œwiecka z zasad Dark Sun.~
+@204 = ~Templariusz: Œwiecka bieg³oœæ i Przyjêcie domeny (w³adza w mieœcie króla-czarnoksiê¿nika) – tylko opis.~
 @211 = ~Barbarzyñca~
 @212 = ~barbarzyñca atasyjski~
 @213 = ~Barbarzyñca atasyjski~
@@ -50,9 +53,14 @@ Wady:
 @230 = ~Wojownik~
 @231 = ~gladiator~
 @232 = ~Gladiator~
-@233 = ~GLADIATOR: Areny miast-pañstw to serce rozrywki Athasu. Gladiatorzy to niewolnicy i wolni wojownicy szkoleni, by wygrywaæ zarówno walki, jak i serca t³umu.
+@233 = ~GLADIATOR: Areny miast-pañstw s¹ sercem rozrywki Athasu. Gladiatorzy to niewolnicy i wolni wojownicy wyszkoleni, by porywaæ t³um tak samo jak wygrywaæ walki.
 
-(Eksperymentalna podklasa wojownika: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Maksymalne ataki.)~
+Podklasa wojownika (Dark Sun 3.5e). Koœæ wytrzyma³oœci: k12. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ, Refleks. Punkty umiejêtnoœci: 4 na poziom; Blef i Zastraszanie s¹ klasowe. Zamiast premiowych atutów wojownika: atut na 1., 5., 9., 13. i 17. poziomie (broñ egzotyczna).
+
+Postawa bojowa (1. poziom, kolejne u¿ycia na 3., 6., 12. i 18.): +2 KP na 5 rund.
+Niesamowity unik (4.) i lepszy niesamowity unik (8.).
+Dopasowanie pancerza (5., 10., 15., 20.) i parowanie (14.): po +1 KP.~
+@234 = ~Gladiator: Wystêp gladiatorski, Litoœæ, Spryt areny i Lepszy zwód – tylko opis.~
 @240 = ~Tropiciel~
 @241 = ~tropiciel pustkowi~
 @242 = ~Tropiciel pustkowi~
@@ -68,9 +76,12 @@ Wady:
 @260 = ~Bard~
 @261 = ~bard atasyjski~
 @262 = ~Bard atasyjski~
-@263 = ~BARD ATASYJSKI: W miastach-pañstwach bardowie s¹ artystami, informatorami i trucicielami do wynajêcia - mile widziani przy stole ka¿dego szlachcica i przy ¿adnym niegodni zaufania.
+@263 = ~BARD ATASYJSKI: W miastach-pañstwach bardowie s¹ artystami, informatorami i trucicielami do wynajêcia, mile widzianymi przy ka¿dym stole szlachcica i nigdzie nie darzonymi zaufaniem.
 
-(Eksperymentalna podklasa barda: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Niewidzialnoœæ.)~
+Podklasa barda (Dark Sun 3.5e). Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Refleks, Wola. Punkty umiejêtnoœci: 6 na poziom. Odpornoœæ umys³u (5. poziom): +2 do rzutów na Wolê.
+
+Bard atasyjski z zasad nie rzuca czarów; w tym teœcie zachowuje czary gry, bo okno awansu wymaga wyboru czarów.~
+@264 = ~Bard atasyjski: Przemytnik, U¿ycie trucizn, Uliczny spryt i Sekrety fachu – tylko opis.~
 @270 = ~Zaklinacz~
 @271 = ~psionik~
 @272 = ~Psionik~
@@ -129,13 +140,11 @@ Wymagania: krasnolud, praworz¹dny charakter, bazowa premia do ataku +7, atuty Un
 Wymagania: z³y charakter, Ukrywanie siê 8 rang, Ciche poruszanie siê 8 rang.
 
 (Eksperymentalna klasa presti¿owa, test33: k6, œrednia premia do ataku, dobry rzut na Refleks. Atak z zaskoczenia jak ³otrzyk tego samego poziomu, Nieprzewidywalny unik na 2 i 5, Niewidzialnoœæ na 4 i 8. Atak œmierci i trucizny - w kolejnych testach.)~
-@361 = ~adept ¿ywio³ów~
-@362 = ~Adept ¿ywio³ów~
-@363 = ~ADEPT ¯YWIO£ÓW (klasa presti¿owa, test): zaklinacze, którzy wi¹¿¹ sw¹ moc z jednym z czterech planów ¿ywio³ów czczonych na Athasie.
+@361 = ~elementalista~
+@362 = ~Elementalista~
+@363 = ~ELEMENTALISTA (klasa presti¿owa): Kap³ani ca³kowicie oddani swojemu ¿ywio³owi, którzy zyskuj¹ nad nim w³adzê niedostêpn¹ innym istotom.
 
-Wymagania: Zaklinacz na 3. poziomie.
-
-(Eksperymentalna klasa presti¿owa, test36 - test rzucania czarów: k4, premia do ataku i rzuty obronne czarodzieja; ka¿dy poziom liczy siê jak poziom zaklinacza przy komórkach czarów, poziomie czaruj¹cego i nowych znanych czarach (okno wyboru czarów przy awansie). Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+Wymagania: 5. poziom kap³ana (czary boskie 3. krêgu). Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Ka¿dy poziom dodaje +1 poziom rzucania czarów kap³ana (Dark Sun 3.5e).~
 @301 = ~kap³an ognia~
 @302 = ~Kap³an Ognia~
 @303 = ~KAP£AN OGNIA: Kap³ani Ognia s³u¿¹ planowi ¿ywio³u p³omieni, najbardziej niszczycielskiemu z czterech ¿ywio³ów pod szkar³atnym s³oñcem Athasu.
@@ -427,6 +436,7 @@ Zdolnoœci klasowe:
 // test43: nazwy nowych zdolnosci GA_
 @561 = ~Taniec derwisza~
 @562 = ~Szczêœciarz~
+@563 = ~Postawa bojowa~
 
 // test45: klasy potworow (ukryte podklasy wojownika, nadawane CRE potworow przez komponent 8)
 @601 = ~nieumar³y (potwór)~
