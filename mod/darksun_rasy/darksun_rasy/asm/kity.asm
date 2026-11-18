@@ -1095,6 +1095,8 @@ pr_wpis:
     mov ebx, [esp+0x1c]         ; postac
     cmp dword [esi], 2          ; test58: ukryte podklasy klasy 1 (szablon SZ_LYCANTHROPE) nie sa klasami prestizowymi
     je .nie
+    test ebx, ebx               ; test59: bez postaci - nic
+    jz .nie
     push n_prest
     call wczytaj
     test eax, eax
@@ -1277,6 +1279,7 @@ pr_dost:
     push ecx
     push edx
     mov ecx, [esp+0xc]
+    mov [pr_post], ecx          ; test59: postac z okna 54 dla listy okna 6 (argument 0x5DA6E0 nie jest postacia)
     movzx eax, byte [ecx+0x626+KL_PREST]
     test eax, eax
     jz .szukaj
@@ -1989,7 +1992,7 @@ okno6_po:
     mov ebp, eax                ; wybrany wpis + 1 albo 0
     cmp edi, KL_PREST
     jne .niep
-    push dword [esp+0x50]       ; postac (1. argument 0x5DA6E0)
+    push dword [pr_post]        ; test59: postac zapamietana przez pr_dost (okno 54); [esp+0x50] dawalo zly wskaznik
     call prest_lista
     jmp .k
 .niep:

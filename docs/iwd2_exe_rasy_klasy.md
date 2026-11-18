@@ -725,3 +725,9 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   kara PD 0x764714. Łatka: 0x764669 = 5 (wojownik).
 - `pr_wpis`: wpis tabeli podklas z flagą ukrycia (+0 = 2) nigdy nie jest klasą prestiżową (SZ_LYCANTHROPE na klasie 1
   bez wiersza DSPREST włączał przycisk klas prestiżowych wszystkim postaciom).
+
+## 50. Test59: postać dla listy okna 6
+- Argument 1 funkcji okna 6 (0x5DA6E0, wołana z 0x5E0B20 jako `[esp+0x10]`) nie jest wskaźnikiem postaci (gra
+  podaje go do 0x5E1F50). `okno6_po` brał go jako postać → `pr_wpis` czytał `[ebx+0x3E4B]` spod złego adresu
+  (wyjątek 0xC0000005 przy 0xA26BA5, zgłoszony z gry). Teraz `pr_dost` (okno 54, postać `[esp+0xE94]`) zapisuje
+  postać w `pr_post`, a `okno6_po` przekazuje ją do `prest_lista`; `pr_wpis` bez postaci zwraca 0.

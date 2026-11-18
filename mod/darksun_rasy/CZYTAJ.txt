@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test58: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test59: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -454,3 +454,10 @@ test58: poprawki po tescie awansu. ZMIANA EXE. Reinstall: 0, 1-5, 8, 9 i 10.
        (slot barbarzyncy to teraz klasy prestizowe). Dotyczy karty postaci i kary PD za wieloklasowosc.
      Sprawdzic: awans pololbrzyma-rycerza na 2. poziom - przycisk klas prestizowych nieaktywny; karta postaci polorka -
        klasa ulubiona Wojownik.
+test59: wysypka przy przejsciu do listy klas prestizowych (okno 6). ZMIANA EXE. Reinstall: 0 (i 1-5, 8, 9, 10).
+     - Lista klas prestizowych brala postac z argumentu funkcji okna, ktory nie jest wskaznikiem postaci - sprawdzanie
+       warunkow czytalo zly adres (0xA26BA5) i gra wychodzila do systemu. Teraz postac pochodzi z okna wyboru klasy
+       (to samo sprawdzanie, ktore wlacza przycisk klas prestizowych).
+     - Komponent 7 (test listy bez warunkow) nadal NIE do zwyklej gry - z nim przycisk jest aktywny od 1. poziomu.
+     Sprawdzic (z komponentem 7): awans -> klasa prestizowa -> Dalej: lista po 2 klasy, przycisk nastepnej strony,
+       wybor klasy i dokonczenie awansu.
