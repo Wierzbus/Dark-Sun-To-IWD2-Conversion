@@ -1057,3 +1057,217 @@ Saving throw: none
 A flame hurled at the target deals 1d6 + 1 per caster level (maximum +5) points of fire damage. (In D&D the flame stays in the hand for 1 minute/level.)
 
 (Player's Handbook 3.5)~
+@1127 = ~Skill Focus: Alchemy~
+@1128 = ~SKILL FOCUS: ALCHEMY
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Alchemy checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1129 = ~Skill Focus: Animal Empathy~
+@1130 = ~SKILL FOCUS: ANIMAL EMPATHY
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Animal Empathy checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1131 = ~Skill Focus: Bluff~
+@1132 = ~SKILL FOCUS: BLUFF
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Bluff checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1133 = ~Skill Focus: Concentration~
+@1134 = ~SKILL FOCUS: CONCENTRATION
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Concentration checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1135 = ~Skill Focus: Diplomacy~
+@1136 = ~SKILL FOCUS: DIPLOMACY
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Diplomacy checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1137 = ~Skill Focus: Disable Device~
+@1138 = ~SKILL FOCUS: DISABLE DEVICE
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Disable Device checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1139 = ~Skill Focus: Hide~
+@1140 = ~SKILL FOCUS: HIDE
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Hide checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1141 = ~Skill Focus: Intimidate~
+@1142 = ~SKILL FOCUS: INTIMIDATE
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Intimidate checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1143 = ~Skill Focus: Knowledge (Arcana)~
+@1144 = ~SKILL FOCUS: KNOWLEDGE (ARCANA)
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Knowledge (Arcana) checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1145 = ~Skill Focus: Move Silently~
+@1146 = ~SKILL FOCUS: MOVE SILENTLY
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Move Silently checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1147 = ~Skill Focus: Open Lock~
+@1148 = ~SKILL FOCUS: OPEN LOCK
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Open Lock checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1149 = ~Skill Focus: Pick Pocket~
+@1150 = ~SKILL FOCUS: PICK POCKET
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Pick Pocket checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1151 = ~Skill Focus: Search~
+@1152 = ~SKILL FOCUS: SEARCH
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Search checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1153 = ~Skill Focus: Spellcraft~
+@1154 = ~SKILL FOCUS: SPELLCRAFT
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Spellcraft checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1155 = ~Skill Focus: Use Magic Device~
+@1156 = ~SKILL FOCUS: USE MAGIC DEVICE
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Use Magic Device checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1157 = ~Skill Focus: Wilderness Lore~
+@1158 = ~SKILL FOCUS: WILDERNESS LORE
+
+You are particularly adept at this skill.
+
+Benefit: You get a +3 bonus on all Wilderness Lore checks.
+
+Special: Each Skill Focus feat applies to a different skill.
+
+(Player's Handbook 3.5)~
+@1159 = ~Epic Fortitude~
+@1160 = ~EPIC FORTITUDE:
+
+Your resilience goes beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: You get a +4 bonus on all Fortitude saving throws.
+
+(Epic Level Handbook)~
+@1161 = ~Epic Reflexes~
+@1162 = ~EPIC REFLEXES:
+
+Your resilience goes beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: You get a +4 bonus on all Reflex saving throws.
+
+(Epic Level Handbook)~
+@1163 = ~Epic Will~
+@1164 = ~EPIC WILL:
+
+Your resilience goes beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: You get a +4 bonus on all Will saving throws.
+
+(Epic Level Handbook)~
+@1165 = ~Investigator~
+@1166 = ~INVESTIGATOR:
+
+You have a knack for finding things out.
+
+Benefit: You get a +2 bonus on all Search checks.
+
+(Player's Handbook 3.5; the Gather Information bonus does not exist in IWD2)~
+@1167 = ~Self-Sufficient~
+@1168 = ~SELF-SUFFICIENT:
+
+You can take care of yourself in harsh environments.
+
+Benefit: You get a +2 bonus on all Wilderness Lore checks.
+
+(Player's Handbook 3.5; the Heal bonus does not exist in IWD2)~
+@1169 = ~Animal Affinity~
+@1170 = ~ANIMAL AFFINITY:
+
+You are good with animals.
+
+Benefit: You get a +2 bonus on all Animal Empathy checks.
+
+(Player's Handbook 3.5: +2 Handle Animal and Ride; IWD2 has Animal Empathy instead)~

@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test59-2026-11-18~
+VERSION ~test60-2026-11-18~
 
 // test41: funkcja wspolna komponentow 2 i 5 (kolumna podklasy w tabeli 2DA = kopia kolumny %wzor%)
 ALWAYS
@@ -2057,10 +2057,10 @@ BEGIN ~TEST: klasy potworow, klasy NPC i szablony w CRE gry (podklasy typu D&D 3
 // test54/55: nowe atuty (numery FEATS.IDS od 75). Exe z komponentu 0 czyta liczbe atutow z FEATS.2DA (maks. 192, rangi do 15 dla atutow 75..150):
 // wiersz FEATS.2DA = numer atutu, wiersz i DSATUTY.2DA = atut 75 + i (ta sama kolejnosc). DSATUTY: wymagania,
 // premie liczone przy kazdym przeliczeniu postaci (umiejetnosci, rzuty, KP, atak) i tablica CLAB (AP_/GA_ raz).
-BEGIN ~TEST: nowe atuty (13) - umiejetnosci, rzuty obronne, atuty z rangami (PHB 3.5, Dark Sun 3.5, ELH)~ DESIGNATED 9
+BEGIN ~TEST: nowe atuty (35) - umiejetnosci, Skupienie na umiejetnosci, rzuty obronne, atuty z rangami (PHB 3.5, Dark Sun 3.5, ELH)~ DESIGNATED 9
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas, test56 lub nowszy).~
-  ACTION_DEFINE_ARRAY ds_atuty BEGIN STEALTHY NIMBLE_FINGERS DEFT_HANDS WASTELANDER DRAKES_CHILD PERSUASIVE NEGOTIATOR MAGICAL_APTITUDE TRADER FIELD_OFFICER BOUNCER EPIC_PROWESS ARMOR_SKIN END
+  ACTION_DEFINE_ARRAY ds_atuty BEGIN STEALTHY NIMBLE_FINGERS DEFT_HANDS WASTELANDER DRAKES_CHILD PERSUASIVE NEGOTIATOR MAGICAL_APTITUDE TRADER FIELD_OFFICER BOUNCER EPIC_PROWESS ARMOR_SKIN SKILL_FOCUS_ALCHEMY* SKILL_FOCUS_ANIMAL_EMPATHY* SKILL_FOCUS_BLUFF SKILL_FOCUS_CONCENTRATION* SKILL_FOCUS_DIPLOMACY* SKILL_FOCUS_DISABLE_DEVICE* SKILL_FOCUS_HIDE SKILL_FOCUS_INTIMIDATE* SKILL_FOCUS_KNOWLEDGE_ARCANA* SKILL_FOCUS_MOVE_SILENTLY* SKILL_FOCUS_OPEN_LOCK* SKILL_FOCUS_PICK_POCKET* SKILL_FOCUS_SEARCH* SKILL_FOCUS_SPELLCRAFT* SKILL_FOCUS_USE_MAGIC_DEVICE* SKILL_FOCUS_WILDERNESS_LORE* EPIC_FORTITUDE EPIC_REFLEXES EPIC_WILL INVESTIGATOR SELF_SUFFICIENT ANIMAL_AFFINITY END
   OUTER_SET $ds_at_n(~0~) = RESOLVE_STR_REF(@1101)
   OUTER_SET $ds_at_d(~0~) = RESOLVE_STR_REF(@1102)
   OUTER_SET $ds_at_n(~1~) = RESOLVE_STR_REF(@1103)
@@ -2087,6 +2087,50 @@ BEGIN ~TEST: nowe atuty (13) - umiejetnosci, rzuty obronne, atuty z rangami (PHB
   OUTER_SET $ds_at_d(~11~) = RESOLVE_STR_REF(@1124)
   OUTER_SET $ds_at_n(~12~) = RESOLVE_STR_REF(@1125)
   OUTER_SET $ds_at_d(~12~) = RESOLVE_STR_REF(@1126)
+  OUTER_SET $ds_at_n(~13~) = RESOLVE_STR_REF(@1127)
+  OUTER_SET $ds_at_d(~13~) = RESOLVE_STR_REF(@1128)
+  OUTER_SET $ds_at_n(~14~) = RESOLVE_STR_REF(@1129)
+  OUTER_SET $ds_at_d(~14~) = RESOLVE_STR_REF(@1130)
+  OUTER_SET $ds_at_n(~15~) = RESOLVE_STR_REF(@1131)
+  OUTER_SET $ds_at_d(~15~) = RESOLVE_STR_REF(@1132)
+  OUTER_SET $ds_at_n(~16~) = RESOLVE_STR_REF(@1133)
+  OUTER_SET $ds_at_d(~16~) = RESOLVE_STR_REF(@1134)
+  OUTER_SET $ds_at_n(~17~) = RESOLVE_STR_REF(@1135)
+  OUTER_SET $ds_at_d(~17~) = RESOLVE_STR_REF(@1136)
+  OUTER_SET $ds_at_n(~18~) = RESOLVE_STR_REF(@1137)
+  OUTER_SET $ds_at_d(~18~) = RESOLVE_STR_REF(@1138)
+  OUTER_SET $ds_at_n(~19~) = RESOLVE_STR_REF(@1139)
+  OUTER_SET $ds_at_d(~19~) = RESOLVE_STR_REF(@1140)
+  OUTER_SET $ds_at_n(~20~) = RESOLVE_STR_REF(@1141)
+  OUTER_SET $ds_at_d(~20~) = RESOLVE_STR_REF(@1142)
+  OUTER_SET $ds_at_n(~21~) = RESOLVE_STR_REF(@1143)
+  OUTER_SET $ds_at_d(~21~) = RESOLVE_STR_REF(@1144)
+  OUTER_SET $ds_at_n(~22~) = RESOLVE_STR_REF(@1145)
+  OUTER_SET $ds_at_d(~22~) = RESOLVE_STR_REF(@1146)
+  OUTER_SET $ds_at_n(~23~) = RESOLVE_STR_REF(@1147)
+  OUTER_SET $ds_at_d(~23~) = RESOLVE_STR_REF(@1148)
+  OUTER_SET $ds_at_n(~24~) = RESOLVE_STR_REF(@1149)
+  OUTER_SET $ds_at_d(~24~) = RESOLVE_STR_REF(@1150)
+  OUTER_SET $ds_at_n(~25~) = RESOLVE_STR_REF(@1151)
+  OUTER_SET $ds_at_d(~25~) = RESOLVE_STR_REF(@1152)
+  OUTER_SET $ds_at_n(~26~) = RESOLVE_STR_REF(@1153)
+  OUTER_SET $ds_at_d(~26~) = RESOLVE_STR_REF(@1154)
+  OUTER_SET $ds_at_n(~27~) = RESOLVE_STR_REF(@1155)
+  OUTER_SET $ds_at_d(~27~) = RESOLVE_STR_REF(@1156)
+  OUTER_SET $ds_at_n(~28~) = RESOLVE_STR_REF(@1157)
+  OUTER_SET $ds_at_d(~28~) = RESOLVE_STR_REF(@1158)
+  OUTER_SET $ds_at_n(~29~) = RESOLVE_STR_REF(@1159)
+  OUTER_SET $ds_at_d(~29~) = RESOLVE_STR_REF(@1160)
+  OUTER_SET $ds_at_n(~30~) = RESOLVE_STR_REF(@1161)
+  OUTER_SET $ds_at_d(~30~) = RESOLVE_STR_REF(@1162)
+  OUTER_SET $ds_at_n(~31~) = RESOLVE_STR_REF(@1163)
+  OUTER_SET $ds_at_d(~31~) = RESOLVE_STR_REF(@1164)
+  OUTER_SET $ds_at_n(~32~) = RESOLVE_STR_REF(@1165)
+  OUTER_SET $ds_at_d(~32~) = RESOLVE_STR_REF(@1166)
+  OUTER_SET $ds_at_n(~33~) = RESOLVE_STR_REF(@1167)
+  OUTER_SET $ds_at_d(~33~) = RESOLVE_STR_REF(@1168)
+  OUTER_SET $ds_at_n(~34~) = RESOLVE_STR_REF(@1169)
+  OUTER_SET $ds_at_d(~34~) = RESOLVE_STR_REF(@1170)
   COPY ~darksun_rasy/2da/DSATUTY.2DA~ ~override~
   OUTER_SET ds_n = 0
   ACTION_PHP_EACH ds_atuty AS ds_i => ds_a BEGIN

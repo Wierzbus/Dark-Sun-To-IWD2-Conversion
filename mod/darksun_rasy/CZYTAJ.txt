@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test59: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test60: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -461,3 +461,10 @@ test59: wysypka przy przejsciu do listy klas prestizowych (okno 6). ZMIANA EXE. 
      - Komponent 7 (test listy bez warunkow) nadal NIE do zwyklej gry - z nim przycisk jest aktywny od 1. poziomu.
      Sprawdzic (z komponentem 7): awans -> klasa prestizowa -> Dalej: lista po 2 klasy, przycisk nastepnej strony,
        wybor klasy i dokonczenie awansu.
+test60: atuty - partia 2 (22 nowe, razem 35). Exe bez zmian (jak test59). Reinstall: 9.
+     - Skupienie na umiejetnosci (Skill Focus, PHB 3.5): 16 atutow, po jednym na kazda umiejetnosc IWD2, +3.
+     - Epicka wytrwalosc / Epicki refleks / Epicka wola (Epic Level Handbook): 21. poziom postaci, +4 do rzutu.
+     - Badacz (+2 Przeszukiwanie), Samowystarczalny (+2 Wiedza o pustkowiach), Wiez ze zwierzetami (+2 Zrozumienie
+       zwierzat) - PHB 3.5, czesci premii do umiejetnosci spoza IWD2 pominiete (opisane w tekstach).
+     Sprawdzic: lista atutow ma 110 pozycji (75 + 35); premie Skupienia na karcie (np. Blef +3); epickie atuty
+       niedostepne ponizej 21. poziomu.
