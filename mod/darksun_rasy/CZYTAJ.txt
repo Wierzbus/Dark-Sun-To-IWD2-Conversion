@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test57: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test58: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -446,3 +446,11 @@ test57: czary z Podrecznika Gracza 3.5 - partia 1 (nowy komponent 10). Exe bez z
      - Sztuczki (poziom 0) pominiete - IWD2 nie ma kregu 0.
      Sprawdzic: czary na listach w kreatorze (zaklinacz, bard - wybor znanych czarow) i w ksiedze czarodzieja,
        rzucanie, czas trwania, rzut na Wole (Strach, Pomieszanie, Smiech Tashy), ikony; kolejne partie po wynikach.
+test58: poprawki po tescie awansu. ZMIANA EXE. Reinstall: 0, 1-5, 8, 9 i 10.
+     - Przycisk klas prestizowych byl dostepny juz po 1. poziomie, a klikniecie wywalalo gre: ukryta klasa szablonu
+       likantropa (SZ_LYCANTHROPE, test48) siedzi na slocie klasy 1 i nie ma wiersza w DSPREST, wiec liczyla sie jako
+       klasa prestizowa bez warunkow. Ukryte podklasy nie sa juz brane pod uwage (kity.asm pr_wpis).
+     - Klasa ulubiona polorka (takze mula i pololbrzyma) oraz niziolka widmowego: wojownik zamiast barbarzyncy
+       (slot barbarzyncy to teraz klasy prestizowe). Dotyczy karty postaci i kary PD za wieloklasowosc.
+     Sprawdzic: awans pololbrzyma-rycerza na 2. poziom - przycisk klas prestizowych nieaktywny; karta postaci polorka -
+       klasa ulubiona Wojownik.

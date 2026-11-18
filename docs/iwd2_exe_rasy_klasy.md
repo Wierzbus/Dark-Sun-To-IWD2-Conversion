@@ -716,3 +716,12 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   MAX_RANK (PREM bajt 21). Wybór: `wybor_atut` (0x763A6C w 0x763A40) – ranga < maks. → warunki 0x763200.
 - `atut_premie`: atuty 75..LICZBA−1 (bt +0x75C), premie × ranga. Sekcja .dsras 0xB000: kod 0xA28000, dane
   0xA2A000 (tablice ekranów, PEND 8 × 20 B, zmienne 0xA2A700, PREM 0xA2A800 = 117 × 24 B).
+
+## 49. Test58: klasa ulubiona, ukryte podklasy klasy 1
+- 0x764590 (thiscall, `ret 4`): klasa ulubiona wg rasy (+0x26) i podrasy (+0x27), tablica skoków 0x7646C0:
+  człowiek – najwyższa klasa / aasimar paladyn / tiefling łotrzyk; elf czarodziej, drow kapłanka / czarodziej,
+  dziki elf zaklinacz; krasnolud wojownik; niziołek łotrzyk, widmowy (podrasa 2) barbarzyńca; gnom czarodziej
+  (iluzjonista, maska 0x400); półork barbarzyńca (0x764668 `mov edi, 1`). Wywołania: karta postaci 0x5DCC20,
+  kara PD 0x764714. Łatka: 0x764669 = 5 (wojownik).
+- `pr_wpis`: wpis tabeli podklas z flagą ukrycia (+0 = 2) nigdy nie jest klasą prestiżową (SZ_LYCANTHROPE na klasie 1
+  bez wiersza DSPREST włączał przycisk klas prestiżowych wszystkim postaciom).

@@ -1093,6 +1093,8 @@ pr_wpis:
     push edi
     mov esi, [esp+0x18]         ; wpis
     mov ebx, [esp+0x1c]         ; postac
+    cmp dword [esi], 2          ; test58: ukryte podklasy klasy 1 (szablon SZ_LYCANTHROPE) nie sa klasami prestizowymi
+    je .nie
     push n_prest
     call wczytaj
     test eax, eax

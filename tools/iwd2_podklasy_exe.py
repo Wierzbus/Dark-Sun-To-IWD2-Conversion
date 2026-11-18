@@ -269,6 +269,9 @@ def atuty_exe(d, et5):
         o = adr - BASE                             # "lea eax, [edi-3]; cmp eax, 0x42; ja X" -> ja etykieta (test56)
         assert d[o:o + 12].hex() == h, hex(adr)
         struct.pack_into("<i", d, o + 8, et5[lab] - (adr + 12))
+    o = 0x764668 - BASE                            # test58: klasa ulubiona polorka (i podras) / niziolka widmowego:
+    assert d[o:o + 5].hex() == "bf01000000"        # barbarzynca (slot klasy 1 = klasy prestizowe) -> wojownik
+    d[o + 1] = 5
     o = 0x763270 - BASE                            # warunki atutu: numer > 74 -> atut_wymog (zamiast "brak")
     assert d[o - 3:o + 6].hex() == "83fd4a0f8787060000"
     struct.pack_into("<i", d, o + 2, et5["atut_wymog"] - (0x763270 + 6))

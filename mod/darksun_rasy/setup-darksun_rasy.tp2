@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test57-2026-11-18~
+VERSION ~test58-2026-11-18~
 
 // test41: funkcja wspolna komponentow 2 i 5 (kolumna podklasy w tabeli 2DA = kopia kolumny %wzor%)
 ALWAYS
