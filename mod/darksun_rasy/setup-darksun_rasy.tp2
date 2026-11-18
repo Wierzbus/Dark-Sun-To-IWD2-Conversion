@@ -5,9 +5,6 @@ BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
 VERSION ~test56-2026-11-18~
 
-LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
-LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
-
 // test41: funkcja wspolna komponentow 2 i 5 (kolumna podklasy w tabeli 2DA = kopia kolumny %wzor%)
 ALWAYS
   DEFINE_PATCH_FUNCTION ds_kolumna_kitu
@@ -45,6 +42,11 @@ ALWAYS
     END
   END
 END
+
+LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
+LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
+
+
 
 BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe (z IWD2_<W>.exe z paczki 1, jesli jest)~ DESIGNATED 0
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
