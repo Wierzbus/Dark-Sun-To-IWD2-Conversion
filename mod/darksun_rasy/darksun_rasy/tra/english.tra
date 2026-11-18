@@ -901,3 +901,159 @@ Benefit: You get a +1 bonus to Armor Class (in IWD2 a general bonus, not natural
 Special: You can take this feat up to 10 times. Its effects stack.
 
 (Epic Level Handbook)~
+@1201 = ~Cause Fear~
+@1202 = ~Cause Fear
+(Necromancy)
+Level: Brd 1, Clr 1, Sor/Wiz 1
+Range: Close
+Duration: 1d4 rounds
+Casting time: 1
+Area of effect: 1 creature
+Saving throw: Will negates
+
+The target is overcome by fear and flees for a short time. In IWD2 the target panics for 2 rounds; the shaken effect on a successful save and the 5 HD limit are not implemented.
+
+(Player's Handbook 3.5)~
+@1203 = ~Lesser Confusion~
+@1204 = ~Lesser Confusion
+(Enchantment)
+Level: Brd 1
+Range: Close
+Duration: 1 round
+Casting time: 1
+Area of effect: 1 creature
+Saving throw: Will negates
+
+The target becomes confused for 1 round and acts randomly.
+
+(Player's Handbook 3.5)~
+@1205 = ~Enlarge Person~
+@1206 = ~Enlarge Person
+(Transmutation)
+Level: Sor/Wiz 1
+Range: Touch
+Duration: 1 minute/level
+Casting time: 1
+Area of effect: 1 humanoid
+Saving throw: none
+
+The target grows to Large size: +2 Strength, -2 Dexterity, -1 to attack rolls and -1 Armor Class. The change of size and reach are not shown in IWD2.
+
+(Player's Handbook 3.5)~
+@1207 = ~Reduce Person~
+@1208 = ~Reduce Person
+(Transmutation)
+Level: Sor/Wiz 1
+Range: Touch
+Duration: 1 minute/level
+Casting time: 1
+Area of effect: 1 humanoid
+Saving throw: none
+
+The target shrinks to Small size: +2 Dexterity, -2 Strength, +1 to attack rolls and +1 Armor Class.
+
+(Player's Handbook 3.5)~
+@1209 = ~Expeditious Retreat~
+@1210 = ~Expeditious Retreat
+(Transmutation)
+Level: Brd 1, Sor/Wiz 1
+Range: Personal
+Duration: 1 minute/level
+Casting time: 1
+Area of effect: caster
+Saving throw: none
+
+The caster's base speed is doubled.
+
+(Player's Handbook 3.5)~
+@1211 = ~Magic Weapon~
+@1212 = ~Magic Weapon
+(Transmutation)
+Level: Clr 1, Pal 1, Sor/Wiz 1
+Range: Touch
+Duration: 1 minute/level
+Casting time: 1
+Area of effect: 1 creature
+Saving throw: none
+
+The target's weapon strikes truer: +1 to attack and damage rolls. (In D&D a +1 enhancement of one weapon; in IWD2 a bonus to the creature.)
+
+(Player's Handbook 3.5)~
+@1213 = ~True Strike~
+@1214 = ~True Strike
+(Divination)
+Level: Sor/Wiz 1
+Range: Personal
+Duration: 1 round
+Casting time: 1
+Area of effect: caster
+Saving throw: none
+
+The caster sees the immediate future of the fight and gets a +20 bonus to attack rolls for 1 round.
+
+(Player's Handbook 3.5)~
+@1215 = ~Tasha's Hideous Laughter~
+@1216 = ~Tasha's Hideous Laughter
+(Enchantment)
+Level: Brd 1, Sor/Wiz 2
+Range: Close
+Duration: 1 round/level
+Casting time: 1
+Area of effect: 1 creature
+Saving throw: Will negates
+
+The target falls down laughing uncontrollably and cannot act.
+
+(Player's Handbook 3.5)~
+@1217 = ~Divine Favor~
+@1218 = ~Divine Favor
+(Evocation)
+Level: Clr 1, Pal 1
+Range: Personal
+Duration: 1 minute
+Casting time: 1
+Area of effect: caster
+Saving throw: none
+
+The caster gains +1 to attack and damage rolls for every three caster levels (minimum +1, maximum +3).
+
+(Player's Handbook 3.5)~
+@1219 = ~Shield of Faith~
+@1220 = ~Shield of Faith
+(Abjuration)
+Level: Clr 1
+Range: Touch
+Duration: 1 minute/level
+Casting time: 1
+Area of effect: 1 creature
+Saving throw: none
+
+A shimmering field grants a +2 deflection bonus to Armor Class, +1 more for every six caster levels (maximum +5).
+
+(Player's Handbook 3.5)~
+@1221 = ~Longstrider~
+@1222 = ~Longstrider
+(Transmutation)
+Level: Drd 1, Rgr 1
+Range: Personal
+Duration: 1 hour/level
+Casting time: 1
+Area of effect: caster
+Saving throw: none
+
+The caster's speed increases by 10 feet (one third).
+
+(Player's Handbook 3.5)~
+@1223 = ~Produce Flame~
+@1224 = ~Produce Flame
+(Evocation)
+Level: Drd 1
+Range: Close
+Duration: instant
+Casting time: 1
+Area of effect: 1 creature
+Saving throw: none
+
+A flame hurled at the target deals 1d6 + 1 per caster level (maximum +5) points of fire damage. (In D&D the flame stays in the hand for 1 minute/level.)
+
+(Player's Handbook 3.5)~

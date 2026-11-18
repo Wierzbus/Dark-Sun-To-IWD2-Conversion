@@ -330,3 +330,10 @@ prestiżowa na postać. Kara PD za wieloklasowość nie liczy klasy prestiżowej
 4. Komponent 9 instalatora robi punkty 1–3 dla atutów z listy `ds_atuty` (teksty @1101+ w tra).
 `MAX_RANK` (2..15, atuty 75..150) = atut z rangami: premie mnożą się przez rangę, CLAB tylko przy 1. randze.
 Premie działają od razu po zdobyciu i znikają z atutem.
+
+## Nowy czar (od test57)
+1. SPL: `tools/iwd2_czary_phb.py` – wpis w `CZARY` (resref SPWI/SPPR z wolnych numerów x60–x97, typ, krąg, czar
+   gry jako wzór wyglądu, listy klas, czas trwania, efekty). Skrypt pisze SPL i `DSCZARY.2DA` (klasy, numer tra).
+2. Teksty: nazwa i opis w tra (`@1201+`, po 2 na czar).
+3. Komponent 10: `COPY` SPL z `SAY 0x08 / 0x50` i wiersz LISTSPLL (`ds_czar_wiersz`: numer = kolejny wiersz,
+   kolumny klas i podklas DS po nazwach).

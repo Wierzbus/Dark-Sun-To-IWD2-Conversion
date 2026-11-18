@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test56-2026-11-18~
+VERSION ~test57-2026-11-18~
 
 // test41: funkcja wspolna komponentow 2 i 5 (kolumna podklasy w tabeli 2DA = kopia kolumny %wzor%)
 ALWAYS
@@ -2128,3 +2128,83 @@ BEGIN ~TEST: nowe atuty (13) - umiejetnosci, rzuty obronne, atuty z rangami (PHB
     END
   BUT_ONLY
   PRINT ~Nowe atuty: dopisano %ds_n% wierszy FEATS.2DA.~
+
+// test57: czary z Podrecznika Gracza 3.5 (tools/iwd2_czary_phb.py: SPL z czarow gry o podobnym wygladzie, 30 naglowkow
+// wg poziomu rzucajacego). Nowe wiersze LISTSPLL na koncu (numer = kolejny wiersz); kolumny podklas DS: CLR_DS i
+// FAV_SOUL = CLR, WU_JEN = WIZ, pozostale 0 (komponent 5 zainstalowany pozniej skopiuje kolumny sam).
+BEGIN ~TEST: czary z Podrecznika Gracza 3.5 - partia 1 (12 czarow 1.-2. kregu)~ DESIGNATED 10
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  DEFINE_PATCH_FUNCTION ds_czar_wiersz
+    STR_VAR res = ~~ brd = ~0~ clr = ~0~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~0~ wiz = ~0~
+  BEGIN
+    PATCH_IF (INDEX_BUFFER (~%res%~) < 0) BEGIN
+      COUNT_2DA_COLS ds_nc
+      READ_2DA_ENTRIES_NOW ds_h (ds_nc - 1)
+      COUNT_2DA_ROWS ds_nc ds_nr
+      TEXT_SPRINT ds_l ~%ds_nr%~
+      FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+        READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_k
+        TEXT_SPRINT ds_v ~0~
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~BRD~) BEGIN TEXT_SPRINT ds_v ~%brd%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~CLR~) OR (~%ds_k%~ STRING_EQUAL_CASE ~CLR_DS~) OR (~%ds_k%~ STRING_EQUAL_CASE ~FAV_SOUL~) BEGIN TEXT_SPRINT ds_v ~%clr%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~DRD~) BEGIN TEXT_SPRINT ds_v ~%drd%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PAL~) BEGIN TEXT_SPRINT ds_v ~%pal%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~RGR~) BEGIN TEXT_SPRINT ds_v ~%rgr%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~SOR~) BEGIN TEXT_SPRINT ds_v ~%sor%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~WIZ~) OR (~%ds_k%~ STRING_EQUAL_CASE ~WU_JEN~) BEGIN TEXT_SPRINT ds_v ~%wiz%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~SPELL_RES_REF~) BEGIN TEXT_SPRINT ds_v ~%res%~ END
+        TEXT_SPRINT ds_l ~%ds_l% %ds_v%~
+      END
+      INSERT_2DA_ROW ds_nr ds_nc ~%ds_l%~
+    END
+  END
+  COPY ~darksun_rasy/spl/SPWI160.SPL~ ~override~
+    SAY 0x08 @1201
+    SAY 0x50 @1202
+  COPY ~darksun_rasy/spl/SPWI161.SPL~ ~override~
+    SAY 0x08 @1203
+    SAY 0x50 @1204
+  COPY ~darksun_rasy/spl/SPWI162.SPL~ ~override~
+    SAY 0x08 @1205
+    SAY 0x50 @1206
+  COPY ~darksun_rasy/spl/SPWI163.SPL~ ~override~
+    SAY 0x08 @1207
+    SAY 0x50 @1208
+  COPY ~darksun_rasy/spl/SPWI164.SPL~ ~override~
+    SAY 0x08 @1209
+    SAY 0x50 @1210
+  COPY ~darksun_rasy/spl/SPWI165.SPL~ ~override~
+    SAY 0x08 @1211
+    SAY 0x50 @1212
+  COPY ~darksun_rasy/spl/SPWI166.SPL~ ~override~
+    SAY 0x08 @1213
+    SAY 0x50 @1214
+  COPY ~darksun_rasy/spl/SPWI167.SPL~ ~override~
+    SAY 0x08 @1215
+    SAY 0x50 @1216
+  COPY ~darksun_rasy/spl/SPPR160.SPL~ ~override~
+    SAY 0x08 @1217
+    SAY 0x50 @1218
+  COPY ~darksun_rasy/spl/SPPR161.SPL~ ~override~
+    SAY 0x08 @1219
+    SAY 0x50 @1220
+  COPY ~darksun_rasy/spl/SPPR162.SPL~ ~override~
+    SAY 0x08 @1221
+    SAY 0x50 @1222
+  COPY ~darksun_rasy/spl/SPPR163.SPL~ ~override~
+    SAY 0x08 @1223
+    SAY 0x50 @1224
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI160~ brd = ~1~ clr = ~1~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~1~ wiz = ~1~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI161~ brd = ~1~ clr = ~0~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~0~ wiz = ~0~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI162~ brd = ~0~ clr = ~0~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~1~ wiz = ~1~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI163~ brd = ~0~ clr = ~0~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~1~ wiz = ~1~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI164~ brd = ~1~ clr = ~0~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~1~ wiz = ~1~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI165~ brd = ~0~ clr = ~1~ drd = ~0~ pal = ~1~ rgr = ~0~ sor = ~1~ wiz = ~1~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI166~ brd = ~0~ clr = ~0~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~1~ wiz = ~1~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPWI167~ brd = ~1~ clr = ~0~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~2~ wiz = ~2~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPPR160~ brd = ~0~ clr = ~1~ drd = ~0~ pal = ~1~ rgr = ~0~ sor = ~0~ wiz = ~0~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPPR161~ brd = ~0~ clr = ~1~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~0~ wiz = ~0~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPPR162~ brd = ~0~ clr = ~0~ drd = ~1~ pal = ~0~ rgr = ~1~ sor = ~0~ wiz = ~0~ END
+    LPF ds_czar_wiersz STR_VAR res = ~SPPR163~ brd = ~0~ clr = ~0~ drd = ~1~ pal = ~0~ rgr = ~0~ sor = ~0~ wiz = ~0~ END
+  BUT_ONLY

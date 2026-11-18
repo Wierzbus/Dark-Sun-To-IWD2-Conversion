@@ -900,3 +900,159 @@ Korzyœæ: Otrzymujesz premiê +1 do Klasy Pancerza (w IWD2 premia ogólna, nie panc
 Specjalne: Mo¿esz wybraæ ten atut do 10 razy; premie siê sumuj¹.
 
 (Epic Level Handbook)~
+@1201 = ~Spowodowanie strachu~
+@1202 = ~Spowodowanie strachu
+(Nekromancji)
+Poziom: Brd 1, Kp³ 1, Czrw/Czr 1
+Zasiêg: bliski
+Czas dzia³ania: 1k4 rund
+Czas rzucania: 1
+Obszar dzia³ania: 1 istota
+Rzut obronny: Wola neguje
+
+Cel ogarnia strach i przez chwilê ucieka. W IWD2 cel panikuje przez 2 rundy; roztrzêsienie po udanym rzucie i limit 5 KW nie s¹ zrobione.
+
+(Podrêcznik Gracza 3.5)~
+@1203 = ~Mniejsze pomieszanie~
+@1204 = ~Mniejsze pomieszanie
+(Zauroczeñ)
+Poziom: Brd 1
+Zasiêg: bliski
+Czas dzia³ania: 1 runda
+Czas rzucania: 1
+Obszar dzia³ania: 1 istota
+Rzut obronny: Wola neguje
+
+Cel zostaje pomieszany na 1 rundê i dzia³a przypadkowo.
+
+(Podrêcznik Gracza 3.5)~
+@1205 = ~Powiêkszenie osoby~
+@1206 = ~Powiêkszenie osoby
+(Przemian)
+Poziom: Czrw/Czr 1
+Zasiêg: dotyk
+Czas dzia³ania: 1 minuta/poziom
+Czas rzucania: 1
+Obszar dzia³ania: 1 humanoid
+Rzut obronny: brak
+
+Cel roœnie do rozmiaru du¿ego: +2 Si³y, -2 Zrêcznoœci, -1 do trafienia i -1 KP. Zmiana wielkoœci i zasiêgu nie jest widoczna w IWD2.
+
+(Podrêcznik Gracza 3.5)~
+@1207 = ~Zmniejszenie osoby~
+@1208 = ~Zmniejszenie osoby
+(Przemian)
+Poziom: Czrw/Czr 1
+Zasiêg: dotyk
+Czas dzia³ania: 1 minuta/poziom
+Czas rzucania: 1
+Obszar dzia³ania: 1 humanoid
+Rzut obronny: brak
+
+Cel kurczy siê do rozmiaru ma³ego: +2 Zrêcznoœci, -2 Si³y, +1 do trafienia i +1 KP.
+
+(Podrêcznik Gracza 3.5)~
+@1209 = ~Pospieszny odwrót~
+@1210 = ~Pospieszny odwrót
+(Przemian)
+Poziom: Brd 1, Czrw/Czr 1
+Zasiêg: rzucaj¹cy
+Czas dzia³ania: 1 minuta/poziom
+Czas rzucania: 1
+Obszar dzia³ania: rzucaj¹cy
+Rzut obronny: brak
+
+Szybkoœæ ruchu rzucaj¹cego siê podwaja.
+
+(Podrêcznik Gracza 3.5)~
+@1211 = ~Magiczna broñ~
+@1212 = ~Magiczna broñ
+(Przemian)
+Poziom: Kp³ 1, Pal 1, Czrw/Czr 1
+Zasiêg: dotyk
+Czas dzia³ania: 1 minuta/poziom
+Czas rzucania: 1
+Obszar dzia³ania: 1 istota
+Rzut obronny: brak
+
+Broñ celu trafia celniej: +1 do trafienia i obra¿eñ. (W D&D ulepszenie +1 jednej broni; w IWD2 premia dla istoty.)
+
+(Podrêcznik Gracza 3.5)~
+@1213 = ~Pewny cios~
+@1214 = ~Pewny cios
+(Poznania)
+Poziom: Czrw/Czr 1
+Zasiêg: rzucaj¹cy
+Czas dzia³ania: 1 runda
+Czas rzucania: 1
+Obszar dzia³ania: rzucaj¹cy
+Rzut obronny: brak
+
+Rzucaj¹cy dostrzega najbli¿sz¹ przysz³oœæ walki i otrzymuje premiê +20 do trafienia przez 1 rundê.
+
+(Podrêcznik Gracza 3.5)~
+@1215 = ~Okropny œmiech Tashy~
+@1216 = ~Okropny œmiech Tashy
+(Zauroczeñ)
+Poziom: Brd 1, Czrw/Czr 2
+Zasiêg: bliski
+Czas dzia³ania: 1 runda/poziom
+Czas rzucania: 1
+Obszar dzia³ania: 1 istota
+Rzut obronny: Wola neguje
+
+Cel pada, nie mog¹c opanowaæ œmiechu, i nie mo¿e dzia³aæ.
+
+(Podrêcznik Gracza 3.5)~
+@1217 = ~Boska ³aska~
+@1218 = ~Boska ³aska
+(Wywo³añ)
+Poziom: Kp³ 1, Pal 1
+Zasiêg: rzucaj¹cy
+Czas dzia³ania: 1 minuta
+Czas rzucania: 1
+Obszar dzia³ania: rzucaj¹cy
+Rzut obronny: brak
+
+Rzucaj¹cy otrzymuje +1 do trafienia i obra¿eñ za ka¿de trzy poziomy (co najmniej +1, najwy¿ej +3).
+
+(Podrêcznik Gracza 3.5)~
+@1219 = ~Tarcza wiary~
+@1220 = ~Tarcza wiary
+(Odrzucania)
+Poziom: Kp³ 1
+Zasiêg: dotyk
+Czas dzia³ania: 1 minuta/poziom
+Czas rzucania: 1
+Obszar dzia³ania: 1 istota
+Rzut obronny: brak
+
+Migoc¹ce pole daje premiê +2 z odbicia do KP, +1 za ka¿de szeœæ poziomów rzucaj¹cego (najwy¿ej +5).
+
+(Podrêcznik Gracza 3.5)~
+@1221 = ~D³ugi krok~
+@1222 = ~D³ugi krok
+(Przemian)
+Poziom: Drd 1, Trop 1
+Zasiêg: rzucaj¹cy
+Czas dzia³ania: 1 godzina/poziom
+Czas rzucania: 1
+Obszar dzia³ania: rzucaj¹cy
+Rzut obronny: brak
+
+Szybkoœæ rzucaj¹cego wzrasta o 10 stóp (o jedn¹ trzeci¹).
+
+(Podrêcznik Gracza 3.5)~
+@1223 = ~Wytworzenie p³omienia~
+@1224 = ~Wytworzenie p³omienia
+(Wywo³añ)
+Poziom: Drd 1
+Zasiêg: bliski
+Czas dzia³ania: natychmiastowy
+Czas rzucania: 1
+Obszar dzia³ania: 1 istota
+Rzut obronny: brak
+
+P³omieñ ciœniêty w cel zadaje 1k6 + 1/poziom (najwy¿ej +5) obra¿eñ od ognia. (W D&D p³omieñ zostaje w d³oni przez 1 minutê/poziom.)
+
+(Podrêcznik Gracza 3.5)~

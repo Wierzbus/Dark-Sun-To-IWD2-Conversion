@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test56: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test57: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -436,3 +436,13 @@ test56: atuty z rangami i do 192 atutow.
        range), Pancerna skora (+1 KP na range; w IWD2 premia ogolna).
      Sprawdzic: przy awansie postaci 21+ wybrac Epicka sprawnosc 2 razy (na dwoch awansach albo dwoma punktami) -
        atak +2 na karcie; cofniecie minusem; zapis i wczytanie (ranga zostaje); postac z test55 bez zmian.
+test57: czary z Podrecznika Gracza 3.5 - partia 1 (nowy komponent 10). Exe bez zmian.
+     - 12 czarow, ktorych IWD2 nie ma: Spowodowanie strachu, Mniejsze pomieszanie, Powiekszenie osoby, Zmniejszenie
+       osoby, Pospieszny odwrot, Magiczna bron, Pewny cios, Okropny smiech Tashy, Boska laska, Tarcza wiary,
+       Dlugi krok, Wytworzenie plomienia. Listy klas jak w PHB 3.5 (bard, kaplan, druid, paladyn, tropiciel,
+       zaklinacz, czarodziej); podklasy DS: kaplan DS i Favored Soul jak kaplan, wu jen jak czarodziej.
+     - SPL powstaja z czarow gry o podobnym wygladzie (ikona i grafika wzoru), czas trwania i premie rosna z poziomem.
+       Uproszczenia opisane w tekstach czarow (np. Magiczna bron = +1 do trafienia i obrazen istoty).
+     - Sztuczki (poziom 0) pominiete - IWD2 nie ma kregu 0.
+     Sprawdzic: czary na listach w kreatorze (zaklinacz, bard - wybor znanych czarow) i w ksiedze czarodzieja,
+       rzucanie, czas trwania, rzut na Wole (Strach, Pomieszanie, Smiech Tashy), ikony; kolejne partie po wynikach.
