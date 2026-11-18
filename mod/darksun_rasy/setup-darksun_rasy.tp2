@@ -2044,7 +2044,7 @@ BEGIN ~TEST: klasy potworow, klasy NPC i szablony w CRE gry (podklasy typu D&D 3
           PATCH_IF IS_AN_INT ds_v BEGIN WRITE_BYTE 0x25A ds_v END
           TEXT_SPRINT ds_v $ds_pt(~%ds_w%~ ~22~)
           PATCH_IF NOT (~%ds_v%~ STRING_EQUAL ~*~) BEGIN
-            LPF ds_cre_cecha STR_VAR itm = EVAL ~%ds_v%~ RET dodano END
+            LPF ds_cre_cecha STR_VAR itm = EVAL ~%ds_v%~ RET dodano = dodano END
             SET ds_cechy = ds_cechy + dodano
           END
           SET ds_zmien = ds_zmien + 1
