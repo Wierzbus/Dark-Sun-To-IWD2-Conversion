@@ -601,3 +601,162 @@ Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude, Reflex. Skil
 
 Traits: low-light vision.~
 @794 = ~Template (Lycanthrope): low-light vision.~
+// test52: klasy prestizowe DS 3.5e i FRCS
+@901 = ~dune trader~
+@902 = ~Dune Trader~
+@903 = ~DUNE TRADER (prestige class, Dark Sun 3.5e): Agents of the great merchant houses of Athas: negotiators, smugglers and spies who travel with the caravans between the city-states.
+
+Requirements: Diplomacy 7 ranks, Bluff 5 ranks, Mercantile Background.
+
+Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Will. Skill points: 8 per level.~
+@904 = ~Dune Trader: Open Arms, Fast Talk, Contacts, Bargaining, Dazzle, Agent and Allies - description only.~
+@911 = ~grove master~
+@912 = ~Grove Master~
+@913 = ~GROVE MASTER (prestige class, Dark Sun 3.5e): Druids who guard a stretch of land for its spirit and strike down those who would defile it.
+
+Requirements: Druid level 5 (3rd-level divine spells), Wilderness Lore 5 ranks, Forester. +1 level of druid spellcasting per level.
+
+Hit Die: d8. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 4 per level.
+
+Abilities: Smite Intruder (2nd, 7th level: Smite Evil of the game), Invisibility (3rd, 6th).~
+@914 = ~Grove Master: Animal Companion, Guarded Lands, Sustenance, Teleport, Nondetection and Timeless Body - description only.~
+@921 = ~master scout~
+@922 = ~Master Scout~
+@923 = ~MASTER SCOUT (prestige class, Dark Sun 3.5e): Guides and pathfinders of the wastes, who move fast and unseen and strike before the enemy knows they are there.
+
+Requirements: Wilderness Lore 8 ranks.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude, Reflex. Skill points: 6 per level.
+
+Abilities: Blaze Trail (faster movement), Swift Strike (sneak attack from 2nd level), bonus feat at 6th level.~
+@924 = ~Master Scout: Hard March, Uncanny Stealth, Favored Terrain and Swift Tracker - description only.~
+@931 = ~poisonmaster~
+@932 = ~Poisonmaster~
+@933 = ~POISONMASTER (prestige class, Dark Sun 3.5e): Masters of the venoms of Athas, whose bodies grow hardened to the very poisons they brew.
+
+Requirements: Alchemy 8 ranks, Envenom Weapon.
+
+Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Fortitude, Reflex, Will. Skill points: 4 per level.
+
+Abilities: Mental Resistance (4th: +2 Will), damage reduction (5th and 10th), poison immunity (10th).~
+@934 = ~Poisonmaster: Identify Poison, Dosage, Poison Secrets, Extend, Empower, Maximize and Quicken Poison, Mind Blank - description only.~
+@941 = ~templar knight~
+@942 = ~Templar Knight~
+@943 = ~TEMPLAR KNIGHT (prestige class, Dark Sun 3.5e): Warriors of the templarate who lead the armies of the sorcerer-kings and enforce their will with sword and spell.
+
+Requirements: Base attack bonus +5, Diplomacy 2 ranks.
+
+Hit Die: d10. Base attack bonus: full. Good saving throws: Fortitude. Skill points: 2 per level.
+
+Abilities: Smite Opponents (1st, 5th, 7th, 10th: Smite Evil of the game), bonus feats at 3rd, 6th and 9th level.~
+@944 = ~Templar Knight: Secular Authority, spell-like abilities, Fearless Presence, templar knight spells and Spell Channeling - description only.~
+@951 = ~arcane devotee~
+@952 = ~Arcane Devotee~
+@953 = ~ARCANE DEVOTEE (prestige class, Forgotten Realms Campaign Setting): Arcane spellcasters who serve a deity of magic as faithfully as any priest.
+
+Requirements: 7 levels of arcane spellcasting classes (4th-level spells), Spellcraft 8 ranks. +1 level of wizard spellcasting per level.
+
+Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 per level.
+
+Abilities: Sacred Defense (2nd, 4th: +1 to saves each).~
+@954 = ~Arcane Devotee: Enlarge Spell, bonus feat, Divine Shroud - description only.~
+@961 = ~archmage~
+@962 = ~Archmage~
+@963 = ~ARCHMAGE (prestige class, Forgotten Realms Campaign Setting): Wizards who reach the highest mastery of the Art and bend the Weave to their will.
+
+Requirements: 13 levels of arcane spellcasting classes (7th-level spells), Spellcraft 15 and Knowledge (Arcana) 15 ranks. +1 level of wizard spellcasting per level.
+
+Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 per level.~
+@964 = ~Archmage: High Arcana (Arcane Fire, Arcane Reach, Mastery of Counterspelling, Mastery of Elements, Mastery of Shaping, Spell Power, Spell-Like Ability) - description only.~
+@971 = ~divine champion~
+@972 = ~Divine Champion~
+@973 = ~DIVINE CHAMPION (prestige class, Forgotten Realms Campaign Setting): Warriors who fight in the name of a deity of Faerûn and carry its favor into battle.
+
+Requirements: Base attack bonus +7.
+
+Hit Die: d10. Base attack bonus: full. Good saving throws: Fortitude, Reflex. Skill points: 2 per level.
+
+Abilities: Fighter bonus feats (2nd, 4th), Smite Infidel (3rd: Smite Evil of the game), Divine Wrath (5th: +2 attack, damage and AC for 1 minute).~
+@974 = ~Divine Champion: Lay on Hands - description only.~
+@981 = ~divine disciple~
+@982 = ~Divine Disciple~
+@983 = ~DIVINE DISCIPLE (prestige class, Forgotten Realms Campaign Setting): Priests who become the mouthpiece of their deity on Toril.
+
+Requirements: Cleric level 3 (2nd-level divine spells). +1 level of cleric spellcasting per level.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude, Will. Skill points: 2 per level.
+
+Abilities: Sacred Defense (2nd, 4th: +1 to saves each).~
+@984 = ~Divine Disciple: New Domain, Imbue with Spell Ability, Transcendence - description only.~
+@991 = ~divine seeker~
+@992 = ~Divine Seeker~
+@993 = ~DIVINE SEEKER (prestige class, Forgotten Realms Campaign Setting): Agents of the gods who infiltrate temples and strongholds to recover relics and secrets.
+
+Requirements: Hide 8 and Move Silently 8 ranks.
+
+Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Reflex. Skill points: 6 per level.
+
+Abilities: Sacred Defense (2nd, 4th: +1 to saves each).~
+@994 = ~Divine Seeker: Sanctuary, Locate Object, Locate Creature - description only.~
+@1001 = ~guild thief~
+@1002 = ~Guild Thief~
+@1003 = ~GUILD THIEF (prestige class, Forgotten Realms Campaign Setting): Members of the thieves' guilds of Faerûn's cities: burglars, enforcers and fences.
+
+Requirements: Hide 4 and Intimidate 3 ranks.
+
+Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Reflex. Skill points: 6 per level.
+
+Abilities: Sneak attack +1d6 (1st), +2d6 (3rd), +3d6 (5th); bonus feats (2nd, 4th).~
+@1004 = ~Guild Thief: Doublespeak, Reputation, Uncanny Dodge - description only.~
+@1011 = ~harper scout~
+@1012 = ~Harper Scout~
+@1013 = ~HARPER SCOUT (prestige class, Forgotten Realms Campaign Setting): Agents of the Harpers, a secret society that works against tyranny across Faerûn.
+
+Requirements: Bluff 4 and Diplomacy 8 ranks, Iron Will; not evil. Harper spells counted as bard spellcasting.
+
+Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Reflex, Will. Skill points: 6 per level.
+
+Abilities: Tymora's Smile (3rd: +1 to saves).~
+@1014 = ~Harper Scout: Harper Knowledge, favored enemies, Deneir's Eye, Lliira's Heart, Craft Harper Item - description only.~
+@1021 = ~hathran~
+@1022 = ~Hathran~
+@1023 = ~HATHRAN (prestige class, Forgotten Realms Campaign Setting): The witches of Rashemen, who wield both arcane and divine magic and guard their land from the Red Wizards.
+
+Requirements: Human, 3 levels of arcane spellcasting classes, Knowledge (Arcana) 4 ranks. +1 level of wizard spellcasting per level.
+
+Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Fortitude, Will. Skill points: 2 per level.~
+@1024 = ~Hathran: Cohort, Place Magic, Fear, Circle Leader, Greater Command - description only.~
+@1031 = ~hierophant~
+@1032 = ~Hierophant~
+@1033 = ~HIEROPHANT (prestige class, Forgotten Realms Campaign Setting): The highest servants of the gods, wielding divine power beyond that of ordinary priests.
+
+Requirements: Cleric level 13 (7th-level divine spells).
+
+Hit Die: d8. Base attack bonus: 1/2. Good saving throws: Fortitude, Will. Skill points: 2 per level.~
+@1034 = ~Hierophant: Special abilities (Blast Infidel, Divine Reach, Faith Healing, Gift of the Divine, Mastery of Energy, Power of Nature, Spell Power, Spell-Like Ability) - description only.~
+@1041 = ~red wizard~
+@1042 = ~Red Wizard~
+@1043 = ~RED WIZARD (prestige class, Forgotten Realms Campaign Setting): The specialist wizards who rule Thay, feared across Faerûn for their power and ambition.
+
+Requirements: Human, wizard level 5, Spellcraft 8 ranks; not good. +1 level of wizard spellcasting per level.
+
+Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 per level.~
+@1044 = ~Red Wizard: Enhanced Specialization, Spell Power, Specialist Defense, bonus feat, Circle Leader - description only.~
+@1051 = ~runecaster~
+@1052 = ~Runecaster~
+@1053 = ~RUNECASTER (prestige class, Forgotten Realms Campaign Setting): Divine spellcasters who bind their spells into runes.
+
+Requirements: Cleric level 5 (3rd-level divine spells), Spellcraft 8 ranks. +1 level of cleric spellcasting per level.
+
+Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude, Will. Skill points: 2 per level.~
+@1054 = ~Runecaster: Rune Craft, Rune Power, Improved Runecasting, Maximize Rune, Rune Chant - description only.~
+@1061 = ~shadow adept~
+@1062 = ~Shadow Adept~
+@1063 = ~SHADOW ADEPT (prestige class, Forgotten Realms Campaign Setting): Spellcasters of Shar who draw their magic from the Shadow Weave.
+
+Requirements: 3 levels of arcane spellcasting classes, Knowledge (Arcana) 8 ranks. +1 level of wizard spellcasting per level.
+
+Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 per level.
+
+Abilities: Shadow Defense (2nd, 5th, 8th: +1 to saves each), darkvision (7th).~
+@1064 = ~Shadow Adept: Shadow feats, Spell Power, Shield of Shadows, Shadow Walk, Shadow Double - description only.~

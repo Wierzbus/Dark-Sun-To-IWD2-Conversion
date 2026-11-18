@@ -99,6 +99,24 @@ KLASY = {
     "CLABDS49": [(1, "FA_%fa_774%")],                       # NPC_ADEPT
     "CLABDS50": [(1, "AP_DSMNUND"), (1, "FA_%fa_784%")],    # MON_UNDEAD_W (test48)
     "CLABDS51": [(1, "AP_DSMNDV"), (1, "FA_%fa_794%")],     # SZ_LYCANTHROPE (widzenie w polmroku)
+    # --- test52: klasy prestizowe Dark Sun 3.5e i Forgotten Realms Campaign Setting ---
+    "CLABDS52": [(1, "FA_%fa_904%")],  # DUNE_TRADER
+    "CLABDS53": [(1, "FA_%fa_914%"), (2, "GA_SPIN152"), (3, "GA_SPIN191"), (6, "GA_SPIN191"), (7, "GA_SPIN152")],  # GROVE_MASTER
+    "CLABDS54": [(1, "AP_DSBBNMV"), (1, "FA_%fa_924%")],  # MASTER_SCOUT
+    "CLABDS55": [(1, "FA_%fa_934%"), (4, "AP_DSSWWIL"), (5, "AP_DSDDDR"), (10, "AP_DSDDDR"), (10, "AP_DSDRVEN")],  # POISONMASTER
+    "CLABDS56": [(1, "GA_SPIN152"), (1, "FA_%fa_944%"), (5, "GA_SPIN152"), (7, "GA_SPIN152"), (10, "GA_SPIN152")],  # TEMPLAR_KNIGHT
+    "CLABDS57": [(1, "FA_%fa_954%"), (2, "AP_DSSDEF"), (4, "AP_DSSDEF")],  # ARCANE_DEVOTEE
+    "CLABDS58": [(1, "FA_%fa_964%")],  # ARCHMAGE
+    "CLABDS59": [(1, "FA_%fa_974%"), (3, "GA_SPIN152"), (5, "GA_DSDERW")],  # DIVINE_CHAMPION
+    "CLABDS60": [(1, "FA_%fa_984%"), (2, "AP_DSSDEF"), (4, "AP_DSSDEF")],  # DIVINE_DISCIPLE
+    "CLABDS61": [(1, "FA_%fa_994%"), (2, "AP_DSSDEF"), (4, "AP_DSSDEF")],  # DIVINE_SEEKER
+    "CLABDS62": [(1, "FA_%fa_1004%")],  # GUILD_THIEF
+    "CLABDS63": [(1, "FA_%fa_1014%"), (3, "AP_DSSDEF")],  # HARPER_SCOUT
+    "CLABDS64": [(1, "FA_%fa_1024%")],  # HATHRAN
+    "CLABDS65": [(1, "FA_%fa_1034%")],  # HIEROPHANT
+    "CLABDS66": [(1, "FA_%fa_1044%")],  # RED_WIZARD
+    "CLABDS67": [(1, "FA_%fa_1054%")],  # RUNECASTER
+    "CLABDS68": [(1, "FA_%fa_1064%"), (2, "AP_DSSDEF"), (5, "AP_DSSDEF"), (7, "AP_DSMNDV"), (8, "AP_DSSDEF")],  # SHADOW_ADEPT
 }
 
 

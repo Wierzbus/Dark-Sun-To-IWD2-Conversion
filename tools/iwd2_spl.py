@@ -67,6 +67,8 @@ ZDOLNOSCI = {
     # test43 Samurai: Iaijutsu Master (11) +1 do ataku (54) i obrazen (73); Swashbuckler: Slippery Mind (17) +2 Wola (35)
     "DSSAIJ": [efekt(54, p1=1, p2=0), efekt(73, p1=1, p2=0)],
     "DSSWWIL": [efekt(35, p1=2, p2=0)],
+    # test52 Sacred / Shadow Defense: +1 do Wytrwalosci, Refleksu i Woli (opcode 33/34/35)
+    "DSSDEF": [efekt(33, p1=1, p2=0), efekt(34, p1=1, p2=0), efekt(35, p1=1, p2=0)],
     # test51 pololbrzym (DS 3.5): pancerz naturalny +2 i rozmiar duzy -1 KP = +1 KP; rozmiar duzy -1 do trafienia
     "DSHGNT": [efekt(0, p1=1, p2=0), efekt(54, p1=-1, p2=0)],
     # test43 Favored Soul: Deity's Weapon Focus (3) +1 do ataku

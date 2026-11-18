@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test51-2026-11-18~
+VERSION ~test52-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -357,8 +357,26 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     // koscmi - likantrop (kosci zwierzecia na klasie 1). Inne szablony (duch, polsmok, wampir, lisz) - cechy z przedmiotu.
     50, 5, MON_UNDEAD_W   , CLABDS50, 33 => 781
     51, 1, SZ_LYCANTHROPE , CLABDS51, 34 => 791
+    // test52: klasy prestizowe Dark Sun 3.5e (Athas.org) i Forgotten Realms Campaign Setting
+    52, 1, DUNE_TRADER    , CLABDS52, 35 => 901
+    53, 1, GROVE_MASTER   , CLABDS53, 36 => 911
+    54, 1, MASTER_SCOUT   , CLABDS54, 37 => 921
+    55, 1, POISONMASTER   , CLABDS55, 38 => 931
+    56, 1, TEMPLAR_KNIGHT , CLABDS56, 39 => 941
+    57, 1, ARCANE_DEVOTEE , CLABDS57, 3A => 951
+    58, 1, ARCHMAGE       , CLABDS58, 3B => 961
+    59, 1, DIVINE_CHAMPION, CLABDS59, 3C => 971
+    60, 1, DIVINE_DISCIPLE, CLABDS60, 3D => 981
+    61, 1, DIVINE_SEEKER  , CLABDS61, 3E => 991
+    62, 1, GUILD_THIEF    , CLABDS62, 3F => 1001
+    63, 1, HARPER_SCOUT   , CLABDS63, 40 => 1011
+    64, 1, HATHRAN        , CLABDS64, 41 => 1021
+    65, 1, HIEROPHANT     , CLABDS65, 42 => 1031
+    66, 1, RED_WIZARD     , CLABDS66, 43 => 1041
+    67, 1, RUNECASTER     , CLABDS67, 44 => 1051
+    68, 1, SHADOW_ADEPT   , CLABDS68, 45 => 1061
   END
-  OUTER_SET ds_n_kitow = 52
+  OUTER_SET ds_n_kitow = 69
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 320
@@ -518,6 +536,58 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~791~) = RESOLVE_STR_REF(@791)
   OUTER_SET $ds_str(~792~) = RESOLVE_STR_REF(@792)
   OUTER_SET $ds_str(~793~) = RESOLVE_STR_REF(@793)
+  // test52
+  OUTER_SET $ds_str(~901~) = RESOLVE_STR_REF(@901)
+  OUTER_SET $ds_str(~902~) = RESOLVE_STR_REF(@902)
+  OUTER_SET $ds_str(~903~) = RESOLVE_STR_REF(@903)
+  OUTER_SET $ds_str(~911~) = RESOLVE_STR_REF(@911)
+  OUTER_SET $ds_str(~912~) = RESOLVE_STR_REF(@912)
+  OUTER_SET $ds_str(~913~) = RESOLVE_STR_REF(@913)
+  OUTER_SET $ds_str(~921~) = RESOLVE_STR_REF(@921)
+  OUTER_SET $ds_str(~922~) = RESOLVE_STR_REF(@922)
+  OUTER_SET $ds_str(~923~) = RESOLVE_STR_REF(@923)
+  OUTER_SET $ds_str(~931~) = RESOLVE_STR_REF(@931)
+  OUTER_SET $ds_str(~932~) = RESOLVE_STR_REF(@932)
+  OUTER_SET $ds_str(~933~) = RESOLVE_STR_REF(@933)
+  OUTER_SET $ds_str(~941~) = RESOLVE_STR_REF(@941)
+  OUTER_SET $ds_str(~942~) = RESOLVE_STR_REF(@942)
+  OUTER_SET $ds_str(~943~) = RESOLVE_STR_REF(@943)
+  OUTER_SET $ds_str(~951~) = RESOLVE_STR_REF(@951)
+  OUTER_SET $ds_str(~952~) = RESOLVE_STR_REF(@952)
+  OUTER_SET $ds_str(~953~) = RESOLVE_STR_REF(@953)
+  OUTER_SET $ds_str(~961~) = RESOLVE_STR_REF(@961)
+  OUTER_SET $ds_str(~962~) = RESOLVE_STR_REF(@962)
+  OUTER_SET $ds_str(~963~) = RESOLVE_STR_REF(@963)
+  OUTER_SET $ds_str(~971~) = RESOLVE_STR_REF(@971)
+  OUTER_SET $ds_str(~972~) = RESOLVE_STR_REF(@972)
+  OUTER_SET $ds_str(~973~) = RESOLVE_STR_REF(@973)
+  OUTER_SET $ds_str(~981~) = RESOLVE_STR_REF(@981)
+  OUTER_SET $ds_str(~982~) = RESOLVE_STR_REF(@982)
+  OUTER_SET $ds_str(~983~) = RESOLVE_STR_REF(@983)
+  OUTER_SET $ds_str(~991~) = RESOLVE_STR_REF(@991)
+  OUTER_SET $ds_str(~992~) = RESOLVE_STR_REF(@992)
+  OUTER_SET $ds_str(~993~) = RESOLVE_STR_REF(@993)
+  OUTER_SET $ds_str(~1001~) = RESOLVE_STR_REF(@1001)
+  OUTER_SET $ds_str(~1002~) = RESOLVE_STR_REF(@1002)
+  OUTER_SET $ds_str(~1003~) = RESOLVE_STR_REF(@1003)
+  OUTER_SET $ds_str(~1011~) = RESOLVE_STR_REF(@1011)
+  OUTER_SET $ds_str(~1012~) = RESOLVE_STR_REF(@1012)
+  OUTER_SET $ds_str(~1013~) = RESOLVE_STR_REF(@1013)
+  OUTER_SET $ds_str(~1021~) = RESOLVE_STR_REF(@1021)
+  OUTER_SET $ds_str(~1022~) = RESOLVE_STR_REF(@1022)
+  OUTER_SET $ds_str(~1023~) = RESOLVE_STR_REF(@1023)
+  OUTER_SET $ds_str(~1031~) = RESOLVE_STR_REF(@1031)
+  OUTER_SET $ds_str(~1032~) = RESOLVE_STR_REF(@1032)
+  OUTER_SET $ds_str(~1033~) = RESOLVE_STR_REF(@1033)
+  OUTER_SET $ds_str(~1041~) = RESOLVE_STR_REF(@1041)
+  OUTER_SET $ds_str(~1042~) = RESOLVE_STR_REF(@1042)
+  OUTER_SET $ds_str(~1043~) = RESOLVE_STR_REF(@1043)
+  OUTER_SET $ds_str(~1051~) = RESOLVE_STR_REF(@1051)
+  OUTER_SET $ds_str(~1052~) = RESOLVE_STR_REF(@1052)
+  OUTER_SET $ds_str(~1053~) = RESOLVE_STR_REF(@1053)
+  OUTER_SET $ds_str(~1061~) = RESOLVE_STR_REF(@1061)
+  OUTER_SET $ds_str(~1062~) = RESOLVE_STR_REF(@1062)
+  OUTER_SET $ds_str(~1063~) = RESOLVE_STR_REF(@1063)
   // test43
   OUTER_SET $ds_str(~481~) = RESOLVE_STR_REF(@481)
   OUTER_SET $ds_str(~482~) = RESOLVE_STR_REF(@482)
@@ -564,7 +634,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
             SET mixed = $ds_str(~%t1%~)
             SET help = $ds_str(~%t2%~)
             SET o = 0x4CE000 + 32 * k_0
-            WRITE_LONG o (k_0 >= 32 ? 2 : 1)    // test45: 2 = ukryta (klasy potworow)
+            WRITE_LONG o (((k_0 >= 32) AND (k_0 < 52)) ? 2 : 1)    // test45: 2 = ukryta (klasy potworow, NPC, szablony 32..51); test52: klasy prestizowe 52+ widoczne
             WRITE_LONG (o + 4) mixed
             FOR (z = 8; z < 0x20; ++z) BEGIN WRITE_BYTE (o + z) 0 END
             WRITE_ASCIIE (o + 8) ~%k_2%~
@@ -682,6 +752,23 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   APPEND ~ALIGNMNT.2DA~ ~NPC_ADEPT	1	1	1	1	1	1	1	1	1~ UNLESS ~NPC_ADEPT~
   APPEND ~ALIGNMNT.2DA~ ~MON_UNDEAD_W	1	1	1	1	1	1	1	1	1~ UNLESS ~MON_UNDEAD_W~
   APPEND ~ALIGNMNT.2DA~ ~SZ_LYCANTHROPE	1	1	1	1	1	1	1	1	1~ UNLESS ~SZ_LYCANTHROPE~
+  APPEND ~ALIGNMNT.2DA~ ~DUNE_TRADER	1	1	1	1	1	1	1	1	1~ UNLESS ~DUNE_TRADER~
+  APPEND ~ALIGNMNT.2DA~ ~GROVE_MASTER	1	1	1	1	1	1	1	1	1~ UNLESS ~GROVE_MASTER~
+  APPEND ~ALIGNMNT.2DA~ ~MASTER_SCOUT	1	1	1	1	1	1	1	1	1~ UNLESS ~MASTER_SCOUT~
+  APPEND ~ALIGNMNT.2DA~ ~POISONMASTER	1	1	1	1	1	1	1	1	1~ UNLESS ~POISONMASTER~
+  APPEND ~ALIGNMNT.2DA~ ~TEMPLAR_KNIGHT	1	1	1	1	1	1	0	1	1~ UNLESS ~TEMPLAR_KNIGHT~
+  APPEND ~ALIGNMNT.2DA~ ~ARCANE_DEVOTEE	1	1	1	1	1	1	1	1	1~ UNLESS ~ARCANE_DEVOTEE~
+  APPEND ~ALIGNMNT.2DA~ ~ARCHMAGE	1	1	1	1	1	1	1	1	1~ UNLESS ~ARCHMAGE~
+  APPEND ~ALIGNMNT.2DA~ ~DIVINE_CHAMPION	1	1	1	1	1	1	1	1	1~ UNLESS ~DIVINE_CHAMPION~
+  APPEND ~ALIGNMNT.2DA~ ~DIVINE_DISCIPLE	1	1	1	1	1	1	1	1	1~ UNLESS ~DIVINE_DISCIPLE~
+  APPEND ~ALIGNMNT.2DA~ ~DIVINE_SEEKER	1	1	1	1	1	1	1	1	1~ UNLESS ~DIVINE_SEEKER~
+  APPEND ~ALIGNMNT.2DA~ ~GUILD_THIEF	1	1	1	1	1	1	1	1	1~ UNLESS ~GUILD_THIEF~
+  APPEND ~ALIGNMNT.2DA~ ~HARPER_SCOUT	1	1	0	1	1	0	1	1	0~ UNLESS ~HARPER_SCOUT~
+  APPEND ~ALIGNMNT.2DA~ ~HATHRAN	1	1	1	1	1	1	1	1	1~ UNLESS ~HATHRAN~
+  APPEND ~ALIGNMNT.2DA~ ~HIEROPHANT	1	1	1	1	1	1	1	1	1~ UNLESS ~HIEROPHANT~
+  APPEND ~ALIGNMNT.2DA~ ~RED_WIZARD	0	1	1	0	1	1	0	1	1~ UNLESS ~RED_WIZARD~
+  APPEND ~ALIGNMNT.2DA~ ~RUNECASTER	1	1	1	1	1	1	1	1	1~ UNLESS ~RUNECASTER~
+  APPEND ~ALIGNMNT.2DA~ ~SHADOW_ADEPT	1	1	1	1	1	1	1	1	1~ UNLESS ~SHADOW_ADEPT~
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -745,6 +832,23 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~NPC_ADEPT~ wzor = ~CLERIC~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~MON_UNDEAD_W~ wzor = ~FIGHTER~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~SZ_LYCANTHROPE~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DUNE_TRADER~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~GROVE_MASTER~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~MASTER_SCOUT~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~POISONMASTER~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~TEMPLAR_KNIGHT~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCANE_DEVOTEE~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCHMAGE~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DIVINE_CHAMPION~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DIVINE_DISCIPLE~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DIVINE_SEEKER~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~GUILD_THIEF~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~HARPER_SCOUT~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~HATHRAN~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~HIEROPHANT~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~RED_WIZARD~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~RUNECASTER~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~SHADOW_ADEPT~ wzor = ~BARBARIAN~ END
     END
   END
 
@@ -1003,6 +1107,23 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET fa_774 = RESOLVE_STR_REF(@774)
   OUTER_SET fa_784 = RESOLVE_STR_REF(@784)
   OUTER_SET fa_794 = RESOLVE_STR_REF(@794)
+  OUTER_SET fa_904 = RESOLVE_STR_REF(@904)
+  OUTER_SET fa_914 = RESOLVE_STR_REF(@914)
+  OUTER_SET fa_924 = RESOLVE_STR_REF(@924)
+  OUTER_SET fa_934 = RESOLVE_STR_REF(@934)
+  OUTER_SET fa_944 = RESOLVE_STR_REF(@944)
+  OUTER_SET fa_954 = RESOLVE_STR_REF(@954)
+  OUTER_SET fa_964 = RESOLVE_STR_REF(@964)
+  OUTER_SET fa_974 = RESOLVE_STR_REF(@974)
+  OUTER_SET fa_984 = RESOLVE_STR_REF(@984)
+  OUTER_SET fa_994 = RESOLVE_STR_REF(@994)
+  OUTER_SET fa_1004 = RESOLVE_STR_REF(@1004)
+  OUTER_SET fa_1014 = RESOLVE_STR_REF(@1014)
+  OUTER_SET fa_1024 = RESOLVE_STR_REF(@1024)
+  OUTER_SET fa_1034 = RESOLVE_STR_REF(@1034)
+  OUTER_SET fa_1044 = RESOLVE_STR_REF(@1044)
+  OUTER_SET fa_1054 = RESOLVE_STR_REF(@1054)
+  OUTER_SET fa_1064 = RESOLVE_STR_REF(@1064)
   COPY ~darksun_rasy/spl/DSMNUND.SPL~ ~override~
        ~darksun_rasy/spl/DSMNCON.SPL~ ~override~
        ~darksun_rasy/spl/DSMNOOZ.SPL~ ~override~
@@ -1010,6 +1131,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
        ~darksun_rasy/spl/DSMNVER.SPL~ ~override~
        ~darksun_rasy/spl/DSMNDRA.SPL~ ~override~
        ~darksun_rasy/spl/DSMNDV.SPL~  ~override~
+       ~darksun_rasy/spl/DSSDEF.SPL~  ~override~   // test52: +1 do rzutow obronnych (Sacred/Shadow Defense)
   OUTER_SET fa_484 = RESOLVE_STR_REF(@484)
   OUTER_SET fa_494 = RESOLVE_STR_REF(@494)
   OUTER_SET fa_504 = RESOLVE_STR_REF(@504)
@@ -1021,7 +1143,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   ACTION_FOR_EACH t IN ~CLABDS16~ ~CLABDS17~ ~CLABDS18~ ~CLABDS19~ ~CLABDS20~ ~CLABDS21~ ~CLABDS22~ ~CLABDS23~
                        ~CLABDS24~ ~CLABDS25~ ~CLABDS26~ ~CLABDS27~ ~CLABDS28~ ~CLABDS29~ ~CLABDS30~ ~CLABDS31~
                        ~CLABDS32~ ~CLABDS33~ ~CLABDS34~ ~CLABDS35~ ~CLABDS36~ ~CLABDS37~ ~CLABDS38~ ~CLABDS39~ ~CLABDS40~ ~CLABDS41~ ~CLABDS42~ ~CLABDS43~ ~CLABDS44~ ~CLABDS45~ ~CLABDS46~
-                       ~CLABDS47~ ~CLABDS48~ ~CLABDS49~ ~CLABDS50~ ~CLABDS51~ BEGIN
+                       ~CLABDS47~ ~CLABDS48~ ~CLABDS49~ ~CLABDS50~ ~CLABDS51~
+                       ~CLABDS52~ ~CLABDS53~ ~CLABDS54~ ~CLABDS55~ ~CLABDS56~ ~CLABDS57~ ~CLABDS58~ ~CLABDS59~ ~CLABDS60~ ~CLABDS61~ ~CLABDS62~ ~CLABDS63~ ~CLABDS64~ ~CLABDS65~ ~CLABDS66~ ~CLABDS67~ ~CLABDS68~ BEGIN
     COPY ~darksun_rasy/2da/%t%.2DA~ ~override~ EVALUATE_BUFFER
   END
   COPY ~darksun_rasy/spl/DSSWREF.SPL~ ~override~
@@ -1151,6 +1274,32 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_zera STR_VAR kol = ~NPC_ADEPT~ wzor = ~CLERIC~ END
     LPF ds_kolumna_zera STR_VAR kol = ~MON_UNDEAD_W~ wzor = ~FIGHTER~ END
     LPF ds_kolumna_zera STR_VAR kol = ~SZ_LYCANTHROPE~ wzor = ~BARBARIAN~ END
+    // test52: klasy prestizowe - premiowe atuty (wiersz = poziom - 1)
+    LPF ds_kolumna_zera STR_VAR kol = ~DUNE_TRADER~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~GROVE_MASTER~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~MASTER_SCOUT~ wzor = ~BARBARIAN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 5 wart = 1 END
+    LPF ds_kolumna_zera STR_VAR kol = ~POISONMASTER~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~TEMPLAR_KNIGHT~ wzor = ~BARBARIAN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 2 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 5 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 8 wart = 1 END
+    LPF ds_kolumna_zera STR_VAR kol = ~ARCANE_DEVOTEE~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~ARCHMAGE~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~DIVINE_CHAMPION~ wzor = ~BARBARIAN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 1 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 3 wart = 1 END
+    LPF ds_kolumna_zera STR_VAR kol = ~DIVINE_DISCIPLE~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~DIVINE_SEEKER~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~GUILD_THIEF~ wzor = ~BARBARIAN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 1 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 3 wart = 1 END
+    LPF ds_kolumna_zera STR_VAR kol = ~HARPER_SCOUT~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~HATHRAN~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~HIEROPHANT~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~RED_WIZARD~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~RUNECASTER~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~SHADOW_ADEPT~ wzor = ~BARBARIAN~ END
   BUT_ONLY
   COPY_EXISTING ~SKILLPTS.2DA~ ~override~
     LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BBN~ END
@@ -1215,6 +1364,41 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
     LPF ds_kolumna_kitu STR_VAR kol = ~SZ_LYCANTHROPE~ wzor = ~BBN~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    // test52: klasy prestizowe (wartosc = punkty / 2)
+    LPF ds_kolumna_kitu STR_VAR kol = ~DUNE_TRADER~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 4 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~GROVE_MASTER~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MASTER_SCOUT~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~POISONMASTER~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~TEMPLAR_KNIGHT~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~ARCANE_DEVOTEE~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~ARCHMAGE~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_CHAMPION~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_DISCIPLE~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_SEEKER~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~GUILD_THIEF~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~HARPER_SCOUT~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~HATHRAN~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~HIEROPHANT~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~RED_WIZARD~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~RUNECASTER~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SHADOW_ADEPT~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
   BUT_ONLY
   // test42: umiejetnosci klasowe podklas - SKILCOST.2DA (wiersz = umiejetnosc 0..15, 1 = klasowa, 2 = poza klasa,
   // 0 = niedostepna). Exe (kity.asm skc_cell, 0x764310) bierze kolumne o nazwie podklasy DS postaci, a bez niej kolumne klasy.
@@ -1273,6 +1457,24 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~PURPLE_DRAGON~ wzor = ~FTR~ END
     LPF ds_kol_wart INT_VAR wiersz = 4  wart = 1 END
     LPF ds_kolumna_kitu STR_VAR kol = ~WARPRIEST~     wzor = ~CLR~ END
+    // test52: klasy prestizowe - umiejetnosci klasy, z ktorej zwykle sie wchodzi
+    LPF ds_kolumna_kitu STR_VAR kol = ~DUNE_TRADER~ wzor = ~ROG~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~GROVE_MASTER~ wzor = ~DRD~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~MASTER_SCOUT~ wzor = ~RGR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~POISONMASTER~ wzor = ~ROG~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~TEMPLAR_KNIGHT~ wzor = ~FTR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~ARCANE_DEVOTEE~ wzor = ~WIZ~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~ARCHMAGE~ wzor = ~WIZ~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_CHAMPION~ wzor = ~PAL~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_DISCIPLE~ wzor = ~CLR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_SEEKER~ wzor = ~ROG~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~GUILD_THIEF~ wzor = ~ROG~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~HARPER_SCOUT~ wzor = ~BRD~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~HATHRAN~ wzor = ~SOR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~HIEROPHANT~ wzor = ~CLR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~RED_WIZARD~ wzor = ~WIZ~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~RUNECASTER~ wzor = ~CLR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SHADOW_ADEPT~ wzor = ~WIZ~ END
     // test47: ekspert (DMG: dowolne 10 umiejetnosci klasowych) - wszystkie klasowe; wojownik NPC, adept i szablony
     // korzystaja z kolumn klas (FTR, CLR, BBN)
     LPF ds_kolumna_kitu STR_VAR kol = ~NPC_EXPERT~ wzor = ~ROG~ END

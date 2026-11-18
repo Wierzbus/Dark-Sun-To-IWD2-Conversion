@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test51: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test52: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -363,3 +363,20 @@ test51: pololbrzym jako podrasa polorka (Dark Sun 3.5e); mul wg DS 3.5.
      - Wyglad pololbrzyma = polork (brak animacji), bez zasiegu 10 stop.
      Sprawdzic: kreator - trzeci przycisk w oknie podras polorka, nazwa "Pololbrzym" na karcie postaci, cechy,
      KP i trafienie na karcie, PD po walce (mniejsze); mul - nazwa na karcie nadal "Mul".
+test52: 17 klas prestizowych z Dark Sun 3.5e i Forgotten Realms Campaign Setting.
+     Exe bez zmian (test51). Reinstall: 0, 1-5 i 8.
+     - Dark Sun: Dune Trader, Grove Master, Master Scout, Poisonmaster, Templar Knight.
+       Forgotten Realms: Arcane Devotee, Archmage, Divine Champion, Divine Disciple, Divine Seeker, Guild Thief,
+       Harper Scout, Hathran, Hierophant, Red Wizard, Runecaster, Shadow Adept.
+     - Kosc PW, BAB i rzuty z tabel podrecznikow (DSKLPROG), warunki wejscia w DSPREST (poziom klasy, BAB, rangi
+       umiejetnosci, atuty, rasa, poziomy klas tajemnych), +1 poziom czarow przez SPELLCLASS (czarodziej / kaplan /
+       druid / bard), punkty umiejetnosci, umiejetnosci klasowe, charakter (Harfiarz - nie zly, Czerwony Czarodziej -
+       nie dobry, Rycerz templariuszy - bez CG).
+     - Zdolnosci w grze: karanie (zdolnosc karania zla z gry), niewidzialnosc, atak z zaskoczenia (Guild Thief od 1.,
+       Master Scout od 2. poziomu), premiowe atuty, +1 do rzutow obronnych (Sacred/Shadow Defense, DSSDEF), redukcja
+       obrazen i odpornosc na trucizny (Poisonmaster), widzenie w ciemnosci (Shadow Adept), szybszy ruch (Master
+       Scout). Reszta zdolnosci - tylko opis na karcie postaci (FA_).
+     - Psiologist i Psychic Adept (psionika) pominiete. Wymagania z umiejetnosciami spoza IWD2 (Survival,
+       Knowledge religion, Gather Information) zastapione najblizszymi (Wilderness Lore, Knowledge Arcana itd.).
+     Sprawdzic: okno klas prestizowych przy awansie - kolejne strony listy (teraz 30 klas), warunki (np. Divine
+       Disciple od 3. poziomu kaplana, Archmage przy 13 poziomach klas tajemnych), Guild Thief - atak z zaskoczenia.

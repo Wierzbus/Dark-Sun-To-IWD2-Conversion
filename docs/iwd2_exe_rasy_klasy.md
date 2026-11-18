@@ -648,3 +648,11 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - Tabele: SRLIST (ID 2), SR_HO, ABRACEAD, ABRACERQ, RACESPAB, RACERSMD, SAVERACE, SKILLRAC, STRTXP, RACEXPMD (−50),
   SUBRACE.IDS 0x00070002, DSRASY (RLHGNT, widzenie w ciemności), RLHGNT (AP_DSHGNT +1 KP −1 trafienie, AP_DSBBNMV).
 - Dostosowanie poziomu ras w IWD2 = RACEXPMD (procent PD): drow −50, aasimar/tiefling −35.
+
+## 44. Test52: klasy prestiżowe DS 3.5e i FRCS
+- Wpisy 52–68 (klasa 1, widoczne: flaga ukrycia tylko dla 32–51), CLABDS52–68 (`tools/iwd2_clab.py`), wiersze
+  DSKLPROG i DSPREST, kolumny FEATCLAS / SKILLPTS / SKILCOST, ALIGNMNT; DSKLASY SNEAK_ATTACK: GUILD_THIEF 1,
+  MASTER_SCOUT 2. Nowy SPL `DSSDEF` (+1 do trzech rzutów, opcode 33/34/35). Generator
+  (`tools/iwd2_prestiz_t52.py`, dane w `tools/dane/klasy_prestizowe_t52.py`).
+- SPELLCLASS przyjmuje jedną klasę – klasy prestiżowe „+1 poziom istniejącej klasy tajemnej” liczą się jako
+  czarodziej (11), boskiej jako kapłan (3), Grove Master jako druid (4), Harper Scout jako bard (2).

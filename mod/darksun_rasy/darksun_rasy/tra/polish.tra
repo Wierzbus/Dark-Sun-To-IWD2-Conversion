@@ -600,3 +600,162 @@ Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa
 
 Cechy: widzenie w pó³mroku.~
 @794 = ~Szablon (likantrop): widzenie w pó³mroku.~
+// test52: klasy prestizowe DS 3.5e i FRCS
+@901 = ~kupiec wydm~
+@902 = ~Kupiec wydm~
+@903 = ~KUPIEC WYDM (klasa presti¿owa, Dark Sun 3.5e): Agenci wielkich domów kupieckich Athasu: negocjatorzy, przemytnicy i szpiedzy podró¿uj¹cy z karawanami miêdzy miastami-pañstwami.
+
+Wymagania: Dyplomacja 7 rang, Blef 5 rang, atut Mercantile Background.
+
+Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 8 na poziom.~
+@904 = ~Kupiec wydm: Otwarte ramiona, Gadane, Kontakty, Targowanie, Olœnienie, Agent i Sojusznicy – tylko opis.~
+@911 = ~mistrz gaju~
+@912 = ~Mistrz gaju~
+@913 = ~MISTRZ GAJU (klasa presti¿owa, Dark Sun 3.5e): Druidzi strzeg¹cy skrawka ziemi dla jego ducha i karz¹cy tych, którzy chc¹ go splugawiæ.
+
+Wymagania: 5. poziom druida (czary boskie 3. krêgu), Znajomoœæ dziczy 5 rang, atut Forester. Ka¿dy poziom: +1 poziom czarów druida.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 4 na poziom.
+
+Zdolnoœci: Karanie intruzów (2. i 7. poziom: karanie z³a z gry), Niewidzialnoœæ (3. i 6.).~
+@914 = ~Mistrz gaju: Zwierzêcy towarzysz, Strze¿one ziemie, Po¿ywienie, Teleportacja, Niewykrywalnoœæ i Ponadczasowe cia³o – tylko opis.~
+@921 = ~mistrz zwiadu~
+@922 = ~Mistrz zwiadu~
+@923 = ~MISTRZ ZWIADU (klasa presti¿owa, Dark Sun 3.5e): Przewodnicy i tropiciele pustkowi, którzy poruszaj¹ siê szybko i niezauwa¿enie i uderzaj¹, zanim wróg ich dostrze¿e.
+
+Wymagania: Znajomoœæ dziczy 8 rang.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Refleks. Punkty umiejêtnoœci: 6 na poziom.
+
+Zdolnoœci: Wytyczanie szlaku (szybszy ruch), Szybki cios (atak z zaskoczenia od 2. poziomu), premiowy atut na 6. poziomie.~
+@924 = ~Mistrz zwiadu: Forsowny marsz, Niesamowite skradanie, Ulubiony teren i Szybkie tropienie – tylko opis.~
+@931 = ~mistrz trucizn~
+@932 = ~Mistrz trucizn~
+@933 = ~MISTRZ TRUCIZN (klasa presti¿owa, Dark Sun 3.5e): Mistrzowie jadów Athasu, których cia³a uodparniaj¹ siê na trucizny, które warz¹.
+
+Wymagania: Alchemia 8 rang, atut Envenom Weapon.
+
+Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Refleks, Wola. Punkty umiejêtnoœci: 4 na poziom.
+
+Zdolnoœci: Odpornoœæ umys³u (4.: +2 do Woli), redukcja obra¿eñ (5. i 10.), odpornoœæ na trucizny (10.).~
+@934 = ~Mistrz trucizn: Rozpoznanie trucizny, Dawkowanie, Sekrety trucizn, wyd³u¿anie, wzmacnianie, maksymalizacja i przyspieszanie trucizny, Pusty umys³ – tylko opis.~
+@941 = ~rycerz templariuszy~
+@942 = ~Rycerz templariuszy~
+@943 = ~RYCERZ TEMPLARIUSZY (klasa presti¿owa, Dark Sun 3.5e): Wojownicy templariatu, którzy dowodz¹ armiami królów-czarnoksiê¿ników i egzekwuj¹ ich wolê mieczem i czarem.
+
+Wymagania: Bazowa premia do ataku +5, Dyplomacja 2 rangi.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ. Punkty umiejêtnoœci: 2 na poziom.
+
+Zdolnoœci: Karanie przeciwników (1., 5., 7., 10.: karanie z³a z gry), premiowe atuty na 3., 6. i 9. poziomie.~
+@944 = ~Rycerz templariuszy: W³adza œwiecka, zdolnoœci czaropodobne, Nieustraszona obecnoœæ, czary rycerza templariuszy i Kana³owanie czarów – tylko opis.~
+@951 = ~oddany arkanista~
+@952 = ~Oddany arkanista~
+@953 = ~ODDANY ARKANISTA (klasa presti¿owa, Forgotten Realms Campaign Setting): Czaruj¹cy, którzy s³u¿¹ bóstwu magii równie wiernie jak kap³ani.
+
+Wymagania: 7 poziomów klas czaruj¹cych tajemnie (czary 4. krêgu), Czaroznawstwo 8 rang. Ka¿dy poziom: +1 poziom czarów czarodzieja.
+
+Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 2 na poziom.
+
+Zdolnoœci: Œwiêta obrona (2. i 4.: po +1 do rzutów obronnych).~
+@954 = ~Oddany arkanista: Powiêkszenie czaru, premiowy atut, Boska zas³ona – tylko opis.~
+@961 = ~arcymag~
+@962 = ~Arcymag~
+@963 = ~ARCYMAG (klasa presti¿owa, Forgotten Realms Campaign Setting): Czarodzieje, którzy osi¹gnêli najwy¿sze mistrzostwo Sztuki i naginaj¹ Splot do swojej woli.
+
+Wymagania: 13 poziomów klas czaruj¹cych tajemnie (czary 7. krêgu), Czaroznawstwo 15 i Wiedza tajemna 15 rang. Ka¿dy poziom: +1 poziom czarów czarodzieja.
+
+Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 2 na poziom.~
+@964 = ~Arcymag: Wy¿sze arkana (tajemny ogieñ, tajemny zasiêg, mistrzostwo kontrczarów, ¿ywio³ów i kszta³towania, moc czarów, zdolnoœæ czaropodobna) – tylko opis.~
+@971 = ~boski czempion~
+@972 = ~Boski czempion~
+@973 = ~BOSKI CZEMPION (klasa presti¿owa, Forgotten Realms Campaign Setting): Wojownicy walcz¹cy w imiê bóstwa Faerunu i nios¹cy jego ³askê w bój.
+
+Wymagania: Bazowa premia do ataku +7.
+
+Koœæ wytrzyma³oœci: k10. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ, Refleks. Punkty umiejêtnoœci: 2 na poziom.
+
+Zdolnoœci: Premiowe atuty wojownika (2. i 4.), Karanie niewiernych (3.: karanie z³a z gry), Boski gniew (5.: +2 do ataku, obra¿eñ i KP na minutê).~
+@974 = ~Boski czempion: Nak³adanie r¹k – tylko opis.~
+@981 = ~boski uczeñ~
+@982 = ~Boski uczeñ~
+@983 = ~BOSKI UCZEÑ (klasa presti¿owa, Forgotten Realms Campaign Setting): Kap³ani, którzy staj¹ siê g³osem swojego bóstwa na Torilu.
+
+Wymagania: 3. poziom kap³ana (czary boskie 2. krêgu). Ka¿dy poziom: +1 poziom czarów kap³ana.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Wola. Punkty umiejêtnoœci: 2 na poziom.
+
+Zdolnoœci: Œwiêta obrona (2. i 4.: po +1 do rzutów obronnych).~
+@984 = ~Boski uczeñ: Nowa domena, Nadanie zdolnoœci czarowania, Transcendencja – tylko opis.~
+@991 = ~boski poszukiwacz~
+@992 = ~Boski poszukiwacz~
+@993 = ~BOSKI POSZUKIWACZ (klasa presti¿owa, Forgotten Realms Campaign Setting): Agenci bogów, którzy przenikaj¹ do œwi¹tyñ i twierdz, by odzyskaæ relikwie i sekrety.
+
+Wymagania: Ukrywanie siê 8 i Ciche poruszanie siê 8 rang.
+
+Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Refleks. Punkty umiejêtnoœci: 6 na poziom.
+
+Zdolnoœci: Œwiêta obrona (2. i 4.: po +1 do rzutów obronnych).~
+@994 = ~Boski poszukiwacz: Sanktuarium, Zlokalizowanie przedmiotu, Zlokalizowanie istoty – tylko opis.~
+@1001 = ~z³odziej gildii~
+@1002 = ~Z³odziej gildii~
+@1003 = ~Z£ODZIEJ GILDII (klasa presti¿owa, Forgotten Realms Campaign Setting): Cz³onkowie gildii z³odziei w miastach Faerunu: w³amywacze, egzekutorzy i paserzy.
+
+Wymagania: Ukrywanie siê 4 i Zastraszanie 3 rangi.
+
+Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Refleks. Punkty umiejêtnoœci: 6 na poziom.
+
+Zdolnoœci: Atak z zaskoczenia +1k6 (1.), +2k6 (3.), +3k6 (5.); premiowe atuty (2. i 4.).~
+@1004 = ~Z³odziej gildii: Dwuznaczna mowa, Reputacja, Niesamowity unik – tylko opis.~
+@1011 = ~zwiadowca Harfiarzy~
+@1012 = ~Zwiadowca Harfiarzy~
+@1013 = ~ZWIADOWCA HARFIARZY (klasa presti¿owa, Forgotten Realms Campaign Setting): Agenci Harfiarzy, tajnego stowarzyszenia walcz¹cego z tyrani¹ w ca³ym Faerunie.
+
+Wymagania: Blef 4 i Dyplomacja 8 rang, atut Iron Will; charakter niez³y. Czary Harfiarza licz¹ siê jak czary barda.
+
+Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Refleks, Wola. Punkty umiejêtnoœci: 6 na poziom.
+
+Zdolnoœci: Uœmiech Tymory (3.: +1 do rzutów obronnych).~
+@1014 = ~Zwiadowca Harfiarzy: Wiedza Harfiarzy, ulubieni wrogowie, Oko Deneira, Serce Lliiry, Wytwarzanie przedmiotów Harfiarzy – tylko opis.~
+@1021 = ~hathranka~
+@1022 = ~Hathranka~
+@1023 = ~HATHRANKA (klasa presti¿owa, Forgotten Realms Campaign Setting): Czarownice Rashemenu, w³adaj¹ce magi¹ tajemn¹ i bosk¹, strzeg¹ce swojej ziemi przed Czerwonymi Czarodziejami.
+
+Wymagania: Cz³owiek, 3 poziomy klas czaruj¹cych tajemnie, Wiedza tajemna 4 rangi. Ka¿dy poziom: +1 poziom czarów czarodzieja.
+
+Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wytrwa³oœæ, Wola. Punkty umiejêtnoœci: 2 na poziom.~
+@1024 = ~Hathranka: Towarzysz, Magia miejsca, Strach, Przywództwo krêgu, Wiêkszy rozkaz – tylko opis.~
+@1031 = ~hierofanta~
+@1032 = ~Hierofanta~
+@1033 = ~HIEROFANTA (klasa presti¿owa, Forgotten Realms Campaign Setting): Najwy¿si s³udzy bogów, w³adaj¹cy bosk¹ moc¹ wiêksz¹ ni¿ zwykli kap³ani.
+
+Wymagania: 13. poziom kap³ana (czary boskie 7. krêgu).
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wytrwa³oœæ, Wola. Punkty umiejêtnoœci: 2 na poziom.~
+@1034 = ~Hierofanta: Zdolnoœci specjalne (pora¿enie niewiernego, boski zasiêg, uzdrawianie wiar¹, dar boski, mistrzostwo energii, moc natury, moc czarów, zdolnoœæ czaropodobna) – tylko opis.~
+@1041 = ~czerwony czarodziej~
+@1042 = ~Czerwony czarodziej~
+@1043 = ~CZERWONY CZARODZIEJ (klasa presti¿owa, Forgotten Realms Campaign Setting): Czarodzieje specjaliœci rz¹dz¹cy Thay, budz¹cy strach w ca³ym Faerunie swoj¹ potêg¹ i ambicj¹.
+
+Wymagania: Cz³owiek, 5. poziom czarodzieja, Czaroznawstwo 8 rang; charakter niedobry. Ka¿dy poziom: +1 poziom czarów czarodzieja.
+
+Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 2 na poziom.~
+@1044 = ~Czerwony czarodziej: Pog³êbiona specjalizacja, Moc czarów, Obrona specjalisty, premiowy atut, Przywództwo krêgu – tylko opis.~
+@1051 = ~runicznik~
+@1052 = ~Runicznik~
+@1053 = ~RUNICZNIK (klasa presti¿owa, Forgotten Realms Campaign Setting): Czaruj¹cy boscy, którzy zaklinaj¹ swoje czary w runy.
+
+Wymagania: 5. poziom kap³ana (czary boskie 3. krêgu), Czaroznawstwo 8 rang. Ka¿dy poziom: +1 poziom czarów kap³ana.
+
+Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Wola. Punkty umiejêtnoœci: 2 na poziom.~
+@1054 = ~Runicznik: Rzemios³o run, Moc run, Lepsze runotwórstwo, Maksymalizacja runy, Œpiew run – tylko opis.~
+@1061 = ~adept cienia~
+@1062 = ~Adept cienia~
+@1063 = ~ADEPT CIENIA (klasa presti¿owa, Forgotten Realms Campaign Setting): Czaruj¹cy Shar, którzy czerpi¹ magiê ze Splotu Cienia.
+
+Wymagania: 3 poziomy klas czaruj¹cych tajemnie, Wiedza tajemna 8 rang. Ka¿dy poziom: +1 poziom czarów czarodzieja.
+
+Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 2 na poziom.
+
+Zdolnoœci: Obrona cienia (2., 5., 8.: po +1 do rzutów obronnych), widzenie w ciemnoœci (7.).~
+@1064 = ~Adept cienia: Atuty cienia, Moc czarów, Tarcza cieni, Krok w cieñ, Cienisty sobowtór – tylko opis.~
