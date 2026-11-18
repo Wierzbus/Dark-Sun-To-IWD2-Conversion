@@ -897,6 +897,19 @@ cz_lvl:
     push dword [esp+8]
     call 0x447990
     pop ecx
+    ; test53: podklasa bez rzucania czarow (bajt +0x16 wpisu, bit 0 - np. bard atasyjski): poziom klasy liczony jako 0
+    ; (miejsca na czary, liczba znanych czarow, okno 8 awansu, poziom rzucajacego); poziomy klas prestizowych zostaja
+    push edx
+    push dword [esp+8]          ; klasa
+    push ecx                    ; statystyki
+    call kit_kl
+    test edx, edx
+    jz .czary
+    test byte [edx+0x16], 1
+    jz .czary
+    xor eax, eax
+.czary:
+    pop edx
     push eax
     push dword [esp+8]
     push ecx
@@ -904,6 +917,70 @@ cz_lvl:
     pop ecx
     add eax, ecx
     ret 4
+
+; kit_kl(statystyki, klasa) -> edx = wpis podklasy DS tej klasy postaci albo 0 (test53). stdcall, zachowuje rejestry
+; poza edx. Postac jak w pr_czar: statystyki w postaci (+0x920 / +0x1778), kopia ekranu awansu ([ekran+0x85E]:
+; nowa klasa z okna 6 albo bajty podklas z kopii naglowka [ekran+0x85A] + 0x304), inaczej CTX_R.
+kit_kl:
+    push ebx
+    push esi
+    push eax
+    mov esi, [esp+0x10]
+    mov eax, [esp+0x14]
+    xor edx, edx
+    test esi, esi
+    jz .k
+    cmp eax, 1
+    jb .zero
+    cmp eax, 11
+    ja .zero
+    lea ebx, [esi-0x920]
+    cmp dword [ebx], 0x85bdd4
+    je .post
+    lea ebx, [esi-0x1778]
+    cmp dword [ebx], 0x85bdd4
+    je .post
+    mov ebx, [0x8cf6dc]
+    mov ebx, [ebx+0x1c60]
+    test ebx, ebx
+    jz .ctx
+    cmp esi, [ebx+0x85e]
+    jne .ctx
+    mov edx, [ebx+0x846]
+    shr edx, 24
+    jz .kop
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    cmp [edx+0x17], al
+    je .k
+.kop:
+    mov edx, [ebx+0x85a]
+    test edx, edx
+    jz .zero
+    movzx edx, byte [edx+eax+0x303]
+    jmp .nr
+.ctx:
+    mov ebx, [CTX_R]
+    test ebx, ebx
+    jz .zero
+    cmp dword [ebx], 0x85bdd4
+    jne .zero
+.post:
+    movzx edx, byte [ebx+eax+BAJTY-1]
+.nr:
+    test edx, edx
+    jz .zero
+    dec edx
+    shl edx, 5
+    add edx, KITY
+    jmp .k
+.zero:
+    xor edx, edx
+.k: pop eax
+    pop esi
+    pop ebx
+    ret 8
 
 ; zamiast "call 0x447950" (suma poziomow klas z maski, [esp+4] = maska): kaplan (4) i druid (8)
 cz_maska:

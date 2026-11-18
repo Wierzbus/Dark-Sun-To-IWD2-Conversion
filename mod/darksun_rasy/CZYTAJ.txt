@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test52: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test53: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -380,3 +380,19 @@ test52: 17 klas prestizowych z Dark Sun 3.5e i Forgotten Realms Campaign Setting
        Knowledge religion, Gather Information) zastapione najblizszymi (Wilderness Lore, Knowledge Arcana itd.).
      Sprawdzic: okno klas prestizowych przy awansie - kolejne strony listy (teraz 30 klas), warunki (np. Divine
        Disciple od 3. poziomu kaplana, Archmage przy 13 poziomach klas tajemnych), Guild Thief - atak z zaskoczenia.
+test53: psionika jako podklasy zaklinacza; bard atasyjski bez czarow.
+     ZMIANA EXE (kity.asm cz_lvl / kit_kl). Reinstall: 0, 1-5 i 8.
+     - Bard atasyjski nie rzuca czarow: podklasa ma znacznik "bez czarow" (bajt +0x16 wpisu podklasy), exe liczy jej
+       poziom barda jako 0 przy miejscach na czary, liczbie znanych czarow (okno 8 awansu sie nie pokazuje) i poziomie
+       rzucajacego. Muzyka barda (piesni) zostaje. Poziomy klas prestizowych z SPELLCLASS barda nadal daja czary.
+     - Psion (dawny "psionik", podklasa zaklinacza): k4, BAB 1/2, dobra Wola; lista mocy PSION.
+       Dziki talent (Wilder): k6, BAB 1/2, dobra Wola, 4 pkt; lista PSION.
+       Wojownik psioniczny: k8, BAB 3/4, dobra Wytrwalosc, atuty na 1., 2. i co 3 poziomy; lista PSYWAR (kregi 1-6).
+       Moce = najblizsze czary gry (np. Mind Thrust = Magic Missile, Inertial Armor = Mage Armor, Energy Bolt =
+       Lightning Bolt, Psionic Dominate = Dominate Person; 52 moce psiona, 23 wojownika). Rzucane jak czary zaklinacza
+       (bez punktow mocy i wzmacniania).
+     - Psiolog (klasa prestizowa DS): 10. poziom zaklinacza, praworzadny, +1 poziom czarow zaklinacza.
+     - Nazwy klas prestizowych Divine Champion / Divine Disciple w tabelach: DIV_CHAMPION, DIV_DISCIPLE (wpis podklasy
+       miesci 14 znakow).
+     Sprawdzic: bard atasyjski - brak ksiegi czarow i okna wyboru czarow przy awansie, piesni dzialaja; zwykly bard
+     bez zmian; zaklinacz - podklasy Psion, Dziki talent, Wojownik psioniczny i ich listy mocy w kreatorze.

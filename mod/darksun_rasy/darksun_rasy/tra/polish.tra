@@ -86,14 +86,16 @@ Dopasowanie pancerza (5., 10., 15., 20.) i parowanie (14.): po +1 KP.~
 
 Podklasa barda (Dark Sun 3.5e). Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ, Refleks, Wola. Punkty umiejêtnoœci: 6 na poziom. Odpornoœæ umys³u (5. poziom): +2 do rzutów na Wolê.
 
-Bard atasyjski z zasad nie rzuca czarów; w tym teœcie zachowuje czary gry, bo okno awansu wymaga wyboru czarów.~
+Czary: brak – bard atasyjski nie rzuca czarów (zamiast nich trucizny i muzyka barda).~
 @264 = ~Bard atasyjski: Przemytnik, U¿ycie trucizn, Uliczny spryt i Sekrety fachu – tylko opis.~
 @270 = ~Zaklinacz~
-@271 = ~psionik~
-@272 = ~Psionik~
-@273 = ~PSIONIK: Na Athasie moc umys³u jest tak powszechna, jak magia znienawidzona. Psionicy æwicz¹ Drogê, by sam¹ wol¹ naginaæ materiê i myœli.
+@271 = ~psion~
+@272 = ~Psion~
+@273 = ~PSION: Na Athasie moc umys³u jest równie powszechna, jak magia jest znienawidzona. Psioni æwicz¹ Drogê, by naginaæ materiê i myœli sam¹ wol¹.
 
-(Eksperymentalna podklasa zaklinacza: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+Podklasa zaklinacza (Dark Sun 3.5e / Expanded Psionics Handbook). Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 2 na poziom.
+
+Moce: lista mocy psiona – moce psioniczne jako najbli¿sze czary gry (np. Pchniêcie umys³u = Magiczny pocisk, Pancerz inercyjny = Zbroja maga, Grom energii = B³yskawica), rzucane jak czary zaklinacza.~
 
 // --- Podklasy test25 (komponent 2): lotrzyk, czarodziej, drugi kaplan. ---
 @280 = ~£otrzyk~
@@ -759,3 +761,26 @@ Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. 
 
 Zdolnoœci: Obrona cienia (2., 5., 8.: po +1 do rzutów obronnych), widzenie w ciemnoœci (7.).~
 @1064 = ~Adept cienia: Atuty cienia, Moc czarów, Tarcza cieni, Krok w cieñ, Cienisty sobowtór – tylko opis.~
+@274 = ~Psion: punkty mocy, dyscypliny i wzmacnianie mocy – moce rzucane jak czary zaklinacza.~
+@1071 = ~dziki talent~
+@1072 = ~Dziki talent~
+@1073 = ~DZIKI TALENT: Psionicy, którzy nigdy nie æwiczyli Drogi; ich moc wybucha z surowych emocji.
+
+Podklasa zaklinacza (Dark Sun 3.5e / Expanded Psionics Handbook). Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Punkty umiejêtnoœci: 4 na poziom.
+
+Moce: lista mocy psiona (najbli¿sze czary gry), rzucane jak czary zaklinacza.~
+@1074 = ~Dziki talent: Dziki przyp³yw, Psychiczne wyczerpanie, Unik przed dotykiem, Niesta³y umys³ – tylko opis.~
+@1081 = ~wojownik psioniczny~
+@1082 = ~Wojownik psioniczny~
+@1083 = ~WOJOWNIK PSIONICZNY: Wojownicy, którzy kieruj¹ moc umys³u na w³asne cia³o, wzmacniaj¹c w walce szybkoœæ, si³ê i zmys³y.
+
+Podklasa zaklinacza (Dark Sun 3.5e / Expanded Psionics Handbook). Koœæ wytrzyma³oœci: k8. Bazowa premia do ataku: 3/4. Dobre rzuty obronne: Wytrwa³oœæ. Punkty umiejêtnoœci: 2 na poziom. Premiowe atuty na 1., 2. i co 3 poziomy.
+
+Moce: lista mocy wojownika psionicznego (moce 1.–6. krêgu jako najbli¿sze czary gry: Pancerz inercyjny, Powiêkszenie, Pogrubienie skóry, Poœpiech, Bariera inercyjna...).~
+@1084 = ~Wojownik psioniczny: punkty mocy i wzmacnianie mocy – moce rzucane jak czary zaklinacza.~
+@1091 = ~psiolog~
+@1092 = ~Psiolog~
+@1093 = ~PSIOLOG (klasa presti¿owa, Dark Sun 3.5e): Badacze Drogi, którzy zg³êbiaj¹ psionikê w akademiach Athasu.
+
+Wymagania: 10. poziom zaklinacza (moce 5. krêgu); charakter praworz¹dny. Koœæ wytrzyma³oœci: k4. Bazowa premia do ataku: 1/2. Dobre rzuty obronne: Wola. Ka¿dy poziom dodaje +1 poziom czarów (mocy) zaklinacza.~
+@1094 = ~Psiolog: Psiologizm, Bystroœæ psioniczna, Racjonalizacja, Przezornoœæ – tylko opis.~

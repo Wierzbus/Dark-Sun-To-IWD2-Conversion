@@ -107,8 +107,8 @@ KLASY = {
     "CLABDS56": [(1, "GA_SPIN152"), (1, "FA_%fa_944%"), (5, "GA_SPIN152"), (7, "GA_SPIN152"), (10, "GA_SPIN152")],  # TEMPLAR_KNIGHT
     "CLABDS57": [(1, "FA_%fa_954%"), (2, "AP_DSSDEF"), (4, "AP_DSSDEF")],  # ARCANE_DEVOTEE
     "CLABDS58": [(1, "FA_%fa_964%")],  # ARCHMAGE
-    "CLABDS59": [(1, "FA_%fa_974%"), (3, "GA_SPIN152"), (5, "GA_DSDERW")],  # DIVINE_CHAMPION
-    "CLABDS60": [(1, "FA_%fa_984%"), (2, "AP_DSSDEF"), (4, "AP_DSSDEF")],  # DIVINE_DISCIPLE
+    "CLABDS59": [(1, "FA_%fa_974%"), (3, "GA_SPIN152"), (5, "GA_DSDERW")],  # DIV_CHAMPION
+    "CLABDS60": [(1, "FA_%fa_984%"), (2, "AP_DSSDEF"), (4, "AP_DSSDEF")],  # DIV_DISCIPLE
     "CLABDS61": [(1, "FA_%fa_994%"), (2, "AP_DSSDEF"), (4, "AP_DSSDEF")],  # DIVINE_SEEKER
     "CLABDS62": [(1, "FA_%fa_1004%")],  # GUILD_THIEF
     "CLABDS63": [(1, "FA_%fa_1014%"), (3, "AP_DSSDEF")],  # HARPER_SCOUT

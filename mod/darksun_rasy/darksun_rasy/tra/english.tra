@@ -86,14 +86,16 @@ Armor Optimization (5th, 10th, 15th, 20th) and Parry (14th): +1 AC each.~
 
 Bard subclass (Dark Sun 3.5e). Hit Die: d6. Base attack bonus: 3/4. Good saving throws: Fortitude, Reflex, Will. Skill points: 6 per level. Mental Resistance (5th level): +2 to Will saves.
 
-The Athasian bard of the rules casts no spells; in this test the bard keeps the spells of the game, because the level-up window requires spell choices.~
+Spells: none - the Athasian bard casts no spells (poisons and bardic music instead).~
 @264 = ~Athasian Bard: Smuggler, Poison Use, Streetsmart and Trade Secrets - description only.~
 @270 = ~Sorcerer~
-@271 = ~psionicist~
-@272 = ~Psionicist~
-@273 = ~PSIONICIST: On Athas the power of the mind is as common as magic is feared. Psionicists train the Way to bend matter and thought with will alone.
+@271 = ~psion~
+@272 = ~Psion~
+@273 = ~PSION: On Athas the power of the mind is as common as magic is feared. Psions train the Way to bend matter and thought with will alone.
 
-(Experimental sorcerer subclass: Dark Sun conversion test. Test ability at level 1: Spell Shield.)~
+Sorcerer subclass (Dark Sun 3.5e / Expanded Psionics Handbook). Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 per level.
+
+Powers: psion power list - psionic powers represented by the nearest spells of the game (e.g. Mind Thrust = Magic Missile, Inertial Armor = Mage Armor, Energy Bolt = Lightning Bolt), cast like sorcerer spells.~
 
 // --- Podklasy test25 (komponent 2): lotrzyk, czarodziej, drugi kaplan. Nazwy i opisy robocze - do decyzji wlasciciela. ---
 @280 = ~Rogue~
@@ -760,3 +762,26 @@ Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 2 p
 
 Abilities: Shadow Defense (2nd, 5th, 8th: +1 to saves each), darkvision (7th).~
 @1064 = ~Shadow Adept: Shadow feats, Spell Power, Shield of Shadows, Shadow Walk, Shadow Double - description only.~
+@274 = ~Psion: power points, disciplines and augmenting powers - powers are cast like sorcerer spells.~
+@1071 = ~wilder~
+@1072 = ~Wilder~
+@1073 = ~WILDER: Psionic talents who never trained in the Way; their power erupts from raw emotion.
+
+Sorcerer subclass (Dark Sun 3.5e / Expanded Psionics Handbook). Hit Die: d6. Base attack bonus: 1/2. Good saving throws: Will. Skill points: 4 per level.
+
+Powers: psion power list (nearest spells of the game), cast like sorcerer spells.~
+@1074 = ~Wilder: Wild Surge, Psychic Enervation, Elude Touch, Volatile Mind - description only.~
+@1081 = ~psychic warrior~
+@1082 = ~Psychic Warrior~
+@1083 = ~PSYCHIC WARRIOR: Warriors who turn the power of the mind on their own bodies, enhancing speed, strength and perception in battle.
+
+Sorcerer subclass (Dark Sun 3.5e / Expanded Psionics Handbook). Hit Die: d8. Base attack bonus: 3/4. Good saving throws: Fortitude. Skill points: 2 per level. Bonus feats at 1st, 2nd and every 3 levels.
+
+Powers: psychic warrior power list (powers of levels 1-6 as the nearest spells of the game: Inertial Armor, Expansion, Thicken Skin, Hustle, Inertial Barrier...).~
+@1084 = ~Psychic Warrior: power points and augmenting powers - powers are cast like sorcerer spells.~
+@1091 = ~psiologist~
+@1092 = ~Psiologist~
+@1093 = ~PSIOLOGIST (prestige class, Dark Sun 3.5e): Scholars of the Way who study psionics in the academies of Athas.
+
+Requirements: sorcerer level 10 (5th-level powers); lawful. Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Each level adds +1 level of sorcerer spellcasting (powers).~
+@1094 = ~Psiologist: Psiologism, Psionic Acumen, Psionic Rationalization, Forethought - description only.~

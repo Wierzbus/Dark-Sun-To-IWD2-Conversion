@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test52-2026-11-18~
+VERSION ~test53-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -365,8 +365,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     56, 1, TEMPLAR_KNIGHT , CLABDS56, 39 => 941
     57, 1, ARCANE_DEVOTEE , CLABDS57, 3A => 951
     58, 1, ARCHMAGE       , CLABDS58, 3B => 961
-    59, 1, DIVINE_CHAMPION, CLABDS59, 3C => 971
-    60, 1, DIVINE_DISCIPLE, CLABDS60, 3D => 981
+    59, 1, DIV_CHAMPION, CLABDS59, 3C => 971
+    60, 1, DIV_DISCIPLE, CLABDS60, 3D => 981
     61, 1, DIVINE_SEEKER  , CLABDS61, 3E => 991
     62, 1, GUILD_THIEF    , CLABDS62, 3F => 1001
     63, 1, HARPER_SCOUT   , CLABDS63, 40 => 1011
@@ -375,8 +375,12 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     66, 1, RED_WIZARD     , CLABDS66, 43 => 1041
     67, 1, RUNECASTER     , CLABDS67, 44 => 1051
     68, 1, SHADOW_ADEPT   , CLABDS68, 45 => 1061
+    // test53: psionika - podklasy zaklinacza (lista mocy = najblizsze czary gry) i klasa prestizowa Psiologist
+    69, 10, WILDER         , CLABDS69, 46 => 1071
+    70, 10, PSY_WARRIOR    , CLABDS70, 47 => 1081
+    71, 1, PSIOLOGIST     , CLABDS71, 48 => 1091
   END
-  OUTER_SET ds_n_kitow = 69
+  OUTER_SET ds_n_kitow = 72
   // etykiety "bez podklasy" w oknie 52: klasa => tra
   ACTION_DEFINE_ASSOCIATIVE_ARRAY ds_nok BEGIN
     1 => 320
@@ -588,6 +592,16 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET $ds_str(~1061~) = RESOLVE_STR_REF(@1061)
   OUTER_SET $ds_str(~1062~) = RESOLVE_STR_REF(@1062)
   OUTER_SET $ds_str(~1063~) = RESOLVE_STR_REF(@1063)
+  // test53
+  OUTER_SET $ds_str(~1071~) = RESOLVE_STR_REF(@1071)
+  OUTER_SET $ds_str(~1072~) = RESOLVE_STR_REF(@1072)
+  OUTER_SET $ds_str(~1073~) = RESOLVE_STR_REF(@1073)
+  OUTER_SET $ds_str(~1081~) = RESOLVE_STR_REF(@1081)
+  OUTER_SET $ds_str(~1082~) = RESOLVE_STR_REF(@1082)
+  OUTER_SET $ds_str(~1083~) = RESOLVE_STR_REF(@1083)
+  OUTER_SET $ds_str(~1091~) = RESOLVE_STR_REF(@1091)
+  OUTER_SET $ds_str(~1092~) = RESOLVE_STR_REF(@1092)
+  OUTER_SET $ds_str(~1093~) = RESOLVE_STR_REF(@1093)
   // test43
   OUTER_SET $ds_str(~481~) = RESOLVE_STR_REF(@481)
   OUTER_SET $ds_str(~482~) = RESOLVE_STR_REF(@482)
@@ -638,6 +652,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
             WRITE_LONG (o + 4) mixed
             FOR (z = 8; z < 0x20; ++z) BEGIN WRITE_BYTE (o + z) 0 END
             WRITE_ASCIIE (o + 8) ~%k_2%~
+            // test53: bajt +0x16 - znaczniki podklasy (nazwa ma najwyzej 14 znakow); bit 0 = bez rzucania czarow
+            // (kity.asm cz_lvl: poziom klasy liczony jako 0 przy miejscach na czary i znanych czarach)
+            PATCH_IF (~%k_2%~ STRING_EQUAL_CASE ~BARD_DS~) BEGIN WRITE_BYTE (o + 0x16) 1 END
             WRITE_BYTE (o + 0x17) k_1
             WRITE_ASCIIE (o + 0x18) ~%k_3%~
             WRITE_LONG (0x4D0040 + 4 * k_0) help
@@ -759,8 +776,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   APPEND ~ALIGNMNT.2DA~ ~TEMPLAR_KNIGHT	1	1	1	1	1	1	0	1	1~ UNLESS ~TEMPLAR_KNIGHT~
   APPEND ~ALIGNMNT.2DA~ ~ARCANE_DEVOTEE	1	1	1	1	1	1	1	1	1~ UNLESS ~ARCANE_DEVOTEE~
   APPEND ~ALIGNMNT.2DA~ ~ARCHMAGE	1	1	1	1	1	1	1	1	1~ UNLESS ~ARCHMAGE~
-  APPEND ~ALIGNMNT.2DA~ ~DIVINE_CHAMPION	1	1	1	1	1	1	1	1	1~ UNLESS ~DIVINE_CHAMPION~
-  APPEND ~ALIGNMNT.2DA~ ~DIVINE_DISCIPLE	1	1	1	1	1	1	1	1	1~ UNLESS ~DIVINE_DISCIPLE~
+  APPEND ~ALIGNMNT.2DA~ ~DIV_CHAMPION	1	1	1	1	1	1	1	1	1~ UNLESS ~DIV_CHAMPION~
+  APPEND ~ALIGNMNT.2DA~ ~DIV_DISCIPLE	1	1	1	1	1	1	1	1	1~ UNLESS ~DIV_DISCIPLE~
   APPEND ~ALIGNMNT.2DA~ ~DIVINE_SEEKER	1	1	1	1	1	1	1	1	1~ UNLESS ~DIVINE_SEEKER~
   APPEND ~ALIGNMNT.2DA~ ~GUILD_THIEF	1	1	1	1	1	1	1	1	1~ UNLESS ~GUILD_THIEF~
   APPEND ~ALIGNMNT.2DA~ ~HARPER_SCOUT	1	1	0	1	1	0	1	1	0~ UNLESS ~HARPER_SCOUT~
@@ -769,6 +786,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   APPEND ~ALIGNMNT.2DA~ ~RED_WIZARD	0	1	1	0	1	1	0	1	1~ UNLESS ~RED_WIZARD~
   APPEND ~ALIGNMNT.2DA~ ~RUNECASTER	1	1	1	1	1	1	1	1	1~ UNLESS ~RUNECASTER~
   APPEND ~ALIGNMNT.2DA~ ~SHADOW_ADEPT	1	1	1	1	1	1	1	1	1~ UNLESS ~SHADOW_ADEPT~
+  APPEND ~ALIGNMNT.2DA~ ~WILDER	1	1	1	1	1	1	1	1	1~ UNLESS ~WILDER~
+  APPEND ~ALIGNMNT.2DA~ ~PSY_WARRIOR	1	1	1	1	1	1	1	1	1~ UNLESS ~PSY_WARRIOR~
+  APPEND ~ALIGNMNT.2DA~ ~PSIOLOGIST	1	1	1	0	0	0	0	0	0~ UNLESS ~PSIOLOGIST~
 
   // --- 3. Pozostale tabele klas: wiersze nowych kitow ---
   // Wiersz kopiuje wartosci klasy bazowej; bez wiersza bazowego - zera. Juz istniejacy wiersz zostaje.
@@ -839,8 +859,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~TEMPLAR_KNIGHT~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCANE_DEVOTEE~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~ARCHMAGE~ wzor = ~BARBARIAN~ END
-        LPF ds_wiersz_kitu STR_VAR wiersz = ~DIVINE_CHAMPION~ wzor = ~BARBARIAN~ END
-        LPF ds_wiersz_kitu STR_VAR wiersz = ~DIVINE_DISCIPLE~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DIV_CHAMPION~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~DIV_DISCIPLE~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~DIVINE_SEEKER~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~GUILD_THIEF~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~HARPER_SCOUT~ wzor = ~BARBARIAN~ END
@@ -849,6 +869,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
         LPF ds_wiersz_kitu STR_VAR wiersz = ~RED_WIZARD~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~RUNECASTER~ wzor = ~BARBARIAN~ END
         LPF ds_wiersz_kitu STR_VAR wiersz = ~SHADOW_ADEPT~ wzor = ~BARBARIAN~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~WILDER~ wzor = ~SORCERER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~PSY_WARRIOR~ wzor = ~SORCERER~ END
+        LPF ds_wiersz_kitu STR_VAR wiersz = ~PSIOLOGIST~ wzor = ~BARBARIAN~ END
     END
   END
 
@@ -1026,7 +1049,7 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_clab_poziom INT_VAR poziom = 5 STR_VAR zdolnosc = ~AP_DSSWWIL~ END
   // Zaklinacz nie ma w grze tablicy CLAB (CLABSR01 nie istnieje - exe dostaje pusta tablice), wiec CLABDS08 jest
   // w paczce: tylko testowa zdolnosc na 1. poziomie.
-  COPY ~darksun_rasy/2da/CLABDS08.2DA~ ~override~        // psionik: Spell Shield (GA_SPIN243)
+  // CLABDS08 (psion, test53) - w petli tablic z tekstami FA (EVALUATE_BUFFER)
   COPY_EXISTING ~CLABTH01.2da~ ~override/CLABDS09.2da~   // lotrzyk Athasu (test25): Invisibility
     LPF ds_clab_poziom1 STR_VAR zdolnosc = ~GA_SPIN191~ END
   COPY ~darksun_rasy/2da/CLABDS10.2DA~ ~override~        // obronca (czarodziej, test25): Spell Shield; gra nie ma CLABMA01
@@ -1124,6 +1147,10 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
   OUTER_SET fa_1044 = RESOLVE_STR_REF(@1044)
   OUTER_SET fa_1054 = RESOLVE_STR_REF(@1054)
   OUTER_SET fa_1064 = RESOLVE_STR_REF(@1064)
+  OUTER_SET fa_274 = RESOLVE_STR_REF(@274)
+  OUTER_SET fa_1074 = RESOLVE_STR_REF(@1074)
+  OUTER_SET fa_1084 = RESOLVE_STR_REF(@1084)
+  OUTER_SET fa_1094 = RESOLVE_STR_REF(@1094)
   COPY ~darksun_rasy/spl/DSMNUND.SPL~ ~override~
        ~darksun_rasy/spl/DSMNCON.SPL~ ~override~
        ~darksun_rasy/spl/DSMNOOZ.SPL~ ~override~
@@ -1144,7 +1171,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
                        ~CLABDS24~ ~CLABDS25~ ~CLABDS26~ ~CLABDS27~ ~CLABDS28~ ~CLABDS29~ ~CLABDS30~ ~CLABDS31~
                        ~CLABDS32~ ~CLABDS33~ ~CLABDS34~ ~CLABDS35~ ~CLABDS36~ ~CLABDS37~ ~CLABDS38~ ~CLABDS39~ ~CLABDS40~ ~CLABDS41~ ~CLABDS42~ ~CLABDS43~ ~CLABDS44~ ~CLABDS45~ ~CLABDS46~
                        ~CLABDS47~ ~CLABDS48~ ~CLABDS49~ ~CLABDS50~ ~CLABDS51~
-                       ~CLABDS52~ ~CLABDS53~ ~CLABDS54~ ~CLABDS55~ ~CLABDS56~ ~CLABDS57~ ~CLABDS58~ ~CLABDS59~ ~CLABDS60~ ~CLABDS61~ ~CLABDS62~ ~CLABDS63~ ~CLABDS64~ ~CLABDS65~ ~CLABDS66~ ~CLABDS67~ ~CLABDS68~ BEGIN
+                       ~CLABDS52~ ~CLABDS53~ ~CLABDS54~ ~CLABDS55~ ~CLABDS56~ ~CLABDS57~ ~CLABDS58~ ~CLABDS59~ ~CLABDS60~ ~CLABDS61~ ~CLABDS62~ ~CLABDS63~ ~CLABDS64~ ~CLABDS65~ ~CLABDS66~ ~CLABDS67~ ~CLABDS68~
+                       ~CLABDS69~ ~CLABDS70~ ~CLABDS71~ ~CLABDS08~ BEGIN
     COPY ~darksun_rasy/2da/%t%.2DA~ ~override~ EVALUATE_BUFFER
   END
   COPY ~darksun_rasy/spl/DSSWREF.SPL~ ~override~
@@ -1286,10 +1314,10 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kol_wart INT_VAR wiersz = 8 wart = 1 END
     LPF ds_kolumna_zera STR_VAR kol = ~ARCANE_DEVOTEE~ wzor = ~BARBARIAN~ END
     LPF ds_kolumna_zera STR_VAR kol = ~ARCHMAGE~ wzor = ~BARBARIAN~ END
-    LPF ds_kolumna_zera STR_VAR kol = ~DIVINE_CHAMPION~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~DIV_CHAMPION~ wzor = ~BARBARIAN~ END
     LPF ds_kol_wart INT_VAR wiersz = 1 wart = 1 END
     LPF ds_kol_wart INT_VAR wiersz = 3 wart = 1 END
-    LPF ds_kolumna_zera STR_VAR kol = ~DIVINE_DISCIPLE~ wzor = ~BARBARIAN~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~DIV_DISCIPLE~ wzor = ~BARBARIAN~ END
     LPF ds_kolumna_zera STR_VAR kol = ~DIVINE_SEEKER~ wzor = ~BARBARIAN~ END
     LPF ds_kolumna_zera STR_VAR kol = ~GUILD_THIEF~ wzor = ~BARBARIAN~ END
     LPF ds_kol_wart INT_VAR wiersz = 1 wart = 1 END
@@ -1300,6 +1328,18 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_zera STR_VAR kol = ~RED_WIZARD~ wzor = ~BARBARIAN~ END
     LPF ds_kolumna_zera STR_VAR kol = ~RUNECASTER~ wzor = ~BARBARIAN~ END
     LPF ds_kolumna_zera STR_VAR kol = ~SHADOW_ADEPT~ wzor = ~BARBARIAN~ END
+    // test53: psionika
+    LPF ds_kolumna_zera STR_VAR kol = ~WILDER~ wzor = ~SORCERER~ END
+    LPF ds_kolumna_zera STR_VAR kol = ~PSY_WARRIOR~ wzor = ~SORCERER~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 1 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 4 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 7 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 10 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 13 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 16 wart = 1 END
+    LPF ds_kol_wart INT_VAR wiersz = 19 wart = 1 END
+    LPF ds_kolumna_zera STR_VAR kol = ~PSIOLOGIST~ wzor = ~BARBARIAN~ END
   BUT_ONLY
   COPY_EXISTING ~SKILLPTS.2DA~ ~override~
     LPF ds_kolumna_kitu STR_VAR kol = ~BARBARIAN_F~ wzor = ~BBN~ END
@@ -1379,9 +1419,9 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
     LPF ds_kolumna_kitu STR_VAR kol = ~ARCHMAGE~ wzor = ~BBN~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
-    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_CHAMPION~ wzor = ~BBN~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIV_CHAMPION~ wzor = ~BBN~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
-    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_DISCIPLE~ wzor = ~BBN~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIV_DISCIPLE~ wzor = ~BBN~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
     LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_SEEKER~ wzor = ~BBN~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 3 END
@@ -1398,6 +1438,15 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~RUNECASTER~ wzor = ~BBN~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
     LPF ds_kolumna_kitu STR_VAR kol = ~SHADOW_ADEPT~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    // test53: psionika (wartosc = punkty / 2)
+    LPF ds_kolumna_kitu STR_VAR kol = ~WILDER~ wzor = ~SOR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 2 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~PSY_WARRIOR~ wzor = ~SOR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~PSIOLOGIST~ wzor = ~BBN~ END
+    LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~SORCERER_DS~ wzor = ~SOR~ END
     LPF ds_kol_wart INT_VAR wiersz = 0 wart = 1 END
   BUT_ONLY
   // test42: umiejetnosci klasowe podklas - SKILCOST.2DA (wiersz = umiejetnosc 0..15, 1 = klasowa, 2 = poza klasa,
@@ -1465,8 +1514,8 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~TEMPLAR_KNIGHT~ wzor = ~FTR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~ARCANE_DEVOTEE~ wzor = ~WIZ~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~ARCHMAGE~ wzor = ~WIZ~ END
-    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_CHAMPION~ wzor = ~PAL~ END
-    LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_DISCIPLE~ wzor = ~CLR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIV_CHAMPION~ wzor = ~PAL~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~DIV_DISCIPLE~ wzor = ~CLR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~DIVINE_SEEKER~ wzor = ~ROG~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~GUILD_THIEF~ wzor = ~ROG~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~HARPER_SCOUT~ wzor = ~BRD~ END
@@ -1475,6 +1524,11 @@ BEGIN ~TEST: podklasy - paladyn, barbarzynca, kaplan (2), wojownik, tropiciel, d
     LPF ds_kolumna_kitu STR_VAR kol = ~RED_WIZARD~ wzor = ~WIZ~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~RUNECASTER~ wzor = ~CLR~ END
     LPF ds_kolumna_kitu STR_VAR kol = ~SHADOW_ADEPT~ wzor = ~WIZ~ END
+    // test53: psionika - wojownik psioniczny: umiejetnosci wojownika + Koncentracja
+    LPF ds_kolumna_kitu STR_VAR kol = ~WILDER~ wzor = ~SOR~ END
+    LPF ds_kolumna_kitu STR_VAR kol = ~PSY_WARRIOR~ wzor = ~FTR~ END
+    LPF ds_kol_wart INT_VAR wiersz = 3 wart = 1 END
+    LPF ds_kolumna_kitu STR_VAR kol = ~PSIOLOGIST~ wzor = ~SOR~ END
     // test47: ekspert (DMG: dowolne 10 umiejetnosci klasowych) - wszystkie klasowe; wojownik NPC, adept i szablony
     // korzystaja z kolumn klas (FTR, CLR, BBN)
     LPF ds_kolumna_kitu STR_VAR kol = ~NPC_EXPERT~ wzor = ~ROG~ END
@@ -1780,6 +1834,40 @@ REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~2~ ~Wymaga komponentu 2 (podklasy).~
         SET ds_lv = 0
         FOR (ds_k = 1; ds_k < 10; ++ds_k) BEGIN
           PATCH_IF (INDEX (~ %ds_res%:%ds_k% ~ ~%ds_templ%~) >= 0) BEGIN SET ds_lv = ds_k END
+        END
+        SET_2DA_ENTRY ds_i (ds_nc - 1) ds_nc ~%ds_lv%~
+      END
+    END
+  BUT_ONLY
+  // test53: kolumna PSION (psion i wilder) - moce psioniczne jako najblizsze czary gry (tools/iwd2_psionika_t53.py)
+  OUTER_TEXT_SPRINT ds_psi ~ SPWI112:1 SPWI114:1 SPWI102:1 SPWI104:1 SPPR114:1 SPWI116:1 SPWI103:1 SPWI101:1 SPWI118:1 SPWI209:1 SPWI226:2 SPWI201:2 SPWI206:2 SPWI227:2 SPWI220:2 SPPR219:2 SPWI205:2 SPWI308:3 SPWI302:3 SPPR401:3 SPWI306:3 SPWI314:3 SPWI304:3 SPWI404:4 SPWI507:4 SPPR403:4 SPWI408:4 SPWI406:4 SPWI401:4 SPPR515:5 SPPR519:5 SPPR716:5 SPWI503:5 SPWI508:5 SPWI607:6 SPWI605:6 SPWI623:6 SPWI702:7 SPWI509:7 SPWI705:7 SPWI712:7 SPWI709:7 SPWI804:8 SPWI807:8 SPWI805:8 SPWI903:9 SPWI908:9 SPWI911:9 ~
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    PATCH_IF (INDEX_BUFFER (~PSION~) < 0) BEGIN
+      LPF ds_kolumna_kitu STR_VAR kol = ~PSION~ wzor = ~SOR~ END
+      COUNT_2DA_COLS ds_nc
+      COUNT_2DA_ROWS ds_nc ds_nr
+      FOR (ds_i = 0; ds_i < ds_nr; ++ds_i) BEGIN
+        READ_2DA_ENTRY ds_i 8 ds_nc ds_res
+        SET ds_lv = 0
+        FOR (ds_k = 1; ds_k < 10; ++ds_k) BEGIN
+          PATCH_IF (INDEX (~ %ds_res%:%ds_k% ~ ~%ds_psi%~) >= 0) BEGIN SET ds_lv = ds_k END
+        END
+        SET_2DA_ENTRY ds_i (ds_nc - 1) ds_nc ~%ds_lv%~
+      END
+    END
+  BUT_ONLY
+  // test53: kolumna PSYWAR (wojownik psioniczny) - moce psioniczne jako najblizsze czary gry (tools/iwd2_psionika_t53.py)
+  OUTER_TEXT_SPRINT ds_psi ~ SPWI102:1 SPWI114:1 SPPR215:1 SPWI214:1 SPPR115:1 SPWI209:1 SPWI223:2 SPWI201:2 SPPR202:2 SPPR212:2 SPWI305:3 SPPR401:3 SPWI203:3 SPPR312:3 SPWI408:4 SPPR403:4 SPPR206:4 SPWI712:5 SPPR507:5 SPWI616:6 SPWI605:6 ~
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    PATCH_IF (INDEX_BUFFER (~PSYWAR~) < 0) BEGIN
+      LPF ds_kolumna_kitu STR_VAR kol = ~PSYWAR~ wzor = ~SOR~ END
+      COUNT_2DA_COLS ds_nc
+      COUNT_2DA_ROWS ds_nc ds_nr
+      FOR (ds_i = 0; ds_i < ds_nr; ++ds_i) BEGIN
+        READ_2DA_ENTRY ds_i 8 ds_nc ds_res
+        SET ds_lv = 0
+        FOR (ds_k = 1; ds_k < 10; ++ds_k) BEGIN
+          PATCH_IF (INDEX (~ %ds_res%:%ds_k% ~ ~%ds_psi%~) >= 0) BEGIN SET ds_lv = ds_k END
         END
         SET_2DA_ENTRY ds_i (ds_nc - 1) ds_nc ~%ds_lv%~
       END

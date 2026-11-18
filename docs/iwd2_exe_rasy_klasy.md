@@ -656,3 +656,12 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   (`tools/iwd2_prestiz_t52.py`, dane w `tools/dane/klasy_prestizowe_t52.py`).
 - SPELLCLASS przyjmuje jedną klasę – klasy prestiżowe „+1 poziom istniejącej klasy tajemnej” liczą się jako
   czarodziej (11), boskiej jako kapłan (3), Grove Master jako druid (4), Harper Scout jako bard (2).
+
+## 45. Test53: podklasa bez czarów, psionika
+- Wpis podklasy: bajt +0x16 (ostatni bajt pola nazwy; nazwy najwyżej 14 znaków) = znaczniki, bit 0 = bez rzucania
+  czarów. `cz_lvl` (kity.asm; miejsca na czary 0x5431E0, znane czary barda/zaklinacza i okno 8, poziom rzucającego):
+  po `0x447990` pyta `kit_kl(statystyki, klasa)` o wpis podklasy tej klasy (postać +0x920/+0x1778, kopia ekranu
+  awansu: [ekran+0x846] albo [ekran+0x85A]+0x303+klasa, inaczej CTX_R) i przy bicie 0 zwraca poziom 0 (plus poziomy
+  klasy prestiżowej). Ustawia WeiDU dla BARD_DS.
+- Psionika: SORCERER_DS = psion, WILDER (69), PSY_WARRIOR (70) na zaklinaczu, PSIOLOGIST (71) na klasie 1;
+  LISTSPLL PSION i PSYWAR (`tools/iwd2_psionika_t53.py`).
