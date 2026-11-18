@@ -50,11 +50,11 @@ HAKI2 = [
     (0x6F8EF4, "call", "aura", 0),           # aura paladyna (aktualizacja co runde)
 ]
 # rasy.asm (test20) w nowej sekcji PE .dsras (adres 0xA21000, 4 KB) na koncu pliku
-SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x9000   # od test54 0x9000 (atuty.asm od 0xA28000)
+SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0xB000   # test54 0x9000, test56 0xB000 (atuty.asm od 0xA28000)
 ORG3 = BASE + SEKCJA_RVA
 DANE3 = 0xA22000                             # zmienne kodu ras (druga strona sekcji)
 ORG4 = 0xA26000                              # kity.asm: tabela podklas 0xA23000 (255 wpisow), zmienne 0xA25000, kod 0xA26000
-ORG5, DANE5 = 0xA28000, 0xA28C00             # atuty.asm (test54): kod, dane (tablice rang atutow ekranow, oczekujace atuty)
+ORG5, DANE5 = 0xA28000, 0xA2A000             # atuty.asm: kod, dane (test56: tablice rang ekranow 192 dword, oczekujace, PREM)
 # haki podklas (kity.asm) - zastepuja haki podklasy.asm o tych samych adresach; (adres, oczekiwane bajty, rodzaj, etykieta, nop)
 HAKI4 = [
     (0x541DA0, "518b44240c", "jmp", "klasa_wiersz2", 0),         # GetClassRow: wiersz podklasy po (bit, klasa)
@@ -220,6 +220,7 @@ DANE = [
 ATUTY_ASERCJE = [0x762E26, 0x763156, 0x763206, 0x763A46, 0x7630A5, 0x765CE8]   # cmp reg, 0x4B (asercja numeru atutu)
 # (adres, oryginalne bajty, rodzaj, etykieta, nop)
 ATUTY_HAKI = [(0x765DC8, "83f84b89442410", "call", "karta_n", 2),     # lista atutow na karcie (0x765C50)
+              (0x7630C3, "8d46fd83f8425e7727", "jmp", "ranga_max", 4),  # test56: maks. ranga atutu z DSATUTY
               (0x5E1250, "4683fe4b7c95", "call", "kreator_n", 1),     # atuty z kolumn klas/ras FEATS.2DA
               (0x734689, "578bcbe84f1ed1ff", "jmp", "atut_premie", 3)]  # ProcessEffectList: premie z DSATUTY
 ATUTY_SIB = [(0x5DA2DE, "89848e50060000", 0), (0x5E8AD7, "39848e50060000", 0), (0x5F7156, "3984b750060000", 0),
@@ -229,11 +230,11 @@ ATUTY_LEA = [(0x5E4311, "8dbd50060000", 0xBF, 0), (0x5F89D5, "8dab50060000", 0xB
 
 
 def atuty_exe(d, et5):
-    tab = (DANE5, DANE5 + 0x180)
+    tab = (DANE5, DANE5 + 0x300)
     for adr in ATUTY_ASERCJE:
         o = adr - BASE
         assert d[o] == 0x83 and d[o + 2] == 0x4B and d[o + 1] in (0xF8, 0xFD, 0xFE, 0xFF), hex(adr)
-        d[o + 2] = 0x60
+        d[o + 2] = 0xC0                            # test56: 192 atuty
     for adr, h, rodzaj, lab, nop in ATUTY_HAKI:
         o = adr - BASE
         assert d[o:o + len(h) // 2].hex() == h, hex(adr)
@@ -258,10 +259,16 @@ def atuty_exe(d, et5):
         d[o:o + 6] = bytes([op]) + struct.pack("<I", tab[k]) + b"\x90"
     o = 0x606C28 - BASE                            # rep stosd: zerowanie tablicy kreatora
     assert d[o:o + 5].hex() == "b94b000000"
-    d[o + 1] = 0x60
+    d[o + 1] = 0xC0
     o = 0x762897 - BASE                            # SetFeatRank: cmp edi, 0x4B; mov esi, ecx -> call atut_ustaw
     assert d[o:o + 5].hex() == "83ff4b8bf1"
     d[o:o + 5] = b"\xE8" + struct.pack("<i", et5["atut_ustaw"] - (0x762897 + 5))
+    for adr, h, lab in ((0x762905, "8d47fd83f8420f874d040000", "ranga_zapis"),    # SetFeatRank: domyslnie
+                         (0x762E64, "8d47fd83f8420f8761010000", "ranga_odczyt"),   # GetFeatRank: domyslnie 1
+                         (0x763A66, "8d47fd83f8420f8745010000", "wybor_atut")):    # czy mozna wybrac
+        o = adr - BASE                             # "lea eax, [edi-3]; cmp eax, 0x42; ja X" -> ja etykieta (test56)
+        assert d[o:o + 12].hex() == h, hex(adr)
+        struct.pack_into("<i", d, o + 8, et5[lab] - (adr + 12))
     o = 0x763270 - BASE                            # warunki atutu: numer > 74 -> atut_wymog (zamiast "brak")
     assert d[o - 3:o + 6].hex() == "83fd4a0f8787060000"
     struct.pack_into("<i", d, o + 2, et5["atut_wymog"] - (0x763270 + 6))
@@ -331,7 +338,7 @@ def main():
                       "clab_rasa": et3["clab_rasa"], "poziom": et3["poziom"], "rasa_awans": et3["rasa_awans"],
                       "pr_bab": et4["pr_bab"]})
     if ORG5 + len(kod5) > DANE5:
-        sys.exit("atuty.asm wchodzi na dane 0xA28C00")
+        sys.exit("atuty.asm wchodzi na dane 0xA2A000")
     assert kod5[:8] == b"DSATUTY1"
     d[raw3 + (ORG5 - ORG3):raw3 + (ORG5 - ORG3) + len(kod5)] = kod5
     atuty_exe(d, et5)

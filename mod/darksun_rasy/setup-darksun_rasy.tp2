@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test55-2026-11-18~
+VERSION ~test56-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -2052,13 +2052,13 @@ BEGIN ~TEST: klasy potworow, klasy NPC i szablony w CRE gry (podklasy typu D&D 3
   END
   PRINT ~Klasy potworow, NPC i szablonow: zmienione pliki CRE: %ds_zmien% z %ds_np%, przedmioty cech szablonu: %ds_cechy%.~
 
-// test54/55: nowe atuty (numery FEATS.IDS od 75). Exe z komponentu 0 czyta liczbe atutow z FEATS.2DA (maks. 96):
+// test54/55: nowe atuty (numery FEATS.IDS od 75). Exe z komponentu 0 czyta liczbe atutow z FEATS.2DA (maks. 192, rangi do 15 dla atutow 75..150):
 // wiersz FEATS.2DA = numer atutu, wiersz i DSATUTY.2DA = atut 75 + i (ta sama kolejnosc). DSATUTY: wymagania,
 // premie liczone przy kazdym przeliczeniu postaci (umiejetnosci, rzuty, KP, atak) i tablica CLAB (AP_/GA_ raz).
-BEGIN ~TEST: nowe atuty (11) - umiejetnosci i rzuty obronne (PHB 3.5, Dark Sun 3.5)~ DESIGNATED 9
+BEGIN ~TEST: nowe atuty (13) - umiejetnosci, rzuty obronne, atuty z rangami (PHB 3.5, Dark Sun 3.5, ELH)~ DESIGNATED 9
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
-  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas, test55 lub nowszy).~
-  ACTION_DEFINE_ARRAY ds_atuty BEGIN STEALTHY NIMBLE_FINGERS DEFT_HANDS WASTELANDER DRAKES_CHILD PERSUASIVE NEGOTIATOR MAGICAL_APTITUDE TRADER FIELD_OFFICER BOUNCER END
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas, test56 lub nowszy).~
+  ACTION_DEFINE_ARRAY ds_atuty BEGIN STEALTHY NIMBLE_FINGERS DEFT_HANDS WASTELANDER DRAKES_CHILD PERSUASIVE NEGOTIATOR MAGICAL_APTITUDE TRADER FIELD_OFFICER BOUNCER EPIC_PROWESS ARMOR_SKIN END
   OUTER_SET $ds_at_n(~0~) = RESOLVE_STR_REF(@1101)
   OUTER_SET $ds_at_d(~0~) = RESOLVE_STR_REF(@1102)
   OUTER_SET $ds_at_n(~1~) = RESOLVE_STR_REF(@1103)
@@ -2081,6 +2081,10 @@ BEGIN ~TEST: nowe atuty (11) - umiejetnosci i rzuty obronne (PHB 3.5, Dark Sun 3
   OUTER_SET $ds_at_d(~9~) = RESOLVE_STR_REF(@1120)
   OUTER_SET $ds_at_n(~10~) = RESOLVE_STR_REF(@1121)
   OUTER_SET $ds_at_d(~10~) = RESOLVE_STR_REF(@1122)
+  OUTER_SET $ds_at_n(~11~) = RESOLVE_STR_REF(@1123)
+  OUTER_SET $ds_at_d(~11~) = RESOLVE_STR_REF(@1124)
+  OUTER_SET $ds_at_n(~12~) = RESOLVE_STR_REF(@1125)
+  OUTER_SET $ds_at_d(~12~) = RESOLVE_STR_REF(@1126)
   COPY ~darksun_rasy/2da/DSATUTY.2DA~ ~override~
   OUTER_SET ds_n = 0
   ACTION_PHP_EACH ds_atuty AS ds_i => ds_a BEGIN
@@ -2117,8 +2121,8 @@ BEGIN ~TEST: nowe atuty (11) - umiejetnosci i rzuty obronne (PHB 3.5, Dark Sun 3
   COPY_EXISTING ~FEATS.2DA~ ~override~
     COUNT_2DA_COLS ds_nc
     COUNT_2DA_ROWS ds_nc ds_nr
-    PATCH_IF (ds_nr > 96) BEGIN
-      PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy, exe miesci 96 atutow.~
+    PATCH_IF (ds_nr > 192) BEGIN
+      PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy, exe miesci 192 atuty.~
     END
   BUT_ONLY
   PRINT ~Nowe atuty: dopisano %ds_n% wierszy FEATS.2DA.~

@@ -11,6 +11,7 @@
 ;   FEAT          wymagany atut (FEATS.IDS)
 ;   SKILL, SKILL_RANK      umiejetnosc (SKILLS.IDS 0..15) i minimalna ranga
 ;   RACE, SUBRACE rasa (RACE.IDS 1..7) i podrasa
+;   MAX_RANK      (test56) maks. ranga atutu 2..15 (atuty 75..150); premie mnoza sie przez range
 ;   premie liczone przy kazdym przeliczeniu postaci (test55): ALCHEMY ... WILDERNESS_LORE (nazwy z SKILLS.IDS),
 ;   FORTITUDE, REFLEX, WILL, AC (ogolna, jak opcode 0 typ 0), ATTACK (jak opcode 54)
 ; Komorka * (albo brak kolumny) = bez wymagania / bez premii.
@@ -22,18 +23,21 @@ bits 32
 org 0xA28000
 
 N_STARE   equ 75                ; atuty gry 0..74
-N_MAX     equ 96                ; 3 dwordy bitow
-LV_TAB    equ 0xA28C00          ; 96 dword: rangi atutow na poczatku awansu (bylo: ekran awansu +0x650, 75 dword)
-CC_TAB    equ 0xA28D80          ; 96 dword: j.w. dla kreatora postaci (bylo: ekran kreatora +0x14B2)
-PEND      equ 0xA28F00          ; 8 wpisow: postac, maska (bit i = atut 75 + i)
+N_MAX     equ 192               ; test56: bity +0x75C..+0x773 (CRE 0x1C0..0x1D7; 0x1CC..0x1D7 wolne w CRE gry)
+N_NOWE    equ N_MAX - N_STARE   ; 117
+RANGA_DO  equ 150               ; rangi w polbajtach +0x78E.. (CRE 0x1F2..0x217, 38 B) dla atutow 75..150
+RANGI     equ 0x78E
+LV_TAB    equ 0xA2A000          ; 192 dword: rangi atutow na poczatku awansu (bylo: ekran awansu +0x650, 75 dword)
+CC_TAB    equ 0xA2A300          ; 192 dword: j.w. dla kreatora postaci (bylo: ekran kreatora +0x14B2)
+PEND      equ 0xA2A600          ; 8 wpisow po 20 B: postac, maska 4 dword (bit i = atut 75 + i)
 N_PEND    equ 8
-ATUT      equ 0xA28F40          ; atut, ktorego tablice CLAB naklada procedura CLAB (0 = zwykla tablica rasy)
-AW_W      equ 0xA28F44          ; wiersz DSATUTY
-AW_T      equ 0xA28F48          ; C2DArray DSATUTY
-PR_OK     equ 0xA28F4C          ; 1 = tablica premii PREM zbudowana z DSATUTY
+ATUT      equ 0xA2A700          ; atut, ktorego tablice CLAB naklada procedura CLAB (0 = zwykla tablica rasy)
+AW_W      equ 0xA2A704          ; wiersz DSATUTY
+AW_T      equ 0xA2A708          ; C2DArray DSATUTY
+PR_OK     equ 0xA2A70C          ; 1 = tablica PREM zbudowana z DSATUTY
 LICZBA    equ 0x84EA66          ; slowo: liczba atutow na ekranach (.rdata - instalator robi ja zapisywalna)
-PREM      equ 0xA29000          ; premie atutow: 21 wierszy x N_PREM bajtow (int8)
-N_PREM    equ 24                ; 16 umiejetnosci, 3 rzuty, KP, atak (reszta zapas)
+PREM      equ 0xA2A800          ; 117 wierszy x N_PREM bajtow: 0..20 premie (int8), 21 = MAX_RANK
+N_PREM    equ 24                ; 16 umiejetnosci, 3 rzuty, KP, atak, maks. ranga, zapas
 KLASA_RASY equ 12
 
     db 'DSATUTY1'               ; znacznik (sprawdza skrypt budujacy)
@@ -96,7 +100,7 @@ pend_ustaw:
     test edi, edi
     jnz .n
     mov edi, esi
-.n: add esi, 8
+.n: add esi, 20
     dec edx
     jnz .p
     mov esi, edi
@@ -105,7 +109,11 @@ pend_ustaw:
     mov esi, PEND               ; brak miejsca: nadpisz pierwszy wpis
 .nowy:
     mov [esi], ebx
-    mov dword [esi+4], 0
+    xor eax, eax
+    mov [esi+4], eax
+    mov [esi+8], eax
+    mov [esi+12], eax
+    mov [esi+16], eax
 .jest:
     bts [esi+4], ecx
     popad
@@ -120,7 +128,7 @@ pend_kasuj:
 .p: cmp [esi], ebx
     jne .n
     btr [esi+4], ecx
-.n: add esi, 8
+.n: add esi, 20
     dec edx
     jnz .p
     popad
@@ -134,15 +142,13 @@ awans_atut:
     mov ecx, N_PEND
 .s: cmp [esi], edi
     je .mam
-    add esi, 8
+    add esi, 20
     loop .s
     jmp .k
 .mam:
-    mov ebx, [esi+4]
     mov dword [esi], 0
-    mov dword [esi+4], 0
     xor ebp, ebp
-.b: bt ebx, ebp
+.b: bt [esi+4], ebp
     jnc .n
     lea eax, [ebp+N_STARE]
     push eax
@@ -152,15 +158,22 @@ awans_atut:
     jz .n
     lea eax, [ebp+N_STARE]
     mov [ATUT], eax
+    push esi
     push 1                      ; jak przy klasach (argument 2 funkcji awansu)
     push 1                      ; zdobyte poziomy: kolumna 1
     push KLASA_RASY
     mov ecx, edi
     call 0x722d50
+    pop esi
     mov dword [ATUT], 0
 .n: inc ebp
-    cmp ebp, N_MAX - N_STARE
+    cmp ebp, N_NOWE
     jb .b
+    xor eax, eax
+    mov [esi+4], eax
+    mov [esi+8], eax
+    mov [esi+12], eax
+    mov [esi+16], eax
 .k: popad
     jmp rasa_awans
 
@@ -406,58 +419,74 @@ kreator_n:
 ; KP i atak jak opcode 0 / 54 (statystyki: +0xC, +0x18).
 atut_premie:
     pushad
-    mov eax, [esi+0x764]        ; bity atutow 64..95
-    shr eax, N_STARE - 64
-    jz .k
-    mov ebp, eax                ; bit i = atut 75 + i
     cmp dword [PR_OK], 0
     jne .gotowe
     call buduj_prem
 .gotowe:
-    xor ecx, ecx
-.b: bt ebp, ecx
+    movzx eax, word [LICZBA]
+    mov ebp, eax
+    mov ecx, N_STARE
+.b: cmp ecx, ebp
+    jae .k
+    bt [esi+0x75c], ecx
     jnc .n
+    push ecx
+    push ecx
+    call ranga_post             ; eax = ranga (>= 1)
     mov edx, ecx
+    sub edx, N_STARE
     imul edx, N_PREM
     add edx, PREM
-    xor eax, eax
-.u: movsx bx, byte [edx+eax]
-    add [edi+0x144+eax], bl
-    inc eax
-    cmp eax, 16
+    push ebp
+    mov ebp, eax
+    xor ecx, ecx
+.u: movsx eax, byte [edx+ecx]
+    imul eax, ebp
+    add [edi+0x144+ecx], al
+    inc ecx
+    cmp ecx, 16
     jb .u
-    movsx bx, byte [edx+16]
-    add [edi+0x1c], bx
-    movsx bx, byte [edx+17]
-    add [edi+0x1e], bx
-    movsx bx, byte [edx+18]
-    add [edi+0x20], bx
-    movsx bx, byte [edx+19]
-    add [esi+0x92c], bx
-    movsx bx, byte [edx+20]
-    add [esi+0x938], bx
+    movsx eax, byte [edx+16]
+    imul eax, ebp
+    add [edi+0x1c], ax
+    movsx eax, byte [edx+17]
+    imul eax, ebp
+    add [edi+0x1e], ax
+    movsx eax, byte [edx+18]
+    imul eax, ebp
+    add [edi+0x20], ax
+    movsx eax, byte [edx+19]
+    imul eax, ebp
+    add [esi+0x92c], ax
+    movsx eax, byte [edx+20]
+    imul eax, ebp
+    add [esi+0x938], ax
+    pop ebp
+    pop ecx
 .n: inc ecx
-    cmp ecx, N_MAX - N_STARE
-    jb .b
+    jmp .b
 .k: popad
     push edi
     mov ecx, ebx
     call 0x4464e0
     jmp 0x734691
 
-; buduj_prem: PREM z DSATUTY (raz na gre; brak tabeli = same zera). Zachowuje rejestry.
+; buduj_prem: PREM z DSATUTY (raz na gre; brak tabeli = premie 0, MAX_RANK 1). Zachowuje rejestry.
 buduj_prem:
     pushad
     mov dword [PR_OK], 1
     mov edi, PREM
-    mov ecx, (N_MAX - N_STARE) * N_PREM
+    mov ecx, N_NOWE * N_PREM
     xor eax, eax
     rep stosb
     xor ebx, ebx                ; wiersz
-.w: push ebx
+.w: mov edx, ebx
+    imul edx, N_PREM
+    mov byte [PREM+edx+21], 1
+    push ebx
     call aw_tab
     test eax, eax
-    jz .k
+    jz .nw
     xor esi, esi                ; kolumna premii
 .c: push dword [n_prem+esi*4]
     call aw
@@ -470,11 +499,143 @@ buduj_prem:
     inc esi
     cmp esi, 21
     jb .c
+    push n_maxr
+    call aw
+    cmp eax, 1
+    jle .nw
+    cmp eax, 15
+    jle .r
+    mov eax, 15
+.r: cmp ebx, RANGA_DO - N_STARE
+    ja .nw                      ; atut ponad 150: bez rang
+    mov edx, ebx
+    imul edx, N_PREM
+    mov [PREM+edx+21], al
+.nw:
     inc ebx
-    cmp ebx, N_MAX - N_STARE
+    cmp ebx, N_NOWE
     jb .w
-.k: popad
+    popad
     ret
+
+;================================================================ test56: rangi nowych atutow
+; ranga_post(atut) -> eax = ranga postaci esi (atut >= 75, bit ustawiony): polbajt (0 = 1), atut > 150 -> 1. stdcall
+ranga_post:
+    mov eax, [esp+4]
+    cmp eax, RANGA_DO
+    ja .jeden
+    sub eax, N_STARE
+    push ecx
+    mov ecx, eax
+    shr eax, 1
+    movzx eax, byte [esi+RANGI+eax]
+    test cl, 1
+    jz .m
+    shr eax, 4
+.m: and eax, 15
+    pop ecx
+    test eax, eax
+    jnz .k
+.jeden:
+    mov eax, 1
+.k: ret 4
+
+; maks_rang(atut) -> eax = MAX_RANK z DSATUTY (1 dla atutow gry i braku tabeli). stdcall, zachowuje rejestry
+maks_rang:
+    mov eax, [esp+4]
+    cmp eax, N_STARE
+    jb .jeden
+    cmp eax, N_MAX
+    jae .jeden
+    cmp dword [PR_OK], 0
+    jne .g
+    call buduj_prem
+.g: mov eax, [esp+4]
+    sub eax, N_STARE
+    imul eax, N_PREM
+    movzx eax, byte [PREM+eax+21]
+    ret 4
+.jeden:
+    mov eax, 1
+    ret 4
+
+; 0x76290B (SetFeatRank, "ja 0x762D5E" po ustawieniu bitu): edi = atut, ebx = ranga, esi = postac
+ranga_zapis:
+    cmp edi, N_STARE
+    jb 0x762d5e
+    cmp edi, RANGA_DO
+    ja 0x762d5e
+    mov eax, ebx
+    test eax, eax
+    jge .a
+    xor eax, eax
+.a: cmp eax, 15
+    jle .b
+    mov eax, 15
+.b: lea ecx, [edi-N_STARE]
+    mov edx, ecx
+    shr edx, 1
+    test cl, 1
+    jnz .gorny
+    and byte [esi+RANGI+edx], 0xf0
+    or [esi+RANGI+edx], al
+    jmp 0x762d5e
+.gorny:
+    shl al, 4
+    and byte [esi+RANGI+edx], 0x0f
+    or [esi+RANGI+edx], al
+    jmp 0x762d5e
+
+; 0x762E6A (GetFeatRank, "ja 0x762FD1" = ranga 1): edi = atut (bit ustawiony), esi = postac
+ranga_odczyt:
+    cmp edi, N_STARE
+    jb 0x762fd1
+    push edi
+    call ranga_post
+    pop edi
+    pop esi
+    ret 4
+
+; 0x7630C3 (maks. ranga): zamiast "lea eax, [esi-3]; cmp eax, 0x42; pop esi; ja 0x7630F3" - esi = atut
+ranga_max:
+    cmp esi, N_STARE
+    jae .nowy
+    lea eax, [esi-3]
+    cmp eax, 0x42
+    pop esi
+    ja 0x7630f3
+    jmp 0x7630cc
+.nowy:
+    push esi
+    call maks_rang
+    pop esi
+    ret 4
+
+; 0x763A6C (czy mozna wybrac atut, "ja 0x763BB7" = jednorangowy): edi = atut, esi = postac, [esp+0x10] = warunki?
+wybor_atut:
+    cmp edi, N_STARE
+    jb 0x763bb7
+    push edi
+    call maks_rang
+    cmp eax, 1
+    jle 0x763bb7
+    mov ecx, eax
+    bt [esi+0x75c], edi
+    jnc .ma0
+    push edi
+    call ranga_post
+    cmp eax, ecx
+    jge 0x763a9d                ; maks. ranga osiagnieta -> 0
+.ma0:
+    cmp dword [esp+0x10], 0
+    je 0x763bec                 ; bez warunkow -> 1
+    push 1
+    push edi
+    mov ecx, esi
+    call 0x763200
+    pop edi
+    pop esi
+    ret 8
 
 n_atuty:  db 'DSATUTY', 0
 n_clab:   db 'CLAB', 0
@@ -494,6 +655,7 @@ n_skill:  db 'SKILL', 0
 n_rank:   db 'SKILL_RANK', 0
 n_race:   db 'RACE', 0
 n_subrace: db 'SUBRACE', 0
+n_maxr:   db 'MAX_RANK', 0
 p00: db 'ALCHEMY', 0
 p01: db 'ANIMAL_EMPATHY', 0
 p02: db 'BLUFF', 0

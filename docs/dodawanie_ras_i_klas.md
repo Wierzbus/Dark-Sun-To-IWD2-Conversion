@@ -320,7 +320,7 @@ prestiżowa na postać. Kara PD za wieloklasowość nie liczy klasy prestiżowej
 
 ## Nowy atut (od test55)
 1. **FEATS.2DA** – nowy wiersz na końcu: nazwa, numer (= numer wiersza, kolejno od 75), NAMEREF, DESCREF, reszta 0.
-   Najwyżej 96 atutów (75 gry + 21). Liczbę wierszy exe czyta przy starcie gry.
+   Najwyżej 192 atuty (75 gry + 117). Liczbę wierszy exe czyta przy starcie gry.
 2. **FEATS.IDS** – `numer NAZWA`.
 3. **DSATUTY.2DA** – wiersz w tej samej kolejności (wiersz 0 = atut 75):
    wymagania `MIN_STR … MIN_CHA`, `MIN_BAB`, `MIN_LEVEL`, `MAX_LEVEL`, `CLASS` + `CLASS_LEVEL`, `FEAT`,
@@ -328,4 +328,5 @@ prestiżowa na postać. Kara PD za wieloklasowość nie liczy klasy prestiżowej
    `FORTITUDE`, `REFLEX`, `WILL`, `AC`, `ATTACK`; `CLAB` = tablica w formacie CLAB (kolumna 1) dla zdolności
    jednorazowych (GA_ / AP_). `*` = brak.
 4. Komponent 9 instalatora robi punkty 1–3 dla atutów z listy `ds_atuty` (teksty @1101+ w tra).
-Atut jednorangowy; premie działają od razu po zdobyciu i znikają z atutem.
+`MAX_RANK` (2..15, atuty 75..150) = atut z rangami: premie mnożą się przez rangę, CLAB tylko przy 1. randze.
+Premie działają od razu po zdobyciu i znikają z atutem.

@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test55: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test56: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -425,3 +425,14 @@ test55: liczba atutow z FEATS.2DA, premie atutow liczone na biezaco, 11 atutow.
      Sprawdzic: liczby umiejetnosci i rzutow na karcie po wyborze atutu (takze Blef / Dyplomacja / Zastraszanie),
        czy premia nie podwaja sie po zapisie i wczytaniu gry, czy lista atutow ma 86 pozycji (75 + 11).
        Przy awansie okno umiejetnosci moze jeszcze nie pokazywac premii z atutu wybranego na tym samym awansie.
+test56: atuty z rangami i do 192 atutow.
+     ZMIANA EXE (sekcja exe +16 KB). Reinstall: 0, 1-5, 8 i 9.
+     - Pojemnosc: 192 atuty (75 gry + 117). Bity atutow 96-191 w CRE 0x1CC-0x1D7 (pole "Unknown", zerowe we wszystkich
+       1618 CRE gry).
+     - Rangi: kolumna MAX_RANK w DSATUTY (do 15) dla atutow 75-150; ranga w CRE 0x1F2-0x217 (polbajt na atut, tez
+       zerowe w CRE gry). Premie z DSATUTY mnoza sie przez range. Okna wyboru pokazuja atut z rangami jak bronie gry.
+       Tablica CLAB atutu nadal nakladana tylko przy 1. randze.
+     - Nowe atuty z rangami (Epic Level Handbook, 21. poziom postaci, do 10 razy): Epicka sprawnosc (+1 do ataku na
+       range), Pancerna skora (+1 KP na range; w IWD2 premia ogolna).
+     Sprawdzic: przy awansie postaci 21+ wybrac Epicka sprawnosc 2 razy (na dwoch awansach albo dwoma punktami) -
+       atak +2 na karcie; cofniecie minusem; zapis i wczytanie (ranga zostaje); postac z test55 bez zmian.

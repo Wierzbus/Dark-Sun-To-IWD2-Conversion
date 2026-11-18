@@ -704,3 +704,15 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
 - `atut_premie` (0x734689, przed 0x4464E0): bity 75..95 postaci (+0x764 >> 11) → wiersze tablicy PREM (0xA29000,
   21 × 24 B, budowanej raz z kolumn DSATUTY: nazwy SKILLS.IDS, FORTITUDE, REFLEX, WILL, AC, ATTACK) dodawane do
   premii (umiejętności, rzuty) i statystyk (KP +0x92C, atak +0x938).
+
+## 48. Test56: rangi nowych atutów i 192 atuty
+- Baza postaci +0x5A4..+0x91F = CRE 0x8..0x383 w całości (ekran awansu kopiuje 0xDF dwordów, 0x5E4191), więc
+  nieznane pola nagłówka CRE są zapisywane. Zerowe we wszystkich 1618 CRE gry i bez odwołań w kodzie postaci:
+  0x1CC..0x1D7 (postać +0x768..+0x773) i 0x1F2..0x217 (+0x78E..+0x7B3).
+- Bity atutów 0..191 = +0x75C..+0x773 (ciągłe – kod gry `[postać + nr/32·4 + 0x75C]` działa bez zmian); asercje
+  i zerowanie tablicy kreatora: 0xC0. Tablice rang ekranów: 192 dword (0xA2A000, 0xA2A300).
+- Rangi: półbajt na atut 75..150 od +0x78E (`ranga_zapis` – cel `ja` 0x76290B w SetFeatRank, `ranga_odczyt` –
+  0x762E6A w GetFeatRank, 0 = 1). Maks. ranga: `ranga_max` (0x7630C3, zamiast `lea/cmp/pop/ja` w 0x7630A0) z kolumny
+  MAX_RANK (PREM bajt 21). Wybór: `wybor_atut` (0x763A6C w 0x763A40) – ranga < maks. → warunki 0x763200.
+- `atut_premie`: atuty 75..LICZBA−1 (bt +0x75C), premie × ranga. Sekcja .dsras 0xB000: kod 0xA28000, dane
+  0xA2A000 (tablice ekranów, PEND 8 × 20 B, zmienne 0xA2A700, PREM 0xA2A800 = 117 × 24 B).
