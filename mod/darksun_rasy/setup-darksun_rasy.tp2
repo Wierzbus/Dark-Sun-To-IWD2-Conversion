@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test54-2026-11-18~
+VERSION ~test55-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -2052,14 +2052,13 @@ BEGIN ~TEST: klasy potworow, klasy NPC i szablony w CRE gry (podklasy typu D&D 3
   END
   PRINT ~Klasy potworow, NPC i szablonow: zmienione pliki CRE: %ds_zmien% z %ds_np%, przedmioty cech szablonu: %ds_cechy%.~
 
-// test54: nowe atuty (numery FEATS.IDS od 75). Exe z komponentu 0 zna 80 atutow (stala ATUTY_N w
-// tools/iwd2_podklasy_exe.py): wiersze FEATS.2DA 75..79 musza byc w tej kolejnosci, wiersz i DSATUTY.2DA = atut 75 + i.
-// DSATUTY: tablica CLAB atutu (AP_ z SPL nakladane raz, przy zdobyciu atutu na awansie / w kreatorze) i wymagania.
-BEGIN ~TEST: nowe atuty - Skrytosc, Zreczne palce, Zwinne dlonie (PHB 3.5), Wedrowiec pustkowi, Dziecie smoka (Dark Sun 3.5)~ DESIGNATED 9
+// test54/55: nowe atuty (numery FEATS.IDS od 75). Exe z komponentu 0 czyta liczbe atutow z FEATS.2DA (maks. 96):
+// wiersz FEATS.2DA = numer atutu, wiersz i DSATUTY.2DA = atut 75 + i (ta sama kolejnosc). DSATUTY: wymagania,
+// premie liczone przy kazdym przeliczeniu postaci (umiejetnosci, rzuty, KP, atak) i tablica CLAB (AP_/GA_ raz).
+BEGIN ~TEST: nowe atuty (11) - umiejetnosci i rzuty obronne (PHB 3.5, Dark Sun 3.5)~ DESIGNATED 9
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
-  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas, test54 lub nowszy).~
-  ACTION_DEFINE_ARRAY ds_atuty BEGIN STEALTHY NIMBLE_FINGERS DEFT_HANDS WASTELANDER DRAKES_CHILD END
-  ACTION_DEFINE_ARRAY ds_at_clab BEGIN DSATSTL DSATNIM DSATDFT DSATWST DSATDRK END
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas, test55 lub nowszy).~
+  ACTION_DEFINE_ARRAY ds_atuty BEGIN STEALTHY NIMBLE_FINGERS DEFT_HANDS WASTELANDER DRAKES_CHILD PERSUASIVE NEGOTIATOR MAGICAL_APTITUDE TRADER FIELD_OFFICER BOUNCER END
   OUTER_SET $ds_at_n(~0~) = RESOLVE_STR_REF(@1101)
   OUTER_SET $ds_at_d(~0~) = RESOLVE_STR_REF(@1102)
   OUTER_SET $ds_at_n(~1~) = RESOLVE_STR_REF(@1103)
@@ -2070,11 +2069,19 @@ BEGIN ~TEST: nowe atuty - Skrytosc, Zreczne palce, Zwinne dlonie (PHB 3.5), Wedr
   OUTER_SET $ds_at_d(~3~) = RESOLVE_STR_REF(@1108)
   OUTER_SET $ds_at_n(~4~) = RESOLVE_STR_REF(@1109)
   OUTER_SET $ds_at_d(~4~) = RESOLVE_STR_REF(@1110)
+  OUTER_SET $ds_at_n(~5~) = RESOLVE_STR_REF(@1111)
+  OUTER_SET $ds_at_d(~5~) = RESOLVE_STR_REF(@1112)
+  OUTER_SET $ds_at_n(~6~) = RESOLVE_STR_REF(@1113)
+  OUTER_SET $ds_at_d(~6~) = RESOLVE_STR_REF(@1114)
+  OUTER_SET $ds_at_n(~7~) = RESOLVE_STR_REF(@1115)
+  OUTER_SET $ds_at_d(~7~) = RESOLVE_STR_REF(@1116)
+  OUTER_SET $ds_at_n(~8~) = RESOLVE_STR_REF(@1117)
+  OUTER_SET $ds_at_d(~8~) = RESOLVE_STR_REF(@1118)
+  OUTER_SET $ds_at_n(~9~) = RESOLVE_STR_REF(@1119)
+  OUTER_SET $ds_at_d(~9~) = RESOLVE_STR_REF(@1120)
+  OUTER_SET $ds_at_n(~10~) = RESOLVE_STR_REF(@1121)
+  OUTER_SET $ds_at_d(~10~) = RESOLVE_STR_REF(@1122)
   COPY ~darksun_rasy/2da/DSATUTY.2DA~ ~override~
-  ACTION_PHP_EACH ds_at_clab AS ds_i => ds_c BEGIN
-    COPY ~darksun_rasy/2da/%ds_c%.2DA~ ~override~
-    COPY ~darksun_rasy/spl/%ds_c%.SPL~ ~override~
-  END
   OUTER_SET ds_n = 0
   ACTION_PHP_EACH ds_atuty AS ds_i => ds_a BEGIN
     OUTER_SET ds_id = 75 + ds_i
@@ -2087,11 +2094,17 @@ BEGIN ~TEST: nowe atuty - Skrytosc, Zreczne palce, Zwinne dlonie (PHB 3.5), Wedr
       READ_2DA_ENTRIES_NOW ds_r ds_nc
       FOR (ds_k = 0; ds_k < ds_r; ++ds_k) BEGIN
         READ_2DA_ENTRY_FORMER ds_r ds_k 0 ds_v
-        PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%ds_a%~) BEGIN SET ds_jest = 1 END
+        PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%ds_a%~) BEGIN
+          SET ds_jest = 1
+          READ_2DA_ENTRY_FORMER ds_r ds_k 1 ds_v
+          PATCH_IF (ds_k != ds_id) OR (ds_v != ds_id) BEGIN
+            PATCH_FAIL ~FEATS.2DA: %ds_a% w wierszu %ds_k% z numerem %ds_v% zamiast %ds_id%.~
+          END
+        END
       END
       PATCH_IF (ds_jest = 0) BEGIN
         PATCH_IF (ds_nr != ds_id) BEGIN
-          PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy zamiast %ds_id% - inny mod dodal atuty; exe test54 zna atuty 0..79.~
+          PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy zamiast %ds_id% - inny mod dodal atuty (kolejnosc wierszy = numery atutow).~
         END
         TEXT_SPRINT ds_l ~%ds_a% %ds_id% %ds_name% %ds_desc%~
         FOR (ds_k = 4; ds_k < ds_nc; ++ds_k) BEGIN TEXT_SPRINT ds_l ~%ds_l% 0~ END
@@ -2104,8 +2117,8 @@ BEGIN ~TEST: nowe atuty - Skrytosc, Zreczne palce, Zwinne dlonie (PHB 3.5), Wedr
   COPY_EXISTING ~FEATS.2DA~ ~override~
     COUNT_2DA_COLS ds_nc
     COUNT_2DA_ROWS ds_nc ds_nr
-    PATCH_IF (ds_nr != 80) BEGIN
-      PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy, exe test54 oczekuje 80.~
+    PATCH_IF (ds_nr > 96) BEGIN
+      PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy, exe miesci 96 atutow.~
     END
   BUT_ONLY
-  PRINT ~Nowe atuty: dopisano %ds_n% wierszy FEATS.2DA (atuty 75..79).~
+  PRINT ~Nowe atuty: dopisano %ds_n% wierszy FEATS.2DA.~

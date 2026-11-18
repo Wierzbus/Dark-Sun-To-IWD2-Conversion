@@ -827,3 +827,53 @@ Prerequisites: Strength 13, Wisdom 13.
 Benefit: You get a +1 bonus on Fortitude and Will saves.
 
 (Dark Sun 3.5e)~
+@1111 = ~Persuasive~
+@1112 = ~PERSUASIVE:
+
+You have a way with words and body language.
+
+Benefit: You get a +2 bonus on all Bluff and Intimidate checks.
+
+(Player's Handbook 3.5)~
+@1113 = ~Negotiator~
+@1114 = ~NEGOTIATOR:
+
+You are good at gauging and swaying attitudes.
+
+Benefit: You get a +2 bonus on all Diplomacy checks.
+
+(Player's Handbook 3.5; the Sense Motive bonus does not exist in IWD2)~
+@1115 = ~Magical Aptitude~
+@1116 = ~MAGICAL APTITUDE:
+
+You are adept at spellcasting and using magic items.
+
+Benefit: You get a +2 bonus on all Spellcraft and Use Magic Device checks.
+
+(Player's Handbook 3.5)~
+@1117 = ~Trader~
+@1118 = ~TRADER:
+
+You know how to strike a bargain in the markets of the city-states.
+
+Benefit: You get a +2 bonus on all Bluff checks.
+
+(Dark Sun 3.5e; the Appraise bonus does not exist in IWD2)~
+@1119 = ~Field Officer~
+@1120 = ~FIELD OFFICER:
+
+You know the tactics of war.
+
+Benefit: You get a +2 bonus on all Diplomacy checks.
+
+(Dark Sun 3.5e; the Knowledge (warcraft) bonus does not exist in IWD2)~
+@1121 = ~Bouncer~
+@1122 = ~BOUNCER:
+
+Your sheer physical presence makes others back down.
+
+Prerequisites: Strength 15.
+
+Benefit: You get a +2 bonus on all Intimidate checks.
+
+(Dark Sun 3.5e; using Strength instead of Charisma for Intimidate is not implemented)~

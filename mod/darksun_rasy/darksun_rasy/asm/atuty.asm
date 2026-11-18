@@ -11,7 +11,9 @@
 ;   FEAT          wymagany atut (FEATS.IDS)
 ;   SKILL, SKILL_RANK      umiejetnosc (SKILLS.IDS 0..15) i minimalna ranga
 ;   RACE, SUBRACE rasa (RACE.IDS 1..7) i podrasa
-; Komorka * (albo brak kolumny) = bez wymagania.
+;   premie liczone przy kazdym przeliczeniu postaci (test55): ALCHEMY ... WILDERNESS_LORE (nazwy z SKILLS.IDS),
+;   FORTITUDE, REFLEX, WILL, AC (ogolna, jak opcode 0 typ 0), ATTACK (jak opcode 54)
+; Komorka * (albo brak kolumny) = bez wymagania / bez premii.
 ;
 ; Przebieg: 0x762890 (ustaw range atutu) - przejscie 0 -> 1 dla atutu >= 75 zapisuje atut jako oczekujacy dla postaci,
 ; 1 -> 0 kasuje; awans / koniec kreatora (0x71E760, hak 0x71E996) naklada tablice CLAB oczekujacych atutow, ktore
@@ -28,6 +30,10 @@ N_PEND    equ 8
 ATUT      equ 0xA28F40          ; atut, ktorego tablice CLAB naklada procedura CLAB (0 = zwykla tablica rasy)
 AW_W      equ 0xA28F44          ; wiersz DSATUTY
 AW_T      equ 0xA28F48          ; C2DArray DSATUTY
+PR_OK     equ 0xA28F4C          ; 1 = tablica premii PREM zbudowana z DSATUTY
+LICZBA    equ 0x84EA66          ; slowo: liczba atutow na ekranach (.rdata - instalator robi ja zapisywalna)
+PREM      equ 0xA29000          ; premie atutow: 21 wierszy x N_PREM bajtow (int8)
+N_PREM    equ 24                ; 16 umiejetnosci, 3 rzuty, KP, atak (reszta zapas)
 KLASA_RASY equ 12
 
     db 'DSATUTY1'               ; znacznik (sprawdza skrypt budujacy)
@@ -357,6 +363,119 @@ atut_wymog:
     mov ebx, 1
 .k: jmp 0x7638fd
 
+;================================================================ test55: liczba atutow z FEATS.2DA
+; 0x53EFBA: call 0x402B70 (Load) dla FEATS w regulach (ecx = C2DArray) -> po wczytaniu LICZBA = wiersze (75..96)
+feats_wczyt:
+    push ecx
+    push dword [esp+8]
+    call 0x402b70
+    pop ecx
+    movsx eax, word [ecx+0x22]
+    cmp eax, N_MAX
+    jle .a
+    mov eax, N_MAX
+.a: cmp eax, N_STARE
+    jge .b
+    mov eax, N_STARE
+.b: mov [LICZBA], ax
+    ret 4
+
+; 0x765DC8 (lista atutow na karcie): "cmp eax, 0x4B; mov [esp+0x10], eax" -> call; nop x2
+karta_n:
+    mov [esp+0x14], eax
+    push edx
+    movzx edx, word [LICZBA]
+    cmp eax, edx
+    pop edx
+    ret
+
+; 0x5E1250 (atuty z kolumn FEATS.2DA w kreatorze): "inc esi; cmp esi, 0x4B; jl 0x5E11EB" -> call; nop
+kreator_n:
+    inc esi
+    push eax
+    movzx eax, word [LICZBA]
+    cmp esi, eax
+    pop eax
+    jge .k
+    mov dword [esp], 0x5e11eb
+.k: ret
+
+;================================================================ test55: premie atutow przy przeliczeniu postaci
+; 0x734689 (ProcessEffectList, po efektach, przed dodaniem premii 0x4464E0): esi = postac, edi = premie +0x25D0,
+; ebx = statystyki +0x920. Umiejetnosci i rzuty jak efekty kumulowane (premie: +0x144+u, +0x1C/+0x1E/+0x20),
+; KP i atak jak opcode 0 / 54 (statystyki: +0xC, +0x18).
+atut_premie:
+    pushad
+    mov eax, [esi+0x764]        ; bity atutow 64..95
+    shr eax, N_STARE - 64
+    jz .k
+    mov ebp, eax                ; bit i = atut 75 + i
+    cmp dword [PR_OK], 0
+    jne .gotowe
+    call buduj_prem
+.gotowe:
+    xor ecx, ecx
+.b: bt ebp, ecx
+    jnc .n
+    mov edx, ecx
+    imul edx, N_PREM
+    add edx, PREM
+    xor eax, eax
+.u: movsx bx, byte [edx+eax]
+    add [edi+0x144+eax], bl
+    inc eax
+    cmp eax, 16
+    jb .u
+    movsx bx, byte [edx+16]
+    add [edi+0x1c], bx
+    movsx bx, byte [edx+17]
+    add [edi+0x1e], bx
+    movsx bx, byte [edx+18]
+    add [edi+0x20], bx
+    movsx bx, byte [edx+19]
+    add [esi+0x92c], bx
+    movsx bx, byte [edx+20]
+    add [esi+0x938], bx
+.n: inc ecx
+    cmp ecx, N_MAX - N_STARE
+    jb .b
+.k: popad
+    push edi
+    mov ecx, ebx
+    call 0x4464e0
+    jmp 0x734691
+
+; buduj_prem: PREM z DSATUTY (raz na gre; brak tabeli = same zera). Zachowuje rejestry.
+buduj_prem:
+    pushad
+    mov dword [PR_OK], 1
+    mov edi, PREM
+    mov ecx, (N_MAX - N_STARE) * N_PREM
+    xor eax, eax
+    rep stosb
+    xor ebx, ebx                ; wiersz
+.w: push ebx
+    call aw_tab
+    test eax, eax
+    jz .k
+    xor esi, esi                ; kolumna premii
+.c: push dword [n_prem+esi*4]
+    call aw
+    cmp eax, -1
+    je .cn
+    mov edx, ebx
+    imul edx, N_PREM
+    mov [PREM+edx+esi], al
+.cn:
+    inc esi
+    cmp esi, 21
+    jb .c
+    inc ebx
+    cmp ebx, N_MAX - N_STARE
+    jb .w
+.k: popad
+    ret
+
 n_atuty:  db 'DSATUTY', 0
 n_clab:   db 'CLAB', 0
 n_str:    db 'MIN_STR', 0
@@ -375,6 +494,28 @@ n_skill:  db 'SKILL', 0
 n_rank:   db 'SKILL_RANK', 0
 n_race:   db 'RACE', 0
 n_subrace: db 'SUBRACE', 0
+p00: db 'ALCHEMY', 0
+p01: db 'ANIMAL_EMPATHY', 0
+p02: db 'BLUFF', 0
+p03: db 'CONCENTRATION', 0
+p04: db 'DIPLOMACY', 0
+p05: db 'DISABLE_DEVICE', 0
+p06: db 'HIDE', 0
+p07: db 'INTIMIDATE', 0
+p08: db 'KNOWLEDGE_ARCANA', 0
+p09: db 'MOVE_SILENTLY', 0
+p10: db 'OPEN_LOCK', 0
+p11: db 'PICK_POCKET', 0
+p12: db 'SEARCH', 0
+p13: db 'SPELLCRAFT', 0
+p14: db 'USE_MAGIC_DEVICE', 0
+p15: db 'WILDERNESS_LORE', 0
+p16: db 'FORTITUDE', 0
+p17: db 'REFLEX', 0
+p18: db 'WILL', 0
+p19: db 'AC', 0
+p20: db 'ATTACK', 0
 align 4
+n_prem: dd p00, p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20
 n_cechy:     dd n_str, n_int, n_wis, n_dex, n_con, n_cha
 n_cechy_off: db 0x02, 0x03, 0x04, 0x05, 0x06, 0x07     ; + 0x800 nizej

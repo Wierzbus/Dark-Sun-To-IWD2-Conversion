@@ -689,3 +689,18 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   magicznych urządzeń; Blef, Dyplomacja, Zastraszanie, Koncentracja, Czaroznawstwo, Przeszukiwanie, Wiedza – brak.
 - Ograniczenia: atuty jednorangowe; atut wybrany przy automatycznym awansie (0x70CD80) nie dostaje efektów CLAB.
   Kolejne atuty: wiersze FEATS.2DA/DSATUTY w tej samej kolejności i `ATUTY_N` w skrypcie budującym (maks. 96).
+
+## 47. Test55: liczba atutów z FEATS.2DA, premie atutów na bieżąco
+- `feats_wczyt` (0x53EFBA: Load FEATS.2DA w regułach +0xAC) ustawia słowo 0x84EA66 = wiersze tabeli (75..96);
+  .rdata ma znacznik zapisu. Pętle 0x765DC8 (`karta_n`) i 0x5E1250 (`kreator_n`) porównują z tym słowem.
+- Statystyki postaci: wyliczone +0x920 (CDerivedStats), premie efektów +0x25D0 (ten sam układ, zerowane 0x445E40),
+  scalanie 0x4464E0 (rzuty +0x1C/+0x1E/+0x20 słowa, umiejętności +0x144+nr bajty). ProcessEffectList 0x734550:
+  0x4440F0 (statystyki z bazy), zerowanie premii, listy efektów (+0x54FA, +0x5526), 0x4464E0, modyfikatory
+  umiejętności 0x763E40. Efekty: opcode 33/34/35 typ 0 → premie +0x25EC/EE/F0; 0 typ 0 → +0x92C; 54 → +0x938;
+  umiejętności: 61 Alchemia +0x2714, 21 Lore = Wiedza (tajemna) +0x271C, 297 Ukrywanie +0x271A, 59 Skradanie +0x271D,
+  90 Zamki +0x271E, 92 Kradzież +0x271F, **91 = Przeszukiwanie** (+0x2720, baza +0x7C0), 298 UMU +0x2722,
+  95 Wiedza o pustkowiach +0x2723. Blef, Dyplomacja, Zastraszanie, Koncentracja, Rozbrajanie, Czaroznawstwo,
+  Zrozumienie zwierząt – bez opcode.
+- `atut_premie` (0x734689, przed 0x4464E0): bity 75..95 postaci (+0x764 >> 11) → wiersze tablicy PREM (0xA29000,
+  21 × 24 B, budowanej raz z kolumn DSATUTY: nazwy SKILLS.IDS, FORTITUDE, REFLEX, WILL, AC, ATTACK) dodawane do
+  premii (umiejętności, rzuty) i statystyk (KP +0x92C, atak +0x938).

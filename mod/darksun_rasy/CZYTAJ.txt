@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test54: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test55: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -410,3 +410,18 @@ test54: nowe atuty (pierwsze 5) i mechanizm dodawania kolejnych.
        po wyborze - premie na karcie postaci (umiejetnosci, rzuty), atut na liscie atutow karty; cofniecie wyboru
        przyciskiem minus i powrot z okna atutow - premia nie moze sie nalozyc; zapis i wczytanie gry.
        Do potwierdzenia: czy opcode 91 to Rozbrajanie urzadzen (nie Przeszukiwanie), a 95 to Wiedza o pustkowiach.
+test55: liczba atutow z FEATS.2DA, premie atutow liczone na biezaco, 11 atutow.
+     ZMIANA EXE. Reinstall: 0, 1-5, 8 i 9.
+     - Exe czyta liczbe atutow z FEATS.2DA przy starcie (maks. 96) - kolejne atuty to tylko dane (FEATS.2DA, DSATUTY),
+       bez przebudowy exe. Wiersz FEATS.2DA = numer atutu, wiersz DSATUTY = atut 75 + numer wiersza.
+     - Premie z kolumn DSATUTY.2DA liczone przy kazdym przeliczeniu postaci (jak efekty przedmiotow): 16 umiejetnosci
+       (nazwy z SKILLS.IDS, np. BLUFF, DIPLOMACY, INTIMIDATE), FORTITUDE, REFLEX, WILL, AC, ATTACK. Dzialaja niezaleznie
+       od tego, skad postac ma atut (kreator, awans, automatyczny awans, CRE), i znikaja razem z atutem.
+       Kolumna CLAB zostaje na zdolnosci jednorazowe (GA_/AP_).
+     - Poprawka: Zreczne palce w test54 dawaly Przeszukiwanie zamiast Rozbrajania urzadzen (opcode 91 = Search).
+     - Nowe atuty: Przekonujacy (+2 Blef, Zastraszanie), Negocjator (+2 Dyplomacja), Zdolnosci magiczne
+       (+2 Czaroznawstwo, Uzywanie magicznych urzadzen) - PHB 3.5; Kupiec (+2 Blef), Oficer polowy (+2 Dyplomacja),
+       Wykidajlo (Sila 15: +2 Zastraszanie) - Dark Sun 3.5.
+     Sprawdzic: liczby umiejetnosci i rzutow na karcie po wyborze atutu (takze Blef / Dyplomacja / Zastraszanie),
+       czy premia nie podwaja sie po zapisie i wczytaniu gry, czy lista atutow ma 86 pozycji (75 + 11).
+       Przy awansie okno umiejetnosci moze jeszcze nie pokazywac premii z atutu wybranego na tym samym awansie.

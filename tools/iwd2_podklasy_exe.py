@@ -216,10 +216,12 @@ DANE = [
 
 
 # test54: nowe atuty. Gra ma 75 atutow (FEATS.IDS 0..74), postac trzyma je w 3 dwordach (+0x75C), wiec miesci 96.
-ATUTY_N = 80                                   # liczba wierszy FEATS.2DA po komponencie 9 (75 + nowe atuty)
+# test55: liczba atutow = wiersze FEATS.2DA (feats_wczyt po wczytaniu tabeli, slowo 0x84EA66 w .rdata - zapisywalna).
 ATUTY_ASERCJE = [0x762E26, 0x763156, 0x763206, 0x763A46, 0x7630A5, 0x765CE8]   # cmp reg, 0x4B (asercja numeru atutu)
-ATUTY_PETLE = [0x765DC8, 0x5E1251]             # cmp reg, 0x4B: lista atutow na karcie, atuty z kolumn FEATS.2DA
-# tablice rang atutow ekranu awansu (+0x650) i kreatora (+0x14B2), po 75 dword - przeniesione do .dsras (96 dword)
+# (adres, oryginalne bajty, rodzaj, etykieta, nop)
+ATUTY_HAKI = [(0x765DC8, "83f84b89442410", "call", "karta_n", 2),     # lista atutow na karcie (0x765C50)
+              (0x5E1250, "4683fe4b7c95", "call", "kreator_n", 1),     # atuty z kolumn klas/ras FEATS.2DA
+              (0x734689, "578bcbe84f1ed1ff", "jmp", "atut_premie", 3)]  # ProcessEffectList: premie z DSATUTY
 ATUTY_SIB = [(0x5DA2DE, "89848e50060000", 0), (0x5E8AD7, "39848e50060000", 0), (0x5F7156, "3984b750060000", 0),
              (0x60CD6C, "898497b2140000", 1), (0x60E689, "39848eb2140000", 1), (0x623447, "3984b3b2140000", 1)]
 ATUTY_LEA = [(0x5E4311, "8dbd50060000", 0xBF, 0), (0x5F89D5, "8dab50060000", 0xBD, 0),
@@ -232,13 +234,18 @@ def atuty_exe(d, et5):
         o = adr - BASE
         assert d[o] == 0x83 and d[o + 2] == 0x4B and d[o + 1] in (0xF8, 0xFD, 0xFE, 0xFF), hex(adr)
         d[o + 2] = 0x60
-    for adr in ATUTY_PETLE:
+    for adr, h, rodzaj, lab, nop in ATUTY_HAKI:
         o = adr - BASE
-        assert d[o] == 0x83 and d[o + 2] == 0x4B, hex(adr)
-        d[o + 2] = ATUTY_N
-    o = 0x84EA66 - BASE                            # liczba atutow na ekranach kreatora i awansu
-    assert d[o:o + 2].hex() == "4b00"
-    struct.pack_into("<H", d, o, ATUTY_N)
+        assert d[o:o + len(h) // 2].hex() == h, hex(adr)
+        d[o:o + 5] = bytes([0xE9 if rodzaj == "jmp" else 0xE8]) + struct.pack("<i", et5[lab] - (adr + 5))
+        d[o + 5:o + 5 + nop] = b"\x90" * nop
+    o = 0x53EFBA - BASE                            # Load FEATS.2DA w regulach -> feats_wczyt (liczba atutow)
+    assert d[o] == 0xE8 and struct.unpack_from("<i", d, o + 1)[0] + 0x53EFBF == 0x402B70
+    struct.pack_into("<i", d, o + 1, et5["feats_wczyt"] - 0x53EFBF)
+    assert d[0x84EA66 - BASE:0x84EA68 - BASE].hex() == "4b00"   # domyslnie 75 (do wczytania FEATS.2DA)
+    s = sekcje(d)                                  # .rdata zapisywalna (slowo 0x84EA66)
+    ch = struct.unpack_from("<I", d, s[".rdata"] + 36)[0]
+    struct.pack_into("<I", d, s[".rdata"] + 36, ch | 0x80000000)
     for adr, h, k in ATUTY_SIB:                    # [baza + idx*4 + disp] -> [idx*4 + adres]
         o = adr - BASE
         assert d[o:o + 7].hex() == h, hex(adr)
