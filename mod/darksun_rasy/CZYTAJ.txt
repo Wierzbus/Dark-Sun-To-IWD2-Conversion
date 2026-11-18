@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test61: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test62: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -479,3 +479,14 @@ test61: atuty - partia 3 (14 nowych, razem 49) i nowe rodzaje premii. ZMIANA EXE
        cechy) - Epic Level Handbook, od 21. poziomu, do 10 razy.
      Sprawdzic: maks. PW na karcie po Wiekszej wytrzymalosci (rosnie z poziomem); cecha +1 po Wielkiej sile itd.
        i jej modyfikator (np. trafienie / obrazenia przy Sile); atuty regionalne niedostepne po 1. poziomie.
+test62: dopracowanie opisow i tekstow. Exe bez zmian (jak test61). Reinstall: 1-5, 8, 9, 10 i NOWY 11.
+     - Opisy podklas i klas prestizowych z pierwszych testow przepisane bez dopiskow "eksperymentalna / test":
+       kaplan Ziemi i Ognia, tropiciel pustkowi, druid straznik, lotrzyk atasyjski, zachowawca, barbarzynski wojownik,
+       czempion areny (k12 zamiast starego k10), arcyplugawca, krasnoludzki obronca, skrytobojca, polelf atasyjski.
+       Kazdy opis mowi, co podklasa naprawde daje (kosc PW, BAB, rzuty, zdolnosci z poziomami).
+     - Polskie teksty: wszystkie 447 wpisow tra ma polska wersje (sprawdzone automatycznie); poprawione nazwy
+       umiejetnosci wg gry (np. Skradanie zamiast "Ciche poruszanie sie").
+     - Komponent 11: moce psioniczne pod wlasnymi nazwami (62 moce psiona, dzikiego talentu i wojownika
+       psionicznego, PL i EN), np. Pchniecie umyslu, Pancerz inercyjny, Grom energii. Opis mocy: krag, "w IWD2 dziala
+       jak czar X" i pelny opis tego czaru z gry. Czary gry wracaja do zwyklej postaci na listach psionikow.
+     Sprawdzic: opisy podklas w kreatorze (PL); ksiega psiona - nazwy i opisy mocy, rzucanie.

@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test61-2026-11-18~
+VERSION ~test62-2026-11-18~
 
 // test41: funkcja wspolna komponentow 2 i 5 (kolumna podklasy w tabeli 2DA = kopia kolumny %wzor%)
 ALWAYS
@@ -2279,4 +2279,1146 @@ BEGIN ~TEST: czary z Podrecznika Gracza 3.5 - partia 1 (12 czarow 1.-2. kregu)~ 
     LPF ds_czar_wiersz STR_VAR res = ~SPPR161~ brd = ~0~ clr = ~1~ drd = ~0~ pal = ~0~ rgr = ~0~ sor = ~0~ wiz = ~0~ END
     LPF ds_czar_wiersz STR_VAR res = ~SPPR162~ brd = ~0~ clr = ~0~ drd = ~1~ pal = ~0~ rgr = ~1~ sor = ~0~ wiz = ~0~ END
     LPF ds_czar_wiersz STR_VAR res = ~SPPR163~ brd = ~0~ clr = ~0~ drd = ~1~ pal = ~0~ rgr = ~0~ sor = ~0~ wiz = ~0~ END
+  BUT_ONLY
+
+BEGIN ~TEST: moce psioniczne - wlasne nazwy i opisy mocy psiona, dzikiego talentu i wojownika psionicznego~ DESIGNATED 11
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~5~ ~Wymaga komponentu 5 (listy mocy PSION i PSYWAR w LISTSPLL).~
+  DEFINE_PATCH_FUNCTION ds_moc_wiersz
+    STR_VAR res = ~~ wzor = ~~ psion = ~0~ psywar = ~0~
+  BEGIN
+    COUNT_2DA_COLS ds_nc
+    READ_2DA_ENTRIES_NOW ds_h (ds_nc - 1)
+    COUNT_2DA_ROWS ds_nc ds_nr
+    SET ds_kp = 0 - 1
+    SET ds_kw = 0 - 1
+    SET ds_kr = 0 - 1
+    FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+      READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_k
+      PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSION~) BEGIN SET ds_kp = ds_c + 1 END
+      PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSYWAR~) BEGIN SET ds_kw = ds_c + 1 END
+      PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~SPELL_RES_REF~) BEGIN SET ds_kr = ds_c + 1 END
+    END
+    PATCH_IF (ds_kr > 0) BEGIN
+      FOR (ds_i = 0; ds_i < ds_nr; ++ds_i) BEGIN       // czar wzoru: bez kolumn mocy
+        READ_2DA_ENTRY ds_i ds_kr ds_nc ds_v
+        PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%wzor%~) BEGIN
+          PATCH_IF (ds_kp > 0) BEGIN SET_2DA_ENTRY ds_i ds_kp ds_nc ~0~ END
+          PATCH_IF (ds_kw > 0) BEGIN SET_2DA_ENTRY ds_i ds_kw ds_nc ~0~ END
+        END
+      END
+    END
+    PATCH_IF (INDEX_BUFFER (~%res%~) < 0) BEGIN
+      TEXT_SPRINT ds_l ~%ds_nr%~
+      FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+        READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_k
+        TEXT_SPRINT ds_v ~0~
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSION~) BEGIN TEXT_SPRINT ds_v ~%psion%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSYWAR~) BEGIN TEXT_SPRINT ds_v ~%psywar%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~SPELL_RES_REF~) BEGIN TEXT_SPRINT ds_v ~%res%~ END
+        TEXT_SPRINT ds_l ~%ds_l% %ds_v%~
+      END
+      INSERT_2DA_ROW ds_nr ds_nc ~%ds_l%~
+    END
+  END
+  COPY_EXISTING ~SPWI118.SPL~ ~override/SPWI170.SPL~   // Crystal Shard
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1302
+    SAY 0x08 @1301
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI209.SPL~ ~override/SPWI171.SPL~   // Defensive Precognition
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1304
+    SAY 0x08 @1303
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR114.SPL~ ~override/SPWI172.SPL~   // Demoralize
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1306
+    SAY 0x08 @1305
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI103.SPL~ ~override/SPWI173.SPL~   // Energy Ray
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1308
+    SAY 0x08 @1307
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI101.SPL~ ~override/SPWI174.SPL~   // Entangling Ectoplasm
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1310
+    SAY 0x08 @1309
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI214.SPL~ ~override/SPWI175.SPL~   // Expansion
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1312
+    SAY 0x08 @1311
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI114.SPL~ ~override/SPWI176.SPL~   // Force Screen
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1314
+    SAY 0x08 @1313
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI116.SPL~ ~override/SPWI177.SPL~   // Hypnotism
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1316
+    SAY 0x08 @1315
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI102.SPL~ ~override/SPWI178.SPL~   // Inertial Armor
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1318
+    SAY 0x08 @1317
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI112.SPL~ ~override/SPWI179.SPL~   // Mind Thrust
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1320
+    SAY 0x08 @1319
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR215.SPL~ ~override/SPWI180.SPL~   // Offensive Precognition
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1322
+    SAY 0x08 @1321
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI209.SPL~ ~override/SPWI181.SPL~   // Precognition
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1324
+    SAY 0x08 @1323
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI104.SPL~ ~override/SPWI182.SPL~   // Psionic Charm
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1326
+    SAY 0x08 @1325
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR115.SPL~ ~override/SPWI183.SPL~   // Vigor
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1328
+    SAY 0x08 @1327
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI223.SPL~ ~override/SPWI270.SPL~   // Animal Affinity
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1330
+    SAY 0x08 @1329
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR212.SPL~ ~override/SPWI271.SPL~   // Body Purification
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1332
+    SAY 0x08 @1331
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI206.SPL~ ~override/SPWI272.SPL~   // Cloud Mind
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1334
+    SAY 0x08 @1333
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI201.SPL~ ~override/SPWI273.SPL~   // Concealing Amorpha
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1336
+    SAY 0x08 @1335
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI226.SPL~ ~override/SPWI274.SPL~   // Ego Whip
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1338
+    SAY 0x08 @1337
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI227.SPL~ ~override/SPWI275.SPL~   // Energy Stun
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1340
+    SAY 0x08 @1339
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI205.SPL~ ~override/SPWI276.SPL~   // Id Insinuation
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1342
+    SAY 0x08 @1341
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI220.SPL~ ~override/SPWI277.SPL~   // Swarm of Crystals
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1344
+    SAY 0x08 @1343
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR202.SPL~ ~override/SPWI278.SPL~   // Thicken Skin
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1346
+    SAY 0x08 @1345
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR219.SPL~ ~override/SPWI279.SPL~   // Thought Shield
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1348
+    SAY 0x08 @1347
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR401.SPL~ ~override/SPWI370.SPL~   // Body Adjustment
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1350
+    SAY 0x08 @1349
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI302.SPL~ ~override/SPWI371.SPL~   // Dispel Psionics
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1352
+    SAY 0x08 @1351
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI308.SPL~ ~override/SPWI372.SPL~   // Energy Bolt
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1354
+    SAY 0x08 @1353
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI304.SPL~ ~override/SPWI373.SPL~   // Energy Burst
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1356
+    SAY 0x08 @1355
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI314.SPL~ ~override/SPWI374.SPL~   // Hostile Empathic Transfer
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1358
+    SAY 0x08 @1357
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI305.SPL~ ~override/SPWI375.SPL~   // Hustle
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1360
+    SAY 0x08 @1359
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR312.SPL~ ~override/SPWI376.SPL~   // Prowess
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1362
+    SAY 0x08 @1361
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI306.SPL~ ~override/SPWI377.SPL~   // Psionic Blast
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1364
+    SAY 0x08 @1363
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI203.SPL~ ~override/SPWI378.SPL~   // Steadfast Perception
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1366
+    SAY 0x08 @1365
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI401.SPL~ ~override/SPWI470.SPL~   // Death Urge
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1368
+    SAY 0x08 @1367
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI404.SPL~ ~override/SPWI471.SPL~   // Energy Ball
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1370
+    SAY 0x08 @1369
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI408.SPL~ ~override/SPWI472.SPL~   // Inertial Barrier
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1372
+    SAY 0x08 @1371
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI406.SPL~ ~override/SPWI473.SPL~   // Mental Barrier
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1374
+    SAY 0x08 @1373
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI507.SPL~ ~override/SPWI474.SPL~   // Psionic Dominate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1376
+    SAY 0x08 @1375
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR403.SPL~ ~override/SPWI475.SPL~   // Psionic Freedom of Movement
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1378
+    SAY 0x08 @1377
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR206.SPL~ ~override/SPWI476.SPL~   // Weapon of Energy
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1380
+    SAY 0x08 @1379
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI712.SPL~ ~override/SPWI570.SPL~   // Adapt Body
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1382
+    SAY 0x08 @1381
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI503.SPL~ ~override/SPWI571.SPL~   // Ectoplasmic Shambler
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1384
+    SAY 0x08 @1383
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR519.SPL~ ~override/SPWI572.SPL~   // Power Resistance
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1386
+    SAY 0x08 @1385
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI508.SPL~ ~override/SPWI573.SPL~   // Psionic Hold Monster
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1388
+    SAY 0x08 @1387
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR515.SPL~ ~override/SPWI574.SPL~   // Psychic Crush
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1390
+    SAY 0x08 @1389
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR507.SPL~ ~override/SPWI575.SPL~   // Righteous Wrath of the Faithful
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1392
+    SAY 0x08 @1391
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR716.SPL~ ~override/SPWI576.SPL~   // Tower of Iron Will
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1394
+    SAY 0x08 @1393
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI605.SPL~ ~override/SPWI670.SPL~   // Breath of the Black Dragon
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1396
+    SAY 0x08 @1395
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI607.SPL~ ~override/SPWI671.SPL~   // Disintegrate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1398
+    SAY 0x08 @1397
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI616.SPL~ ~override/SPWI672.SPL~   // Metamorphosis
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1400
+    SAY 0x08 @1399
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI623.SPL~ ~override/SPWI673.SPL~   // Temporal Acceleration
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1402
+    SAY 0x08 @1401
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI705.SPL~ ~override/SPWI770.SPL~   // Decerebrate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1404
+    SAY 0x08 @1403
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI712.SPL~ ~override/SPWI771.SPL~   // Energy Conversion
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1406
+    SAY 0x08 @1405
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI509.SPL~ ~override/SPWI772.SPL~   // Insanity
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1408
+    SAY 0x08 @1407
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI709.SPL~ ~override/SPWI773.SPL~   // Mass Cloud Mind
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1410
+    SAY 0x08 @1409
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI702.SPL~ ~override/SPWI774.SPL~   // Psionic Finger of Death
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1412
+    SAY 0x08 @1411
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI807.SPL~ ~override/SPWI870.SPL~   // Iron Body
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1414
+    SAY 0x08 @1413
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI804.SPL~ ~override/SPWI871.SPL~   // Psionic Mind Blank
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1416
+    SAY 0x08 @1415
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI805.SPL~ ~override/SPWI872.SPL~   // Ultrablast
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1418
+    SAY 0x08 @1417
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI903.SPL~ ~override/SPWI970.SPL~   // Microcosm
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1420
+    SAY 0x08 @1419
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI911.SPL~ ~override/SPWI971.SPL~   // Psionic Mass Dominate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1422
+    SAY 0x08 @1421
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI908.SPL~ ~override/SPWI972.SPL~   // Tornado Blast
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1424
+    SAY 0x08 @1423
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI170~ wzor = ~SPWI118~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI171~ wzor = ~SPWI209~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI172~ wzor = ~SPPR114~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI173~ wzor = ~SPWI103~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI174~ wzor = ~SPWI101~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI175~ wzor = ~SPWI214~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI176~ wzor = ~SPWI114~ psion = ~1~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI177~ wzor = ~SPWI116~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI178~ wzor = ~SPWI102~ psion = ~1~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI179~ wzor = ~SPWI112~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI180~ wzor = ~SPPR215~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI181~ wzor = ~SPWI209~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI182~ wzor = ~SPWI104~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI183~ wzor = ~SPPR115~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI270~ wzor = ~SPWI223~ psion = ~0~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI271~ wzor = ~SPPR212~ psion = ~0~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI272~ wzor = ~SPWI206~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI273~ wzor = ~SPWI201~ psion = ~2~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI274~ wzor = ~SPWI226~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI275~ wzor = ~SPWI227~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI276~ wzor = ~SPWI205~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI277~ wzor = ~SPWI220~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI278~ wzor = ~SPPR202~ psion = ~0~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI279~ wzor = ~SPPR219~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI370~ wzor = ~SPPR401~ psion = ~3~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI371~ wzor = ~SPWI302~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI372~ wzor = ~SPWI308~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI373~ wzor = ~SPWI304~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI374~ wzor = ~SPWI314~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI375~ wzor = ~SPWI305~ psion = ~0~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI376~ wzor = ~SPPR312~ psion = ~0~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI377~ wzor = ~SPWI306~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI378~ wzor = ~SPWI203~ psion = ~0~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI470~ wzor = ~SPWI401~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI471~ wzor = ~SPWI404~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI472~ wzor = ~SPWI408~ psion = ~4~ psywar = ~4~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI473~ wzor = ~SPWI406~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI474~ wzor = ~SPWI507~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI475~ wzor = ~SPPR403~ psion = ~4~ psywar = ~4~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI476~ wzor = ~SPPR206~ psion = ~0~ psywar = ~4~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI570~ wzor = ~SPWI712~ psion = ~0~ psywar = ~5~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI571~ wzor = ~SPWI503~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI572~ wzor = ~SPPR519~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI573~ wzor = ~SPWI508~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI574~ wzor = ~SPPR515~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI575~ wzor = ~SPPR507~ psion = ~0~ psywar = ~5~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI576~ wzor = ~SPPR716~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI670~ wzor = ~SPWI605~ psion = ~6~ psywar = ~6~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI671~ wzor = ~SPWI607~ psion = ~6~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI672~ wzor = ~SPWI616~ psion = ~0~ psywar = ~6~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI673~ wzor = ~SPWI623~ psion = ~6~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI770~ wzor = ~SPWI705~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI771~ wzor = ~SPWI712~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI772~ wzor = ~SPWI509~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI773~ wzor = ~SPWI709~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI774~ wzor = ~SPWI702~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI870~ wzor = ~SPWI807~ psion = ~8~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI871~ wzor = ~SPWI804~ psion = ~8~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI872~ wzor = ~SPWI805~ psion = ~8~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI970~ wzor = ~SPWI903~ psion = ~9~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI971~ wzor = ~SPWI911~ psion = ~9~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI972~ wzor = ~SPWI908~ psion = ~9~ psywar = ~0~ END
+  BUT_ONLY
+
+// test62: moce psioniczne z wlasnymi nazwami i opisami (tools/iwd2_moce_psi.py). Kopia czaru gry (SPWI<krag>70..),
+// opis = naglowek mocy + "dziala jak czar <nazwa z gry>" + opis czaru z gry (z TLK przy instalacji).
+BEGIN ~TEST: moce psioniczne - wlasne nazwy i opisy mocy psiona, dzikiego talentu i wojownika psionicznego~ DESIGNATED 11
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~5~ ~Wymaga komponentu 5 (listy mocy PSION i PSYWAR w LISTSPLL).~
+  DEFINE_PATCH_FUNCTION ds_moc_wiersz
+    STR_VAR res = ~~ wzor = ~~ psion = ~0~ psywar = ~0~
+  BEGIN
+    COUNT_2DA_COLS ds_nc
+    READ_2DA_ENTRIES_NOW ds_h (ds_nc - 1)
+    COUNT_2DA_ROWS ds_nc ds_nr
+    SET ds_kp = 0 - 1
+    SET ds_kw = 0 - 1
+    SET ds_kr = 0 - 1
+    FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+      READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_k
+      PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSION~) BEGIN SET ds_kp = ds_c + 1 END
+      PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSYWAR~) BEGIN SET ds_kw = ds_c + 1 END
+      PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~SPELL_RES_REF~) BEGIN SET ds_kr = ds_c + 1 END
+    END
+    PATCH_IF (ds_kr > 0) BEGIN
+      FOR (ds_i = 0; ds_i < ds_nr; ++ds_i) BEGIN       // czar wzoru: bez kolumn mocy
+        READ_2DA_ENTRY ds_i ds_kr ds_nc ds_v
+        PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%wzor%~) BEGIN
+          PATCH_IF (ds_kp > 0) BEGIN SET_2DA_ENTRY ds_i ds_kp ds_nc ~0~ END
+          PATCH_IF (ds_kw > 0) BEGIN SET_2DA_ENTRY ds_i ds_kw ds_nc ~0~ END
+        END
+      END
+    END
+    PATCH_IF (INDEX_BUFFER (~%res%~) < 0) BEGIN
+      TEXT_SPRINT ds_l ~%ds_nr%~
+      FOR (ds_c = 0; ds_c < (ds_nc - 1); ++ds_c) BEGIN
+        READ_2DA_ENTRY_FORMER ds_h 0 ds_c ds_k
+        TEXT_SPRINT ds_v ~0~
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSION~) BEGIN TEXT_SPRINT ds_v ~%psion%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~PSYWAR~) BEGIN TEXT_SPRINT ds_v ~%psywar%~ END
+        PATCH_IF (~%ds_k%~ STRING_EQUAL_CASE ~SPELL_RES_REF~) BEGIN TEXT_SPRINT ds_v ~%res%~ END
+        TEXT_SPRINT ds_l ~%ds_l% %ds_v%~
+      END
+      INSERT_2DA_ROW ds_nr ds_nc ~%ds_l%~
+    END
+  END
+  COPY_EXISTING ~SPWI118.SPL~ ~override/SPWI170.SPL~   // Crystal Shard
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1302
+    SAY 0x08 @1301
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI209.SPL~ ~override/SPWI171.SPL~   // Defensive Precognition
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1304
+    SAY 0x08 @1303
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR114.SPL~ ~override/SPWI172.SPL~   // Demoralize
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1306
+    SAY 0x08 @1305
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI103.SPL~ ~override/SPWI173.SPL~   // Energy Ray
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1308
+    SAY 0x08 @1307
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI101.SPL~ ~override/SPWI174.SPL~   // Entangling Ectoplasm
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1310
+    SAY 0x08 @1309
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI214.SPL~ ~override/SPWI175.SPL~   // Expansion
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1312
+    SAY 0x08 @1311
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI114.SPL~ ~override/SPWI176.SPL~   // Force Screen
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1314
+    SAY 0x08 @1313
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI116.SPL~ ~override/SPWI177.SPL~   // Hypnotism
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1316
+    SAY 0x08 @1315
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI102.SPL~ ~override/SPWI178.SPL~   // Inertial Armor
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1318
+    SAY 0x08 @1317
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI112.SPL~ ~override/SPWI179.SPL~   // Mind Thrust
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1320
+    SAY 0x08 @1319
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR215.SPL~ ~override/SPWI180.SPL~   // Offensive Precognition
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1322
+    SAY 0x08 @1321
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI209.SPL~ ~override/SPWI181.SPL~   // Precognition
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1324
+    SAY 0x08 @1323
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI104.SPL~ ~override/SPWI182.SPL~   // Psionic Charm
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1326
+    SAY 0x08 @1325
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR115.SPL~ ~override/SPWI183.SPL~   // Vigor
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1328
+    SAY 0x08 @1327
+    WRITE_LONG 0x34 1
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI223.SPL~ ~override/SPWI270.SPL~   // Animal Affinity
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1330
+    SAY 0x08 @1329
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR212.SPL~ ~override/SPWI271.SPL~   // Body Purification
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1332
+    SAY 0x08 @1331
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI206.SPL~ ~override/SPWI272.SPL~   // Cloud Mind
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1334
+    SAY 0x08 @1333
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI201.SPL~ ~override/SPWI273.SPL~   // Concealing Amorpha
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1336
+    SAY 0x08 @1335
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI226.SPL~ ~override/SPWI274.SPL~   // Ego Whip
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1338
+    SAY 0x08 @1337
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI227.SPL~ ~override/SPWI275.SPL~   // Energy Stun
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1340
+    SAY 0x08 @1339
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI205.SPL~ ~override/SPWI276.SPL~   // Id Insinuation
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1342
+    SAY 0x08 @1341
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI220.SPL~ ~override/SPWI277.SPL~   // Swarm of Crystals
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1344
+    SAY 0x08 @1343
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR202.SPL~ ~override/SPWI278.SPL~   // Thicken Skin
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1346
+    SAY 0x08 @1345
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR219.SPL~ ~override/SPWI279.SPL~   // Thought Shield
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1348
+    SAY 0x08 @1347
+    WRITE_LONG 0x34 2
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR401.SPL~ ~override/SPWI370.SPL~   // Body Adjustment
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1350
+    SAY 0x08 @1349
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI302.SPL~ ~override/SPWI371.SPL~   // Dispel Psionics
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1352
+    SAY 0x08 @1351
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI308.SPL~ ~override/SPWI372.SPL~   // Energy Bolt
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1354
+    SAY 0x08 @1353
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI304.SPL~ ~override/SPWI373.SPL~   // Energy Burst
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1356
+    SAY 0x08 @1355
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI314.SPL~ ~override/SPWI374.SPL~   // Hostile Empathic Transfer
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1358
+    SAY 0x08 @1357
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI305.SPL~ ~override/SPWI375.SPL~   // Hustle
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1360
+    SAY 0x08 @1359
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR312.SPL~ ~override/SPWI376.SPL~   // Prowess
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1362
+    SAY 0x08 @1361
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI306.SPL~ ~override/SPWI377.SPL~   // Psionic Blast
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1364
+    SAY 0x08 @1363
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI203.SPL~ ~override/SPWI378.SPL~   // Steadfast Perception
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1366
+    SAY 0x08 @1365
+    WRITE_LONG 0x34 3
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI401.SPL~ ~override/SPWI470.SPL~   // Death Urge
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1368
+    SAY 0x08 @1367
+    WRITE_LONG 0x34 4
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI404.SPL~ ~override/SPWI471.SPL~   // Energy Ball
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1370
+    SAY 0x08 @1369
+    WRITE_LONG 0x34 4
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI408.SPL~ ~override/SPWI472.SPL~   // Inertial Barrier
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1372
+    SAY 0x08 @1371
+    WRITE_LONG 0x34 4
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI406.SPL~ ~override/SPWI473.SPL~   // Mental Barrier
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1374
+    SAY 0x08 @1373
+    WRITE_LONG 0x34 4
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI507.SPL~ ~override/SPWI474.SPL~   // Psionic Dominate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1376
+    SAY 0x08 @1375
+    WRITE_LONG 0x34 4
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR403.SPL~ ~override/SPWI475.SPL~   // Psionic Freedom of Movement
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1378
+    SAY 0x08 @1377
+    WRITE_LONG 0x34 4
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR206.SPL~ ~override/SPWI476.SPL~   // Weapon of Energy
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1380
+    SAY 0x08 @1379
+    WRITE_LONG 0x34 4
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI712.SPL~ ~override/SPWI570.SPL~   // Adapt Body
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1382
+    SAY 0x08 @1381
+    WRITE_LONG 0x34 5
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI503.SPL~ ~override/SPWI571.SPL~   // Ectoplasmic Shambler
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1384
+    SAY 0x08 @1383
+    WRITE_LONG 0x34 5
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR519.SPL~ ~override/SPWI572.SPL~   // Power Resistance
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1386
+    SAY 0x08 @1385
+    WRITE_LONG 0x34 5
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI508.SPL~ ~override/SPWI573.SPL~   // Psionic Hold Monster
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1388
+    SAY 0x08 @1387
+    WRITE_LONG 0x34 5
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR515.SPL~ ~override/SPWI574.SPL~   // Psychic Crush
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1390
+    SAY 0x08 @1389
+    WRITE_LONG 0x34 5
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR507.SPL~ ~override/SPWI575.SPL~   // Righteous Wrath of the Faithful
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1392
+    SAY 0x08 @1391
+    WRITE_LONG 0x34 5
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPPR716.SPL~ ~override/SPWI576.SPL~   // Tower of Iron Will
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1394
+    SAY 0x08 @1393
+    WRITE_LONG 0x34 5
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI605.SPL~ ~override/SPWI670.SPL~   // Breath of the Black Dragon
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1396
+    SAY 0x08 @1395
+    WRITE_LONG 0x34 6
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI607.SPL~ ~override/SPWI671.SPL~   // Disintegrate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1398
+    SAY 0x08 @1397
+    WRITE_LONG 0x34 6
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI616.SPL~ ~override/SPWI672.SPL~   // Metamorphosis
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1400
+    SAY 0x08 @1399
+    WRITE_LONG 0x34 6
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI623.SPL~ ~override/SPWI673.SPL~   // Temporal Acceleration
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1402
+    SAY 0x08 @1401
+    WRITE_LONG 0x34 6
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI705.SPL~ ~override/SPWI770.SPL~   // Decerebrate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1404
+    SAY 0x08 @1403
+    WRITE_LONG 0x34 7
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI712.SPL~ ~override/SPWI771.SPL~   // Energy Conversion
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1406
+    SAY 0x08 @1405
+    WRITE_LONG 0x34 7
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI509.SPL~ ~override/SPWI772.SPL~   // Insanity
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1408
+    SAY 0x08 @1407
+    WRITE_LONG 0x34 7
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI709.SPL~ ~override/SPWI773.SPL~   // Mass Cloud Mind
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1410
+    SAY 0x08 @1409
+    WRITE_LONG 0x34 7
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI702.SPL~ ~override/SPWI774.SPL~   // Psionic Finger of Death
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1412
+    SAY 0x08 @1411
+    WRITE_LONG 0x34 7
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI807.SPL~ ~override/SPWI870.SPL~   // Iron Body
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1414
+    SAY 0x08 @1413
+    WRITE_LONG 0x34 8
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI804.SPL~ ~override/SPWI871.SPL~   // Psionic Mind Blank
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1416
+    SAY 0x08 @1415
+    WRITE_LONG 0x34 8
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI805.SPL~ ~override/SPWI872.SPL~   // Ultrablast
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1418
+    SAY 0x08 @1417
+    WRITE_LONG 0x34 8
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI903.SPL~ ~override/SPWI970.SPL~   // Microcosm
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1420
+    SAY 0x08 @1419
+    WRITE_LONG 0x34 9
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI911.SPL~ ~override/SPWI971.SPL~   // Psionic Mass Dominate
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1422
+    SAY 0x08 @1421
+    WRITE_LONG 0x34 9
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~SPWI908.SPL~ ~override/SPWI972.SPL~   // Tornado Blast
+    READ_STRREF 0x08 ds_nz
+    READ_STRREF 0x50 ds_op
+    SPRINT ds_jak @1300
+    SPRINT ds_t @1424
+    SAY 0x08 @1423
+    WRITE_LONG 0x34 9
+    SAY_EVALUATED 0x50 ~%ds_t%%WNL%%WNL%%ds_jak% %ds_nz%.%WNL%%WNL%%ds_op%~
+  COPY_EXISTING ~LISTSPLL.2DA~ ~override~
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI170~ wzor = ~SPWI118~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI171~ wzor = ~SPWI209~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI172~ wzor = ~SPPR114~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI173~ wzor = ~SPWI103~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI174~ wzor = ~SPWI101~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI175~ wzor = ~SPWI214~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI176~ wzor = ~SPWI114~ psion = ~1~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI177~ wzor = ~SPWI116~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI178~ wzor = ~SPWI102~ psion = ~1~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI179~ wzor = ~SPWI112~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI180~ wzor = ~SPPR215~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI181~ wzor = ~SPWI209~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI182~ wzor = ~SPWI104~ psion = ~1~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI183~ wzor = ~SPPR115~ psion = ~0~ psywar = ~1~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI270~ wzor = ~SPWI223~ psion = ~0~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI271~ wzor = ~SPPR212~ psion = ~0~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI272~ wzor = ~SPWI206~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI273~ wzor = ~SPWI201~ psion = ~2~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI274~ wzor = ~SPWI226~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI275~ wzor = ~SPWI227~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI276~ wzor = ~SPWI205~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI277~ wzor = ~SPWI220~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI278~ wzor = ~SPPR202~ psion = ~0~ psywar = ~2~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI279~ wzor = ~SPPR219~ psion = ~2~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI370~ wzor = ~SPPR401~ psion = ~3~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI371~ wzor = ~SPWI302~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI372~ wzor = ~SPWI308~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI373~ wzor = ~SPWI304~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI374~ wzor = ~SPWI314~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI375~ wzor = ~SPWI305~ psion = ~0~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI376~ wzor = ~SPPR312~ psion = ~0~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI377~ wzor = ~SPWI306~ psion = ~3~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI378~ wzor = ~SPWI203~ psion = ~0~ psywar = ~3~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI470~ wzor = ~SPWI401~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI471~ wzor = ~SPWI404~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI472~ wzor = ~SPWI408~ psion = ~4~ psywar = ~4~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI473~ wzor = ~SPWI406~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI474~ wzor = ~SPWI507~ psion = ~4~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI475~ wzor = ~SPPR403~ psion = ~4~ psywar = ~4~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI476~ wzor = ~SPPR206~ psion = ~0~ psywar = ~4~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI570~ wzor = ~SPWI712~ psion = ~0~ psywar = ~5~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI571~ wzor = ~SPWI503~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI572~ wzor = ~SPPR519~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI573~ wzor = ~SPWI508~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI574~ wzor = ~SPPR515~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI575~ wzor = ~SPPR507~ psion = ~0~ psywar = ~5~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI576~ wzor = ~SPPR716~ psion = ~5~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI670~ wzor = ~SPWI605~ psion = ~6~ psywar = ~6~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI671~ wzor = ~SPWI607~ psion = ~6~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI672~ wzor = ~SPWI616~ psion = ~0~ psywar = ~6~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI673~ wzor = ~SPWI623~ psion = ~6~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI770~ wzor = ~SPWI705~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI771~ wzor = ~SPWI712~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI772~ wzor = ~SPWI509~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI773~ wzor = ~SPWI709~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI774~ wzor = ~SPWI702~ psion = ~7~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI870~ wzor = ~SPWI807~ psion = ~8~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI871~ wzor = ~SPWI804~ psion = ~8~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI872~ wzor = ~SPWI805~ psion = ~8~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI970~ wzor = ~SPWI903~ psion = ~9~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI971~ wzor = ~SPWI911~ psion = ~9~ psywar = ~0~ END
+    LPF ds_moc_wiersz STR_VAR res = ~SPWI972~ wzor = ~SPWI908~ psion = ~9~ psywar = ~0~ END
   BUT_ONLY

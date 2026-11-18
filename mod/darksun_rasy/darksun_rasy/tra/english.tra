@@ -38,7 +38,9 @@ Spells: templar spell list (divine, cast with Charisma). Not possible: turning u
 @222 = ~Earth Cleric~
 @223 = ~EARTH CLERIC: On Athas the gods are silent, and clerics draw their power from the elemental planes. Clerics of Earth revere stone and soil, the foundations that endure even under the dying sun.
 
-(Experimental cleric patron: Dark Sun conversion test. No domain bonuses yet.)~
+Cleric subclass (Dark Sun). Hit Die, attack bonus and saving throws as a cleric. Spells: the elemental cleric list (at present the cleric list). Domains: the Earth cleric list (at present the domains of Tempus).
+
+Abilities: Tempus' Strength at 1st level.~
 
 // --- Polelf atasyjski (komponent 3). Nazwy i opisy robocze - do decyzji wlasciciela. ---
 @111 = ~athasian half-elf~
@@ -53,7 +55,7 @@ Disadvantages:
 -2 Intelligence
 -2 Charisma
 
-(Experimental subrace: Dark Sun conversion test.)~
+(Half-elf subrace, Dark Sun.)~
 
 // --- Nowe podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
 @230 = ~Fighter~
@@ -72,13 +74,17 @@ Armor Optimization (5th, 10th, 15th, 20th) and Parry (14th): +1 AC each.~
 @242 = ~Waste Ranger~
 @243 = ~WASTE RANGER: Rangers of Athas hunt across the stony barrens and silt flats, where water is the price of every mistake.
 
-(Experimental ranger subclass: Dark Sun conversion test. Test ability at level 1: Called Shot.)~
+Ranger subclass (Dark Sun). Hit Die, attack bonus, saving throws, skills and spells as a ranger.
+
+Abilities: Called Shot at 1st level.~
 @250 = ~Druid~
 @251 = ~guardian druid~
 @252 = ~Guardian Druid~
 @253 = ~GUARDIAN DRUID: Each druid of Athas guards one stretch of land, an oasis, a ridge or a dry river, and draws strength from the spirit of that place.
 
-(Experimental druid subclass: Dark Sun conversion test. Test ability at level 1: Elemental Shape - Fire Elemental.)~
+Druid subclass (Dark Sun). Hit Die, attack bonus, saving throws and spells as a druid.
+
+Abilities: Elemental Shape - Fire Elemental at 1st level.~
 @260 = ~Bard~
 @261 = ~athasian bard~
 @262 = ~Athasian Bard~
@@ -103,17 +109,23 @@ Powers: psion power list - psionic powers represented by the nearest spells of t
 @282 = ~Athasian Rogue~
 @283 = ~ATHASIAN ROGUE: In the city-states of Athas thieves, smugglers and spies thrive in the shadow of the templars, trading in water, metal and secrets.
 
-(Experimental rogue subclass: Dark Sun conversion test. Test ability at level 1: Invisibility.)~
+Rogue subclass (Dark Sun). Hit Die, attack bonus, saving throws, skills and sneak attack as a rogue.
+
+Abilities: Invisibility at 1st level.~
 @291 = ~preserver~
 @292 = ~Preserver~
 @293 = ~PRESERVER: Arcane magic on Athas draws life from the land itself. Preservers take only what the land can spare and are hunted by templars and defilers alike.
 
-(Experimental wizard subclass: Dark Sun conversion test. Test ability at level 1: Spell Shield.)~
+Wizard subclass (Dark Sun). Hit Die, attack bonus, saving throws and spells as a wizard.
+
+Abilities: Spell Shield at 1st level.~
 @311 = ~barbarian warrior~
 @312 = ~Barbarian Warrior~
-@313 = ~BARBARIAN WARRIOR: The barbarian as a fighter subclass. Tribes of the wastes and the slave villages raise warriors who fight with fury rather than drill.
+@313 = ~BARBARIAN WARRIOR: Tribes of the wastes and the slave villages raise warriors who fight with fury rather than drill.
 
-(Experimental fighter subclass, test29: barbarian moved from its own class. No fighter bonus feats (FEATCLAS column BARBARIAN_F), 4 skill points per level (SKILLPTS), Uncanny Dodge (DSKLASY), d12 hit die, rage and fast movement from CLABDS12.)~
+Fighter subclass (in this mod the barbarian is a fighter subclass; the barbarian class slot holds the prestige classes). Hit Die: d12. Base attack bonus: full. Good saving throws: Fortitude. Skill points: 4 per level. No fighter bonus feats.
+
+Abilities: Rage (more uses at higher levels, Greater Rage from 16th level), fast movement, Uncanny Dodge.~
 @320 = ~Prestige Class~
 @324 = ~PRESTIGE CLASS: specialised paths open only to experienced characters. On the next screen choose one of the prestige classes whose requirements your character meets (level, attack bonus, class level, race, feats, skills).
 
@@ -123,23 +135,29 @@ A prestige class has at most 10 levels and does not count towards the multiclass
 @322 = ~Arena Champion~
 @323 = ~ARENA CHAMPION (prestige class): Gladiators who survive enough bouts in the arenas of Tyr, Urik or Balic become champions, idols of the crowd and valuable property of their owners.
 
-Requirements: character level 5, base attack bonus +5, Gladiator (Fighter subclass) level 5.
+Requirements: character level 5, base attack bonus +5, Gladiator (fighter subclass) level 5.
 
-(Experimental prestige class, test30: d10, fighter attack bonus and saves. Test ability at level 1: Called Shot.)~
+Maximum 10 levels. Hit Die: d12. Base attack bonus: full. Saving throws as a fighter.
+
+Abilities: Called Shot at 1st level.~
 @331 = ~arch-defiler~
 @332 = ~Arch-Defiler~
 @333 = ~ARCH-DEFILER (prestige class): Defilers who drain ever more life from the land for their spells, on the path that once created the Sorcerer-Kings and the Dragon.
 
 Requirements: character level 7, Wizard level 7.
 
-(Experimental prestige class, test34: d4, wizard attack bonus and saves. Each Arch-Defiler level counts as a wizard level for spell slots (+1 spellcasting level of the wizard class). Test ability at level 1: Spell Shield.)~
+Maximum 10 levels. Hit Die: d4. Attack bonus and saving throws as a wizard. Each level adds +1 level of wizard spellcasting (spell slots and caster level).
+
+Abilities: Spell Shield at 1st level.~
 @341 = ~dwarven defender~
 @342 = ~Dwarven Defender~
 @343 = ~DWARVEN DEFENDER (prestige class): Dwarves who make the defence of their focus - a village, a well, a mine - the whole purpose of their lives. A line of defenders holds better than a wall.
 
 Requirements: dwarf, lawful alignment, base attack bonus +7, feats Dodge and Toughness.
 
-(Experimental prestige class, test33: d12, fighter attack bonus, good Fortitude and Will. +1 AC at levels 1, 4, 7 and 10, Defensive Stance at 1, 3, 5, 7 and 9 (one use per day each), Uncanny Dodge at 2 and 6, damage reduction 3/- at 6 and 10.)~
+Maximum 10 levels. Hit Die: d12. Base attack bonus: full. Good saving throws: Fortitude and Will.
+
+Abilities: +1 AC at levels 1, 4, 7 and 10; Defensive Stance at levels 1, 3, 5, 7 and 9 (each grants one more use per day); Uncanny Dodge at levels 2 and 6; damage reduction 3/- at levels 6 and 10.~
 @344 = ~Defensive Stance~
 @351 = ~assassin~
 @352 = ~Assassin~
@@ -147,7 +165,9 @@ Requirements: dwarf, lawful alignment, base attack bonus +7, feats Dodge and Tou
 
 Requirements: evil alignment, Hide 8 ranks, Move Silently 8 ranks.
 
-(Experimental prestige class, test33: d6, medium attack bonus, good Reflex. Sneak attack like a rogue of the same level, Uncanny Dodge at 2 and 5, Invisibility at 4 and 8. Death attack and poison use - next tests.)~
+Maximum 10 levels. Hit Die: d6. Base attack bonus: 3/4. Saving throws as a rogue.
+
+Abilities: sneak attack as a rogue of the same level, Uncanny Dodge at levels 2 and 5, Invisibility at levels 4 and 8. Death attack and poison use are not implemented.~
 @361 = ~elementalist~
 @362 = ~Elementalist~
 @363 = ~ELEMENTALIST (prestige class): Clerics who devote themselves entirely to their patron element and gain mastery over it unrivalled by any other being.
@@ -157,7 +177,9 @@ Requirements: cleric level 5 (able to cast 3rd-level divine spells). Hit Die: d8
 @302 = ~Fire Cleric~
 @303 = ~FIRE CLERIC: Clerics of Fire serve the elemental plane of flame, the most destructive of the four elements under the crimson sun of Athas.
 
-(Experimental cleric patron: Dark Sun conversion test. Test ability at level 1: Ilmater's Endurance.)~
+Cleric subclass (Dark Sun). Hit Die, attack bonus, saving throws, spells and domains as a cleric.
+
+Abilities: Ilmater's Endurance at 1st level.~
 
 // karta postaci (test28): cechy rasy pod nazwa rasy
 @121 = ~Thrown weapons and slings, to hit~
@@ -1411,3 +1433,252 @@ Benefit: Your Charisma increases by 1.
 Special: You can take this feat up to 10 times. Its effects stack.
 
 (Epic Level Handbook)~
+@1300 = ~In IWD2 this power works like the spell~
+@1301 = ~Crystal Shard~
+@1302 = ~Crystal Shard
+(Psionic power)
+Level: Psion/Wilder 1~
+@1303 = ~Defensive Precognition~
+@1304 = ~Defensive Precognition
+(Psionic power)
+Level: Psychic Warrior 1~
+@1305 = ~Demoralize~
+@1306 = ~Demoralize
+(Psionic power)
+Level: Psion/Wilder 1~
+@1307 = ~Energy Ray~
+@1308 = ~Energy Ray
+(Psionic power)
+Level: Psion/Wilder 1~
+@1309 = ~Entangling Ectoplasm~
+@1310 = ~Entangling Ectoplasm
+(Psionic power)
+Level: Psion/Wilder 1~
+@1311 = ~Expansion~
+@1312 = ~Expansion
+(Psionic power)
+Level: Psychic Warrior 1~
+@1313 = ~Force Screen~
+@1314 = ~Force Screen
+(Psionic power)
+Level: Psion/Wilder 1, Psychic Warrior 1~
+@1315 = ~Hypnotism~
+@1316 = ~Hypnotism
+(Psionic power)
+Level: Psion/Wilder 1~
+@1317 = ~Inertial Armor~
+@1318 = ~Inertial Armor
+(Psionic power)
+Level: Psion/Wilder 1, Psychic Warrior 1~
+@1319 = ~Mind Thrust~
+@1320 = ~Mind Thrust
+(Psionic power)
+Level: Psion/Wilder 1~
+@1321 = ~Offensive Precognition~
+@1322 = ~Offensive Precognition
+(Psionic power)
+Level: Psychic Warrior 1~
+@1323 = ~Precognition~
+@1324 = ~Precognition
+(Psionic power)
+Level: Psion/Wilder 1~
+@1325 = ~Psionic Charm~
+@1326 = ~Psionic Charm
+(Psionic power)
+Level: Psion/Wilder 1~
+@1327 = ~Vigor~
+@1328 = ~Vigor
+(Psionic power)
+Level: Psychic Warrior 1~
+@1329 = ~Animal Affinity~
+@1330 = ~Animal Affinity
+(Psionic power)
+Level: Psychic Warrior 2~
+@1331 = ~Body Purification~
+@1332 = ~Body Purification
+(Psionic power)
+Level: Psychic Warrior 2~
+@1333 = ~Cloud Mind~
+@1334 = ~Cloud Mind
+(Psionic power)
+Level: Psion/Wilder 2~
+@1335 = ~Concealing Amorpha~
+@1336 = ~Concealing Amorpha
+(Psionic power)
+Level: Psion/Wilder 2, Psychic Warrior 2~
+@1337 = ~Ego Whip~
+@1338 = ~Ego Whip
+(Psionic power)
+Level: Psion/Wilder 2~
+@1339 = ~Energy Stun~
+@1340 = ~Energy Stun
+(Psionic power)
+Level: Psion/Wilder 2~
+@1341 = ~Id Insinuation~
+@1342 = ~Id Insinuation
+(Psionic power)
+Level: Psion/Wilder 2~
+@1343 = ~Swarm of Crystals~
+@1344 = ~Swarm of Crystals
+(Psionic power)
+Level: Psion/Wilder 2~
+@1345 = ~Thicken Skin~
+@1346 = ~Thicken Skin
+(Psionic power)
+Level: Psychic Warrior 2~
+@1347 = ~Thought Shield~
+@1348 = ~Thought Shield
+(Psionic power)
+Level: Psion/Wilder 2~
+@1349 = ~Body Adjustment~
+@1350 = ~Body Adjustment
+(Psionic power)
+Level: Psion/Wilder 3, Psychic Warrior 3~
+@1351 = ~Dispel Psionics~
+@1352 = ~Dispel Psionics
+(Psionic power)
+Level: Psion/Wilder 3~
+@1353 = ~Energy Bolt~
+@1354 = ~Energy Bolt
+(Psionic power)
+Level: Psion/Wilder 3~
+@1355 = ~Energy Burst~
+@1356 = ~Energy Burst
+(Psionic power)
+Level: Psion/Wilder 3~
+@1357 = ~Hostile Empathic Transfer~
+@1358 = ~Hostile Empathic Transfer
+(Psionic power)
+Level: Psion/Wilder 3~
+@1359 = ~Hustle~
+@1360 = ~Hustle
+(Psionic power)
+Level: Psychic Warrior 3~
+@1361 = ~Prowess~
+@1362 = ~Prowess
+(Psionic power)
+Level: Psychic Warrior 3~
+@1363 = ~Psionic Blast~
+@1364 = ~Psionic Blast
+(Psionic power)
+Level: Psion/Wilder 3~
+@1365 = ~Steadfast Perception~
+@1366 = ~Steadfast Perception
+(Psionic power)
+Level: Psychic Warrior 3~
+@1367 = ~Death Urge~
+@1368 = ~Death Urge
+(Psionic power)
+Level: Psion/Wilder 4~
+@1369 = ~Energy Ball~
+@1370 = ~Energy Ball
+(Psionic power)
+Level: Psion/Wilder 4~
+@1371 = ~Inertial Barrier~
+@1372 = ~Inertial Barrier
+(Psionic power)
+Level: Psion/Wilder 4, Psychic Warrior 4~
+@1373 = ~Mental Barrier~
+@1374 = ~Mental Barrier
+(Psionic power)
+Level: Psion/Wilder 4~
+@1375 = ~Psionic Dominate~
+@1376 = ~Psionic Dominate
+(Psionic power)
+Level: Psion/Wilder 4~
+@1377 = ~Psionic Freedom of Movement~
+@1378 = ~Psionic Freedom of Movement
+(Psionic power)
+Level: Psion/Wilder 4, Psychic Warrior 4~
+@1379 = ~Weapon of Energy~
+@1380 = ~Weapon of Energy
+(Psionic power)
+Level: Psychic Warrior 4~
+@1381 = ~Adapt Body~
+@1382 = ~Adapt Body
+(Psionic power)
+Level: Psychic Warrior 5~
+@1383 = ~Ectoplasmic Shambler~
+@1384 = ~Ectoplasmic Shambler
+(Psionic power)
+Level: Psion/Wilder 5~
+@1385 = ~Power Resistance~
+@1386 = ~Power Resistance
+(Psionic power)
+Level: Psion/Wilder 5~
+@1387 = ~Psionic Hold Monster~
+@1388 = ~Psionic Hold Monster
+(Psionic power)
+Level: Psion/Wilder 5~
+@1389 = ~Psychic Crush~
+@1390 = ~Psychic Crush
+(Psionic power)
+Level: Psion/Wilder 5~
+@1391 = ~Righteous Wrath of the Faithful~
+@1392 = ~Righteous Wrath of the Faithful
+(Psionic power)
+Level: Psychic Warrior 5~
+@1393 = ~Tower of Iron Will~
+@1394 = ~Tower of Iron Will
+(Psionic power)
+Level: Psion/Wilder 5~
+@1395 = ~Breath of the Black Dragon~
+@1396 = ~Breath of the Black Dragon
+(Psionic power)
+Level: Psion/Wilder 6, Psychic Warrior 6~
+@1397 = ~Disintegrate~
+@1398 = ~Disintegrate
+(Psionic power)
+Level: Psion/Wilder 6~
+@1399 = ~Metamorphosis~
+@1400 = ~Metamorphosis
+(Psionic power)
+Level: Psychic Warrior 6~
+@1401 = ~Temporal Acceleration~
+@1402 = ~Temporal Acceleration
+(Psionic power)
+Level: Psion/Wilder 6~
+@1403 = ~Decerebrate~
+@1404 = ~Decerebrate
+(Psionic power)
+Level: Psion/Wilder 7~
+@1405 = ~Energy Conversion~
+@1406 = ~Energy Conversion
+(Psionic power)
+Level: Psion/Wilder 7~
+@1407 = ~Insanity~
+@1408 = ~Insanity
+(Psionic power)
+Level: Psion/Wilder 7~
+@1409 = ~Mass Cloud Mind~
+@1410 = ~Mass Cloud Mind
+(Psionic power)
+Level: Psion/Wilder 7~
+@1411 = ~Psionic Finger of Death~
+@1412 = ~Psionic Finger of Death
+(Psionic power)
+Level: Psion/Wilder 7~
+@1413 = ~Iron Body~
+@1414 = ~Iron Body
+(Psionic power)
+Level: Psion/Wilder 8~
+@1415 = ~Psionic Mind Blank~
+@1416 = ~Psionic Mind Blank
+(Psionic power)
+Level: Psion/Wilder 8~
+@1417 = ~Ultrablast~
+@1418 = ~Ultrablast
+(Psionic power)
+Level: Psion/Wilder 8~
+@1419 = ~Microcosm~
+@1420 = ~Microcosm
+(Psionic power)
+Level: Psion/Wilder 9~
+@1421 = ~Psionic Mass Dominate~
+@1422 = ~Psionic Mass Dominate
+(Psionic power)
+Level: Psion/Wilder 9~
+@1423 = ~Tornado Blast~
+@1424 = ~Tornado Blast
+(Psionic power)
+Level: Psion/Wilder 9~

@@ -38,22 +38,24 @@ Czary: lista templariusza (boskie, rzucane z Charyzm¹). Niemo¿liwe: odpêdzanie n
 @222 = ~Kap³an Ziemi~
 @223 = ~KAP£AN ZIEMI: Na Athasie bogowie milcz¹, a kap³ani czerpi¹ moc z planów ¿ywio³ów. Kap³ani Ziemi czcz¹ kamieñ i glebê - fundamenty, które trwaj¹ nawet pod umieraj¹cym s³oñcem.
 
-(Eksperymentalny patron kap³ana: test konwersji Dark Sun. Brak premii domen.)~
+Podklasa kap³ana (Dark Sun). Koœæ wytrzyma³oœci, premia do ataku i rzuty obronne jak u kap³ana. Czary: lista kap³ana ¿ywio³ów (na razie lista kap³ana). Domeny: lista kap³ana Ziemi (na razie domeny Tempusa).
+
+Zdolnoœci: Si³a Tempusa na 1. poziomie.~
 
 // --- Polelf atasyjski (komponent 3). ---
 @111 = ~pó³elf atasyjski~
 @112 = ~Pó³elf atasyjski~
-@113 = ~PÓ£ELF ATASYJSKI: Na Athasie pó³elfy nie nale¿¹ do ¿adnego z ludów swoich rodziców. Odrzucane przez ludzi i elfy, zwykle ucz¹ siê ¿yæ samotnie na pustkowiach i polegaæ wy³¹cznie na sobie.
+@113 = ~POLELF ATASYJSKI: Na Athasie polelfy nie nale¿¹ do ¿adnego z ludów swoich rodziców. Odrzucane przez ludzi i elfy, zwykle ucz¹ siê ¿yæ samotnie na pustkowiach i polegaæ tylko na sobie.
 
 Zalety:
-+2 do Zrêcznoœci
-+2 do Kondycji
++2 Zrêcznoœæ
++2 Kondycja
 
 Wady:
--2 do Inteligencji
--2 do Charyzmy
+-2 Inteligencja
+-2 Charyzma
 
-(Eksperymentalna podrasa: test konwersji Dark Sun.)~
+(Podrasa polelfa, Dark Sun.)~
 
 // --- Nowe podklasy (komponent 2). ---
 @230 = ~Wojownik~
@@ -72,13 +74,17 @@ Dopasowanie pancerza (5., 10., 15., 20.) i parowanie (14.): po +1 KP.~
 @242 = ~Tropiciel pustkowi~
 @243 = ~TROPICIEL PUSTKOWI: Tropiciele Athasu poluj¹ na kamienistych pustkowiach i równinach py³u, gdzie ka¿dy b³¹d kosztuje wodê.
 
-(Eksperymentalna podklasa tropiciela: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Celny strza³.)~
+Podklasa tropiciela (Dark Sun). Koœæ wytrzyma³oœci, premia do ataku, rzuty obronne, umiejêtnoœci i czary jak u tropiciela.
+
+Zdolnoœci: Mierzony strza³ na 1. poziomie.~
 @250 = ~Druid~
 @251 = ~druid stra¿nik~
 @252 = ~Druid stra¿nik~
 @253 = ~DRUID STRA¯NIK: Ka¿dy druid Athasu strze¿e jednego skrawka ziemi - oazy, grani albo wyschniêtej rzeki - i czerpie si³ê z ducha tego miejsca.
 
-(Eksperymentalna podklasa druida: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Postaæ ¿ywio³u - ¿ywio³ak ognia.)~
+Podklasa druida (Dark Sun). Koœæ wytrzyma³oœci, premia do ataku, rzuty obronne i czary jak u druida.
+
+Zdolnoœci: Postaæ ¿ywio³aka - ¿ywio³ak ognia na 1. poziomie.~
 @260 = ~Bard~
 @261 = ~bard atasyjski~
 @262 = ~Bard atasyjski~
@@ -103,17 +109,23 @@ Moce: lista mocy psiona – moce psioniczne jako najbli¿sze czary gry (np. Pchniêc
 @282 = ~£otrzyk atasyjski~
 @283 = ~£OTRZYK ATASYJSKI: W miastach-pañstwach Athasu z³odzieje, przemytnicy i szpiedzy kwitn¹ w cieniu templariuszy, handluj¹c wod¹, metalem i tajemnicami.
 
-(Eksperymentalna podklasa ³otrzyka: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Niewidzialnoœæ.)~
+Podklasa ³otrzyka (Dark Sun). Koœæ wytrzyma³oœci, premia do ataku, rzuty obronne, umiejêtnoœci i atak z zaskoczenia jak u ³otrzyka.
+
+Zdolnoœci: Niewidzialnoœæ na 1. poziomie.~
 @291 = ~zachowawca~
 @292 = ~Zachowawca~
 @293 = ~ZACHOWAWCA: Magia tajemna na Athasie wysysa ¿ycie z samej ziemi. Zachowawcy bior¹ tylko tyle, ile ziemia mo¿e oddaæ, i s¹ œcigani zarówno przez templariuszy, jak i przez plugawców.
 
-(Eksperymentalna podklasa czarodzieja: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+Podklasa czarodzieja (Dark Sun). Koœæ wytrzyma³oœci, premia do ataku, rzuty obronne i czary jak u czarodzieja.
+
+Zdolnoœci: Zaklêcie ochronne na 1. poziomie.~
 @311 = ~barbarzyñski wojownik~
 @312 = ~Barbarzyñski wojownik~
-@313 = ~BARBARZYÑSKI WOJOWNIK: Barbarzyñca jako podklasa wojownika. Plemiona pustkowi i niewolnicze wioski wychowuj¹ wojowników, którzy walcz¹ furi¹, a nie musztr¹.
+@313 = ~BARBARZYÑSKI WOJOWNIK: Plemiona pustkowi i niewolnicze wioski wychowuj¹ wojowników, którzy walcz¹ furi¹, a nie musztr¹.
 
-(Eksperymentalna podklasa wojownika, test29: barbarzyñca przeniesiony z w³asnej klasy. Bez premiowych atutów wojownika (kolumna BARBARIAN_F w FEATCLAS), 4 punkty umiejêtnoœci na poziom (SKILLPTS), Nieprzewidywalny unik (DSKLASY), koœæ wytrzyma³oœci k12, sza³ i szybkie poruszanie siê z CLABDS12.)~
+Podklasa wojownika (w tym modzie barbarzyñca jest podklas¹ wojownika; miejsce klasy barbarzyñcy zajmuj¹ klasy presti¿owe). Koœæ wytrzyma³oœci: k12. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ. Punkty umiejêtnoœci: 4 na poziom. Bez premiowych atutów wojownika.
+
+Zdolnoœci: Sza³ (wiêcej u¿yæ na wy¿szych poziomach, Wielki sza³ od 16. poziomu), szybkie poruszanie siê, Nieprzewidywalny unik.~
 @320 = ~Klasa presti¿owa~
 @324 = ~KLASA PRESTI¯OWA: wyspecjalizowane œcie¿ki dostêpne tylko dla doœwiadczonych postaci. Na nastêpnym ekranie wybierz jedn¹ z klas presti¿owych, których wymagania spe³nia twoja postaæ (poziom, premia do ataku, poziom klasy, rasa, atuty, umiejêtnoœci).
 
@@ -123,31 +135,39 @@ Klasa presti¿owa ma najwy¿ej 10 poziomów i nie liczy siê do kary doœwiadczenia z
 @322 = ~Czempion areny~
 @323 = ~CZEMPION ARENY (klasa presti¿owa): Gladiatorzy, którzy prze¿yj¹ doœæ walk na arenach Tyru, Uriku czy Balic, zostaj¹ czempionami - idolami t³umu i cenn¹ w³asnoœci¹ swoich panów.
 
-Wymagania: poziom postaci 5, bazowa premia do ataku +5, Gladiator (podklasa wojownika) na 5. poziomie.
+Wymagania: poziom postaci 5, bazowa premia do ataku +5, 5. poziom Gladiatora (podklasa wojownika).
 
-(Eksperymentalna klasa presti¿owa, test30: k10, premia do ataku i rzuty obronne wojownika. Zdolnoœæ testowa na 1. poziomie: Celny strza³.)~
+Najwy¿ej 10 poziomów. Koœæ wytrzyma³oœci: k12. Bazowa premia do ataku: pe³na. Rzuty obronne jak u wojownika.
+
+Zdolnoœci: Mierzony strza³ na 1. poziomie.~
 @331 = ~arcyplugawca~
 @332 = ~Arcyplugawca~
 @333 = ~ARCYPLUGAWCA (klasa presti¿owa): Plugawcy, którzy dla swych czarów wysysaj¹ z ziemi coraz wiêcej ¿ycia - na œcie¿ce, która niegdyœ stworzy³a Królów-Czarnoksiê¿ników i Smoka.
 
-Wymagania: poziom postaci 7, Czarodziej na 7. poziomie.
+Wymagania: poziom postaci 7, 7. poziom Czarodzieja.
 
-(Eksperymentalna klasa presti¿owa, test34: k4, premia do ataku i rzuty obronne czarodzieja. Ka¿dy poziom Arcyplugawcy liczy siê jak poziom czarodzieja przy komórkach czarów (+1 poziom rzucania czarów klasy czarodzieja). Zdolnoœæ testowa na 1. poziomie: Tarcza przed czarami.)~
+Najwy¿ej 10 poziomów. Koœæ wytrzyma³oœci: k4. Premia do ataku i rzuty obronne jak u czarodzieja. Ka¿dy poziom dodaje +1 poziom rzucania czarów czarodzieja (komórki czarów i poziom rzucaj¹cego).
+
+Zdolnoœci: Zaklêcie ochronne na 1. poziomie.~
 @341 = ~krasnoludzki obroñca~
 @342 = ~Krasnoludzki obroñca~
 @343 = ~KRASNOLUDZKI OBROÑCA (klasa presti¿owa): Krasnoludy, które obronê swojego celu - wioski, studni, kopalni - czyni¹ sensem ca³ego ¿ycia. Szereg obroñców trzyma lepiej ni¿ mur.
 
 Wymagania: krasnolud, praworz¹dny charakter, bazowa premia do ataku +7, atuty Unik i Wytrzyma³oœæ.
 
-(Eksperymentalna klasa presti¿owa, test33: k12, premia do ataku wojownika, dobre rzuty na Wytrwa³oœæ i Wolê. +1 KP na poziomach 1, 4, 7 i 10, Postawa obronna na poziomach 1, 3, 5, 7 i 9 (ka¿da raz dziennie), Nieprzewidywalny unik na 2 i 6, redukcja obra¿eñ 3/- na 6 i 10.)~
+Najwy¿ej 10 poziomów. Koœæ wytrzyma³oœci: k12. Bazowa premia do ataku: pe³na. Dobre rzuty obronne: Wytrwa³oœæ i Wola.
+
+Zdolnoœci: +1 KP na poziomach 1, 4, 7 i 10; Postawa obronna na poziomach 1, 3, 5, 7 i 9 (ka¿dy daje jedno u¿ycie dziennie wiêcej); Nieprzewidywalny unik na poziomach 2 i 6; redukcja obra¿eñ 3/- na poziomach 6 i 10.~
 @344 = ~Postawa obronna~
 @351 = ~skrytobójca~
 @352 = ~Skrytobójca~
 @353 = ~SKRYTOBÓJCA (klasa presti¿owa): P³atni zabójcy domów kupieckich i templariuszy miast-pañstw, mistrzowie cichej œmierci.
 
-Wymagania: z³y charakter, Ukrywanie siê 8 rang, Ciche poruszanie siê 8 rang.
+Wymagania: z³y charakter, Ukrywanie siê 8 rang, Skradanie 8 rang.
 
-(Eksperymentalna klasa presti¿owa, test33: k6, œrednia premia do ataku, dobry rzut na Refleks. Atak z zaskoczenia jak ³otrzyk tego samego poziomu, Nieprzewidywalny unik na 2 i 5, Niewidzialnoœæ na 4 i 8. Atak œmierci i trucizny - w kolejnych testach.)~
+Najwy¿ej 10 poziomów. Koœæ wytrzyma³oœci: k6. Bazowa premia do ataku: 3/4. Rzuty obronne jak u ³otrzyka.
+
+Zdolnoœci: atak z zaskoczenia jak ³otrzyk tego samego poziomu, Nieprzewidywalny unik na poziomach 2 i 5, Niewidzialnoœæ na poziomach 4 i 8. Atak œmierci i u¿ywanie trucizn nie s¹ zrobione.~
 @361 = ~elementalista~
 @362 = ~Elementalista~
 @363 = ~ELEMENTALISTA (klasa presti¿owa): Kap³ani ca³kowicie oddani swojemu ¿ywio³owi, którzy zyskuj¹ nad nim w³adzê niedostêpn¹ innym istotom.
@@ -157,7 +177,9 @@ Wymagania: 5. poziom kap³ana (czary boskie 3. krêgu). Koœæ wytrzyma³oœci: k8. Ba
 @302 = ~Kap³an Ognia~
 @303 = ~KAP£AN OGNIA: Kap³ani Ognia s³u¿¹ planowi ¿ywio³u p³omieni, najbardziej niszczycielskiemu z czterech ¿ywio³ów pod szkar³atnym s³oñcem Athasu.
 
-(Eksperymentalny patron kap³ana: test konwersji Dark Sun. Zdolnoœæ testowa na 1. poziomie: Wytrzyma³oœæ Ilmatera.)~
+Podklasa kap³ana (Dark Sun). Koœæ wytrzyma³oœci, premia do ataku, rzuty obronne, czary i domeny jak u kap³ana.
+
+Zdolnoœci: Wytrzyma³oœæ Ilmatera na 1. poziomie.~
 
 // karta postaci (test28): cechy rasy pod nazwa rasy
 @121 = ~Broñ miotana i procy, trafienie~
@@ -1410,3 +1432,252 @@ Korzyœæ: Twoja wartoœæ Charyzmy roœnie o 1.
 Specjalne: Mo¿esz wybraæ ten atut do 10 razy; premie siê sumuj¹.
 
 (Epic Level Handbook)~
+@1300 = ~W IWD2 ta moc dzia³a jak czar~
+@1301 = ~Kryszta³owy od³amek~
+@1302 = ~Kryszta³owy od³amek
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1303 = ~Prekognicja obronna~
+@1304 = ~Prekognicja obronna
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 1~
+@1305 = ~Demoralizacja~
+@1306 = ~Demoralizacja
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1307 = ~Promieñ energii~
+@1308 = ~Promieñ energii
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1309 = ~Oplataj¹ca ektoplazma~
+@1310 = ~Oplataj¹ca ektoplazma
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1311 = ~Rozrost~
+@1312 = ~Rozrost
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 1~
+@1313 = ~Ekran mocy~
+@1314 = ~Ekran mocy
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1, Wojownik psioniczny 1~
+@1315 = ~Hipnoza~
+@1316 = ~Hipnoza
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1317 = ~Pancerz inercyjny~
+@1318 = ~Pancerz inercyjny
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1, Wojownik psioniczny 1~
+@1319 = ~Pchniêcie umys³u~
+@1320 = ~Pchniêcie umys³u
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1321 = ~Prekognicja ofensywna~
+@1322 = ~Prekognicja ofensywna
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 1~
+@1323 = ~Prekognicja~
+@1324 = ~Prekognicja
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1325 = ~Psioniczne zauroczenie~
+@1326 = ~Psioniczne zauroczenie
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 1~
+@1327 = ~Wigor~
+@1328 = ~Wigor
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 1~
+@1329 = ~Zwierzêca wiêŸ~
+@1330 = ~Zwierzêca wiêŸ
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 2~
+@1331 = ~Oczyszczenie cia³a~
+@1332 = ~Oczyszczenie cia³a
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 2~
+@1333 = ~Zamglenie umys³u~
+@1334 = ~Zamglenie umys³u
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 2~
+@1335 = ~Skrywaj¹ca amorfa~
+@1336 = ~Skrywaj¹ca amorfa
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 2, Wojownik psioniczny 2~
+@1337 = ~Bicz ego~
+@1338 = ~Bicz ego
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 2~
+@1339 = ~Og³uszenie energi¹~
+@1340 = ~Og³uszenie energi¹
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 2~
+@1341 = ~Podszept id~
+@1342 = ~Podszept id
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 2~
+@1343 = ~Rój kryszta³ów~
+@1344 = ~Rój kryszta³ów
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 2~
+@1345 = ~Pogrubienie skóry~
+@1346 = ~Pogrubienie skóry
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 2~
+@1347 = ~Tarcza myœli~
+@1348 = ~Tarcza myœli
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 2~
+@1349 = ~Regulacja cia³a~
+@1350 = ~Regulacja cia³a
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 3, Wojownik psioniczny 3~
+@1351 = ~Rozproszenie psioniki~
+@1352 = ~Rozproszenie psioniki
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 3~
+@1353 = ~Grom energii~
+@1354 = ~Grom energii
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 3~
+@1355 = ~Rozb³ysk energii~
+@1356 = ~Rozb³ysk energii
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 3~
+@1357 = ~Wrogi przekaz empatyczny~
+@1358 = ~Wrogi przekaz empatyczny
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 3~
+@1359 = ~Poœpiech~
+@1360 = ~Poœpiech
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 3~
+@1361 = ~Bieg³oœæ~
+@1362 = ~Bieg³oœæ
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 3~
+@1363 = ~Wybuch psioniczny~
+@1364 = ~Wybuch psioniczny
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 3~
+@1365 = ~Niez³omna percepcja~
+@1366 = ~Niez³omna percepcja
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 3~
+@1367 = ~Pragnienie œmierci~
+@1368 = ~Pragnienie œmierci
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 4~
+@1369 = ~Kula energii~
+@1370 = ~Kula energii
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 4~
+@1371 = ~Bariera inercyjna~
+@1372 = ~Bariera inercyjna
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 4, Wojownik psioniczny 4~
+@1373 = ~Bariera mentalna~
+@1374 = ~Bariera mentalna
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 4~
+@1375 = ~Psioniczna dominacja~
+@1376 = ~Psioniczna dominacja
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 4~
+@1377 = ~Psioniczna swoboda ruchów~
+@1378 = ~Psioniczna swoboda ruchów
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 4, Wojownik psioniczny 4~
+@1379 = ~Broñ z energii~
+@1380 = ~Broñ z energii
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 4~
+@1381 = ~Przystosowanie cia³a~
+@1382 = ~Przystosowanie cia³a
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 5~
+@1383 = ~Ektoplazmatyczny w³óczêga~
+@1384 = ~Ektoplazmatyczny w³óczêga
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 5~
+@1385 = ~Odpornoœæ na moce~
+@1386 = ~Odpornoœæ na moce
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 5~
+@1387 = ~Psioniczne unieruchomienie potwora~
+@1388 = ~Psioniczne unieruchomienie potwora
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 5~
+@1389 = ~Psychiczne zmia¿d¿enie~
+@1390 = ~Psychiczne zmia¿d¿enie
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 5~
+@1391 = ~S³uszny gniew wiernych~
+@1392 = ~S³uszny gniew wiernych
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 5~
+@1393 = ~Wie¿a ¿elaznej woli~
+@1394 = ~Wie¿a ¿elaznej woli
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 5~
+@1395 = ~Oddech czarnego smoka~
+@1396 = ~Oddech czarnego smoka
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 6, Wojownik psioniczny 6~
+@1397 = ~Dezintegracja~
+@1398 = ~Dezintegracja
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 6~
+@1399 = ~Metamorfoza~
+@1400 = ~Metamorfoza
+(Moc psioniczna)
+Poziom: Wojownik psioniczny 6~
+@1401 = ~Przyspieszenie czasu~
+@1402 = ~Przyspieszenie czasu
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 6~
+@1403 = ~Odmó¿d¿enie~
+@1404 = ~Odmó¿d¿enie
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 7~
+@1405 = ~Przemiana energii~
+@1406 = ~Przemiana energii
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 7~
+@1407 = ~Ob³êd~
+@1408 = ~Ob³êd
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 7~
+@1409 = ~Masowe zamglenie umys³u~
+@1410 = ~Masowe zamglenie umys³u
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 7~
+@1411 = ~Psioniczny palec œmierci~
+@1412 = ~Psioniczny palec œmierci
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 7~
+@1413 = ~¯elazne cia³o~
+@1414 = ~¯elazne cia³o
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 8~
+@1415 = ~Psioniczna pustka umys³u~
+@1416 = ~Psioniczna pustka umys³u
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 8~
+@1417 = ~Ultrawybuch~
+@1418 = ~Ultrawybuch
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 8~
+@1419 = ~Mikrokosmos~
+@1420 = ~Mikrokosmos
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 9~
+@1421 = ~Masowa psioniczna dominacja~
+@1422 = ~Masowa psioniczna dominacja
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 9~
+@1423 = ~Wybuch tornada~
+@1424 = ~Wybuch tornada
+(Moc psioniczna)
+Poziom: Psion/Dziki talent 9~
