@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test60: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test61: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -468,3 +468,14 @@ test60: atuty - partia 2 (22 nowe, razem 35). Exe bez zmian (jak test59). Reinst
        zwierzat) - PHB 3.5, czesci premii do umiejetnosci spoza IWD2 pominiete (opisane w tekstach).
      Sprawdzic: lista atutow ma 110 pozycji (75 + 35); premie Skupienia na karcie (np. Blef +3); epickie atuty
        niedostepne ponizej 21. poziomu.
+test61: atuty - partia 3 (14 nowych, razem 49) i nowe rodzaje premii. ZMIANA EXE. Reinstall: 0, 1-5, 8, 9, 10.
+     - Nowe kolumny DSATUTY: DAMAGE (obrazenia), HP (maks. PW), HP_LEVEL (maks. PW na poziom postaci), STR INT WIS
+       DEX CON CHA (cechy). Licza sie na biezaco jak pozostale premie, mnoza sie przez range.
+     - Forgotten Realms (atuty regionalne, tylko na 1. poziomie): Silna dusza (+1 Wytrwalosc i Wola), Ocalaly
+       (+1 Wytrwalosc, +2 Wiedza o pustkowiach), Srebrna dlon (+2 Blef), Gladka mowa (+2 Dyplomacja), Uliczny spryt
+       (+2 Blef), Zbir (+2 Zastraszanie; premia do inicjatywy nie jest zrobiona).
+     - Wieksza wytrzymalosc (Complete Warrior): +1 PW na poziom postaci.
+     - Epicka wytrzymalosc (+20 PW) i Wielka sila / zrecznosc / kondycja / inteligencja / madrosc / charyzma (+1 do
+       cechy) - Epic Level Handbook, od 21. poziomu, do 10 razy.
+     Sprawdzic: maks. PW na karcie po Wiekszej wytrzymalosci (rosnie z poziomem); cecha +1 po Wielkiej sile itd.
+       i jej modyfikator (np. trafienie / obrazenia przy Sile); atuty regionalne niedostepne po 1. poziomie.

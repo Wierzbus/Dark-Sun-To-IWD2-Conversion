@@ -1271,3 +1271,143 @@ You are good with animals.
 Benefit: You get a +2 bonus on all Animal Empathy checks.
 
 (Player's Handbook 3.5: +2 Handle Animal and Ride; IWD2 has Animal Empathy instead)~
+@1171 = ~Strong Soul~
+@1172 = ~STRONG SOUL:
+
+The souls of your people are hard to separate from their bodies.
+
+Benefit: You get a +1 bonus on all Fortitude and Will saves. (The extra bonus against energy drain and death effects is not implemented.)
+
+(Forgotten Realms Campaign Setting; regional feat - only at 1st level)~
+@1173 = ~Survivor~
+@1174 = ~SURVIVOR:
+
+Your people thrive where others cannot live.
+
+Benefit: You get a +1 bonus on Fortitude saves and a +2 bonus on all Wilderness Lore checks.
+
+(Forgotten Realms Campaign Setting; regional feat - only at 1st level)~
+@1175 = ~Silver Palm~
+@1176 = ~SILVER PALM:
+
+Your culture is built on haggling.
+
+Benefit: You get a +2 bonus on all Bluff checks. (The Appraise bonus does not exist in IWD2.)
+
+(Forgotten Realms Campaign Setting; regional feat - only at 1st level)~
+@1177 = ~Smooth Talk~
+@1178 = ~SMOOTH TALK:
+
+Your people are used to dealing with strangers without drawing weapons.
+
+Benefit: You get a +2 bonus on all Diplomacy checks. (The Sense Motive bonus does not exist in IWD2.)
+
+(Forgotten Realms Campaign Setting; regional feat - only at 1st level)~
+@1179 = ~Street Smart~
+@1180 = ~STREET SMART:
+
+You know how to stay informed and deal with the underworld.
+
+Benefit: You get a +2 bonus on all Bluff checks. (The Gather Information bonus does not exist in IWD2.)
+
+(Forgotten Realms Campaign Setting; regional feat - only at 1st level)~
+@1181 = ~Thug~
+@1182 = ~THUG:
+
+While others debate, you act.
+
+Benefit: You get a +2 bonus on all Intimidate checks. (The Initiative bonus is not implemented.)
+
+(Forgotten Realms Campaign Setting; regional feat - only at 1st level)~
+@1183 = ~Improved Toughness~
+@1184 = ~IMPROVED TOUGHNESS:
+
+You are significantly tougher than normal.
+
+Benefit: You gain 1 hit point per character level; the bonus grows as you gain levels.
+
+(Complete Warrior; the prerequisite base Fortitude +2 is not checked)~
+@1185 = ~Epic Toughness~
+@1186 = ~EPIC TOUGHNESS:
+
+You are far tougher than any mortal.
+
+Prerequisites: Character level 21.
+
+Benefit: You gain 20 hit points.
+
+Special: You can take this feat up to 10 times. Its effects stack.
+
+(Epic Level Handbook)~
+@1187 = ~Great Strength~
+@1188 = ~GREAT STRENGTH:
+
+Your strength rises beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: Your Strength increases by 1.
+
+Special: You can take this feat up to 10 times. Its effects stack.
+
+(Epic Level Handbook)~
+@1189 = ~Great Dexterity~
+@1190 = ~GREAT DEXTERITY:
+
+Your dexterity rises beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: Your Dexterity increases by 1.
+
+Special: You can take this feat up to 10 times. Its effects stack.
+
+(Epic Level Handbook)~
+@1191 = ~Great Constitution~
+@1192 = ~GREAT CONSTITUTION:
+
+Your constitution rises beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: Your Constitution increases by 1.
+
+Special: You can take this feat up to 10 times. Its effects stack.
+
+(Epic Level Handbook)~
+@1193 = ~Great Intelligence~
+@1194 = ~GREAT INTELLIGENCE:
+
+Your intelligence rises beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: Your Intelligence increases by 1.
+
+Special: You can take this feat up to 10 times. Its effects stack.
+
+(Epic Level Handbook)~
+@1195 = ~Great Wisdom~
+@1196 = ~GREAT WISDOM:
+
+Your wisdom rises beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: Your Wisdom increases by 1.
+
+Special: You can take this feat up to 10 times. Its effects stack.
+
+(Epic Level Handbook)~
+@1197 = ~Great Charisma~
+@1198 = ~GREAT CHARISMA:
+
+Your charisma rises beyond mortal limits.
+
+Prerequisites: Character level 21.
+
+Benefit: Your Charisma increases by 1.
+
+Special: You can take this feat up to 10 times. Its effects stack.
+
+(Epic Level Handbook)~

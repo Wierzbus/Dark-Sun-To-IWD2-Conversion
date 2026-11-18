@@ -731,3 +731,10 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   podaje go do 0x5E1F50). `okno6_po` brał go jako postać → `pr_wpis` czytał `[ebx+0x3E4B]` spod złego adresu
   (wyjątek 0xC0000005 przy 0xA26BA5, zgłoszony z gry). Teraz `pr_dost` (okno 54, postać `[esp+0xE94]`) zapisuje
   postać w `pr_post`, a `okno6_po` przekazuje ją do `prest_lista`; `pr_wpis` bez postaci zwraca 0.
+
+## 51. Test61: nowe rodzaje premii atutów
+- 0x4440F0 (odświeżenie statystyk z bazy) ustawia co przeliczenie m.in. +0x4 maks. PW (z bazy +0x1E), +0xC KP,
+  +0x18 trafienie, +0x54..+0x5E cechy, +0x86 obrażenia – dodawanie w `atut_premie` się nie kumuluje.
+- Opcode 73 typ 0 (obrażenia): statystyki +0x86 (postać +0x9A6, maks. 20); opcode 18 typ 0: +0x4 (maks. PW) i baza
+  +0x5C0/+0x5C2. Cechy jak efekty kumulowane: premie +0x54.. (SIŁ, INT, MĄD, ZRĘ, KON, CHA – słowa).
+- PREM: 32 B na atut (21 MAX_RANK, 22 DAMAGE, 23 HP, 24 HP_LEVEL × poziom postaci +0x966, 25–30 cechy).

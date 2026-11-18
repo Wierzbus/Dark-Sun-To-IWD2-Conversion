@@ -325,7 +325,8 @@ prestiżowa na postać. Kara PD za wieloklasowość nie liczy klasy prestiżowej
 3. **DSATUTY.2DA** – wiersz w tej samej kolejności (wiersz 0 = atut 75):
    wymagania `MIN_STR … MIN_CHA`, `MIN_BAB`, `MIN_LEVEL`, `MAX_LEVEL`, `CLASS` + `CLASS_LEVEL`, `FEAT`,
    `SKILL` + `SKILL_RANK`, `RACE`, `SUBRACE`; premie stałe: kolumny o nazwach z SKILLS.IDS (np. `BLUFF`),
-   `FORTITUDE`, `REFLEX`, `WILL`, `AC`, `ATTACK`; `CLAB` = tablica w formacie CLAB (kolumna 1) dla zdolności
+   `FORTITUDE`, `REFLEX`, `WILL`, `AC`, `ATTACK`, `DAMAGE`, `HP`, `HP_LEVEL` (PW × poziom postaci),
+   `STR` `INT` `WIS` `DEX` `CON` `CHA`; `CLAB` = tablica w formacie CLAB (kolumna 1) dla zdolności
    jednorazowych (GA_ / AP_). `*` = brak.
 4. Komponent 9 instalatora robi punkty 1–3 dla atutów z listy `ds_atuty` (teksty @1101+ w tra).
 `MAX_RANK` (2..15, atuty 75..150) = atut z rangami: premie mnożą się przez rangę, CLAB tylko przy 1. randze.

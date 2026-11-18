@@ -36,8 +36,10 @@ AW_W      equ 0xA2A704          ; wiersz DSATUTY
 AW_T      equ 0xA2A708          ; C2DArray DSATUTY
 PR_OK     equ 0xA2A70C          ; 1 = tablica PREM zbudowana z DSATUTY
 LICZBA    equ 0x84EA66          ; slowo: liczba atutow na ekranach (.rdata - instalator robi ja zapisywalna)
-PREM      equ 0xA2A800          ; 117 wierszy x N_PREM bajtow: 0..20 premie (int8), 21 = MAX_RANK
-N_PREM    equ 24                ; 16 umiejetnosci, 3 rzuty, KP, atak, maks. ranga, zapas
+PREM      equ 0xA2A800          ; 117 wierszy x N_PREM bajtow (int8): 0..20 umiejetnosci, rzuty, KP, atak; 21 MAX_RANK;
+                                ; test61: 22 DAMAGE, 23 HP, 24 HP_LEVEL, 25..30 STR INT WIS DEX CON CHA
+N_PREM    equ 32
+N_KOL     equ 31
 KLASA_RASY equ 12
 
     db 'DSATUTY1'               ; znacznik (sprawdza skrypt budujacy)
@@ -461,6 +463,24 @@ atut_premie:
     movsx eax, byte [edx+20]
     imul eax, ebp
     add [esi+0x938], ax
+    movsx eax, byte [edx+22]    ; test61: obrazenia (jak opcode 73: statystyki +0x86)
+    imul eax, ebp
+    add [esi+0x9a6], ax
+    movsx eax, byte [edx+23]    ; maks. PW (statystyki +0x4)
+    imul eax, ebp
+    add [esi+0x924], ax
+    movsx eax, byte [edx+24]    ; maks. PW na poziom postaci
+    imul eax, ebp
+    movzx ecx, byte [esi+0x966]
+    imul eax, ecx
+    add [esi+0x924], ax
+    xor ecx, ecx                ; cechy: premie +0x54.. (SIL INT MAD ZRE KON CHA, slowa)
+.c: movsx eax, byte [edx+25+ecx]
+    imul eax, ebp
+    add [edi+0x54+ecx*2], ax
+    inc ecx
+    cmp ecx, 6
+    jb .c
     pop ebp
     pop ecx
 .n: inc ecx
@@ -497,10 +517,12 @@ buduj_prem:
     mov [PREM+edx+esi], al
 .cn:
     inc esi
-    cmp esi, 21
+    cmp esi, N_KOL
     jb .c
-    push n_maxr
-    call aw
+    mov edx, ebx
+    imul edx, N_PREM
+    movsx eax, byte [PREM+edx+21]
+    mov byte [PREM+edx+21], 1
     cmp eax, 1
     jle .nw
     cmp eax, 15
@@ -677,7 +699,17 @@ p17: db 'REFLEX', 0
 p18: db 'WILL', 0
 p19: db 'AC', 0
 p20: db 'ATTACK', 0
+p22: db 'DAMAGE', 0
+p23: db 'HP', 0
+p24: db 'HP_LEVEL', 0
+p25: db 'STR', 0
+p26: db 'INT', 0
+p27: db 'WIS', 0
+p28: db 'DEX', 0
+p29: db 'CON', 0
+p30: db 'CHA', 0
 align 4
 n_prem: dd p00, p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20
+        dd n_maxr, p22, p23, p24, p25, p26, p27, p28, p29, p30
 n_cechy:     dd n_str, n_int, n_wis, n_dex, n_con, n_cha
 n_cechy_off: db 0x02, 0x03, 0x04, 0x05, 0x06, 0x07     ; + 0x800 nizej
