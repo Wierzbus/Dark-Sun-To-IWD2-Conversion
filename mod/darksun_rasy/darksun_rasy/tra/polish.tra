@@ -4,14 +4,20 @@
 @103 = ~MUL: Mulowie to bezp³odne potomstwo ludzi i krasnoludów, hodowane w niewolniczych zagrodach Athasu do pracy i walk na arenach. £¹cz¹ ludzki wzrost z krasnoludzk¹ krzep¹ i s³yn¹ z wytrzyma³oœci.
 
 Zalety:
-+2 do Si³y
++4 do Si³y
 +2 do Kondycji
 
 Wady:
--2 do Inteligencji
 -2 do Charyzmy
 
-(Eksperymentalna podrasa: test konwersji Dark Sun.)~
+(Dark Sun 3.5e. Dostosowanie poziomu +1: -35% doœwiadczenia.)~
+@104 = ~pó³olbrzym~
+@105 = ~Pó³olbrzym~
+@106 = ~PÓ£OLBRZYM: Ogromni potomkowie olbrzymów i ludzi, wyhodowani przez królów-czarnoksiê¿ników jako ¿o³nierze i niewolnicy. Pó³olbrzymy maj¹ niezwyk³¹ si³ê i têpy umys³, i naœladuj¹ tych, których podziwiaj¹.
+
+Dark Sun 3.5e: +8 Si³y, -2 Zrêcznoœci, +4 Kondycji, -4 Inteligencji, -4 M¹droœci, -4 Charyzmy. Du¿y rozmiar: +2 pancerza naturalnego i -1 KP za rozmiar (razem +1 KP), -1 do trafienia. Widzenie w ciemnoœci. Szybszy ruch. Dostosowanie poziomu +2 (-50% doœwiadczenia).
+
+W grze pó³olbrzym wygl¹da jak pó³ork i nie ma zasiêgu 10 stóp.~
 
 // --- Podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
 @201 = ~templariusz~

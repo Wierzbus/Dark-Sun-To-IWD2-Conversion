@@ -2471,4 +2471,34 @@ n_listdomn: db 'LISTDOMN', 0
 k_spells:   db 'SPELLS', 0
 k_splres:   db 'SPELL_RES_REF', 0
 n_listspll: db 'LISTSPLL', 0
+;================================================================ polorek: podrasa 2 = pololbrzym (test51)
+; zamiast galezi polorka w GetRaceRow (0x541BC4, jmp): podrasa 0 -> "HALF_ORC", 1 -> "HALF_ORC_MUL" (0x542551),
+; 2 i dalsze -> "HALF_ORC_HGNT". Stos jak w oryginale: [esp+0xc] = wynik (CString*), [esp+0x14] = podrasa.
+ho_rasa:
+    mov esi, [esp+0xc]
+    movzx eax, byte [esp+0x14]
+    test eax, eax
+    jne .n1
+    push 0x8de8c4               ; globalny CString "HALF_ORC"
+    mov ecx, esi
+    mov eax, 0x7fc98f           ; CString::CString(const CString&)
+    call eax
+    jmp .koniec
+.n1:
+    cmp eax, 1
+    jne .n2
+    push 0x542551               ; "HALF_ORC_MUL"
+    jmp .lit
+.n2:
+    push s_hgnt
+.lit:
+    mov ecx, esi
+    mov eax, 0x7fcc88           ; CString::CString(LPCSTR)
+    call eax
+.koniec:
+    mov eax, esi
+    pop esi
+    pop ecx
+    ret 0xc
+s_hgnt:     db 'HALF_ORC_HGNT', 0
 koniec_kity:

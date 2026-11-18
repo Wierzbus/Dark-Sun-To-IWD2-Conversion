@@ -640,3 +640,11 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   CLABDS04 z paczki (GA_DSGLSTN, AP_DSDDAC). BARD_DS: SAVEMONK, SKILLPTS 3, AP_DSSWWIL na 5. ARENA_CHAMP: HPBARB.
   ELEM_ADEPT = Elementalist: DSPREST klasa 3 poziom 5, SPELLCLASS 3, HPPRS.
 - Bard atasyjski bez czarów wymaga zmian okna 8 awansu (wybór czarów przy pustej liście) – nie zrobione.
+
+## 43. Test51: półolbrzym – podrasa 2 półorka
+- 0x541BC4 (gałąź półorka w GetRaceRow) → `jmp ho_rasa` (kity.asm): podrasa 0 HALF_ORC, 1 HALF_ORC_MUL, ≥2 HALF_ORC_HGNT.
+- 0x544FE6 (nazwa podrasy na karcie): `cmp al,1; jne; mov eax, strref mula (plik 0x144FEB); jmp 0x545009; mov eax, strref
+  półolbrzyma (0x144FF2); jmp 0x545009` – strrefy wpisuje komponent 1.
+- Tabele: SRLIST (ID 2), SR_HO, ABRACEAD, ABRACERQ, RACESPAB, RACERSMD, SAVERACE, SKILLRAC, STRTXP, RACEXPMD (−50),
+  SUBRACE.IDS 0x00070002, DSRASY (RLHGNT, widzenie w ciemności), RLHGNT (AP_DSHGNT +1 KP −1 trafienie, AP_DSBBNMV).
+- Dostosowanie poziomu ras w IWD2 = RACEXPMD (procent PD): drow −50, aasimar/tiefling −35.

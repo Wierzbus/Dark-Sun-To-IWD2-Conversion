@@ -135,6 +135,7 @@ HAKI4 = [
     (0x4BE30E, "8b471c83c0fe83f806c68424ec00000002", "jmp", "ids_kit", 12),
     # test42: umiejetnosci klasowe podklas (SKILCOST.2DA - kolumna podklasy DS przed kolumna klasy)
     (0x764371, "0fbf85980d00008d4eff3bc87d290fbf959a0d0000395424247d1c85c97c188b54242485d27c100fafc203c18b8d900d00008d0481eb068d85940d00008b00", "jmp", "skc_a", 58),
+    (0x541BC4, "8b74240c807c2414", "jmp", "ho_rasa", 0),   # test51: GetRaceRow polorka - podrasa 2 = pololbrzym
     (0x76445E, "0fbf85980d00003bf07d270fbf959a0d00008b4c24243bca7d1885f67c1485c97c100fafc18b8d900d000003c68d0481eb068d85940d00008b00", "jmp", "skc_b", 53),
     # test27: nazwa podklasy DS zamiast klasy (karta postaci, portrety, awans)
     (0x5442A7, "81e3ff0000008d43ff", "jmp", "nazwa_kl", 4),       # 0x544120: nazwa klasy z kitu
@@ -352,6 +353,15 @@ def main():
     rel = struct.unpack_from("<i", d, 0x7228E4 - BASE)[0]
     d[0x7228E2 - BASE:0x7228E8 - BASE] = b"\xE9" + struct.pack("<i", rel + 1) + b"\x90"
     struct.pack_into("<I", d, 0x61C640 - BASE, 0x61C562)  # przycisk polelfa -> okno podras (54)
+    # test51 polorek: nazwa podrasy na karcie (0x544FE6): podrasa 1 -> strref mula (0x544FEB), 2 -> pololbrzym (0x544FF2);
+    # strrefy wpisuje WeiDU (komponent 1)
+    o = 0x544FE6 - BASE
+    assert d[o] == 0xB8 and d[o + 5] == 0xE9, "0x544FE6: oczekiwano mov eax, strref; jmp 0x545009"
+    mul = struct.unpack_from("<I", d, o + 1)[0]
+    kod_ho = b"\x3C\x01\x75\x07" + b"\xB8" + struct.pack("<I", mul) + b"\xEB\x18" + b"\xB8" + struct.pack("<I", 0xFFFFFFFF) + b"\xEB\x11"
+    assert 0x544FE6 + 4 + 5 + 2 == 0x544FF1 and 0x544FF1 + 7 + 0x11 == 0x545009 and 0x544FEF + 2 + 0x18 == 0x545009
+    d[o:o + len(kod_ho)] = kod_ho
+    d[o + len(kod_ho):0x544FFF - BASE] = b"\x90" * (0x544FFF - 0x544FE6 - len(kod_ho))
     # zdolnosci klas przeniesione do CLAB (AP_ + SPL z tools/iwd2_spl.py):
     # paladyn >= 2: odpornosc na SPWI420 (Emotion: Fear) - warunek "poziom < 2" zawsze prawdziwy
     assert d[0x4A3A84 - BASE:0x4A3A86 - BASE] == b"\x0F\x8C", "0x4A3A84: oczekiwano jl rel32"

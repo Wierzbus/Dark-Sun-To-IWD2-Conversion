@@ -19,3 +19,4 @@ GNOME                  *         0          4        0      0
 GNOME_DEEP             *         1          0        0      1
 HALF_ORC               *         1          0        0      0
 HALF_ORC_MUL           RLMUL     1          0        0      0
+HALF_ORC_HGNT          RLHGNT    1          0        0      0

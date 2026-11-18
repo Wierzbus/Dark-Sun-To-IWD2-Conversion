@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test50: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test51: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -354,3 +354,12 @@ test50: podklasy Dark Sun wg Dark Sun 3.5e Core Rulebook (Athas.org, v8).
      - Arena Champion: k12. Elemental Adept -> Elementalista (kaplan 5. poziomu, k8, +1 poziom czarow kaplana).
      Sprawdzic: kreator - zaklinacz ma podklase Templariusz (i nie ma jej juz paladyn), lista czarow templariusza;
      gladiator - Postawa bojowa w zdolnosciach, KP po 5. poziomie; elementalista dostepny dla kaplana 5. poziomu.
+test51: pololbrzym jako podrasa polorka (Dark Sun 3.5e); mul wg DS 3.5.
+     ZMIANA EXE (kity.asm ho_rasa, 0x541BC4 i 0x544FE6). Reinstall: 0, 1-5 i 8.
+     - Okno podras polorka: polork, mul, pololbrzym. Pololbrzym: SIL +8, ZR -2, KON +4, INT -4, MDR -4, CHA -4
+       (INT co najmniej 7 przy losowaniu), widzenie w ciemnosci, +1 KP i -1 do trafienia (duzy rozmiar + pancerz
+       naturalny, RLHGNT), szybszy ruch, -50% PD (dostosowanie poziomu +2, RACEXPMD).
+     - Mul wg DS 3.5: SIL +4, KON +2, CHA -2, -35% PD (wczesniej SIL +2, KON +2, INT -2, CHA -2).
+     - Wyglad pololbrzyma = polork (brak animacji), bez zasiegu 10 stop.
+     Sprawdzic: kreator - trzeci przycisk w oknie podras polorka, nazwa "Pololbrzym" na karcie postaci, cechy,
+     KP i trafienie na karcie, PD po walce (mniejsze); mul - nazwa na karcie nadal "Mul".

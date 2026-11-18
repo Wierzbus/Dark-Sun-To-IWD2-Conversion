@@ -4,14 +4,20 @@
 @103 = ~MUL: Muls are the sterile offspring of humans and dwarves, bred in the slave pits of Athas for labor and the arena. They combine human height with dwarven bulk and are famed for their endurance.
 
 Advantages:
-+2 Strength
++4 Strength
 +2 Constitution
 
 Disadvantages:
--2 Intelligence
 -2 Charisma
 
-(Experimental subrace: Dark Sun conversion test.)~
+(Dark Sun 3.5e. Level adjustment +1: -35% experience.)~
+@104 = ~half-giant~
+@105 = ~Half-Giant~
+@106 = ~HALF-GIANT: Huge descendants of giants and humans, bred by the sorcerer-kings as soldiers and slaves. Half-giants have tremendous strength and dull wits, and imitate the ways of those they admire.
+
+Dark Sun 3.5e: +8 Strength, -2 Dexterity, +4 Constitution, -4 Intelligence, -4 Wisdom, -4 Charisma. Large size: +2 natural armor and -1 AC from size (net +1 AC), -1 to hit. Darkvision. Faster movement. Level adjustment +2 (-50% experience).
+
+In the game a half-giant looks like a half-orc and has no reach.~
 
 // --- Podklasy (komponent 2). Nazwy i opisy robocze - do decyzji wlasciciela. ---
 @201 = ~templar~

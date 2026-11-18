@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test50-2026-11-18~
+VERSION ~test51-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -77,17 +77,23 @@ BEGIN ~Exe ras i klas: kopie IWD2_DS.exe (z IWD2.exe) i IWD2_<W>_DS.exe (z IWD2_
   PRINT ~Po (ponownej) instalacji paczki 1 przeinstaluj ten komponent, zeby powstal IWD2_<W>_DS.exe.~
   PRINT ~UWAGA: komponenty 1, 2, 3 i 4 wpisuja teksty (strrefy) do *_DS.exe. Po ponownej instalacji tego komponentu przeinstaluj tez 1, 2, 3 i 4 - inaczej przyciski podklas sa puste.~
 
-BEGIN ~TEST: mul jako podrasa polorka~ DESIGNATED 1
+BEGIN ~TEST: mul i pololbrzym jako podrasy polorka~ DESIGNATED 1
   REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
   REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas).~
 
   // --- 1. Nazwa podrasy na karcie postaci: strref z tekstu moda w kopiach *_DS.exe (0x544FE6: mov eax, strref) ---
   OUTER_SET mul_mixed = RESOLVE_STR_REF(@102)
+  OUTER_SET hg_mixed = RESOLVE_STR_REF(@105)
   ACTION_BASH_FOR ~.~ ~^IWD2\(_[0-9]+\)?_DS\.exe$~ BEGIN
     OUTER_TEXT_SPRINT src ~%BASH_FOR_RES%~
     ACTION_IF FILE_EXISTS ~%src%.exe~ BEGIN
       COPY ~%src%.exe~ ~%src%.exe~
         PATCH_IF (BYTE_AT 0x144FE6 = 0xB8) BEGIN WRITE_LONG 0x144FE7 mul_mixed END
+        // test51 (exe kity.asm ho_rasa): 0x544FE6 cmp al,1; jne; mov eax, mul (0x544FEA); jmp; mov eax, pololbrzym (0x544FF1)
+        PATCH_IF (BYTE_AT 0x144FE6 = 0x3C) AND (BYTE_AT 0x144FEA = 0xB8) AND (BYTE_AT 0x144FF1 = 0xB8) BEGIN
+          WRITE_LONG 0x144FEB mul_mixed
+          WRITE_LONG 0x144FF2 hg_mixed
+        END
     END
   END
 
@@ -131,8 +137,53 @@ BEGIN ~TEST: mul jako podrasa polorka~ DESIGNATED 1
     END
     BUT_ONLY
 
-  // Propozycja cech mula (do decyzji wlasciciela): SIL +2, KON +2, INT -2, CHA -2.
-  APPEND ~ABRACEAD.2DA~ ~HALF_ORC_MUL            2       0       2       -2      0       -2~ UNLESS ~HALF_ORC_MUL~
+  // test51: pololbrzym (Dark Sun 3.5e) - podrasa 2 polorka; SRLIST i SR_HO jak u mula
+  COPY_EXISTING ~SRLIST.2DA~ ~override~
+    COUNT_2DA_ROWS 8 n
+    SET hg_row = 0 - 1
+    FOR (SET r = 0; r < n; SET r = r + 1) BEGIN
+      READ_2DA_ENTRY r 1 8 nm
+      PATCH_IF (~%nm%~ STRING_EQUAL_CASE ~HALF_ORC_HGNT~) BEGIN READ_2DA_ENTRY r 0 8 hg_row END
+    END
+    PATCH_IF (hg_row < 0) BEGIN
+      SET lower = RESOLVE_STR_REF(@104)
+      SET mixed = RESOLVE_STR_REF(@105)
+      SET help = RESOLVE_STR_REF(@106)
+      SET hg_row = n
+      INSERT_2DA_ROW n 8 ~%hg_row% HALF_ORC_HGNT %lower% %mixed% %help% 2 HAIRNORM SKINNORM~
+    END
+    BUT_ONLY
+  COPY_EXISTING ~SR_HO.2DA~ ~override~
+    COUNT_2DA_ROWS 2 n
+    SET found = 0
+    SET maxlab = 0
+    FOR (SET r = 0; r < n; SET r = r + 1) BEGIN
+      READ_2DA_ENTRY r 0 2 lab
+      READ_2DA_ENTRY r 1 2 v
+      PATCH_IF (IS_AN_INT lab) BEGIN
+        PATCH_IF (lab > maxlab) BEGIN SET maxlab = lab END
+        PATCH_IF (~%v%~ STRING_EQUAL ~%hg_row%~) BEGIN SET found = 1 END
+      END
+    END
+    PATCH_IF (found = 0) BEGIN
+      SET k = maxlab + 1
+      INSERT_2DA_ROW n 2 ~%k% %hg_row%~
+    END
+    BUT_ONLY
+
+  // test51: cechy wg Dark Sun 3.5e (tabela 1-1). Mul: SIL +4, KON +2, CHA -2, LA +1 (PD -35% jak aasimar).
+  // Pololbrzym: SIL +8, ZR -2, KON +4, INT -4, MDR -4, CHA -4, LA +2 (PD -50% jak drow); INT co najmniej 3.
+  APPEND ~ABRACEAD.2DA~ ~HALF_ORC_MUL            4       0       2       0       0       -2~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~ABRACEAD.2DA~ ~HALF_ORC_HGNT           8       -2      4       -4      -4      -4~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~ABRACERQ.2DA~ ~HALF_ORC_HGNT           3       18      3       18      3       18      7       18      3       18      3       18~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~RACESPAB.2DA~ ~HALF_ORC_HGNT           *~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~RACERSMD.2DA~ ~HALF_ORC_HGNT           0       0       0       0       0       0       0       0       0       0       0~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~SAVERACE.2DA~ ~HALF_ORC_HGNT           0       0       0~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~SKILLRAC.2DA~ ~HALF_ORC_HGNT           3       2       1       2       1       0       0       0~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~STRTXP.2DA~   ~HALF_ORC_HGNT           0~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~RACEXPMD.2DA~ ~HALF_ORC_MUL            -35~ UNLESS ~HALF_ORC_MUL~
+  APPEND ~RACEXPMD.2DA~ ~HALF_ORC_HGNT           -50~ UNLESS ~HALF_ORC_HGNT~
+  APPEND ~SUBRACE.IDS~  ~0x00070002 HALF_ORC_HGNT~ UNLESS ~HALF_ORC_HGNT~
   APPEND ~ABRACERQ.2DA~ ~HALF_ORC_MUL            3       18      3       18      3       18      3       18      3       18      3       18~ UNLESS ~HALF_ORC_MUL~
   APPEND ~RACESPAB.2DA~ ~HALF_ORC_MUL            *~ UNLESS ~HALF_ORC_MUL~
   APPEND ~RACERSMD.2DA~ ~HALF_ORC_MUL            0       0       0       0       0       0       0       0       0       0       0~ UNLESS ~HALF_ORC_MUL~
@@ -1354,6 +1405,9 @@ BEGIN ~TEST: zdolnosci ras z tabel (DSRASY, DSRWROG, tablice RLAB ras)~ DESIGNAT
   COPY ~darksun_rasy/2da/DSRASY.2DA~  ~override~
        ~darksun_rasy/2da/DSRWROG.2DA~ ~override~
        ~darksun_rasy/2da/RLMUL.2DA~   ~override~
+       ~darksun_rasy/2da/RLHGNT.2DA~  ~override~   // test51 pololbrzym: +1 KP / -1 do trafienia (rozmiar), szybkosc
+       ~darksun_rasy/spl/DSHGNT.SPL~  ~override~
+       ~darksun_rasy/spl/DSBBNMV.SPL~ ~override~
   // Karta postaci (test28, exe od test26): pod nazwa rasy wiersze cech z DSRASY / DSRWROG. Teksty: strrefy pod 0xA25030
   // (plik 0x4D0030): bron miotana, "to hit against", aberracje, KP przeciw olbrzymom; "Darkvision" i nazwy wrogow z gry.
   OUTER_SET ds_r1 = RESOLVE_STR_REF(@121)
