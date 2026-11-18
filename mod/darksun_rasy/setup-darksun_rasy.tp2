@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test48-2026-11-18~
+VERSION ~test49-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -1515,7 +1515,9 @@ BEGIN ~TEST: klasy potworow, klasy NPC i szablony w CRE gry (podklasy typu D&D 3
   //  - SZAB: SZ_LYCANTHROPE (kosci zwierzecia na klasie 1: wilk 2, szczur 1, wielki wilkolak 6) albo *;
   //  - L1..L11: poziomy klas BAR..WIZ. Suma = dotychczasowy poziom CRE (bajt 0x8A) - inaczej CRE pomijany.
   //  - CECHA: przedmiot cech szablonu (jak 00CIDEAD w grze) wpisywany do slotu 4, gdy slot jest pusty; * = brak.
-  //    Duch i polsmok (a w przyszlosci wampir, lisz, rycerz smierci) zachowuja klasy CRE; zmienia sie kosc PW.
+  //    Duch, polsmok, wight, upior, mumia (a w przyszlosci wampir, lisz, rycerz smierci) zachowuja klasy CRE, BAB
+  //    i rzuty (Savage Species: szablon ich nie zmienia); PW wg tab. 10-1: duch/wight/upior/mumia - k12 bez KON na
+  //    wszystkich poziomach, polsmok - tylko kosci rasowe (humanoid z klasami bez zmian). Cechy: 00CIDEAD / 00CIDRG1.
   //  - humanoidy (GENERAL = HUMANOID) z samymi poziomami wojownika: klasa NPC (animacja PEASANT/COMMONER: ekspert);
   //    ogolni przedstawiciele ras z MM (ork, goblin, hobgoblin, bugbear, gnoll, jaszczuroczlek, duergar, drow) -
   //    cechy = wieksza z wartosci CRE i MM.

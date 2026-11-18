@@ -623,3 +623,11 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   (kolumna CECHA, funkcja `ds_cre_cecha` – tylko gdy slot pusty). W grze cechy ma już prawie każdy taki CRE
   (00CIDRG1 półsmoków, 00CIWWLF wilkołaków, 00CITRN1/11VEIRA* duchów); dopisanie: 67HADR (00CIDRG1).
 - Ogólni humanoidzi z MM (ork, goblin, hobgoblin, bugbear, gnoll, jaszczuroczłek, duergar, drow): cecha = max(CRE, MM I).
+
+## 41. Test49: szablony według Savage Species
+- Savage Species (3.0, rozdz. 10): szablon nie zmienia BAB ani rozkładu rzutów; tab. 10-1 – kości bez zmian (stworzenie
+  niebiańskie/piekielne, półniebianin, półdiabeł), zmiana tylko kości rasowych (półsmok, feral, gelatinous, incarnate
+  construct, tauric), zmiana wszystkich kości łącznie z klasami (duch, lisz, wampir, mumified, wight, wraith, spectral,
+  umbral, ghost brute). Klasy szablonów (template classes) są dopiero w artykułach „Savage Progressions” (3.5).
+- Wighty, upiory i mumie z IWD2 (decyzja właściciela): humanoid z szablonem – wojownik NPC na pełnym poziomie CRE,
+  PW k12 bez KON, cechy 00CIDEAD (dopisywany do pustego slotu 4). Półsmoki: PW z kości klas bez zmian.

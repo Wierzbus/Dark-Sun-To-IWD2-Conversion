@@ -1,4 +1,4 @@
-"""test48: klasy potworow, nieumarly wojownik, klasy NPC i szablony -> DSPOTWOR.2DA (komponent 8).
+"""test48/49: klasy potworow, nieumarly wojownik, klasy NPC i szablony -> DSPOTWOR.2DA (komponent 8).
 
 Wejscie: DSPOTWOR.2DA z test46 (kolumny KIT HP cechy CR; /tmp/dnd/DSPOTWOR_t46.2DA) i dane CRE gry
 (/tmp/dnd/cre_ids.json, cre_iwd2.json, cre_czary.json - wyciagniete z CRE.bif).
@@ -30,8 +30,9 @@ def tylko_ftr(c): return c['lvl'][4] > 0 and sum(c['lvl']) == c['lvl'][4]
 
 def nieumarly_wojownik(n):
     return re.search(r'boneguard|armored skeleton|skeleton archer|cold bones|demon knight|dread warrior', n)
-def szablon_cech(n):       # szablony zachowujace poziomy klasy
+def szablon_cech(n):       # szablony zachowujace poziomy klasy (Savage Species, tab. 10-1)
     if re.search(r"^ghost$|hunter's ghost|kyosti's ghost|egenia's spirit", n): return 'duch'
+    if re.search(r'wight|wraith|mumm|black archer', n): return 'nieumarly'   # test49: humanoid z szablonem (decyzja wlasciciela)
     if re.search(r'half.?dragon', n): return 'polsmok'
     return None
 LYK = [(r'^greater werewolf', 6), (r'^werewolf', 2), (r'^wererat', 1)]   # kosci zwierzecia: wilk straszny 6, wilk 2, szczur 1
@@ -79,10 +80,12 @@ for res, c in sorted(C.items()):
         kit = 'NPC_WARRIOR' if tylko_ftr(c) else '*'
         lv = list(c['lvl'])
         kosci = [KOSC_KIT['NPC_WARRIOR'] if (kit != '*' and i == 4) else KOSC_KL[i] for i in range(11)]
-        if sc == 'duch': hp = int(sum(sr(12) * v for v in lv) + 0.5)
-        else: hp = int(sum(sr(min(12, kosci[i] + 2)) * v for i, v in enumerate(lv)) + 0.5) + mod(s[4]) * L
+        # duch, lisz, wampir, wight, upior, mumia: wszystkie kosci (tez klas) -> k12 bez KON; polsmok: tylko kosci
+        # rasowe o stopien wieksze - humanoid z samymi klasami bez zmian (Savage Species tab. 10-1, MM 3.5)
+        if sc in ('duch', 'nieumarly'): hp = int(sum(sr(12) * v for v in lv) + 0.5)
+        else: hp = int(sum(sr(kosci[i]) * v for i, v in enumerate(lv)) + 0.5) + mod(s[4]) * L
         hp = max(L, hp)
-        cecha = '00CIDRG1' if sc == 'polsmok' else '*'
+        cecha = {'polsmok': '00CIDRG1', 'nieumarly': '00CIDEAD'}.get(sc, '*')
         dodaj(res, kit, '*', lv, hp, ['*'] * 6, cr_nowe(c, hp), cecha, tag='szablon_' + sc); continue
     # 3. likantropy: klasa humanoida + kosci zwierzecia (SZ_LYCANTHROPE na klasie 1)
     lk = next((k for p, k in LYK if re.search(p, n)), None)

@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test48: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test49: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -332,3 +332,12 @@ test48: klasy potworow wracaja w miejsce dzielenia poziomu; nieumarly wojownik; 
      - Half-Dragon 67HADR: przedmiot 00CIDRG1 w ekwipunku (sen, paraliz), czy CRE wczytuje sie bez bledu,
      - goblin i ork: cechy i PW, walka w Targos/Shaengarne,
      - wilkolak: dwie klasy na karcie (klasa prestizowa = likantrop).
+test49: wighty, upiory i mumie jako humanoidy z szablonem (Savage Species); PW polsmokow.
+     Exe bez zmian (test45). Reinstall: 0, 1-5 i 8.
+     - 20 CRE (Barrow Wight, Wight, Wight Lord, Wight Lemure, Black Archer, Wraith, Mummy, Greater Mummy, Mummy King):
+       zamiast klasy potwora MON_UNDEAD (BAB 1/2) - wojownik NPC na pelnym poziomie z CRE (pelny BAB, dobra
+       Wytrwalosc), PW k12 bez KON. Wight Lemure Slave zachowuje kaplana 1 / wojownika 12. Cechy nieumarlych z
+       przedmiotu gry 00CIDEAD - dopisywany do pustego slotu 4 (Wight, Wight Lord).
+     - Polsmoki: PW z kosci klas bez zmian (Savage Species / MM 3.5: szablon zmienia tylko kosci rasowe).
+     Sprawdzic: Barrow Wight i Mummy King - BAB rowny poziomowi, PW, odpornosc na sen; Wight (50WIT) - 00CIDEAD
+     w ekwipunku, CRE wczytuje sie bez bledu.
