@@ -87,6 +87,13 @@ ZDOLNOSCI = {
     "DSMNVER": [efekt(261, p2=x) for x in (24, 3, 5, 128)] + [efekt(63)],
     "DSMNDRA": [efekt(261, p2=x) for x in (39, 109)] + [efekt(63)],
     "DSMNDV": [efekt(63)],
+    # test54 nowe atuty (tablica CLAB atutu z DSATUTY.2DA, kolumna 1): umiejetnosci - 297 Ukrywanie sie, 59 Cichy chod,
+    # 91 Rozbrajanie (Find Traps), 90 Otwieranie zamkow, 92 Kradziez kieszonkowa, 95 Znajomosc dziczy (Tracking)
+    "DSATSTL": [efekt(297, p1=2, p2=0), efekt(59, p1=2, p2=0)],   # Stealthy (PHB 3.5)
+    "DSATNIM": [efekt(91, p1=2, p2=0), efekt(90, p1=2, p2=0)],    # Nimble Fingers (PHB 3.5)
+    "DSATDFT": [efekt(92, p1=2, p2=0)],                           # Deft Hands (PHB 3.5; Use Rope - brak w IWD2)
+    "DSATWST": [efekt(33, p1=1, p2=0), efekt(95, p1=2, p2=0)],    # Wastelander (Dark Sun 3.5)
+    "DSATDRK": [efekt(33, p1=1, p2=0), efekt(35, p1=1, p2=0)],    # Drake's Child (Dark Sun 3.5)
 }
 
 # Zdolnosci do uzycia (GA_ w CLAB): czas w sekundach (runda = 6 s), nazwe wpisuje instalator (strref pod 0x08).

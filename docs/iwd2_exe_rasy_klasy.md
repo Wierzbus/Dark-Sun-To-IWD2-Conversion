@@ -665,3 +665,27 @@ statystyki (w kreatorze i na ekranie awansu kopie tymczasowe), więc 17 miejsc w
   klasy prestiżowej). Ustawia WeiDU dla BARD_DS.
 - Psionika: SORCERER_DS = psion, WILDER (69), PSY_WARRIOR (70) na zaklinaczu, PSIOLOGIST (71) na klasie 1;
   LISTSPLL PSION i PSYWAR (`tools/iwd2_psionika_t53.py`).
+
+## 46. Test54: nowe atuty (FEATS.IDS 75+)
+- Postać: bity atutów +0x75C..+0x767 (CRE 0x1C0, 3 dwordy = 96 atutów). Funkcje: 0x762890 SetFeatRank (atut, ranga),
+  0x762E20 ranga, 0x763150 ma atut, 0x7630A0 maks. ranga, 0x763200 warunki (`switch` 0x763908, numer > 0x4A → brak),
+  0x763A40 czy można wybrać (domyślnie: bit + warunki). Asercje „nFeatNumber < CGAMESPRITE_FEAT_NUMFEATS” (0x4B) są
+  krytyczne (0x780C00) – podniesione do 0x60 w 0x762E26, 0x763156, 0x763206, 0x763A46, 0x7630A5, 0x765CE8.
+- Ekrany: liczba wierszy listy = słowo 0x84EA66 (75 → `ATUTY_N` = 80); wiersz FEATS.2DA → numer z kolumny ID
+  (0x545B70), nazwa po numerze (0x545A90). Pętle stałe 0x4B: 0x765DC8 (atuty na karcie, 0x765C50), 0x5E1251 (atuty
+  z kolumn klas/ras FEATS.2DA) → `ATUTY_N`.
+- Tablice rang z początku ekranu (75 dword): awans [ekran 0x1C60]+0x650 (0x5DA2DE, 0x5E4311, 0x5E8AD7, 0x5F7156,
+  0x5F89D5), kreator [ekran 0x1C64]+0x14B2 (0x606C22 zerowanie rep stosd, 0x60CD6C, 0x60E689, 0x623447) – za nimi
+  są inne pola, więc przeniesione do .dsras (0xA28C00, 0xA28D80; 96 dword).
+- `atuty.asm` (0xA28000, sekcja .dsras powiększona do 0x9000): `atut_ustaw` (0x762897) – przejście 0 → 1 atutu ≥ 75
+  zapisuje go jako oczekujący dla postaci (8 wpisów: postać, maska), 1 → 0 kasuje; `awans_atut` (hak 0x71E996, przed
+  `rasa_awans`) – dla oczekujących atutów, które postać ma, procedura CLAB 0x722D50 z klasą 12 i poziomem 1;
+  `clab_atut` (0x546030) i `poziom_atut` (0x722DE3) podają wtedy tablicę z kolumny CLAB DSATUTY i poziom 1;
+  `atut_wymog` (cel `ja` 0x763270) – wymagania z DSATUTY.2DA (wiersz = numer − 75; cechy bazowe +0x802..+0x807,
+  `pr_bab`, poziom +0x966, klasa +0x626+klasa, atut 0x763150, ranga +0x7B4+umiejętność, rasa +0x26, podrasa +0x27).
+- Komponent 9: wiersze FEATS.2DA 75–79 (kolumny klas/bóstw/ras = 0), FEATS.IDS, DSATUTY.2DA, tablice DSAT*.2DA
+  i SPL (`tools/iwd2_spl.py`). Opcodes umiejętności IWD2: 59 Skradanie, 61 Alchemia, 90 Otwieranie zamków,
+  91 Find Traps (Rozbrajanie?), 92 Kradzież, 95 Tracking (Wiedza o pustkowiach?), 297 Ukrywanie się, 298 Używanie
+  magicznych urządzeń; Blef, Dyplomacja, Zastraszanie, Koncentracja, Czaroznawstwo, Przeszukiwanie, Wiedza – brak.
+- Ograniczenia: atuty jednorangowe; atut wybrany przy automatycznym awansie (0x70CD80) nie dostaje efektów CLAB.
+  Kolejne atuty: wiersze FEATS.2DA/DSATUTY w tej samej kolejności i `ATUTY_N` w skrypcie budującym (maks. 96).

@@ -3,7 +3,7 @@
 // Odinstalowanie: kopia zapasowa WeiDU (BACKUP); utworzone pliki *_DS.exe sa usuwane.
 BACKUP ~darksun_rasy/backup~
 AUTHOR ~Wierzbus~
-VERSION ~test53-2026-11-18~
+VERSION ~test54-2026-11-18~
 
 LANGUAGE ~English~ ~english~ ~darksun_rasy/tra/english.tra~
 LANGUAGE ~Polski (cp1250)~ ~polish~ ~darksun_rasy/tra/polish.tra~
@@ -2051,3 +2051,61 @@ BEGIN ~TEST: klasy potworow, klasy NPC i szablony w CRE gry (podklasy typu D&D 3
     END
   END
   PRINT ~Klasy potworow, NPC i szablonow: zmienione pliki CRE: %ds_zmien% z %ds_np%, przedmioty cech szablonu: %ds_cechy%.~
+
+// test54: nowe atuty (numery FEATS.IDS od 75). Exe z komponentu 0 zna 80 atutow (stala ATUTY_N w
+// tools/iwd2_podklasy_exe.py): wiersze FEATS.2DA 75..79 musza byc w tej kolejnosci, wiersz i DSATUTY.2DA = atut 75 + i.
+// DSATUTY: tablica CLAB atutu (AP_ z SPL nakladane raz, przy zdobyciu atutu na awansie / w kreatorze) i wymagania.
+BEGIN ~TEST: nowe atuty - Skrytosc, Zreczne palce, Zwinne dlonie (PHB 3.5), Wedrowiec pustkowi, Dziecie smoka (Dark Sun 3.5)~ DESIGNATED 9
+  REQUIRE_PREDICATE (GAME_IS ~iwd2~) ~Ten komponent dziala tylko w Icewind Dale 2.~
+  REQUIRE_COMPONENT ~setup-darksun_rasy.tp2~ ~0~ ~Wymaga komponentu 0 (exe ras i klas, test54 lub nowszy).~
+  ACTION_DEFINE_ARRAY ds_atuty BEGIN STEALTHY NIMBLE_FINGERS DEFT_HANDS WASTELANDER DRAKES_CHILD END
+  ACTION_DEFINE_ARRAY ds_at_clab BEGIN DSATSTL DSATNIM DSATDFT DSATWST DSATDRK END
+  OUTER_SET $ds_at_n(~0~) = RESOLVE_STR_REF(@1101)
+  OUTER_SET $ds_at_d(~0~) = RESOLVE_STR_REF(@1102)
+  OUTER_SET $ds_at_n(~1~) = RESOLVE_STR_REF(@1103)
+  OUTER_SET $ds_at_d(~1~) = RESOLVE_STR_REF(@1104)
+  OUTER_SET $ds_at_n(~2~) = RESOLVE_STR_REF(@1105)
+  OUTER_SET $ds_at_d(~2~) = RESOLVE_STR_REF(@1106)
+  OUTER_SET $ds_at_n(~3~) = RESOLVE_STR_REF(@1107)
+  OUTER_SET $ds_at_d(~3~) = RESOLVE_STR_REF(@1108)
+  OUTER_SET $ds_at_n(~4~) = RESOLVE_STR_REF(@1109)
+  OUTER_SET $ds_at_d(~4~) = RESOLVE_STR_REF(@1110)
+  COPY ~darksun_rasy/2da/DSATUTY.2DA~ ~override~
+  ACTION_PHP_EACH ds_at_clab AS ds_i => ds_c BEGIN
+    COPY ~darksun_rasy/2da/%ds_c%.2DA~ ~override~
+    COPY ~darksun_rasy/spl/%ds_c%.SPL~ ~override~
+  END
+  OUTER_SET ds_n = 0
+  ACTION_PHP_EACH ds_atuty AS ds_i => ds_a BEGIN
+    OUTER_SET ds_id = 75 + ds_i
+    OUTER_SET ds_name = $ds_at_n(~%ds_i%~)
+    OUTER_SET ds_desc = $ds_at_d(~%ds_i%~)
+    COPY_EXISTING ~FEATS.2DA~ ~override~
+      COUNT_2DA_COLS ds_nc
+      COUNT_2DA_ROWS ds_nc ds_nr
+      SET ds_jest = 0
+      READ_2DA_ENTRIES_NOW ds_r ds_nc
+      FOR (ds_k = 0; ds_k < ds_r; ++ds_k) BEGIN
+        READ_2DA_ENTRY_FORMER ds_r ds_k 0 ds_v
+        PATCH_IF (~%ds_v%~ STRING_EQUAL_CASE ~%ds_a%~) BEGIN SET ds_jest = 1 END
+      END
+      PATCH_IF (ds_jest = 0) BEGIN
+        PATCH_IF (ds_nr != ds_id) BEGIN
+          PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy zamiast %ds_id% - inny mod dodal atuty; exe test54 zna atuty 0..79.~
+        END
+        TEXT_SPRINT ds_l ~%ds_a% %ds_id% %ds_name% %ds_desc%~
+        FOR (ds_k = 4; ds_k < ds_nc; ++ds_k) BEGIN TEXT_SPRINT ds_l ~%ds_l% 0~ END
+        INSERT_2DA_ROW ds_nr ds_nc ~%ds_l%~
+        SET ds_n = ds_n + 1
+      END
+    BUT_ONLY
+    APPEND ~FEATS.IDS~ ~%ds_id% %ds_a%~ UNLESS ~%ds_a%~
+  END
+  COPY_EXISTING ~FEATS.2DA~ ~override~
+    COUNT_2DA_COLS ds_nc
+    COUNT_2DA_ROWS ds_nc ds_nr
+    PATCH_IF (ds_nr != 80) BEGIN
+      PATCH_FAIL ~FEATS.2DA ma %ds_nr% wierszy, exe test54 oczekuje 80.~
+    END
+  BUT_ONLY
+  PRINT ~Nowe atuty: dopisano %ds_n% wierszy FEATS.2DA (atuty 75..79).~

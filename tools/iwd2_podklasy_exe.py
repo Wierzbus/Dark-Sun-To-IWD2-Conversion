@@ -50,10 +50,11 @@ HAKI2 = [
     (0x6F8EF4, "call", "aura", 0),           # aura paladyna (aktualizacja co runde)
 ]
 # rasy.asm (test20) w nowej sekcji PE .dsras (adres 0xA21000, 4 KB) na koncu pliku
-SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x7000
+SEKCJA_NAZWA, SEKCJA_RVA, SEKCJA_ROZM = b".dsras", 0x621000, 0x9000   # od test54 0x9000 (atuty.asm od 0xA28000)
 ORG3 = BASE + SEKCJA_RVA
 DANE3 = 0xA22000                             # zmienne kodu ras (druga strona sekcji)
 ORG4 = 0xA26000                              # kity.asm: tabela podklas 0xA23000 (255 wpisow), zmienne 0xA25000, kod 0xA26000
+ORG5, DANE5 = 0xA28000, 0xA28C00             # atuty.asm (test54): kod, dane (tablice rang atutow ekranow, oczekujace atuty)
 # haki podklas (kity.asm) - zastepuja haki podklasy.asm o tych samych adresach; (adres, oczekiwane bajty, rodzaj, etykieta, nop)
 HAKI4 = [
     (0x541DA0, "518b44240c", "jmp", "klasa_wiersz2", 0),         # GetClassRow: wiersz podklasy po (bit, klasa)
@@ -145,9 +146,9 @@ HAKI4 = [
 MASKI_MAG = [0x61CEE9, 0x615CED]
 # (adres, oryginalne bajty, rodzaj, etykieta, nop)
 HAKI3 = [
-    (0x71E996, "33c08a8766090000", "jmp", "rasa_awans", 3),      # awans: tablica RLAB rasy + SR_LEVEL
+    (0x71E996, "33c08a8766090000", "jmp", "awans_atut", 3),      # awans: CLAB nowych atutow, tablica RLAB rasy + SR_LEVEL
     (0x722862, "8b54245681e2ff000000", "jmp", "wzrok", 5),       # widzenie w ciemnosci z DSRASY
-    (0x722DE3, None, "call", "poziom", 0),                       # procedura CLAB: poziom postaci dla klasy 12
+    (0x722DE3, None, "call", "poziom_atut", 0),                  # procedura CLAB: klasa 12 - poziom postaci / 1 dla atutu
     (0x73BC10, "807e2605c7442414000000007538", "jmp", "miot_atak", 9),   # bron miotana (atak)
     (0x73CA66, "8a462633ff3c057530", "jmp", "miot_info", 4),     # bron miotana (informacja)
     (0x73C8C0, "5556578b7c2410", "jmp", "wrogowie", 2),          # wrogowie rasy / olbrzymy
@@ -214,6 +215,51 @@ DANE = [
 ]
 
 
+# test54: nowe atuty. Gra ma 75 atutow (FEATS.IDS 0..74), postac trzyma je w 3 dwordach (+0x75C), wiec miesci 96.
+ATUTY_N = 80                                   # liczba wierszy FEATS.2DA po komponencie 9 (75 + nowe atuty)
+ATUTY_ASERCJE = [0x762E26, 0x763156, 0x763206, 0x763A46, 0x7630A5, 0x765CE8]   # cmp reg, 0x4B (asercja numeru atutu)
+ATUTY_PETLE = [0x765DC8, 0x5E1251]             # cmp reg, 0x4B: lista atutow na karcie, atuty z kolumn FEATS.2DA
+# tablice rang atutow ekranu awansu (+0x650) i kreatora (+0x14B2), po 75 dword - przeniesione do .dsras (96 dword)
+ATUTY_SIB = [(0x5DA2DE, "89848e50060000", 0), (0x5E8AD7, "39848e50060000", 0), (0x5F7156, "3984b750060000", 0),
+             (0x60CD6C, "898497b2140000", 1), (0x60E689, "39848eb2140000", 1), (0x623447, "3984b3b2140000", 1)]
+ATUTY_LEA = [(0x5E4311, "8dbd50060000", 0xBF, 0), (0x5F89D5, "8dab50060000", 0xBD, 0),
+             (0x606C22, "8dbeb2140000", 0xBF, 1)]   # lea reg, [obiekt+tablica] -> mov reg, adres; nop
+
+
+def atuty_exe(d, et5):
+    tab = (DANE5, DANE5 + 0x180)
+    for adr in ATUTY_ASERCJE:
+        o = adr - BASE
+        assert d[o] == 0x83 and d[o + 2] == 0x4B and d[o + 1] in (0xF8, 0xFD, 0xFE, 0xFF), hex(adr)
+        d[o + 2] = 0x60
+    for adr in ATUTY_PETLE:
+        o = adr - BASE
+        assert d[o] == 0x83 and d[o + 2] == 0x4B, hex(adr)
+        d[o + 2] = ATUTY_N
+    o = 0x84EA66 - BASE                            # liczba atutow na ekranach kreatora i awansu
+    assert d[o:o + 2].hex() == "4b00"
+    struct.pack_into("<H", d, o, ATUTY_N)
+    for adr, h, k in ATUTY_SIB:                    # [baza + idx*4 + disp] -> [idx*4 + adres]
+        o = adr - BASE
+        assert d[o:o + 7].hex() == h, hex(adr)
+        d[o + 1] = 0x04
+        d[o + 2] = (d[o + 2] & 0xF8) | 5
+        struct.pack_into("<I", d, o + 3, tab[k])
+    for adr, h, op, k in ATUTY_LEA:
+        o = adr - BASE
+        assert d[o:o + 6].hex() == h, hex(adr)
+        d[o:o + 6] = bytes([op]) + struct.pack("<I", tab[k]) + b"\x90"
+    o = 0x606C28 - BASE                            # rep stosd: zerowanie tablicy kreatora
+    assert d[o:o + 5].hex() == "b94b000000"
+    d[o + 1] = 0x60
+    o = 0x762897 - BASE                            # SetFeatRank: cmp edi, 0x4B; mov esi, ecx -> call atut_ustaw
+    assert d[o:o + 5].hex() == "83ff4b8bf1"
+    d[o:o + 5] = b"\xE8" + struct.pack("<i", et5["atut_ustaw"] - (0x762897 + 5))
+    o = 0x763270 - BASE                            # warunki atutu: numer > 74 -> atut_wymog (zamiast "brak")
+    assert d[o - 3:o + 6].hex() == "83fd4a0f8787060000"
+    struct.pack_into("<i", d, o + 2, et5["atut_wymog"] - (0x763270 + 6))
+
+
 def nasm(src, org=ORG, defs=None):
     with tempfile.TemporaryDirectory() as t:
         b, l = os.path.join(t, "o.bin"), os.path.join(t, "o.lst")
@@ -268,11 +314,20 @@ def main():
                       "tabela2da": et["tabela2da"], "tab_klasy": et["tab_klasy"], "liczba": et["liczba"],
                       "prog_kl": et["prog"], "lv_wart": et3["lv_wart"], "lv_kl": et3["lv_kl"],
                       "lv_poz": et3["lv_poz"]})
-    if ORG4 + len(kod4) > ORG3 + SEKCJA_ROZM:
-        sys.exit("kity.asm wychodzi poza sekcje")
+    if ORG4 + len(kod4) > ORG5:
+        sys.exit("kity.asm wchodzi na atuty.asm (0xA28000)")
     assert kod4[:8] == b"DSKITY02" and et4["kit_synt"]
     assert et4["kol_kitu"] and kod4[0x1C] == 0xE9 and kod4[0x21] == 0xE9
     d[raw3 + (ORG4 - ORG3):raw3 + (ORG4 - ORG3) + len(kod4)] = kod4
+    kod5, et5 = nasm(os.path.join(ASM, "atuty.asm"), ORG5,
+                     {"szukaj": et3["szukaj"], "wczytaj": et3["wczytaj"], "komorka": et["komorka"],
+                      "clab_rasa": et3["clab_rasa"], "poziom": et3["poziom"], "rasa_awans": et3["rasa_awans"],
+                      "pr_bab": et4["pr_bab"]})
+    if ORG5 + len(kod5) > DANE5:
+        sys.exit("atuty.asm wchodzi na dane 0xA28C00")
+    assert kod5[:8] == b"DSATUTY1"
+    d[raw3 + (ORG5 - ORG3):raw3 + (ORG5 - ORG3) + len(kod5)] = kod5
+    atuty_exe(d, et5)
     for adr in MASKI_MAG:
         struct.pack_into("<I", d, adr - BASE, 0xFF007FC0)
     kod2, et2 = nasm(os.path.join(ASM, "dodatki.asm"), ORG2,
@@ -290,6 +345,7 @@ def main():
         struct.pack_into("<I", d, adr - BASE, et3["miot_wart"])
     et.update(et3)
     et.update(et4)
+    et.update(et5)
     for adr, h, lab in HP_MIEJSCA:
         o = adr - BASE
         assert d[o:o + 6].hex() == h, hex(adr)
@@ -332,7 +388,7 @@ def main():
     d[o:o + 6] = b"\xE8" + struct.pack("<i", et["bab_mnich"] - 0x546F3C) + b"\x90"
     zastapione = {a for a, *_ in HAKI4} | {0x6100F0}
     haki = [(a, r, l, n) for a, r, l, n in HAKI if a != 0x546030 and a not in zastapione] + \
-        [(0x546030, "jmp", "clab_rasa", 4)] + [(a, r, l, n) for a, _, r, l, n in HAKI4]
+        [(0x546030, "jmp", "clab_atut", 4)] + [(a, r, l, n) for a, _, r, l, n in HAKI4]
     for adr, rodzaj, lab, nop in haki + HAKI2 + [(a, r, l, n) for a, _, r, l, n in HAKI3]:
         o = adr - BASE
         op = 0xE9 if rodzaj == "jmp" else 0xE8

@@ -1,4 +1,4 @@
-PACZKA 2 - rasy i klasy Dark Sun (test53: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
+PACZKA 2 - rasy i klasy Dark Sun (test54: zdolnosci ras, progresja klas i podklas, domeny i listy czarow, podklasy w kreatorze i przy awansie)
 
 Instalacja: rozpakuj do katalogu IWD2 i uruchom setup-darksun_rasy.exe. Najlepiej PO paczce 1.
 Przy obecnej instalacji paczki 2 wybierz "Reinstall" dla wszystkich komponentow (nowe exe).
@@ -396,3 +396,17 @@ test53: psionika jako podklasy zaklinacza; bard atasyjski bez czarow.
        miesci 14 znakow).
      Sprawdzic: bard atasyjski - brak ksiegi czarow i okna wyboru czarow przy awansie, piesni dzialaja; zwykly bard
      bez zmian; zaklinacz - podklasy Psion, Dziki talent, Wojownik psioniczny i ich listy mocy w kreatorze.
+test54: nowe atuty (pierwsze 5) i mechanizm dodawania kolejnych.
+     ZMIANA EXE (nowy plik atuty.asm, sekcja exe +8 KB). Reinstall: 0, 1-5 i 8, potem NOWY komponent 9.
+     - Gra miala na sztywno 75 atutow; postac trzyma atuty w 96 bitach. Exe zna teraz 80 atutow (numery 75-79),
+       listy atutow w kreatorze, przy awansie i na karcie postaci czytaja nowe wiersze FEATS.2DA.
+     - Wymagania nowych atutow: DSATUTY.2DA (cechy, BAB, poziom postaci / maks. poziom, klasa i jej poziom, atut,
+       umiejetnosc i ranga, rasa, podrasa). Efekt: tablica w formacie CLAB (kolumna 1, AP_/GA_/FA_) nakladana raz,
+       gdy postac zdobywa atut (koniec awansu / kreatora).
+     - Atuty: Skrytosc (+2 Ukrywanie sie i Skradanie), Zreczne palce (+2 Rozbrajanie urzadzen i Otwieranie zamkow),
+       Zwinne dlonie (+2 Kradziez kieszonkowa) - Podrecznik Gracza 3.5; Wedrowiec pustkowi (+1 Wytrwalosc,
+       +2 Wiedza o pustkowiach), Dziecie smoka (Sila 13, Madrosc 13: +1 Wytrwalosc i Wola) - Dark Sun 3.5.
+     Sprawdzic: nowe atuty na liscie w kreatorze i przy awansie (Dziecie smoka tylko przy Sile i Madrosci 13+),
+       po wyborze - premie na karcie postaci (umiejetnosci, rzuty), atut na liscie atutow karty; cofniecie wyboru
+       przyciskiem minus i powrot z okna atutow - premia nie moze sie nalozyc; zapis i wczytanie gry.
+       Do potwierdzenia: czy opcode 91 to Rozbrajanie urzadzen (nie Przeszukiwanie), a 95 to Wiedza o pustkowiach.

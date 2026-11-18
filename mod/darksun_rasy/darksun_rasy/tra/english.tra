@@ -785,3 +785,45 @@ Powers: psychic warrior power list (powers of levels 1-6 as the nearest spells o
 
 Requirements: sorcerer level 10 (5th-level powers); lawful. Hit Die: d4. Base attack bonus: 1/2. Good saving throws: Will. Each level adds +1 level of sorcerer spellcasting (powers).~
 @1094 = ~Psiologist: Psiologism, Psionic Acumen, Psionic Rationalization, Forethought - description only.~
+@1101 = ~Stealthy~
+@1102 = ~STEALTHY:
+
+You are particularly good at avoiding notice.
+
+Benefit: You get a +2 bonus on all Hide and Move Silently checks.
+
+(Player's Handbook 3.5)~
+@1103 = ~Nimble Fingers~
+@1104 = ~NIMBLE FINGERS:
+
+You are adept at manipulating small, delicate objects.
+
+Benefit: You get a +2 bonus on all Disable Device and Open Lock checks.
+
+(Player's Handbook 3.5)~
+@1105 = ~Deft Hands~
+@1106 = ~DEFT HANDS:
+
+You have exceptional manual dexterity.
+
+Benefit: You get a +2 bonus on all Pick Pocket checks.
+
+(Player's Handbook 3.5)~
+@1107 = ~Wastelander~
+@1108 = ~WASTELANDER:
+
+You are an experienced survivor of the Athasian wastes.
+
+Benefit: You get a +1 bonus on Fortitude saves and a +2 bonus on Wilderness Lore checks.
+
+(Dark Sun 3.5e)~
+@1109 = ~Drake's Child~
+@1110 = ~DRAKE'S CHILD:
+
+Your body and mind are unusually resilient.
+
+Prerequisites: Strength 13, Wisdom 13.
+
+Benefit: You get a +1 bonus on Fortitude and Will saves.
+
+(Dark Sun 3.5e)~
